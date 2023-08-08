@@ -2,6 +2,9 @@ import "./globals.css";
 import { Inter } from "next/font/google";
 import Sidebar from "./../components/Sidebar";
 import { BsArrowLeftShort } from "react-icons/bs";
+import Header from "./../components/Header";
+import Footer from "./../components/Footer";
+import MenuContextProvider from "@/context/MenuContext";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
@@ -12,11 +15,17 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
-        <div className="flex">
-          <Sidebar />
-          <div className="p-7">{children}</div>
-        </div>
+      <body
+        className={`${inter.className} bg-gray-100 w-screen flex flex-col h-screen`}
+      >
+        <MenuContextProvider>
+          <Header />
+          <div className="flex h-full">
+            <Sidebar />
+            <main className="p-7">{children}</main>
+          </div>
+          <Footer />
+        </MenuContextProvider>
       </body>
     </html>
   );
