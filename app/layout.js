@@ -15,17 +15,21 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body
-        className={`${inter.className} bg-gray-100 w-screen flex flex-col h-screen`}
-      >
-        <MenuContextProvider>
-          <Header />
-          <div className="flex h-full">
+      <body className={`${inter.className}`}>
+        <div className="bg-gray-100 flex flex-row">
+          <MenuContextProvider>
             <Sidebar />
-            <main className="p-7">{children}</main>
-          </div>
-          <Footer />
-        </MenuContextProvider>
+            <div className="flex flex-col w-full">
+              <header className="flex sticky h-[10vh] top-0  bg-red-500">
+                <Header />
+              </header>
+              <main className="flex h-[85vh] p-4">{children}</main>
+              <footer className="h-[5vh] bg-red-500 sticky bottom-0">
+                <Footer />
+              </footer>
+            </div>
+          </MenuContextProvider>
+        </div>
       </body>
     </html>
   );

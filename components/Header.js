@@ -6,11 +6,11 @@ import { FaBars } from "react-icons/fa";
 const Header = () => {
   const { toggle } = useContext(MenuContext);
   return (
-    <div className="bg-white flex justify-between items-center px-4 h-24 mb-0">
-      <div>Brand</div>
-      <div onClick={toggle} className="lg:hidden">
+    <div className="flex justify-between gap-3 items-center p-4">
+      <div onClick={toggle} className=" hover:cursor-pointer">
         <FaBars />
       </div>
+      <div>Brand</div>
     </div>
   );
 };

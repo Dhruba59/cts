@@ -1,5 +1,5 @@
 {
   "/page": "app/page.js",
-  "/Indication/page": "app/Indication/page.js",
-  "/Settings/Profile/page": "app/Settings/Profile/page.js"
+  "/Settings/Profile/page": "app/Settings/Profile/page.js",
+  "/User/UserList/page": "app/User/UserList/page.js"
 }

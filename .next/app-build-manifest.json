@@ -16,10 +16,10 @@
       "static/chunks/main-app.js",
       "static/chunks/app/Settings/Profile/page.js"
     ],
-    "/Indication/page": [
+    "/User/UserList/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/Indication/page.js"
+      "static/chunks/app/User/UserList/page.js"
     ]
   }
 }
