@@ -60,9 +60,9 @@ const Sidebar = () => {
       prevMenus.map((menu, i) => {
         if (i === index) {
           return { ...menu, isOpen: !menu.isOpen };
+        } else {
+          return { ...menu, isOpen: false };
         }
-        //console.log(menu);
-        return menu;
       })
     );
   };
@@ -129,7 +129,7 @@ const Sidebar = () => {
                     <div
                       className="flex items-center gap-x-4"
                       onClick={() => {
-                        menu.submenu && toggleSubMenuOpen(index);
+                        toggleSubMenuOpen(index);
                       }}
                     >
                       <span className="text-2xl block items-center float-left">
