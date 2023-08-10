@@ -21,10 +21,7 @@ import Link from "next/link";
 import { MenuContext } from "@/context/MenuContext";
 
 const Sidebar = () => {
-  const { open } = useContext(MenuContext);
-  const [menuOpen, setMenuOpen] = useState(open);
-  const [submenuOpen, setSubmenuOpen] = useState(false);
-  const menus = [
+  const allmenus = [
     { title: "Dashboard", url: "/", icon: <AiOutlineHome /> },
     {
       title: "User Admin",
@@ -36,6 +33,7 @@ const Sidebar = () => {
       title: "Projects",
       icon: <AiOutlineBarChart />,
       submenu: true,
+      isOpen: false,
       subMenuItems: [
         { title: "Sub-1", url: "/" },
         { title: "Sub-2", url: "/" },
@@ -46,12 +44,29 @@ const Sidebar = () => {
       title: "Settings",
       icon: <AiOutlineSetting />,
       submenu: true,
+      isOpen: false,
       subMenuItems: [
         { title: "Profile", url: "/Settings/Profile", icon: <BsPerson /> }
       ]
     },
     { title: "Logout", url: "/", icon: <AiOutlineLogout /> }
   ];
+
+  const { open } = useContext(MenuContext);
+  const [menus, setMenus] = useState(allmenus);
+
+  const toggleSubMenuOpen = (index) => {
+    setMenus((prevMenus) =>
+      prevMenus.map((menu, i) => {
+        if (i === index) {
+          return { ...menu, isOpen: !menu.isOpen };
+        }
+        //console.log(menu);
+        return menu;
+      })
+    );
+  };
+
   return (
     <div
       className={`bg-dark-purple py-0 ${open ? "px-5" : "px-5"} 
@@ -79,12 +94,12 @@ const Sidebar = () => {
       </div>
       <div
         className={`flex items-center rounded-md bg-light-white mt-6 ${
-          !menuOpen ? "px-2.5" : "px-4"
+          !open ? "px-2.5" : "px-4"
         } py-2`}
       >
         <BsSearch
           className={`text-white text block float-left cursor-pointer ${
-            menuOpen && "mr-2"
+            open && "mr-2"
           }`}
         />
         <input
@@ -114,7 +129,7 @@ const Sidebar = () => {
                     <div
                       className="flex items-center gap-x-4"
                       onClick={() => {
-                        menu.submenu && setSubmenuOpen(!submenuOpen);
+                        menu.submenu && toggleSubMenuOpen(index);
                       }}
                     >
                       <span className="text-2xl block items-center float-left">
@@ -129,20 +144,20 @@ const Sidebar = () => {
                       </span>
                     </div>
                   </Link>
-                  {menu.submenu && open && (
+                  {menu.submenu && (
                     <BsChevronDown
                       className={`${
-                        submenuOpen && "rotate-180"
+                        menu.isOpen && "rotate-180"
                       } text-lg mt-2 block items-center float-left`}
-                      onClick={() => setSubmenuOpen(!submenuOpen)}
+                      onClick={() => toggleSubMenuOpen(index)}
                     />
                   )}
                 </li>
-                {menu.submenu && submenuOpen && open && (
+                {menu.submenu && open && menu.isOpen && (
                   <ul>
-                    {menu.subMenuItems.map((submenuItem, index) => (
+                    {menu.subMenuItems.map((submenuItem, idx) => (
                       <li
-                        key={index}
+                        key={idx}
                         className={`text-gray-300 text-sm flex items-center gap-x-4 cursor-pointer
                                  p-2 px-5 hover:bg-light-white`}
                       >
@@ -172,10 +187,10 @@ const Sidebar = () => {
           }`}
         >
           <div className="leading-4">
-            <h4 className="font-semibold">John Doe</h4>
+            <h4 className="font-semibold text-gray-600">John Doe</h4>
             <span className="text-xs text-gray-600">johndoe@gmail.com</span>
           </div>
-          <BsFileImageFill size={20} />
+          <BsFileImageFill size={20} className="text-gray-600" />
         </div>
       </div>
     </div>
