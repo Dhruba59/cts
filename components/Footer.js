@@ -1,7 +1,9 @@
 import React from "react";
 
 const Footer = () => {
-  return <div className="flex justify-center items-center">Footer</div>;
+  return (
+    <div className="flex justify-center items-center text-center">Footer</div>
+  );
 };
 
 export default Footer;

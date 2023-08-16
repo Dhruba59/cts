@@ -2,9 +2,9 @@ import "./globals.css";
 import { Inter } from "next/font/google";
 import Sidebar from "./../components/Sidebar";
 import { BsArrowLeftShort } from "react-icons/bs";
-import Header from "./../components/Header";
-import Footer from "./../components/Footer";
+
 import MenuContextProvider from "@/context/MenuContext";
+import MainContent from "@/components/MainContent";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
@@ -15,19 +15,11 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={`${inter.className}`}>
+      <body className=" overflow-y-auto overflow-x-hidden">
         <div className="bg-gray-100 flex flex-row">
           <MenuContextProvider>
             <Sidebar />
-            <div className="flex flex-col w-full">
-              <header className="flex sticky h-[10vh] top-0  bg-red-500">
-                <Header />
-              </header>
-              <main className="flex h-[85vh] p-4">{children}</main>
-              <footer className="h-[5vh] bg-red-500 sticky bottom-0">
-                <Footer />
-              </footer>
-            </div>
+            <MainContent>{children}</MainContent>
           </MenuContextProvider>
         </div>
       </body>
