@@ -11,7 +11,7 @@ const MainContent = ({ children }) => {
       <header className="flex sticky h-[10vh] top-0  bg-red-500">
         <Header />
       </header>
-      <main className={`flex h-[85vh] p-2 pb-0 overflow-y-scroll`}>
+      <main className={`flex h-[85vh] p-2 pr-3 pb-0 overflow-x-scroll`}>
         {children}
       </main>
       <footer className=" flex justify-center items-center h-[5vh] bg-red-500 sticky bottom-0">
