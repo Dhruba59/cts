@@ -1,6 +1,3 @@
-import { Suspense } from "react";
-import PaginationButtons from "@/components/PaginationButtons";
-import UsersTable from "@/components/UsersTable";
 import { store } from "@/store";
 import { setStartupUsers, setTotalPages } from "@/store/userSearchSlice";
 import axios from "axios";
@@ -45,9 +42,7 @@ export default async function UserList({ searchParams }) {
   return (
     <>
       <Preloader users={_users} totalPages={_totalPages} />
-      <Providers>
-        <UserSearchInput />
-      </Providers>
+      <UserSearchInput />
     </>
   );
 }
