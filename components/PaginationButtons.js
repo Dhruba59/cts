@@ -30,22 +30,22 @@ const PaginationButtons = ({ totalPages }) => {
     router.push(
       `/User/UserList/?pageNumber=${selected + 1}&pageSize=${pageSize}`
     );
-    dispatch(userSearchApi.endpoints.search.initiate({firstName:firstName, pageNumber: pageNumber , pageSize:pageSize}));
+    //dispatch(userSearchApi.endpoints.search.initiate({firstName:firstName, pageNumber: pageNumber , pageSize:pageSize}));
 
   };
-  
-  const filtered_users = useSelector(
-    (state) => state.userSearchApi.queries[`search(${JSON.stringify({firstName: firstName, pageNumber: pageNumber , pageSize:pageSize})})`]?.data
-  );
 
-  if(filtered_users){
-    console.log('from pagi page')
-    const users = filtered_users.items;
-    const totalPages = filtered_users.totalPages;
+  // const filtered_users = useSelector(
+  //   (state) => state.userSearchApi.queries[`search(${JSON.stringify({firstName: firstName, pageNumber: pageNumber , pageSize:pageSize})})`]?.data
+  // );
 
-    store.dispatch(setStartupUsers(users));
-    store.dispatch(setTotalPages(totalPages));
-  }
+  // if(filtered_users){
+  //   console.log('from pagi page')
+  //   const users = filtered_users.items;
+  //   const totalPages = filtered_users.totalPages;
+
+  //   store.dispatch(setStartupUsers(users));
+  //   store.dispatch(setTotalPages(totalPages));
+  // }
   const paginationVariants = {
     hidden: {
       opacity: 0,

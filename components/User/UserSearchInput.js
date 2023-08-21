@@ -1,13 +1,15 @@
 "use client";
 import React, { Suspense, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useRouter, useSearchParams } from "next/navigation";
 import { store } from "@/store/index";
-import { setSearch, setStartupUsers, setTotalPages } from "@/store/userSearchSlice";
+import { setPage, setSearch, setStartupUsers, setTotalPages } from "@/store/userSearchSlice";
 import { userSearchApi } from "@/store/userSearchApi";
 import UsersTable from "@/components/User/UsersTable";
 import PaginationButtons from "@/components/PaginationButtons";
 
 const UserSearchInput = () => {
+  const router = useRouter();
   const dispatch = store.dispatch;
   const firstName = useSelector((state) => state.userSearch.search);
   let users = useSelector((state) => state.userSearch.startupUsers);
@@ -15,23 +17,31 @@ const UserSearchInput = () => {
   const pageNumber = useSelector((state) => state.userSearch.page);
 
   const filtered_users = useSelector(
-    (state) => state.userSearchApi.queries[`search(${JSON.stringify({firstName: firstName, pageNumber: 1, pageSize: 20})})`]?.data
+    (state) => state.userSearchApi.queries[`search(${JSON.stringify({firstName: firstName, pageNumber: pageNumber, pageSize: 20})})`]?.data
   );
 
   const handleSearch = (e) => {
     e.preventDefault();
-    dispatch(userSearchApi.endpoints.search.initiate({firstName: firstName, pageNumber: pageNumber, pageSize: 20}));
-    
+    dispatch(setPage(1));
+    router.push(
+      `/User/UserList/?pageNumber=${pageNumber}&pageSize=${20}`
+    );
+    dispatch(userSearchApi.endpoints.search.initiate({firstName: firstName, pageNumber: pageNumber, pageSize: 20}));    
   }
 
   const clearSearchInput = (e) => {
     e.preventDefault();
+    router.push(
+      `/User/UserList/?pageNumber=${pageNumber}&pageSize=${20}`
+    );
+    dispatch(setPage(1));
     dispatch(setSearch(""));
     dispatch(userSearchApi.endpoints.search.initiate({firstName: firstName, pageNumber: pageNumber, pageSize: 20}));
   }
-  // useEffect(() => {
-  //   dispatch(userSearchApi.endpoints.search.initiate({firstName}));
-  // }, [dispatch, firstName]);
+  useEffect(() => {
+    console.log(`dp: ${pageNumber}`)
+    dispatch(userSearchApi.endpoints.search.initiate({firstName: firstName, pageNumber: pageNumber, pageSize: 20}));
+  }, [pageNumber]);
 
   if (filtered_users) {
     console.log('from search page')
@@ -73,7 +83,7 @@ const UserSearchInput = () => {
               <input
                 id="email"
                 type="text"
-                class="h-8 w-9/12 px-1 py-1 text-gray-700 bg-white border border-gray-300 rounded-m  focus:outline-none focus:ring focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                class="h-8 w-9/12 px-1 py-1 text-gray-700 bg-white border border-gray-300 rounded-md  focus:outline-none focus:ring focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
               />
             </div>
 
@@ -87,7 +97,7 @@ const UserSearchInput = () => {
               <input
                 id="middlename"
                 type="text"
-                class="h-8 w-9/12 px-1 py-1 text-gray-700 bg-white border border-gray-300 rounded-m  focus:outline-none focus:ring focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                class="h-8 w-9/12 px-1 py-1 text-gray-700 bg-white border border-gray-300 rounded-md  focus:outline-none focus:ring focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
               />
             </div>
 
@@ -98,7 +108,7 @@ const UserSearchInput = () => {
               >
                 User Type
               </label>
-              <select class="h-8 w-9/12 px-1 py-1 text-gray-700 bg-white border border-gray-300 rounded-m  focus:outline-none focus:ring focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary">
+              <select class="h-8 w-9/12 px-1 py-1 text-gray-700 bg-white border border-gray-300 rounded-md  focus:outline-none focus:ring focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary">
                 <option>Surabaya</option>
                 <option>Jakarta</option>
                 <option>Tangerang</option>
@@ -116,7 +126,7 @@ const UserSearchInput = () => {
               <input
                 id="date"
                 type="date"
-                class="h-8 w-9/12 px-1 py-1 text-gray-700 bg-white border border-gray-300 rounded-m  focus:outline-none focus:ring focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                class="h-8 w-9/12 px-1 py-1 text-gray-700 bg-white border border-gray-300 rounded-md  focus:outline-none focus:ring focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
               />
             </div>
 

@@ -1,6 +1,3 @@
 {
-  "/page": "app/page.js",
-  "/settings/page": "app/settings/page.js",
-  "/User/UserList/page": "app/User/UserList/page.js",
-  "/forms/form-elements/page": "app/forms/form-elements/page.js"
+  "/User/UserList/page": "app/User/UserList/page.js"
 }
