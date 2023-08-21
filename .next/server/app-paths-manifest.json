@@ -1,9 +1,6 @@
 {
   "/page": "app/page.js",
-  "/tables/page": "app/tables/page.js",
   "/settings/page": "app/settings/page.js",
-  "/profile/page": "app/profile/page.js",
-  "/ui/buttons/page": "app/ui/buttons/page.js",
-  "/forms/form-layout/page": "app/forms/form-layout/page.js",
+  "/User/UserList/page": "app/User/UserList/page.js",
   "/forms/form-elements/page": "app/forms/form-elements/page.js"
 }

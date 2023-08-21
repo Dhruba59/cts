@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
+  page: 1,
   search: "",
   startupUsers: [],
   totalPages: 0
@@ -10,6 +11,9 @@ const userSearchSlice = createSlice({
   name: "userSearch",
   initialState,
   reducers: {
+    setPage: (state, action) => {
+      state.page = action.payload;
+    },
     setSearch: (state, action) => {
       state.search = action.payload;
     },
@@ -23,6 +27,6 @@ const userSearchSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { setSearch, setStartupUsers, setTotalPages } =
+export const { setPage, setSearch, setStartupUsers, setTotalPages } =
   userSearchSlice.actions;
 export default userSearchSlice.reducer;

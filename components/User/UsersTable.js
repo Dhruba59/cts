@@ -2,9 +2,9 @@ import React from "react";
 
 const UsersTable = ({ users }) => {
   return (
-    <div class="w-full mt-4 overflow-scroll shadow rounded mr-10 border-b border-gray-200">
-      <table class="w-full bg-white table-auto">
-        <thead class="bg-gray-800 text-white">
+    <div class="w-full mt-4 overflow-auto shadow rounded mr-10 border border-gray-100 dark:bg-boxdark  text-black dark:text-white">
+      <table class=" w-full bg-white dark:bg-boxdark table-auto">
+        <thead class="bg-gray-800 text-black dark:text-white">
           <tr>
             <th class="text-left py-3 px-4 uppercase font-semibold text-sm">
               First Name
@@ -40,7 +40,9 @@ const UsersTable = ({ users }) => {
             users.map((user, index) => (
               <tr
                 key={index}
-                className={`${index % 2 === 0 ? "bg-gray-100" : ""}`}
+                className={`${
+                  index % 2 == 0 ? "bg-blue-100" : "bg-pink-100"
+                } border-t border-gray-100`}
               >
                 <td class="text-left py-2 px-2">{user.firstName}</td>
                 <td class="text-left py-2 px-2">{user.lastName}</td>

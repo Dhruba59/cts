@@ -7,6 +7,7 @@ import { setStartupUsers, setTotalPages } from "@/store/userSearchSlice";
 function Preloader({ users, totalPages }) {
   const loaded = useRef(false);
   if (!loaded.current) {
+    console.log(users)
     store.dispatch(setStartupUsers(users));
     store.dispatch(setTotalPages(totalPages));
     loaded.current = true;

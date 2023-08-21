@@ -1,4 +1,4 @@
-// File: D:\CTS PROJECT\SOURCE\APP\ctsdatabase_webapp\free-nextjs-admin-dashboard\app\layout.tsx
+// File: D:\CTS PROJECT\SOURCE\APP\ctsdatabase_webapp\ctsdatabase_webapp\app\layout.tsx
 import * as entry from '../../../app/layout.js'
 import type { ResolvingMetadata } from 'next/dist/lib/metadata/types/metadata-interface.js'
 

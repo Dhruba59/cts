@@ -1,9 +1,9 @@
 import { store } from "@/store";
 import { setStartupUsers, setTotalPages } from "@/store/userSearchSlice";
 import axios from "axios";
-import UserSearchInput from "@/components/UserSearchInput";
-import Providers from "@/context/Provider";
+import UserSearchInput from "@/components/User/UserSearchInput";
 import Preloader from "@/components/Preloader";
+import Breadcrumb from "./../../../components/Breadcrumbs/Breadcrumb";
 
 // http://localhost:5148/api/User/Get/?PageNumber=1&PageSize=10
 export async function getUsers(pageNumber, pageSize) {
@@ -41,6 +41,7 @@ export default async function UserList({ searchParams }) {
   const _totalPages = store.getState().userSearch.totalPages;
   return (
     <>
+      <Breadcrumb pageName="User List" />
       <Preloader users={_users} totalPages={_totalPages} />
       <UserSearchInput />
     </>

@@ -4,6 +4,8 @@ import "./data-tables-css.css";
 import "./satoshi.css";
 import { useState, useEffect } from "react";
 import Loader from "@/components/common/Loader";
+
+import MenuContextProvider from "@/context/MenuContext";
 import Providers from "@/context/Provider";
 
 import Sidebar from "@/components/Sidebar";
@@ -15,16 +17,23 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-
+  const [windowSize, setWindowSize] = useState(0);
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
+   
     setTimeout(() => setLoading(false), 1000);
-  }, []);
+    setWindowSize(screen.width);
+    if(windowSize >= 1024){
+      setSidebarOpen(true)
+    }
+    
+  }, [windowSize]);
 
   return (
     <html lang="en">
       <body suppressHydrationWarning={true}>
+      <MenuContextProvider>
         <Providers>
           <div className="dark:bg-boxdark-2 dark:text-bodydark">
             {loading ? (
@@ -33,6 +42,8 @@ export default function RootLayout({
               <div className="flex h-screen overflow-hidden">
                 {/* <!-- ===== Sidebar Start ===== --> */}
                 <Sidebar
+                  windowSize={windowSize}
+                  setWindowSize={setWindowSize}
                   sidebarOpen={sidebarOpen}
                   setSidebarOpen={setSidebarOpen}
                 />
@@ -60,6 +71,7 @@ export default function RootLayout({
             )}
           </div>
         </Providers>
+       </MenuContextProvider>
       </body>
     </html>
   );

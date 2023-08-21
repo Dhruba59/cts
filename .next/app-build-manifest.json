@@ -1,9 +1,9 @@
 {
   "pages": {
-    "/page": [
+    "/settings/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/page.js"
+      "static/chunks/app/settings/page.js"
     ],
     "/layout": [
       "static/chunks/webpack.js",
@@ -11,45 +11,20 @@
       "static/css/app/layout.css",
       "static/chunks/app/layout.js"
     ],
-    "/calendar/page": [
+    "/User/UserList/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/calendar/page.js"
-    ],
-    "/tables/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/tables/page.js"
-    ],
-    "/profile/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/profile/page.js"
-    ],
-    "/settings/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/settings/page.js"
-    ],
-    "/ui/alerts/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/ui/alerts/page.js"
-    ],
-    "/ui/buttons/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/ui/buttons/page.js"
+      "static/chunks/app/User/UserList/page.js"
     ],
     "/forms/form-elements/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/forms/form-elements/page.js"
     ],
-    "/forms/form-layout/page": [
+    "/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/forms/form-layout/page.js"
+      "static/chunks/app/page.js"
     ]
   }
 }

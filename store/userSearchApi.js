@@ -6,7 +6,7 @@ export const userSearchApi = createApi({
   tagTypes: ["users"],
   endpoints: (builder) => ({
     search: builder.query({
-      query: (q) => `User/Get?firstName=${q}&pageNumber=1&pageSize=20`,
+      query: ({firstName, pageNumber, pageSize}) => `User/Get?firstName=${firstName}&pageNumber=${pageNumber}&pageSize=${pageSize}`,
       providesTags: (result, error, search) => [{ type: "users", search }]
     })
   })
