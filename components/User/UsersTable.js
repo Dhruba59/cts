@@ -41,7 +41,7 @@ const UsersTable = ({ users }) => {
               <tr
                 key={index}
                 className={`${
-                  index % 2 == 0 ? "bg-blue-100" : "bg-pink-100"
+                  index % 2 == 0 ? "bg-blue-50 dark:bg-boxdark " : "bg-pink-50 dark:bg-boxdark "
                 } border-t border-gray-100`}
               >
                 <td class="text-left py-2 px-2">{user.firstName}</td>

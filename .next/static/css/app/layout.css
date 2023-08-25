@@ -525,6 +525,9 @@ body{
 .invisible{
   visibility: hidden;
 }
+.static{
+  position: static;
+}
 .absolute{
   position: absolute;
 }
@@ -1412,9 +1415,9 @@ body{
   --tw-bg-opacity: 1;
   background-color: rgb(28 36 52 / var(--tw-bg-opacity));
 }
-.bg-blue-100{
+.bg-blue-50{
   --tw-bg-opacity: 1;
-  background-color: rgb(219 234 254 / var(--tw-bg-opacity));
+  background-color: rgb(239 246 255 / var(--tw-bg-opacity));
 }
 .bg-blue-700{
   --tw-bg-opacity: 1;
@@ -1460,9 +1463,9 @@ body{
   --tw-bg-opacity: 1;
   background-color: rgb(229 231 235 / var(--tw-bg-opacity));
 }
-.bg-pink-100{
+.bg-pink-50{
   --tw-bg-opacity: 1;
-  background-color: rgb(252 231 243 / var(--tw-bg-opacity));
+  background-color: rgb(253 242 248 / var(--tw-bg-opacity));
 }
 .bg-pink-500{
   --tw-bg-opacity: 1;
