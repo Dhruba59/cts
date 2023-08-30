@@ -281,7 +281,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen, windowSize, setWindowSize }: Sid
                         <ul className="mt-4 mb-5.5 flex flex-col gap-2.5 pl-6">
                           <li>
                             <Link
-                              href="/User/AddUser"
+                              href="/AddUser"
                               className={`first-letter:group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white ${
                                 pathname === "/User/AddUser" && "text-white"
                               }`}
@@ -291,7 +291,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen, windowSize, setWindowSize }: Sid
                           </li>
                           <li>
                             <Link
-                              href="/User/UserList"
+                              href="/UserList"
                               className={`group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white ${
                                 pathname === "/User/UserList" && "text-white"
                               }`}

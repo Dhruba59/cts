@@ -61,7 +61,7 @@ const UserSearchInput = ({ children }) => {
     e.preventDefault();
 
     router.push(
-      `/User/UserList/?pageNumber=${1}&pageSize=${10}&firstName=${firstName}`
+      `/UserList/?pageNumber=${1}&pageSize=${10}&firstName=${firstName}`
     );
 
     setPageNumber(1);
@@ -81,7 +81,7 @@ const UserSearchInput = ({ children }) => {
   const clearSearchInput = (e) => {
     e.preventDefault();
 
-    router.push(`/User/UserList/?pageNumber=${1}&pageSize=${20}`);
+    router.push(`/UserList/?pageNumber=${1}&pageSize=${20}`);
 
     setFirstName("");
     setPageNumber(1);
@@ -99,7 +99,7 @@ const UserSearchInput = ({ children }) => {
   useEffect(() => {
     console.log(`dp: ${pageNumber}`);
     router.push(
-      `/User/UserList/?pageNumber=${pageNumber}&pageSize=${10}&firstName=${firstName}`
+      `/UserList/?pageNumber=${pageNumber}&pageSize=${10}&firstName=${firstName}`
     );
     if (pageNumber === 1) {
       setRemountComponent(Math.random());

@@ -525,9 +525,6 @@ body{
 .invisible{
   visibility: hidden;
 }
-.static{
-  position: static;
-}
 .absolute{
   position: absolute;
 }

@@ -31,6 +31,14 @@ export default async function UsersTable({ searchParams }) {
     pageSize: pageSize
   });
 
+  console.log(res);
+  if (!res) {
+    return (
+      <>
+        <p>No data available...</p>
+      </>
+    );
+  }
   const users = res.data.items;
   const totalPages = res.data.totalPages;
   //console.log({ totalPages: totalPages });
