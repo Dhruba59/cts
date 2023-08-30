@@ -1,56 +1,115 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
-import React, { Suspense, useEffect } from "react";
+
+import React, { Suspense, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter, useSearchParams } from "next/navigation";
 import { store } from "@/store/index";
-import { setPage, setSearch, setStartupUsers, setTotalPages } from "@/store/userSearchSlice";
+import {
+  setPage,
+  setSearch,
+  setStartupUsers,
+  setTotalPages
+} from "@/store/userSearchSlice";
 import { userSearchApi } from "@/store/userSearchApi";
-import UsersTable from "@/components/User/UsersTable";
 import PaginationButtons from "@/components/PaginationButtons";
+import axios from "axios";
 
-const UserSearchInput = () => {
+export async function getUsers({ firstName, pageNumber, pageSize }) {
+  try {
+    const res = await axios.get(
+      `http://localhost:5148/api/User/Get?pageNumber=${pageNumber}&pageSize=${pageSize}&firstName=${firstName}`
+    );
+
+    if (!res.status === 200) {
+      //console.log(res);
+      throw new Error("Unable to fetch data.");
+    } else {
+      //console.log(res.data);
+    }
+    return res;
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+const UserSearchInput = ({ children }) => {
   const router = useRouter();
   const dispatch = store.dispatch;
-  const firstName = useSelector((state) => state.userSearch.search);
-  let users = useSelector((state) => state.userSearch.startupUsers);
-  let totalPages = useSelector((state) => state.userSearch.totalPages);
-  const pageNumber = useSelector((state) => state.userSearch.page);
-
-  const filtered_users = useSelector(
-    (state) => state.userSearchApi.queries[`search(${JSON.stringify({firstName: firstName, pageNumber: pageNumber, pageSize: 20})})`]?.data
-  );
+  //const firstName = useSelector((state) => state.userSearch.search);
+  //let users = useSelector((state) => state.userSearch.startupUsers);
+  console.log("UserSearchInput");
+  //const [users, setUsers] = useState(null);
+  //const [totalPages, setTotalPages] = useState(ttlp);
+  const [firstName, setFirstName] = useState("");
+  const [pageNumber, setPageNumber] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
+  const [toggle, setToggle] = useState(false);
+  const [remountComponent, setRemountComponent] = useState(0);
+  // const filtered_users = useSelector(
+  //   (state) =>
+  //     state.userSearchApi.queries[
+  //       `search(${JSON.stringify({
+  //         firstName: firstName,
+  //         pageNumber: pageNumber,
+  //         pageSize: 20
+  //       })})`
+  //     ]?.data
+  // );
 
   const handleSearch = (e) => {
     e.preventDefault();
-    dispatch(setPage(1));
+
     router.push(
-      `/User/UserList/?pageNumber=${pageNumber}&pageSize=${20}`
+      `/User/UserList/?pageNumber=${1}&pageSize=${10}&firstName=${firstName}`
     );
-    dispatch(userSearchApi.endpoints.search.initiate({firstName: firstName, pageNumber: pageNumber, pageSize: 20}));    
-  }
+
+    setPageNumber(1);
+    setToggle((prev) => !prev);
+
+    // dispatch(setPage(1));
+    // router.push(`/User/UserList/?pageNumber=${pageNumber}&pageSize=${20}`);
+    // dispatch(
+    //   userSearchApi.endpoints.search.initiate({
+    //     firstName: firstName,
+    //     pageNumber: pageNumber,
+    //     pageSize: 20
+    //   })
+    // );
+  };
 
   const clearSearchInput = (e) => {
     e.preventDefault();
-    router.push(
-      `/User/UserList/?pageNumber=${pageNumber}&pageSize=${20}`
-    );
-    dispatch(setPage(1));
-    dispatch(setSearch(""));
-    dispatch(userSearchApi.endpoints.search.initiate({firstName: firstName, pageNumber: pageNumber, pageSize: 20}));
-  }
+
+    router.push(`/User/UserList/?pageNumber=${1}&pageSize=${20}`);
+
+    setFirstName("");
+    setPageNumber(1);
+    setToggle((prev) => !prev);
+
+    // dispatch(
+    //   userSearchApi.endpoints.search.initiate({
+    //     firstName: firstName,
+    //     pageNumber: pageNumber,
+    //     pageSize: 20
+    //   })
+    // );
+  };
+
   useEffect(() => {
-    console.log(`dp: ${pageNumber}`)
-    dispatch(userSearchApi.endpoints.search.initiate({firstName: firstName, pageNumber: pageNumber, pageSize: 20}));
-  }, [pageNumber]);
+    console.log(`dp: ${pageNumber}`);
+    router.push(
+      `/User/UserList/?pageNumber=${pageNumber}&pageSize=${10}&firstName=${firstName}`
+    );
+    if (pageNumber === 1) {
+      setRemountComponent(Math.random());
+    }
+  }, [pageNumber, toggle]);
 
-  if (filtered_users) {
-    console.log('from search page')
-    users = filtered_users.items;
-    totalPages = filtered_users.totalPages;
+  // useEffect(() => {
+  //   router.push(`/User/UserList/?pageNumber=${pageNumber}&pageSize=${20}`);
+  // });
 
-    store.dispatch(setStartupUsers(users));
-    store.dispatch(setTotalPages(totalPages));
-  }
   return (
     <div className="w-full flex flex-col dark:text-white">
       <section class="rounded-md shadow-mdmt-2 border border-solid border-gray-300 p-2">
@@ -68,7 +127,7 @@ const UserSearchInput = () => {
                 id="username"
                 type="text"
                 value={firstName}
-                onChange={(e) => dispatch(setSearch(e.target.value))}
+                onChange={(e) => setFirstName(e.target.value)}
                 class="h-8 w-9/12 px-1 py-1 text-gray-700 bg-white border border-gray-300 rounded-md focus:outline-none focus:ring focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
               />
             </div>
@@ -148,21 +207,28 @@ const UserSearchInput = () => {
 
           {/* button */}
           <div class="flex justify-end gap-2 mt-3">
-         
-           <button onClick={clearSearchInput} class="px-6 py-2 leading-5 text-white transition-colors duration-200 transform bg-pink-500 rounded-md hover:bg-pink-700 focus:outline-none focus:bg-gray-600">
-           Clear
-         </button>
-         <button onClick={handleSearch} class="px-6 py-2 leading-5 text-white transition-colors duration-200 transform bg-blue-700 rounded-md hover:bg-blue-900 focus:outline-none focus:bg-gray-600">
-           Search
-         </button>
+            <button
+              onClick={clearSearchInput}
+              class="px-6 py-2 leading-5 text-white transition-colors duration-200 transform bg-pink-500 rounded-md hover:bg-pink-700 focus:outline-none focus:bg-gray-600"
+            >
+              Clear
+            </button>
+            <button
+              onClick={handleSearch}
+              class="px-6 py-2 leading-5 text-white transition-colors duration-200 transform bg-blue-700 rounded-md hover:bg-blue-900 focus:outline-none focus:bg-gray-600"
+            >
+              Search
+            </button>
           </div>
         </form>
       </section>
-
-      <Suspense fallback={<h1>Loading....</h1>}>
-        <UsersTable users={users ?? []} />
-        <PaginationButtons totalPages={totalPages} />
-      </Suspense>
+      {children}
+      <div key={remountComponent}>
+        <PaginationButtons
+          pageNumber={pageNumber}
+          setPageNumber={setPageNumber}
+        />
+      </div>
     </div>
   );
 };
