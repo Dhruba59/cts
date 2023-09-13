@@ -1,10 +1,20 @@
-import ECommerce from "@/components/Dashboard/E-commerce";
+import { Row, Col } from "antd";
 
 export default function Home() {
-  console.log(process.env.API_KEY);
+  console.log("Home Page");
   return (
-    <>
-      <ECommerce />
-    </>
+    <div>
+      <Row>
+        <Col xs={24} md={12} xl={8}>
+          One of three columns
+        </Col>
+        <Col xs={24} md={12} xl={8}>
+          One of three columns
+        </Col>
+        <Col xs={24} md={12} xl={8}>
+          One of three columns
+        </Col>
+      </Row>
+    </div>
   );
 }

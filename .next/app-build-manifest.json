@@ -11,10 +11,15 @@
       "static/css/app/layout.css",
       "static/chunks/app/layout.js"
     ],
-    "/(User)/UserList/page": [
+    "/(indication)/add-indication/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/(User)/UserList/page.js"
+      "static/chunks/app/(indication)/add-indication/page.js"
+    ],
+    "/(indication)/indication-list/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(indication)/indication-list/page.js"
     ]
   }
 }
