@@ -19,7 +19,8 @@ import {
   TeamOutlined,
   UserOutlined,
   DownOutlined,
-  HeatMapOutlined
+  HeatMapOutlined,
+  SettingOutlined
 } from "@ant-design/icons";
 import {
   Layout,
@@ -52,13 +53,15 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
     label: React.ReactNode,
     key: React.Key,
     icon?: React.ReactNode,
-    children?: MenuItem[]
+    children?: MenuItem[],
+    type?: "group"
   ): MenuItem {
     return {
       key,
       icon,
       children,
-      label
+      label,
+      type
     } as MenuItem;
   }
 
@@ -99,25 +102,32 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
 
   const items: MenuItem[] = [
     getItem(<Link href="/">Dashboard</Link>, "1", <PieChartOutlined />),
-    getItem("Indication", "2", <HeatMapOutlined />, [
-      getItem(<Link href="/add-indication">Add Indication</Link>, "3"),
-      getItem(<Link href="/indication-list">Indication List</Link>, "4")
+    getItem("Indication", "sub2", <HeatMapOutlined />, [
+      getItem(<Link href="/add-indication">Add Indication</Link>, "2.1"),
+      getItem(<Link href="/indication-list">Indication List</Link>, "2.2")
     ]),
-    getItem("User", "3", <UserOutlined />, [
-      getItem("Tom", "3"),
-      getItem("Bill", "4"),
-      getItem("Alex", "5")
+    getItem("User", "sub3", <UserOutlined />, [
+      getItem("Tom", "3.1"),
+      getItem("Bill", "3.2"),
+      getItem("Alex", "3.3")
     ]),
-    getItem("Team", "4", <TeamOutlined />, [
-      getItem("Team 1", "6"),
-      getItem("Team 2", "8")
+    getItem("Team", "sub4", <TeamOutlined />, [
+      getItem("Team 1", "4.1"),
+      getItem("Team 2", "4.2")
     ]),
-    getItem("Files", "9", <FileOutlined />)
+    getItem(
+      "Settings",
+      "sub5",
+      null,
+      [
+        getItem("Option 13", "5.1", <SettingOutlined />),
+        getItem("Option 14", "5.2", <SettingOutlined />)
+      ],
+      "group"
+    )
   ];
 
-  const [windowSize, setWindowSize] = useState<number>(0);
   const [collapsed, setCollapsed] = useState(false);
-  const [mobile, setMobile] = useState(false);
   const [open, setOpen] = useState(false);
   const {
     token: { colorBgContainer }
@@ -127,27 +137,12 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
     setOpen(false);
   };
   const handleOpenClose = () => {
-    if (mobile) {
-      setOpen(!open);
-    } else {
-      setCollapsed(!collapsed);
-    }
+    setOpen(!open);
+    setCollapsed(!collapsed);
   };
   useEffect(() => {
-    if (windowSize === 0) {
-      setWindowSize(screen.width);
-    }
-
-    if (screen.width < 500) {
-      setMobile(true);
-      setCollapsed(false);
-    } else {
-      setMobile(false);
-      setCollapsed(false);
-    }
-
     const handleWindowResize = () => {
-      setWindowSize(screen.width);
+      //setWindowSize(screen.width);
     };
 
     window.addEventListener("resize", handleWindowResize);
@@ -156,23 +151,6 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
       window.removeEventListener("resize", handleWindowResize);
     };
   }, []);
-
-  useEffect(() => {
-    console.log(windowSize);
-    if (windowSize < 768) {
-      setCollapsed(true);
-    }
-
-    if (windowSize >= 768) {
-      setCollapsed(false);
-    }
-
-    if (screen.width < 500) {
-      setMobile(true);
-    } else {
-      setMobile(false);
-    }
-  }, [windowSize]);
 
   return (
     <html lang="en">
@@ -195,13 +173,8 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
                     justifyContent: "flex-start"
                   }}
                 >
-                  <div
-                    className={`${
-                      !collapsed ? "logoWhenOpen" : "logoWhenClose"
-                    }`}
-                  >
-                    {!collapsed ? "Logo Here" : "Logo"}
-                  </div>
+                  <div className="logoWhenOpen">{"Logo Here"}</div>
+                  <div className="logoWhenClose">{"Logo"}</div>
                   <Button
                     type="text"
                     icon={
@@ -236,31 +209,40 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
                   </div>
                 </div>
               </Header>
-              <Layout>
-                {!mobile ? (
+              <Content>
+                <Layout style={{ height: "100%", position: "relative" }}>
                   <Sider
-                    className="headerSm"
+                    className="displaySidebarMenu"
                     theme="light"
                     collapsible
-                    breakpoint={"sm"}
+                    breakpoint={"md"}
+                    collapsedWidth={60}
                     trigger={null}
                     collapsed={collapsed}
-                    collapsedWidth={mobile ? 0 : 60}
+                    onBreakpoint={(broken) => {
+                      //console.log(broken);
+                    }}
+                    onCollapse={(collapsed, type) => {
+                      //console.log(collapsed, type);
+                      setCollapsed(collapsed);
+                    }}
                   >
                     <Menu
                       theme="light"
                       defaultSelectedKeys={["1"]}
                       mode="inline"
                       items={items}
+                      style={{ height: "100%" }}
                     />
                   </Sider>
-                ) : (
+
                   <Drawer
-                    title="Basic Drawer"
                     placement="left"
                     onClose={onClose}
                     open={open}
                     width={200}
+                    getContainer={false}
+                    headerStyle={{ display: "none" }}
                   >
                     <Menu
                       theme="light"
@@ -269,15 +251,24 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
                       items={items}
                     />
                   </Drawer>
-                )}
+                  <Content
+                    className="mainContent"
+                    style={{ padding: "0 24px" }}
+                  >
+                    {children}
+                  </Content>
+                </Layout>
+              </Content>
 
-                <Content className="mainContent">{children}</Content>
-              </Layout>
               <Footer
                 style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
                   backgroundColor: "#212731",
                   height: "5vh",
-                  color: "white"
+                  color: "white",
+                  padding: ".5rem"
                 }}
               >
                 test footer
