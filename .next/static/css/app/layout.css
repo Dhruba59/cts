@@ -294,6 +294,18 @@ mark {
 .logoWhenClose {
   display: none;
 }
+
+.logoWhenCloseInlarge {
+  display: block;
+  width: 60px;
+  font-size: 16px;
+  margin: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: .25rem;
+  padding-right:  .75rem;
+}
+
 .mainContent {
   display: flex;
   padding: .5rem;
@@ -364,6 +376,9 @@ mark {
   .logoWhenOpen {
     display:none
   }
+  .logoWhenCloseInlarge{
+    display:none
+  }
 }
 
 /* media query section for sm*/
@@ -389,6 +404,10 @@ mark {
   }
 
   .logoWhenOpen {
+    display:none
+  }
+
+  .logoWhenCloseInlarge{
     display:none
   }
 }

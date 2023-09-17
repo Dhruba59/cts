@@ -1,3 +1,4 @@
 {
+  "/(indication)/add-indication/page": "app/(indication)/add-indication/page.js",
   "/(indication)/indication-list/page": "app/(indication)/indication-list/page.js"
 }

@@ -137,8 +137,12 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
     setOpen(false);
   };
   const handleOpenClose = () => {
-    setOpen(!open);
     setCollapsed(!collapsed);
+    if (collapsed) {
+      setOpen(true);
+    } else {
+      setOpen(false);
+    }
   };
   useEffect(() => {
     const handleWindowResize = () => {
@@ -173,7 +177,13 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
                     justifyContent: "flex-start"
                   }}
                 >
-                  <div className="logoWhenOpen">{"Logo Here"}</div>
+                  <div
+                    className={`${
+                      !collapsed ? "logoWhenOpen" : "logoWhenCloseInlarge"
+                    }`}
+                  >
+                    {!collapsed ? "Logo Here" : "Logo"}
+                  </div>
                   <div className="logoWhenClose">{"Logo"}</div>
                   <Button
                     type="text"
@@ -225,6 +235,9 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
                     onCollapse={(collapsed, type) => {
                       //console.log(collapsed, type);
                       setCollapsed(collapsed);
+                      if (collapsed) {
+                        setOpen(false);
+                      }
                     }}
                   >
                     <Menu
