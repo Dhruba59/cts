@@ -1,7 +1,4 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {
-  // Enable source map if needed
-  productionBrowserSourceMaps: true,
-};
+const nextConfig = {}
 
-module.exports = nextConfig;
+module.exports = nextConfig
