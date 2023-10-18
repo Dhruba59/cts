@@ -1,5 +1,5 @@
 "use client";
-import Select from "@/components/ui/select";
+import Select from "@/components/ui/Select";
 import Button from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { RadioButton, RadioGroup } from "@/components/ui/radio";
