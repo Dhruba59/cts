@@ -9,6 +9,7 @@ import Checkbox, { CheckboxGroup } from "@/components/ui/checkbox";
 import Toggle from "@/components/ui/toggle";
 import { USER_COLUMN, USERS } from "@/components/table/mockData";
 import SimpleTable from "@/components/table/simpleTable";
+import '../styles/global.css';
 
 export default function Home() {
   const options = [
@@ -52,7 +53,7 @@ export default function Home() {
       <br />
       <Checkbox id="terms">Accept terms and condition</Checkbox>
       <CheckboxGroup options={options} className="flex gap-3 my-4" />
-      <Toggle />
+      <Toggle onChange={() => {}}/>
       <SimpleTable columns={columns} data={data} />
     </main>
   );

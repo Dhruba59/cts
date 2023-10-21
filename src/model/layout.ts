@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
 
 export interface SidebarItemProps {
-  icon: ReactNode;
+  icon?: ReactNode;
   text: string;
   subitems?: SidebarItemProps[];
   showIconOnly?: boolean;

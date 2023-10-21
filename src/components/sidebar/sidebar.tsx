@@ -14,6 +14,7 @@ const Sidebar: React.FC<SidebarProps> = ({ items }) => {
       window.addEventListener("resize", (e: any) => {
         if (e.target?.innerWidth && e.target?.innerWidth < 768) {
           setIsSidebarOpen(false);
+          setIsSidebarMinimize(false);
         } else {
           setIsSidebarOpen(true);
         }
@@ -22,8 +23,8 @@ const Sidebar: React.FC<SidebarProps> = ({ items }) => {
   }, []);
 
   return (
-    <div className={`relative bg-white h-screen text-black border-r ${isSidebarOpen ? 'block' : 'hidden'}`}>
-      <SidebarToggleIcon2 className='absolute -right-[14px] top-4 cursor-pointer hidden md:block' onClick={() => setIsSidebarMinimize(!isSidebarMinimize)}/>
+    <div className={`relative h-screen text-black border-r ${isSidebarOpen ? 'block' : 'hidden'}`}>
+      <SidebarToggleIcon2 className='absolute -right-[14px] z-10 top-4 cursor-pointer hidden md:block' onClick={() => setIsSidebarMinimize(!isSidebarMinimize)}/>
       {items.map((item, index) => (
         <SidebarItem key={index} {...item} showIconOnly={isSidebarMinimize}/>
       ))}
