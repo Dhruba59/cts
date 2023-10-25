@@ -8,4 +8,5 @@ export interface PopupProps {
   verticalPosition?: 'top' | 'center' | 'bottom';
   children: ReactNode;
   className?: string;
+  showArrow?: boolean;
 }

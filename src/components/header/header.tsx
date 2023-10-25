@@ -8,20 +8,21 @@ import userAvatar from '@/assets/image/dummy-avatar.png';
 import { DownArrowIcon, SidebarToggleIcon } from '@/assets/icons';
 import { useSidebarContext } from '@/context/sidebar-context';
 import Popup from '../pop-up';
-import MenuItem from '../menu-item';
 import MenuItems from '../menu-item';
-import Toggle from '../ui/toggle';
-import { useThemeContext } from '@/context/theme-context';
+import DarkModeToggleSwitch from '../ui/dark-mode-toggle';
+import { THEME_COLOR_ENUM } from '@/model/context';
+import { STORAGE_CONSTANT } from '@/constants/storage-constant';
 
-enum THEME_COLOR_ENUM {
-  DARK = 'dark',
-  DEFAULT = 'default'
-}
+
+const menuItems = [
+  { icon: '', text: 'Settings', href: '/menu-item-1' },
+  { icon: '', text: 'Profile' },
+  { icon: '', text: 'Log out', href: '/menu-item-3' },
+];
 
 const Header = () => {
   const [isPopupOpen, setIsPopupOpen] = useState<boolean>(false);
   const {isSidebarOpen, setIsSidebarOpen} = useSidebarContext();
-  const {themeColor, setThemeColor} = useThemeContext();
 
   const handleTogglePopup = () => {
     setIsPopupOpen(!isPopupOpen);
@@ -31,37 +32,34 @@ const Header = () => {
     setIsSidebarOpen(!isSidebarOpen);
   }
 
-  // TODO 
   const onThemeChange = (value: boolean) => {
-    setThemeColor(value === true ? THEME_COLOR_ENUM.DARK : THEME_COLOR_ENUM.DEFAULT)
+    if(value === true){
+      document.documentElement.classList.add(THEME_COLOR_ENUM.DARK);
+      localStorage.setItem(STORAGE_CONSTANT.THEME, THEME_COLOR_ENUM.DARK);
+    } else {
+      document.documentElement.classList.remove(THEME_COLOR_ENUM.DARK);
+      localStorage.removeItem(STORAGE_CONSTANT.THEME);
+    }
   }
 
-  console.log(themeColor);
-
-  const menuItems = [
-    { icon: '', text: 'Menu Item 1', href: '/menu-item-1' },
-    { icon: '', text: 'Menu Item 2' },
-    { icon: '', text: 'Menu Item 3', href: '/menu-item-3' },
-  ];
-
   return (
-    <div className="w-full p-4 flex justify-between items-center border-b ">
+    <div className="w-full px-4 py-1 flex justify-between items-center border-b-red-500 border-b-2">
       <SidebarToggleIcon className='cursor-pointer block md:hidden' onClick={toggleSidebar} />
       <div className="flex items-center">
         <Link href="/">
-          <Image src={logo} alt="logo" />
+          <Image src={logo} alt="logo" height={45}/>
         </Link>
       </div>
       <div className='relative flex items-center gap-x-4'>
-        {/* <Toggle onChange={onThemeChange}/> */}
+        <DarkModeToggleSwitch onChange={onThemeChange} checked={localStorage.getItem(STORAGE_CONSTANT.THEME) === THEME_COLOR_ENUM.DARK}/>
         <Image src={userAvatar} alt='user-photo' height={40} width={40}/>
         <span>
-          <h5>John doe</h5>
-          <p className='text-sm font-normal text-gray-500'>Manager</p>
+          <h5 className='text-sm'>John doe</h5>
+          <p className='text-xs font-normal text-gray-500 dark:text-gray-200'>Manager</p>
         </span>
-        <DownArrowIcon className='cursor-pointer' onClick={handleTogglePopup}/>
+        <DownArrowIcon className={`cursor-pointer transition-all duration-200 ${isPopupOpen && 'rotate-180'}`} onClick={handleTogglePopup}/>
         <Popup show={isPopupOpen} onClose={() => setIsPopupOpen(false)} horizontalPosition='right' verticalPosition='bottom'>
-         <MenuItems menus={menuItems}/>
+         <MenuItems menus={menuItems} className='w-[200px] text-sm'/>
         </Popup>
       </div>
     </div>

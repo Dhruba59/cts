@@ -9,6 +9,7 @@ const Popup: React.FC<PopupProps> = ({
   verticalPosition = 'center',
   children,
   className,
+  showArrow
 }) => {
   const popupRef = useRef(null);
 
@@ -58,16 +59,19 @@ const Popup: React.FC<PopupProps> = ({
     <div className={`absolute flex items-center justify-center z-50 ${className}`}>
       <div ref={popupRef} className={` ${getHorizontalPositionClass()} ${getVerticalPositionClass()}`}>
         {show && (
-          <div className=" bg-white p-2 rounded-lg shadow-lg">
-            {children}
+          <div className="bg-white dark:bg-neutral-black p-2 rounded-lg shadow-xl relative">
             {showCloseButton && (
               <button
                 onClick={onClose}
-                className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+                className="absolute top-0 right-0 p-2 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100"
               >
                 Close
               </button>
             )}
+            {showArrow &&
+              <div className="w-4 h-4 rotate-45 bg-white dark:bg-neutral-black absolute top-2 left-0 z-40 transform -translate-x-1/2"
+              ></div>}
+            {children}
           </div>
         )}
       </div>

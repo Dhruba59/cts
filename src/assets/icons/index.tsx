@@ -19,7 +19,7 @@ export const SidebarToggleIcon = ({ width = "20", height = "17", fill = 'none', 
 )
 
 
-export const SidebarToggleIcon2 = ({ width = "28", height = "28", fill = 'none', ...rest }: SVGAttributes<SVGElement>) => (
+export const SidebarMinimizeIcon = ({ width = "28", height = "28", fill = 'none', ...rest }: SVGAttributes<SVGElement>) => (
   <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" {...rest}>
     <rect width="28" height="28" rx="8" fill="white" />
     <path d="M11.8044 11.1381C12.0648 10.8777 12.0648 10.4556 11.8044 10.1953C11.5441 9.93491 11.122 9.93491 10.8616 10.1953L7.52827 13.5286C7.26792 13.7889 7.26792 14.2111 7.52827 14.4714L10.8616 17.8047C11.122 18.0651 11.5441 18.0651 11.8044 17.8047C12.0648 17.5444 12.0648 17.1223 11.8044 16.8619L8.94248 14L11.8044 11.1381Z" fill="black" />
@@ -27,6 +27,16 @@ export const SidebarToggleIcon2 = ({ width = "28", height = "28", fill = 'none',
     <rect x="0.5" y="0.5" width="27" height="27" rx="7.5" stroke="black" stroke-opacity="0.15" />
   </svg>
 )
+
+export const SidebarExpandIcon = ({ width = "28", height = "28", fill = 'none', ...rest }: SVGAttributes<SVGElement>) => (
+  <svg width={width} height={width} viewBox="0 0 28 28" fill={fill} xmlns="http://www.w3.org/2000/svg" {...rest}>
+    <rect width="28" height="28" rx="8" fill="white" />
+    <path d="M9.33464 17.3332L12.668 13.9998L9.33464 10.6665" stroke="#262626" stroke-linecap="round" stroke-linejoin="round" />
+    <path d="M18.6673 10.6668L15.334 14.0002L18.6673 17.3335" stroke="#262626" stroke-linecap="round" stroke-linejoin="round" />
+    <rect x="0.5" y="0.5" width="27" height="27" rx="7.5" stroke="black" stroke-opacity="0.15" />
+  </svg>
+)
+
 
 export const IndicationIcon = ({ width = "20", height = "20", fill = 'none', ...rest }: SVGAttributes<SVGElement>) => (
   <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -65,7 +75,7 @@ export const GlobalEditIcon = ({ width = "20", height = "20", fill = 'none', ...
 
 
 export const BookIcon = ({ width = "20", height = "20", fill = 'none', ...rest }: SVGAttributes<SVGElement>) => (
-  <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" {...rest}>
     <path d="M9.37533 5.00023V16.5919C9.37533 17.1836 8.77533 17.5919 8.23366 17.3669C6.68366 16.7169 4.75866 16.1502 3.39199 15.9669L3.13366 15.9336C2.32533 15.8336 1.66699 15.0919 1.66699 14.2836V4.37523C1.66699 3.37523 2.47533 2.56689 3.47533 2.56689H3.53366C5.10033 2.70023 7.40866 3.43356 8.93366 4.25856C9.20866 4.40856 9.37533 4.68356 9.37533 5.00023Z" fill="#5C5E64" />
     <path d="M16.525 2.56689H16.475C16.275 2.58356 16.0583 2.60856 15.8333 2.65023C14.8083 2.81689 13.5917 3.16689 12.5 3.60023C11.9833 3.80856 11.5 4.03356 11.075 4.25856C10.8 4.40856 10.625 4.69189 10.625 5.00023V16.5919C10.625 17.1836 11.225 17.5919 11.7667 17.3669C13.3167 16.7169 15.2417 16.1502 16.6083 15.9669L16.8667 15.9336C17.675 15.8336 18.3333 15.0919 18.3333 14.2836V4.37523C18.3333 3.37523 17.525 2.56689 16.525 2.56689ZM16.0583 11.4419C16.0583 11.7669 15.825 11.9086 15.5417 11.7502L14.6583 11.2586C14.5667 11.2086 14.4167 11.2086 14.3167 11.2586L13.4333 11.7502C13.15 11.9086 12.9167 11.7669 12.9167 11.4419V8.88356C12.9167 8.50023 13.2333 8.18356 13.6167 8.18356H15.3667C15.75 8.18356 16.0667 8.50023 16.0667 8.88356V11.4419H16.0583Z" fill="#5C5E64" />
   </svg>
@@ -77,10 +87,61 @@ export const PersonalCardIcon = ({ width = "20", height = "20", fill = 'none', .
   </svg>
 )
 
+export const LightModeIcon = ({ width = "16", height = "16", fill = 'none', ...rest }: SVGAttributes<SVGElement>) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width={width}
+    height={height}
+    viewBox="0 0 24 24"
+    fill={fill}
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    {...rest}
+  >
+    <circle fill="black" cx="12" cy="12" r="5" />
+    <g stroke="currentColor">
+      <line x1="12" y1="1" x2="12" y2="3" />
+      <line x1="12" y1="21" x2="12" y2="23" />
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+      <line x1="1" y1="12" x2="3" y2="12" />
+      <line x1="21" y1="12" x2="23" y2="12" />
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+    </g>
+  </svg>
+)
 
-
-
-
-
-
-
+export const DarkModeIcon = ({ width = "16", height = "16", fill = 'none', ...rest }: SVGAttributes<SVGElement>) => (
+  <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width={width}
+      height={height}
+      viewBox="0 0 24 24"
+      fill={fill}
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      style={{ transform: "rotate(40deg)" }}
+      {...rest}
+    >
+      <mask id="mask">
+        <rect x="0" y="0" width="100%" height="100%" fill="white" /> 
+        <circle cx="12" cy="4" r="9" fill="black" />    
+      </mask>
+      <circle fill="black" cx="12" cy="12" r="9" mask="url(#mask)" />
+      {/* <g stroke="currentColor">
+        <line x1="12" y1="1" x2="12" y2="3" />
+        <line x1="12" y1="21" x2="12" y2="23" />
+        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+        <line x1="1" y1="12" x2="3" y2="12" />
+        <line x1="21" y1="12" x2="23" y2="12" />
+        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+      </g> */}
+    </svg>
+)

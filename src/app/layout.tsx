@@ -1,13 +1,9 @@
 import Header from "@/components/header";
 import "./globals.css";
 import type { Metadata } from "next";
-import { Roboto } from "next/font/google";
 import { BookIcon, GlobalEditIcon, IndicationIcon, MagicStarIcon, PersonalCardIcon, SettingsIcon } from "@/assets/icons";
 import Sidebar from "@/components/sidebar";
 import { SidebarContextProvider } from "@/context/sidebar-context";
-import { ThemeContextProvider } from "@/context/theme-context";
-
-
 
 export const metadata: Metadata = {
   title: "CTS Database",
@@ -16,7 +12,7 @@ export const metadata: Metadata = {
 
 const items: any = [
   {
-    icon: <IndicationIcon className="h-full"/>,
+    icon: <IndicationIcon className="h-full" />,
     text: 'Indication',
     subitems: [
       {
@@ -40,6 +36,16 @@ const items: any = [
   {
     icon: <BookIcon />,
     text: 'Study Information',
+    subitems: [
+      {
+        icon: null,
+        text: 'Study Study',
+      },
+      {
+        icon: null,
+        text: 'List of Indication',
+      },
+    ],
   },
   {
     icon: <PersonalCardIcon />,
@@ -54,16 +60,14 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>
-        <ThemeContextProvider>
-          <SidebarContextProvider>
-            <Header />
-            <div className="flex">
-              <Sidebar items={items} />
-              {children}
-            </div>
-          </SidebarContextProvider>
-        </ThemeContextProvider>  
+      <body className='dark:text-white dark:bg-neutral-800'>
+        <SidebarContextProvider>
+          <Header />
+          <div className='flex'>
+            <Sidebar items={items} />
+            {children}
+          </div>
+        </SidebarContextProvider>
       </body>
     </html>
   );

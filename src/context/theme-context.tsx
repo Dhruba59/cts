@@ -1,24 +1,11 @@
 'use client';
-import { Dispatch, ReactNode, SetStateAction, createContext, useContext, useState } from "react";
+import { THEME_COLOR_ENUM, ThemeContextProviderProps, ThemeContextValueType } from "@/model/context";
+import { createContext, useContext, useState } from "react";
 
-enum THEME_COLOR_ENUM {
-  DARK = 'dark',
-  DEFAULT = 'default'
-}
+export const ThemeContext = createContext<ThemeContextValueType>(null!);
 
-interface ThemeContextProviderProps {
-  children: ReactNode;
-}
-
-interface ThemeContextValueType {
-  themeColor: THEME_COLOR_ENUM;
-  setThemeColor: Dispatch<SetStateAction<THEME_COLOR_ENUM>>;
-}
-
-const ThemeContext = createContext<ThemeContextValueType>(null!);
-
-export const ThemeContextProvider = ({children}: ThemeContextProviderProps) => {
-  const [themeColor, setThemeColor] = useState<THEME_COLOR_ENUM>(THEME_COLOR_ENUM.DEFAULT);
+export const ThemeContextProvider = ({children }: ThemeContextProviderProps) => {
+  const [themeColor, setThemeColor] = useState<THEME_COLOR_ENUM>(THEME_COLOR_ENUM.LIGHT);
 
   return (
     <ThemeContext.Provider value={{themeColor, setThemeColor}}>
