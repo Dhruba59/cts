@@ -10,7 +10,7 @@ import Toggle from "@/components/ui/toggle";
 import { USER_COLUMN, USERS } from "@/components/table/mockData";
 import SimpleTable from "@/components/table/simpleTable";
 
-export default function Home() {
+export default function Dashboard() {
   const options = [
     { value: "blues", label: "Blues" },
     { value: "rock", label: "Rock" },

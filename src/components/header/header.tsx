@@ -15,14 +15,15 @@ import { STORAGE_CONSTANT } from '@/constants/storage-constant';
 
 
 const menuItems = [
-  { icon: '', text: 'Settings', href: '/menu-item-1' },
+  { icon: '', text: 'Settings', href: '' },
   { icon: '', text: 'Profile' },
-  { icon: '', text: 'Log out', href: '/menu-item-3' },
+  { icon: '', text: 'Log out', href: '' },
 ];
 
 const Header = () => {
   const [isPopupOpen, setIsPopupOpen] = useState<boolean>(false);
   const {isSidebarOpen, setIsSidebarOpen} = useSidebarContext();
+  const isChecked = localStorage.getItem(STORAGE_CONSTANT.THEME) === THEME_COLOR_ENUM.DARK;
 
   const handleTogglePopup = () => {
     setIsPopupOpen(!isPopupOpen);
@@ -43,15 +44,15 @@ const Header = () => {
   }
 
   return (
-    <div className="w-full px-4 py-1 flex justify-between items-center border-b-red-500 border-b-2">
+    <div className="w-full px-4 py-2 flex justify-between items-center border-b-red-500 border-b-2 h-[52px]">
       <SidebarToggleIcon className='cursor-pointer block md:hidden' onClick={toggleSidebar} />
       <div className="flex items-center">
         <Link href="/">
-          <Image src={logo} alt="logo" height={45}/>
+          <Image src={logo} alt="logo" height={40}/>
         </Link>
       </div>
       <div className='relative flex items-center gap-x-4'>
-        <DarkModeToggleSwitch onChange={onThemeChange} checked={localStorage.getItem(STORAGE_CONSTANT.THEME) === THEME_COLOR_ENUM.DARK}/>
+        <DarkModeToggleSwitch onChange={onThemeChange} checked={isChecked}/>
         <Image src={userAvatar} alt='user-photo' height={40} width={40}/>
         <span>
           <h5 className='text-sm'>John doe</h5>

@@ -24,8 +24,8 @@ const Sidebar: React.FC<SidebarProps> = ({ items }) => {
 
   return (
     <div className={`relative max-w-[250px] h-screen border-r ${isSidebarOpen ? 'block' : 'hidden'}`}>
-      <SidebarMinimizeIcon className={`absolute -right-[14px] z-10 top-4 cursor-pointer hidden md:${isSidebarMinimize ? 'hidden' : 'block'}`} onClick={() => setIsSidebarMinimize(!isSidebarMinimize)}/>
-      <SidebarExpandIcon className={`absolute -right-[14px] z-10 top-4 cursor-pointer hidden md:${!isSidebarMinimize ? 'hidden' : 'block'}`} onClick={() => setIsSidebarMinimize(!isSidebarMinimize)}/>
+      <SidebarExpandIcon className={`absolute -right-[14px] z-10 top-4 cursor-pointer hidden md:${isSidebarMinimize ? 'hidden' : 'block'}`} onClick={() => setIsSidebarMinimize(!isSidebarMinimize)}/>
+      <SidebarMinimizeIcon className={`absolute -right-[14px] z-10 top-4 cursor-pointer hidden md:${!isSidebarMinimize ? 'hidden' : 'block'}`} onClick={() => setIsSidebarMinimize(!isSidebarMinimize)}/>
       {items.map((item, index) => (
         <SidebarItem key={index} {...item} showIconOnly={isSidebarMinimize}/>
       ))}

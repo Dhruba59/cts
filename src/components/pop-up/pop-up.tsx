@@ -59,17 +59,17 @@ const Popup: React.FC<PopupProps> = ({
     <div className={`absolute flex items-center justify-center z-50 ${className}`}>
       <div ref={popupRef} className={` ${getHorizontalPositionClass()} ${getVerticalPositionClass()}`}>
         {show && (
-          <div className="bg-white dark:bg-neutral-black p-2 rounded-lg shadow-xl relative">
+          <div className="bg-white dark:bg-gray-600 p-2 rounded-lg shadow-xl relative ">
             {showCloseButton && (
               <button
                 onClick={onClose}
-                className="absolute top-0 right-0 p-2 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100"
+                className="absolute top-0 right-0 p-2 text-gray-600 dark:text-gray-300 dark:hover:text-gray-100"
               >
                 Close
               </button>
             )}
             {showArrow &&
-              <div className="w-4 h-4 rotate-45 bg-white dark:bg-neutral-black absolute top-2 left-0 z-40 transform -translate-x-1/2"
+              <div className="w-4 h-4 rotate-45 bg-white dark:dark:bg-gray-600 absolute top-2 left-0 z-40 transform -translate-x-1/2"
               ></div>}
             {children}
           </div>

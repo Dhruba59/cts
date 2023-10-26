@@ -21,7 +21,7 @@ const SidebarItem = ({ icon, text, subitems, showIconOnly = false }: SidebarItem
   return (
     <Fragment>
       <div
-        className={`relative flex items-center gap-x-2 px-4 py-2 my-2 rounded-sm cursor-pointer hover:bg-gray-100 ${showIconOnly ? 'group' : ''}`}
+        className={`relative flex items-center gap-x-2 px-4 py-2 my-2 rounded-sm cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 ${showIconOnly ? 'group' : ''}`}
         onClick={toggleExpand}
       >
         {icon && <div className="w-6 h-6 flex justify-center items-center">{icon}</div>}

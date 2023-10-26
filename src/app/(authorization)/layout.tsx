@@ -1,7 +1,7 @@
-import Header from "@/components/header";
-import "./globals.css";
 import type { Metadata } from "next";
-import '../styles/global.css';
+import Footer from "@/components/footer";
+import Header from "@/components/auth/header";
+import { Fragment } from "react";
 
 export const metadata: Metadata = {
   title: "CTS Database",
@@ -14,10 +14,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body className='dark:text-white dark:bg-neutral-800'>
-        {children}
-      </body>
-    </html>
+    <Fragment>
+      <Header />
+      <div>{children}</div>
+      <Footer />
+    </Fragment>
   );
 }
