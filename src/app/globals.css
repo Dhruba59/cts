@@ -20,6 +20,16 @@
   }
 }
 
+@layer components {
+  /*remaining height after subtracting header and footer height*/
+  .h-fill {
+    @apply h-[calc(100vh_-_104px)];
+  }
+  .wrapper {
+    @apply bg-white m-0 md:m-6 border rounded-md;
+  }
+}
+
 /* Hiding html number type default styling */
 /* Chrome, Safari, Edge, Opera */
 input::-webkit-outer-spin-button,

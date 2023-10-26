@@ -1,10 +1,16 @@
+import { BookIcon } from "@/assets/icons";
 import React, { useState } from "react";
 
-const Toggle = () => {
+interface ToggleProps {
+  onChange: (value: boolean) => void;
+}
+
+const Toggle = ({ onChange }: ToggleProps) => {
   const [isChecked, setIsChecked] = useState(false);
 
   const handleCheckboxChange = () => {
     setIsChecked(!isChecked);
+    onChange(isChecked);
   };
 
   return (
@@ -18,10 +24,11 @@ const Toggle = () => {
         />
 
         <span
-          className={`flex h-6 w-12 items-center rounded-full p-1 duration-200 ${
+          className={`relative flex h-6 w-12 items-center rounded-full p-1 duration-200 ${
             isChecked ? "bg-neutral-500" : "bg-secondary"
           }`}
         >
+          <BookIcon className="absolute right-0"/>
           <span
             className={`h-[18px] w-[18px] rounded-full bg-white duration-200 ${
               isChecked ? "translate-x-[24px]" : ""
