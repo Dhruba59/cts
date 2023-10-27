@@ -1,4 +1,4 @@
-import { cn } from "@/libs/utils";
+  import { cn } from "@/libs/utils";
 import { VariantProps, cva } from "class-variance-authority";
 import React, { ButtonHTMLAttributes, FC, forwardRef } from "react";
 import Spinner from "./spinner";
@@ -42,7 +42,6 @@ const Button: FC<ButtonProps> = forwardRef(
     return (
       <button
         ref={ref}
-        type="button"
         className={cn(buttonVariants({ className, variant, size }))}
         {...props}
       >

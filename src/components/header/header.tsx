@@ -17,13 +17,13 @@ import { STORAGE_CONSTANT } from '@/constants/storage-constant';
 const menuItems = [
   { icon: '', text: 'Settings', href: '' },
   { icon: '', text: 'Profile' },
-  { icon: '', text: 'Log out', href: '' },
+  { icon: '', text: 'Log out', href: '/auth/login' },
 ];
 
 const Header = () => {
   const [isPopupOpen, setIsPopupOpen] = useState<boolean>(false);
   const {isSidebarOpen, setIsSidebarOpen} = useSidebarContext();
-  const isChecked = localStorage.getItem(STORAGE_CONSTANT.THEME) === THEME_COLOR_ENUM.DARK;
+  const [isDark, setIsDark] = useState<boolean>(localStorage.getItem(STORAGE_CONSTANT.THEME) === THEME_COLOR_ENUM.DARK);
 
   const handleTogglePopup = () => {
     setIsPopupOpen(!isPopupOpen);
@@ -37,29 +37,31 @@ const Header = () => {
     if(value === true){
       document.documentElement.classList.add(THEME_COLOR_ENUM.DARK);
       localStorage.setItem(STORAGE_CONSTANT.THEME, THEME_COLOR_ENUM.DARK);
+      setIsDark(true);
     } else {
       document.documentElement.classList.remove(THEME_COLOR_ENUM.DARK);
       localStorage.removeItem(STORAGE_CONSTANT.THEME);
+      setIsDark(false);
     }
   }
 
   return (
-    <div className="w-full px-4 py-2 flex justify-between items-center border-b-red-500 border-b-2 h-[52px]">
-      <SidebarToggleIcon className='cursor-pointer block md:hidden' onClick={toggleSidebar} />
+    <div className="w-full px-4 py-2 flex justify-between items-center border-b-red-500 border-b-2 h-[65px]">
+      <SidebarToggleIcon className='cursor-pointer block md:hidden' fill={isDark ?'white' : 'black'} onClick={toggleSidebar} />
       <div className="flex items-center">
         <Link href="/">
           <Image src={logo} alt="logo" height={40}/>
         </Link>
       </div>
       <div className='relative flex items-center gap-x-4'>
-        <DarkModeToggleSwitch onChange={onThemeChange} checked={isChecked}/>
-        <Image src={userAvatar} alt='user-photo' height={40} width={40}/>
+        <DarkModeToggleSwitch onChange={onThemeChange} checked={isDark}/>
+        <Image src={userAvatar} alt='user-photo' className='rounded-full' height={40} width={40}/>
         <span>
           <h5 className='text-sm'>John doe</h5>
           <p className='text-xs font-normal text-gray-500 dark:text-gray-200'>Manager</p>
         </span>
         <DownArrowIcon className={`cursor-pointer transition-all duration-200 ${isPopupOpen && 'rotate-180'}`} onClick={handleTogglePopup}/>
-        <Popup show={isPopupOpen} onClose={() => setIsPopupOpen(false)} horizontalPosition='right' verticalPosition='bottom'>
+        <Popup show={isPopupOpen} onClose={() => setIsPopupOpen(false)} className='-right-[120px] top-28'>
          <MenuItems menus={menuItems} className='w-[200px] text-sm'/>
         </Popup>
       </div>

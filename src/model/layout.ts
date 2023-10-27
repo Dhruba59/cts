@@ -1,12 +1,7 @@
 import { ReactNode } from "react";
+import { MenuItem } from "./menu-items";
 
 export interface SidebarItemProps {
-  icon?: ReactNode;
-  text: string;
-  subitems?: SidebarItemProps[];
   showIconOnly?: boolean;
-};
-
-export interface SidebarProps {
-  items: SidebarItemProps[];
+  item: MenuItem;
 };

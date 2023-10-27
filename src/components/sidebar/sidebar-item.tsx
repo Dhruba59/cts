@@ -4,13 +4,15 @@ import { SidebarItemProps } from '@/model/layout';
 import { Fragment, useState } from 'react';
 import Popup from '../pop-up';
 import MenuItems from '../menu-item';
+import { getIconFromScreenId } from '@/utils/helpers';
 
-const SidebarItem = ({ icon, text, subitems, showIconOnly = false }: SidebarItemProps) => {
+const SidebarItem = ({ item, showIconOnly = false }: SidebarItemProps) => {
   const [expanded, setExpanded] = useState(false);
-
-  const menuItems = subitems?.map((item: any) => ({
+  const icon = getIconFromScreenId(item?.screenId);
+  
+  const menuItems = item?.child?.map((item: any) => ({
     icon: item?.icon,
-    text: item?.text,
+    text: item?.funtionality,
     href: item?.href
   }));
 
@@ -25,23 +27,23 @@ const SidebarItem = ({ icon, text, subitems, showIconOnly = false }: SidebarItem
         onClick={toggleExpand}
       >
         {icon && <div className="w-6 h-6 flex justify-center items-center">{icon}</div>}
-        {menuItems && menuItems.length > 0 && <Popup show={true} horizontalPosition="right" className="w-60 hidden group-hover:block top-14 -right-56" showArrow>
+        {item?.child && item?.child.length > 0 && <Popup show={true} className="w-60 hidden group-hover:block top-10 left-[164px]" showArrow>
           <MenuItems menus={menuItems} className='text-sm font-semibold'/>
         </Popup>}
-        {!showIconOnly && <div className="flex-grow font-medium text-base truncate">{text}</div>}
-        {subitems && !showIconOnly && (
+        {!showIconOnly && <div className="flex-grow font-medium text-base truncate">{item?.funtionality}</div>}
+        {item?.child && item?.child.length > 0 && !showIconOnly && (
           <div className="w-6 h-6 ml-2">
             <DownArrowIcon className={`h-full ${expanded ? 'rotate-180' : ''}`} />
           </div>
         )}
       </div>
 
-      {subitems && !showIconOnly &&
+      {item?.child && item?.child.length > 0 && !showIconOnly &&
         <div className={`ml-6 my-2 border-l border-l-[#b3b2b2]  ${expanded
           ? 'h-auto'
           : 'h-0 hidden'} transition duration-300`}>
-          {subitems?.map((subitem, index) => (
-            <SidebarItem key={index} {...subitem} showIconOnly={showIconOnly} />
+          {item?.child?.map((subItem, index) => (
+            <SidebarItem key={index} item={subItem} showIconOnly={showIconOnly} />
           ))}
         </div>
       }
