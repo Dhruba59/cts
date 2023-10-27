@@ -1,10 +1,10 @@
-import { cn } from "@/libs/utils";
+  import { cn } from "@/libs/utils";
 import { VariantProps, cva } from "class-variance-authority";
 import React, { ButtonHTMLAttributes, FC, forwardRef } from "react";
 import Spinner from "./spinner";
 
 const buttonVariants = cva(
-  `rounded-xl transition-all duration-300 rounded-md inline-flex items-center justify-center font-medium shadow-main disabled:opacity-50 disabled:cursor-not-allowed`,
+  `transition-all duration-300 rounded-[4px] inline-flex items-center justify-center font-medium shadow-main disabled:opacity-50 disabled:cursor-not-allowed`,
   {
     variants: {
       variant: {
@@ -12,10 +12,11 @@ const buttonVariants = cva(
         secondary: "bg-secondary text-white hover:bg-secondary/90",
         outline:
           "bg-white text-primary hover:bg-white/90 border border-primary",
+        ghost: "text-black/80 hover:text-black/70 shadow-none p-0 ",
       },
       size: {
         small: "h-8 text-sm px-4",
-        large: "h-10 text-base px-4",
+        large: "h-9 md:h-10 text-sm md:text-base px-5",
       },
     },
     defaultVariants: {
@@ -41,7 +42,6 @@ const Button: FC<ButtonProps> = forwardRef(
     return (
       <button
         ref={ref}
-        type="button"
         className={cn(buttonVariants({ className, variant, size }))}
         {...props}
       >

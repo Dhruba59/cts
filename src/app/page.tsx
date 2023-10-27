@@ -1,7 +1,7 @@
 "use client";
-import Select from "@/components/ui/select";
+import Select from "@/components/ui/Select";
 import Button from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import Input from "@/components/ui/input";
 import { RadioButton, RadioGroup } from "@/components/ui/radio";
 import { Textarea } from "@/components/ui/textarea";
 import { useMemo, useState } from "react";
@@ -52,7 +52,7 @@ export default function Home() {
       <br />
       <Checkbox id="terms">Accept terms and condition</Checkbox>
       <CheckboxGroup options={options} className="flex gap-3 my-4" />
-      <Toggle />
+      <Toggle onChange={() => {}}/>
       <SimpleTable columns={columns} data={data} />
     </main>
   );

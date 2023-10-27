@@ -1,12 +1,8 @@
+import Header from "@/components/header";
 import "./globals.css";
 import type { Metadata } from "next";
-import { Roboto } from "next/font/google";
-
-const roboto = Roboto({
-  subsets: ["latin"],
-  weight: ["400", "500", "700"],
-  style: "normal",
-});
+import '../styles/global.css';
+import { MenuItemsContextProvider } from "@/context/menu-items-context";
 
 export const metadata: Metadata = {
   title: "CTS Database",
@@ -20,7 +16,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={roboto.className}>{children}</body>
+      <body className='dark:text-white dark:bg-neutral-800'>
+        <MenuItemsContextProvider>
+         {children}
+        </MenuItemsContextProvider>
+      </body>
     </html>
   );
 }
