@@ -46,42 +46,9 @@ export default function Dashboard() {
         <Select options={options} />
       </div>
       <Textarea />
-
-      <p className="my-5 border-b text-lg text-primary"> Selection</p>
-      <Radio />
-      <br />
       <Checkbox id="terms">Accept terms and condition</Checkbox>
       <CheckboxGroup options={options} className="flex gap-3 my-4" />
-      <Toggle onChange={() => {}}/>
-      <SimpleTable columns={columns} data={data} />
+      <CheckboxGroup options={options} className="flex gap-3 my-4" />
     </main>
   );
 }
-
-// Example
-const Radio = () => {
-  const [selectedValue, setSelectedValue] = useState("Banana");
-
-  function handleFruitSelection(event: React.ChangeEvent<HTMLInputElement>) {
-    console.log(event.target.value);
-    setSelectedValue(event.target.value);
-  }
-
-  return (
-    <RadioGroup
-      name="fruits"
-      selectedValue={selectedValue}
-      onChange={handleFruitSelection}
-    >
-      <RadioButton value="Apple" id="apple">
-        Apple
-      </RadioButton>
-      <RadioButton value="Banana" id="banana">
-        Banana
-      </RadioButton>
-      <RadioButton value="Orange" id="orange">
-        Orange
-      </RadioButton>
-    </RadioGroup>
-  );
-};

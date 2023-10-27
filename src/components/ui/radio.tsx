@@ -26,11 +26,6 @@ const RadioButton: React.FC<RadioButtonProps> = ({
     }
   }, [selectedValue, value]);
 
-  const onChange = (e: any) => {
-    console.log(e);
-
-  }
-
   return (
     <div className='flex items-center gap-2'>
       <input
@@ -39,7 +34,6 @@ const RadioButton: React.FC<RadioButtonProps> = ({
         ref={inputRef}
         value={value}
         className={cn("accent-secondary h-4 w-4 cursor-pointer",  className)}
-        onSelect={onChange}
         {...props}
       />
       <Label label={children} htmlFor={id} className="cursor-pointer"/>
