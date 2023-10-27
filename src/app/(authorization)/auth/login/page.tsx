@@ -9,7 +9,7 @@ const LoginPage = () => {
         <Image
           src={heroImage}
           alt="heroImage"
-          layout="responsive" /* Use responsive layout */
+          layout="cover"
           className="w-full h-full object-cover" /* Use h-full to make it full height */
           priority
         />

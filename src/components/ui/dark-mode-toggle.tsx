@@ -22,10 +22,10 @@ const DarkModeToggleSwitch = ({ onChange, checked = false }: DarkModeToggleProps
 
   return (
     <div
-      className={`relative flex items-center dark-mode-toggle ${isDarkMode ? 'bg-gray-600' : 'bg-gray-300'
+      className={`relative flex items-center dark-mode-toggle ${isDarkMode ? 'bg-blue-500' : 'bg-gray-300'
         } rounded-full p-1 transition-colors`}
     >
-      <label className="switch relative inline-block w-[52px] h-5 z-20 cursor-pointer">
+      <label className="switch relative inline-block w-[52px] h-6 z-20 cursor-pointer">
         <input
           type="checkbox"
           onChange={toggleDarkMode}
@@ -33,7 +33,7 @@ const DarkModeToggleSwitch = ({ onChange, checked = false }: DarkModeToggleProps
           className="hidden"
         />
         <div
-          className={`slider flex justify-center items-center round absolute cursor-pointer w-6 h-5 transition-transform ${isDarkMode ? 'translate-x-7' : 'translate-x-0'
+          className={`slider flex justify-center items-center round absolute cursor-pointer w-6 h-6 transition-transform ${isDarkMode ? 'translate-x-7' : 'translate-x-0'
             } bg-white rounded-full`}
         >
           {isDarkMode ? <DarkModeIcon /> : <LightModeIcon />}

@@ -2,13 +2,14 @@
 import { useEffect, useState } from 'react';
 import SidebarItem from './sidebar-item';
 import { SettingsIcon, SidebarExpandIcon, SidebarMinimizeIcon } from '@/assets/icons';
-import { SidebarProps } from '@/model/layout';
 import { useSidebarContext } from '@/context/sidebar-context';
+import { useMenuItemsContext } from '@/context/menu-items-context';
 
-const Sidebar: React.FC<SidebarProps> = ({ items }) => {
+const Sidebar: React.FC = ({ }) => {
   const {isSidebarOpen, setIsSidebarOpen} = useSidebarContext();
   const [isSidebarMinimize, setIsSidebarMinimize] = useState<boolean>(false);
-  
+  const {items, setItems} = useMenuItemsContext();
+
   useEffect(() => {
     if (window) {
       window.addEventListener("resize", (e: any) => {
@@ -23,14 +24,14 @@ const Sidebar: React.FC<SidebarProps> = ({ items }) => {
   }, []);
 
   return (
-    <div className={`relative max-w-[250px] h-screen border-r ${isSidebarOpen ? 'block' : 'hidden'}`}>
+    <div className={`absolute min-h-screen h-auto md:relative bg-white dark:bg-neutral-black max-w-[250px] border-r  ${isSidebarOpen ? 'block' : 'hidden'}`}>
       <SidebarExpandIcon className={`absolute -right-[14px] z-10 top-4 cursor-pointer hidden md:${isSidebarMinimize ? 'hidden' : 'block'}`} onClick={() => setIsSidebarMinimize(!isSidebarMinimize)}/>
       <SidebarMinimizeIcon className={`absolute -right-[14px] z-10 top-4 cursor-pointer hidden md:${!isSidebarMinimize ? 'hidden' : 'block'}`} onClick={() => setIsSidebarMinimize(!isSidebarMinimize)}/>
       {items.map((item, index) => (
-        <SidebarItem key={index} {...item} showIconOnly={isSidebarMinimize}/>
+        <SidebarItem key={index} item={item} showIconOnly={isSidebarMinimize}/>
       ))}
-      <hr />
-      <SidebarItem icon={<SettingsIcon />} text='Settings' showIconOnly={isSidebarMinimize} />
+      {/* <hr /> */}
+      {/* <SidebarItem icon={<SettingsIcon />} text='Settings' showIconOnly={isSidebarMinimize} /> */}
     </div>
   );
 };
