@@ -23,7 +23,7 @@ const Header = () => {
   const [isPopupOpen, setIsPopupOpen] = useState<boolean>(false);
   const { isSidebarOpen, setIsSidebarOpen } = useSidebarContext();
   const [isDark, setIsDark] = useState<boolean>();
-  //localStorage.getItem(STORAGE_CONSTANT.THEME) === THEME_COLOR_ENUM.DARK
+  //localStorage.getItem(STORAGE_CONSTANT.THEME) === THEME_COLOR_ENUM.DARK;
 
   const handleTogglePopup = () => {
     setIsPopupOpen(!isPopupOpen);
