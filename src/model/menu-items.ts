@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, ReactNode, SetStateAction } from "react";
 
 export interface MenuListProps {
   menus: Array<{ icon: string; text: string; href?: string }>;
@@ -23,4 +23,5 @@ export interface MenuItem {
   parentScreenId: number;
   description: string;
   child: Array<MenuItem>;
+  icon?: ReactNode;
 }

@@ -5,10 +5,10 @@ import { createContext, useContext, useState } from "react";
 export const ThemeContext = createContext<ThemeContextValueType>(null!);
 
 export const ThemeContextProvider = ({children }: ThemeContextProviderProps) => {
-  const [themeColor, setThemeColor] = useState<THEME_COLOR_ENUM>(THEME_COLOR_ENUM.LIGHT);
+  const [theme, setTheme] = useState<THEME_COLOR_ENUM>(THEME_COLOR_ENUM.LIGHT);
 
   return (
-    <ThemeContext.Provider value={{themeColor, setThemeColor}}>
+    <ThemeContext.Provider value={{theme, setTheme}}>
       {children}
     </ThemeContext.Provider>
   );

@@ -3,6 +3,7 @@ import "./globals.css";
 import type { Metadata } from "next";
 import '../styles/global.css';
 import { MenuItemsContextProvider } from "@/context/menu-items-context";
+import { ThemeContext, ThemeContextProvider } from "@/context/theme-context";
 
 export const metadata: Metadata = {
   title: "CTS Database",
@@ -17,9 +18,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className='dark:text-white dark:bg-neutral-800'>
-        <MenuItemsContextProvider>
-         {children}
-        </MenuItemsContextProvider>
+        <ThemeContextProvider>
+          <MenuItemsContextProvider>
+          {children}
+          </MenuItemsContextProvider>
+        </ThemeContextProvider>
       </body>
     </html>
   );

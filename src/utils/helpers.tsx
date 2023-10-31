@@ -9,7 +9,8 @@ export function createNestedMenusItems(screenData: any): MenuItem[] {
 
     if (parentScreenId === 0) {
       // rootScreen[screenId] = { ...rest, child: {} };
-      rootScreen.push({...rest, screenId,parentScreenId, child: []});
+      const icon = getIconFromScreenId(screenId);
+      rootScreen.push({...rest, screenId,parentScreenId, icon, child: []});
 
     } else {
       // rootScreen[parentScreenId].child[screenId] = { ...rest, child: {} };
@@ -18,7 +19,6 @@ export function createNestedMenusItems(screenData: any): MenuItem[] {
       rootScreen[index].child.push({...rest, screenId,parentScreenId, child: []});
     }
   }
-  console.log(rootScreen);
   return rootScreen;
 }
 
