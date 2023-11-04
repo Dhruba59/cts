@@ -26,10 +26,17 @@
       "static/chunks/main-app.js",
       "static/chunks/app/(authorization)/auth/login/page.js"
     ],
+<<<<<<< HEAD
     "/(authorization)/auth/forget-password/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/(authorization)/auth/forget-password/page.js"
+=======
+    "/not-found": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/not-found.js"
+>>>>>>> feature/help
     ]
   }
 }

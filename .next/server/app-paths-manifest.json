@@ -1,5 +1,9 @@
 {
+<<<<<<< HEAD
   "/(main)/dashboard/page": "app/(main)/dashboard/page.js",
   "/(authorization)/auth/forget-password/page": "app/(authorization)/auth/forget-password/page.js",
+=======
+  "/not-found": "app/not-found.js",
+>>>>>>> feature/help
   "/(authorization)/auth/login/page": "app/(authorization)/auth/login/page.js"
 }
