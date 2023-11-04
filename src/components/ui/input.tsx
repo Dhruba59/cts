@@ -5,12 +5,13 @@ import Label from "./label";
 export interface InputProps
   extends React.InputHTMLAttributes<HTMLInputElement> {
   label?: string;
+  wrapperClassName?: string;
 }
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
-  ({ className, type, label, required, ...props }, ref) => {
+  ({ className, type, label, required, wrapperClassName, ...props }, ref) => {
     return (
-      <div>
+      <div className={wrapperClassName}>
         {label && (
           <Label
             label={label}

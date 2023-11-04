@@ -10,10 +10,12 @@ import { useRouter } from 'next/navigation';
 import { STORAGE_CONSTANT } from "@/constants/storage-constant";
 import { createNestedMenusItems } from "@/utils/helpers";
 import { useMenuItemsContext } from "@/context/menu-items-context";
+import HelpModal from "@/features/auth/help-modal";
 
 const LoginForm = () => {
   const [role, setRole] = useState<number>(0);
   const {items, setItems} = useMenuItemsContext();
+  const [isHelpModalOpen, setIsHelpModalOpen] = useState<boolean>(false);
 
   const router = useRouter();
   const onRoleChange = (event:any) => {
@@ -39,7 +41,6 @@ const LoginForm = () => {
       console.log(err);
     }
   }
-
 
   return (
     <div className=" border p-10 rounded-2xl md:w-full lg:w-[450px] shadow-2xl">
@@ -84,7 +85,8 @@ const LoginForm = () => {
       </form>
       <div className="text-sm text-secondary flex justify-between items-center gap-8 mt-6">
         <Link href="/forgot-password">Forgot Password</Link>
-        <Link href="#">Help</Link>
+        <Link href="#" onClick={() => setIsHelpModalOpen(true)}>Help</Link>
+        <HelpModal open={isHelpModalOpen} setOpen={setIsHelpModalOpen}/>
       </div>
     </div>
   );
