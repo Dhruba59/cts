@@ -1,24 +1,31 @@
 import * as React from "react";
 
 import { cn } from "@/libs/utils";
+import Label from "./label";
 
 export interface TextareaProps
-  extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {}
+  extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
+  label?: string;
+  wrapperClassName?: string;
+}
 
 const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
-  ({ className, ...props }, ref) => {
+  ({ label, className, wrapperClassName, ...props }, ref) => {
     return (
-      <textarea
-        className={cn(
-          "flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-secondary focus-visible:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50",
-          className
-        )}
-        ref={ref}
-        {...props}
-      />
+      <div className={wrapperClassName}>
+        {label && <Label label={label} className="inline-block mb-2" />}
+        <textarea
+          className={cn(
+            "flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-secondary focus-visible:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50",
+            className
+          )}
+          ref={ref}
+          {...props}
+        />
+      </div>
     );
   }
 );
 Textarea.displayName = "Textarea";
 
-export { Textarea };
+export default Textarea;
