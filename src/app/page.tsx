@@ -3,19 +3,20 @@ import Select from "@/components/ui/Select";
 import Button from "@/components/ui/button";
 import Input from "@/components/ui/input";
 import { RadioButton, RadioGroup } from "@/components/ui/radio";
-import { Textarea } from "@/components/ui/textarea";
+
 import { useMemo, useState } from "react";
 import Checkbox, { CheckboxGroup } from "@/components/ui/checkbox";
 import Toggle from "@/components/ui/toggle";
 import { USER_COLUMN, USERS } from "@/components/table/mockData";
 import SimpleTable from "@/components/table/simpleTable";
+import Textarea from "@/components/ui/textarea";
 
 export default function Home() {
   const options = [
     { value: "blues", label: "Blues" },
     { value: "rock", label: "Rock" },
     { value: "jazz", label: "Jazz" },
-    { value: "orchestra", label: "Orchestra" },
+    { value: "orchestra", label: "Orchestra" }
   ];
 
   const columns = useMemo(() => USER_COLUMN, []);
@@ -52,7 +53,7 @@ export default function Home() {
       <br />
       <Checkbox id="terms">Accept terms and condition</Checkbox>
       <CheckboxGroup options={options} className="flex gap-3 my-4" />
-      <Toggle onChange={() => {}}/>
+      <Toggle onChange={() => {}} />
       <SimpleTable columns={columns} data={data} />
     </main>
   );
