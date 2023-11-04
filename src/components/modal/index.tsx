@@ -27,7 +27,7 @@ const Modal = ({
   containerClassName,
   titleClassName,
   renderFooter,
-  children,
+  children
 }: Props) => {
   const [visible, setVisible] = useState(open);
 
@@ -62,10 +62,17 @@ const Modal = ({
     return renderFooter ? (
       <footer className="flex justify-between border-t p-2.5">
         <div>
-          <Link href="https://ctsdatabase.com/privacy/">CTSdatabase Privacy Policy</Link>
+          <Link href="https://ctsdatabase.com/privacy/" target="_blank">
+            CTSdatabase Privacy Policy
+          </Link>
         </div>
         <div className="flex justify-end gap-2.5">
-          <Button className="" type="submit" size="small" onClick={handleModalSave}>
+          <Button
+            className=""
+            type="submit"
+            size="small"
+            onClick={handleModalSave}
+          >
             {renderFooter?.submitButtonName ?? "Save"}
           </Button>
           <Button
@@ -77,7 +84,6 @@ const Modal = ({
             {renderFooter?.cancelButtonName ?? "Close"}
           </Button>
         </div>
-        
       </footer>
     ) : null;
   };

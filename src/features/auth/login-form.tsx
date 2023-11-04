@@ -92,7 +92,10 @@ const LoginForm = () => {
       </form>
       <div className="text-sm text-secondary flex justify-between items-center gap-8 mt-6">
         <Link href="/auth/forget-password">Forgot Password</Link>
-        <Link href="#">Help</Link>
+        <Link href="#" onClick={() => setIsHelpModalOpen(true)}>
+          Help
+        </Link>
+        <HelpModal open={isHelpModalOpen} setOpen={setIsHelpModalOpen} />
       </div>
     </div>
   );
