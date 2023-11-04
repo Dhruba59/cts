@@ -126,10 +126,14 @@
 /******/ 	/* webpack/runtime/getFullHash */
 /******/ 	(() => {
 <<<<<<< HEAD
+<<<<<<< HEAD
 /******/ 		__webpack_require__.h = () => ("0a6159226b5842f4")
 =======
 /******/ 		__webpack_require__.h = () => ("e06ee94f1879e2d8")
 >>>>>>> 44939663e85391f8d65bfebe1cf8ee417cfaed1a
+=======
+/******/ 		__webpack_require__.h = () => ("b9edd26e5496c3f9")
+>>>>>>> feature/forget-pass
 /******/ 	})();
 /******/ 	
 /******/ 	/* webpack/runtime/hasOwnProperty shorthand */

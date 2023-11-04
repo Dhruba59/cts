@@ -81,12 +81,16 @@ const LoginForm = () => {
           </Checkbox>
           <Button size='large' type="submit" className="w-full" >Login</Button>
         </div>
-
       </form>
       <div className="text-sm text-secondary flex justify-between items-center gap-8 mt-6">
+<<<<<<< HEAD
         <Link href="/forgot-password">Forgot Password</Link>
         <Link href="#" onClick={() => setIsHelpModalOpen(true)}>Help</Link>
         <HelpModal open={isHelpModalOpen} setOpen={setIsHelpModalOpen}/>
+=======
+        <Link href="/auth/forget-password">Forgot Password</Link>
+        <Link href="#">Help</Link>
+>>>>>>> feature/forget-pass
       </div>
     </div>
   );
