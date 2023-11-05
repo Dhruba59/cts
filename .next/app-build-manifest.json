@@ -11,15 +11,15 @@
       "static/chunks/main-app.js",
       "static/chunks/app/(authorization)/layout.js"
     ],
-    "/(authorization)/auth/forget-password/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/(authorization)/auth/forget-password/page.js"
-    ],
     "/(authorization)/auth/login/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/(authorization)/auth/login/page.js"
+    ],
+    "/(authorization)/auth/forget-password/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(authorization)/auth/forget-password/page.js"
     ]
   }
 }
