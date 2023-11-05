@@ -1,8 +1,7 @@
 /** @type {import('next').NextConfig} */
 
-const path = require("path");
-
 const nextConfig = {
+  output: "standalone",
   async redirects() {
     return [
       {
