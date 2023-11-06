@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "docbl": "docker-compose build",
-    "docup": "docker-compose up"
+    "docup": "docker-compose up --build"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.3.1",
