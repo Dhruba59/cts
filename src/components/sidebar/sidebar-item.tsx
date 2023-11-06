@@ -36,7 +36,7 @@ const SidebarItem = ({ item, showIconOnly = false }: SidebarItemProps) => {
         {!showIconOnly && <div className="flex-grow font-medium text-base truncate">{item?.funtionality}</div>}
         {item?.child && item?.child.length > 0 && !showIconOnly && (
           <div className="w-6 h-6 ml-2">
-            <DownArrowIcon className={`h-full ${expanded ? 'rotate-180' : ''}`} fill={isDarkMode? 'white':'black'}/>
+            <DownArrowIcon className={`h-full w-3 ${expanded ? 'rotate-180' : ''}`} fill={isDarkMode? 'white':'black'}/>
           </div>
         )}
       </div>

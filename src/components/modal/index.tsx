@@ -12,6 +12,7 @@ interface Props {
   triggerProp?: React.JSX.Element;
   containerClassName?: string;
   titleClassName?: string;
+  isLoading?: boolean;
   renderFooter?: {
     onSave: () => void;
     submitButtonName?: string;
@@ -27,6 +28,7 @@ const Modal = ({
   containerClassName,
   titleClassName,
   renderFooter,
+  isLoading,
   children
 }: Props) => {
   const [visible, setVisible] = useState(open);
@@ -72,6 +74,7 @@ const Modal = ({
             type="submit"
             size="small"
             onClick={handleModalSave}
+            loading={isLoading}
           >
             {renderFooter?.submitButtonName ?? "Save"}
           </Button>

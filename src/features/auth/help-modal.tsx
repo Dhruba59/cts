@@ -49,6 +49,7 @@ const HelpModal = ({ open, setOpen }: HelpModalProps) => {
       // triggerProp={
       //   <div className="text-secondary text-sm cursor-pointer">Help</div>
       // }
+      isLoading={isLoading}
       containerClassName="!w-[624px]"
       renderFooter={{
         onSave: handleSubmit(onSubmit),
@@ -87,7 +88,7 @@ const HelpModal = ({ open, setOpen }: HelpModalProps) => {
             label="Subject:"
             required
             {...register("subject", {
-              required: "Email is required",
+              required: "Subject is required",
               pattern: {
                 value: /.+/,
                 message: "subject field required"
