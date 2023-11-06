@@ -10,6 +10,8 @@ import Link from "next/link";
 const ForgotPasswordForm = () => {
   const [isRequestSent, setIsRequestSent] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [alertText, setAlertText] = useState<string>('* This email should be the same one you used during the user creation process.');
+
   const {
     register,
     handleSubmit,
@@ -21,10 +23,12 @@ const ForgotPasswordForm = () => {
     try {
       setIsLoading(true);
       const res = await forget_password({ email: data.email });
+      setAlertText(res?.message+ ' ' + res?.details);
       setIsRequestSent(true);
       reset();
-    } catch (err) {
+    } catch (err: any) {
       setIsRequestSent(false);
+      err.message && setAlertText(err.message);
     } finally {
       setIsLoading(false);
     }
@@ -47,7 +51,10 @@ const ForgotPasswordForm = () => {
         {errors.email && (
           <span className="text-red-500">{errors.email.message as string}</span>
         )}
-        {isRequestSent ? (
+        <Alert variant={isRequestSent ? 'warning' : 'success'} className="my-8">
+          {alertText}
+        </Alert>
+        {/* {isRequestSent ? (
           <Alert className="my-8">
             A reset link has been sent to the supplied email address. Follow
             instructions to reset the password.
@@ -57,7 +64,7 @@ const ForgotPasswordForm = () => {
             * This email should be the same one you used during the user
             creation process.
           </Alert>
-        )}
+        )} */}
         <Button type="submit" loading={isLoading}>
           {isRequestSent ? "Resend Request" : "Send"}
         </Button>

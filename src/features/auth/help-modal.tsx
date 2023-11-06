@@ -6,6 +6,7 @@ import Input from "@/components/ui/input";
 import Textarea from "@/components/ui/textarea";
 import { helpQuery } from "@/service/help-service";
 import { useState } from "react";
+import { toast } from "react-toastify";
 
 interface HelpModalProps {
   open: boolean;
@@ -14,7 +15,6 @@ interface HelpModalProps {
 
 const HelpModal = ({ open, setOpen }: HelpModalProps) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [errorText, setErrorText] = useState<string | null>();
 
   const {
     handleSubmit,
@@ -32,9 +32,21 @@ const HelpModal = ({ open, setOpen }: HelpModalProps) => {
       console.log(res);
       reset();
       setOpen(false);
-      setErrorText(null);
+      toast.success(res?.message, {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        theme: "dark",
+        });
     } catch (err: any) {
-      setErrorText(err?.message);
+      toast.warn(err?.message, {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        theme: "dark",
+        });
       console.log(err?.message);
     } finally {
       setIsLoading(false);
@@ -49,6 +61,7 @@ const HelpModal = ({ open, setOpen }: HelpModalProps) => {
       // triggerProp={
       //   <div className="text-secondary text-sm cursor-pointer">Help</div>
       // }
+      isLoading={isLoading}
       containerClassName="!w-[624px]"
       renderFooter={{
         onSave: handleSubmit(onSubmit),
@@ -62,7 +75,6 @@ const HelpModal = ({ open, setOpen }: HelpModalProps) => {
           Customer Service team at any time. They will attempt to resolve your
           concerns fairly and in a timely manner.
         </p>
-        {errorText && <span className="text-red-500">{errorText}</span>}
         <form className="space-y-6 mt-10 mb-6 px-8">
           <Input
             wrapperClassName="grow flex items-center justify-between [&>*:first-child]:mb-0 [&>*:first-child]:w-20"
@@ -87,7 +99,7 @@ const HelpModal = ({ open, setOpen }: HelpModalProps) => {
             label="Subject:"
             required
             {...register("subject", {
-              required: "Email is required",
+              required: "Subject is required",
               pattern: {
                 value: /.+/,
                 message: "subject field required"
