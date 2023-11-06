@@ -12,9 +12,17 @@ import { createNestedMenusItems } from "@/utils/helpers";
 import { useMenuItemsContext } from "@/context/menu-items-context";
 import HelpModal from "@/features/auth/help-modal";
 import { getRememberData, setRemember } from "@/utils/session";
+import { toast } from 'react-toastify';
+
+interface RememberMeData {
+  username: string;
+  password: string;
+  role: number;
+}
 
 const LoginForm = () => {
   const [role, setRole] = useState<number>(1);
+  const [rememberMeData, setRememberMeData] = useState<RememberMeData>();
   const [isRemember, setIsRemember] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const {items, setItems} = useMenuItemsContext();
@@ -22,16 +30,17 @@ const LoginForm = () => {
 
   useEffect(() => {
     const rememberData = getRememberData();
-    const isRememberMe = rememberData ?? false;
-    setIsRemember(isRememberMe);
-    console.log(rememberData);  
-    rememberData?.role && setRole(rememberData?.role);
+    if(rememberData) {
+      const isRememberMe = rememberData ?? false;
+      setIsRemember(isRememberMe);
+      rememberData?.role && setRole(rememberData?.role);
+      setRememberMeData(rememberData);
+    }
   }, []);
 
   const router = useRouter();
   const onRoleChange = (event: any) => {
     setRole(event.target.value);
-    console.log(event.target.value);
   };
 
   const onSubmit = async (e: any) => {
@@ -41,7 +50,6 @@ const LoginForm = () => {
       password: e.target[1].value,
       role
     };
-
     try {
       setIsLoading(true);
       const res = await login(payload);
@@ -52,6 +60,13 @@ const LoginForm = () => {
       router.push("/dashboard");
     } catch (err: any) {
       console.log(err);
+      toast.warn(err?.message, {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        theme: "dark",
+        });
     } finally {
       setIsLoading(false);
     }
@@ -61,8 +76,8 @@ const LoginForm = () => {
     <div className="border p-10 rounded-2xl bg-white w-[450px] shadow-2xl">
       <h3 className="mb-6 mx-auto text-center">Welcome back</h3>
       <form className="space-y-6" onSubmit={onSubmit}>
-        <Input label="Username" />
-        <Input label="Password" type="password" />
+        <Input label="Username" defaultValue={rememberMeData?.username}/>
+        <Input label="Password" type="password" defaultValue={rememberMeData?.password}/>
         <RadioGroup
           name="user-type"
           label="User Type:"
