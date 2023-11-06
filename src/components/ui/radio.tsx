@@ -14,7 +14,6 @@ const RadioButton: React.FC<RadioButtonProps> = ({
   className,
   children,
   selectedValue,
-  onSelect,
   ...props
 }) => {
   const inputRef = useRef<HTMLInputElement>(null);

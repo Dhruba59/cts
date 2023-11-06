@@ -17,7 +17,7 @@ import { deleteRemember } from '@/utils/session';
 
 const handleLogout = () => {
   // deleteSession();
-  deleteRemember();
+  // deleteRemember();
 }
 
 const menuItems = [
