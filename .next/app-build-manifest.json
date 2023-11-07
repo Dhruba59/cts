@@ -33,6 +33,11 @@
       "static/chunks/main-app-a0f09dec06ba7213.js",
       "static/chunks/app/test/page-75de535f30b201db.js"
     ],
+    "/(authorization)/auth/forget-password/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(authorization)/auth/forget-password/page.js"
+    ],
     "/(main)/layout": [
       "static/chunks/webpack-9442646e668200b0.js",
       "static/chunks/fd9d1056-ed273d51fc60dc7f.js",

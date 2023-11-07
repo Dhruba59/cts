@@ -11,6 +11,7 @@ const MenuList: React.FC<MenuListProps> = ({ menus, className }) => {
           icon={menu.icon}
           text={menu.text}
           href={menu.href}
+          onClick={menu.onClick}
         />
       ))}
     </div>

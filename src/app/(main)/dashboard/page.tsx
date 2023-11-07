@@ -3,12 +3,12 @@ import Select from "@/components/ui/Select";
 import Button from "@/components/ui/button";
 import Input from "@/components/ui/input";
 import { RadioButton, RadioGroup } from "@/components/ui/radio";
-import { Textarea } from "@/components/ui/textarea";
 import { useMemo, useState } from "react";
 import Checkbox, { CheckboxGroup } from "@/components/ui/checkbox";
 import Toggle from "@/components/ui/toggle";
 import { USER_COLUMN, USERS } from "@/components/table/mockData";
 import SimpleTable from "@/components/table/simpleTable";
+import Textarea from "@/components/ui/textarea";
 
 export default function Dashboard() {
   const options = [

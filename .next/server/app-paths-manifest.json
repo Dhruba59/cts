@@ -1,8 +1,15 @@
 {
+<<<<<<< HEAD
   "/_not-found": "app/_not-found.js",
   "/page": "app/page.js",
   "/favicon.ico/route": "app/favicon.ico/route.js",
   "/test/page": "app/test/page.js",
   "/(main)/dashboard/page": "app/(main)/dashboard/page.js",
   "/(authorization)/auth/login/page": "app/(authorization)/auth/login/page.js"
+=======
+  "/favicon.ico/route": "app/favicon.ico/route.js",
+  "/(authorization)/auth/forget-password/page": "app/(authorization)/auth/forget-password/page.js",
+  "/(authorization)/auth/login/page": "app/(authorization)/auth/login/page.js",
+  "/(main)/dashboard/page": "app/(main)/dashboard/page.js"
+>>>>>>> release_4.0
 }

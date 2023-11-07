@@ -1,24 +1,16 @@
 import { DarkModeIcon, LightModeIcon } from '@/assets/icons';
-import { STORAGE_CONSTANT } from '@/constants/storage-constant';
+import { useThemeContext } from '@/context/theme-context';
 import { THEME_COLOR_ENUM } from '@/model/context';
 import { DarkModeToggleProps } from '@/model/toggle';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
 const DarkModeToggleSwitch = ({ onChange, checked = false }: DarkModeToggleProps) => {
-  const [isDarkMode, setIsDarkMode] = useState(checked);
+  const {theme, setTheme} = useThemeContext();
+  const isDarkMode = theme === THEME_COLOR_ENUM.DARK;
 
   const toggleDarkMode = () => {
-    setIsDarkMode(!isDarkMode);
     onChange(!isDarkMode);
   };
-
-  useEffect(() => {
-    if (localStorage.getItem(STORAGE_CONSTANT.THEME) && localStorage.getItem(STORAGE_CONSTANT.THEME) === THEME_COLOR_ENUM.DARK) {
-      document.documentElement.classList.add(THEME_COLOR_ENUM.DARK);
-    } else {
-      document.documentElement.classList.remove(THEME_COLOR_ENUM.DARK);
-    }
-  }, [])
 
   return (
     <div

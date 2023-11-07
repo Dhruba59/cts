@@ -9,7 +9,8 @@ export function createNestedMenusItems(screenData: any): MenuItem[] {
 
     if (parentScreenId === 0) {
       // rootScreen[screenId] = { ...rest, child: {} };
-      rootScreen.push({...rest, screenId,parentScreenId, child: []});
+      const icon = getIconFromScreenId(screenId);
+      rootScreen.push({...rest, screenId,parentScreenId, icon, child: []});
 
     } else {
       // rootScreen[parentScreenId].child[screenId] = { ...rest, child: {} };
@@ -18,7 +19,6 @@ export function createNestedMenusItems(screenData: any): MenuItem[] {
       rootScreen[index].child.push({...rest, screenId,parentScreenId, child: []});
     }
   }
-  console.log(rootScreen);
   return rootScreen;
 }
 
@@ -50,5 +50,32 @@ export const getIconFromScreenId = (id: number) => {
       return <ArrowSwapHorizontal />
     case 202:
       return <SettingsIcon />
+    default:
+      return <ArrowSwapHorizontal />;
   }
+}
+
+export function setCookie(key: string, value: string, exdays: number) {
+  const d = new Date();
+  d.setTime(d.getTime() + (exdays*24*60*60*1000));
+  let expires = "expires="+ d.toUTCString();
+  document.cookie = key + "=" + value + ";" + expires + ";path=/";
+}
+export function deleteCookie(name: string) {   
+  document.cookie = name+'=; Max-Age=-99999999;';  
+}
+export function getCookie(key: string) {
+  let name = key + "=";
+  let decodedCookie = decodeURIComponent(document.cookie);
+  let ca = decodedCookie.split(';');
+  for(let i = 0; i <ca.length; i++) {
+    let c = ca[i];
+    while (c.charAt(0) == ' ') {
+      c = c.substring(1);
+    }
+    if (c.indexOf(name) == 0) {
+      return c.substring(name.length, c.length);
+    }
+  }
+  return "";
 }

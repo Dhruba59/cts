@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 "use client";
 import { useEffect, useState } from "react";
 import SidebarItem from "./sidebar-item";
@@ -8,6 +9,14 @@ import {
 } from "@/assets/icons";
 import { useSidebarContext } from "@/context/sidebar-context";
 import { useMenuItemsContext } from "@/context/menu-items-context";
+=======
+'use client';
+import { useEffect, useState } from 'react';
+import SidebarItem from './sidebar-item';
+import { SidebarExpandIcon, SidebarMinimizeIcon } from '@/assets/icons';
+import { useSidebarContext } from '@/context/sidebar-context';
+import { useMenuItemsContext } from '@/context/menu-items-context';
+>>>>>>> release_4.0
 
 const Sidebar: React.FC = ({}) => {
   const { isSidebarOpen, setIsSidebarOpen } = useSidebarContext();
@@ -28,6 +37,7 @@ const Sidebar: React.FC = ({}) => {
   }, []);
 
   return (
+<<<<<<< HEAD
     <div
       className={`absolute min-h-screen h-auto md:relative bg-white dark:bg-neutral-black max-w-[250px] border-r  ${
         isSidebarOpen ? "block" : "hidden"
@@ -45,11 +55,14 @@ const Sidebar: React.FC = ({}) => {
         }`}
         onClick={() => setIsSidebarMinimize(!isSidebarMinimize)}
       />
+=======
+    <div className={`absolute min-h-screen h-auto md:relative bg-white dark:bg-neutral-black max-w-[250px] border-r dark:border-r-gray-700 shadow-lg ${isSidebarOpen ? 'block' : 'hidden'}`}>
+      <SidebarExpandIcon className={`absolute -right-[14px] z-10 top-4 cursor-pointer hidden md:${isSidebarMinimize ? 'hidden' : 'block'}`} onClick={() => setIsSidebarMinimize(!isSidebarMinimize)}/>
+      <SidebarMinimizeIcon className={`absolute -right-[14px] z-10 top-4 cursor-pointer hidden md:${!isSidebarMinimize ? 'hidden' : 'block'}`} onClick={() => setIsSidebarMinimize(!isSidebarMinimize)}/>
+>>>>>>> release_4.0
       {items.map((item, index) => (
         <SidebarItem key={index} item={item} showIconOnly={isSidebarMinimize} />
       ))}
-      {/* <hr /> */}
-      {/* <SidebarItem icon={<SettingsIcon />} text='Settings' showIconOnly={isSidebarMinimize} /> */}
     </div>
   );
 };

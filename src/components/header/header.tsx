@@ -1,4 +1,5 @@
 "use client";
+<<<<<<< HEAD
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
@@ -17,13 +18,56 @@ const menuItems = [
   { icon: "", text: "Settings", href: "" },
   { icon: "", text: "Profile" },
   { icon: "", text: "Log out", href: "/auth/login" }
+=======
+import { useEffect, useState } from "react";
+import Image from "next/image";
+import Link from "next/link";
+
+import logo from '@/assets/image/cts-logo.png';
+import userAvatar from '@/assets/image/dummy-avatar.png';
+import { DownArrowIcon, SidebarToggleIcon } from '@/assets/icons';
+import { useSidebarContext } from '@/context/sidebar-context';
+import Popup from '../pop-up';
+import MenuItems from '../menu-item';
+import DarkModeToggleSwitch from '../ui/dark-mode-toggle';
+import { THEME_COLOR_ENUM } from '@/model/context';
+import { STORAGE_KEY } from '@/constants/storage-constant';
+import { useThemeContext } from '@/context/theme-context';
+import { deleteRemember } from '@/utils/session';
+
+const handleLogout = () => {
+  // deleteSession();
+  // deleteRemember();
+}
+
+const menuItems = [
+  { icon: '', text: 'Settings', href: '' },
+  { icon: '', text: 'Profile' },
+  { icon: '', text: 'Log out', href: '/auth/login', onClick: handleLogout },
+>>>>>>> release_4.0
 ];
 
 const Header = () => {
   const [isPopupOpen, setIsPopupOpen] = useState<boolean>(false);
   const { isSidebarOpen, setIsSidebarOpen } = useSidebarContext();
+<<<<<<< HEAD
   const [isDark, setIsDark] = useState<boolean>();
   //localStorage.getItem(STORAGE_CONSTANT.THEME) === THEME_COLOR_ENUM.DARK;
+=======
+  // const [isDark, setIsDark] = useState<boolean>(localStorage.getItem(STORAGE_CONSTANT.THEME) === THEME_COLOR_ENUM.DARK);
+  const { theme, setTheme } = useThemeContext();
+  const isDark = theme === THEME_COLOR_ENUM.DARK;
+
+  useEffect(() => {
+    if (localStorage.getItem(STORAGE_KEY.THEME) && localStorage.getItem(STORAGE_KEY.THEME) === THEME_COLOR_ENUM.DARK) {
+      document.documentElement.classList.add(THEME_COLOR_ENUM.DARK);
+      setTheme(THEME_COLOR_ENUM.DARK);
+    } else {
+      document.documentElement.classList.remove(THEME_COLOR_ENUM.DARK);
+      setTheme(THEME_COLOR_ENUM.LIGHT);
+    }
+  }, []);
+>>>>>>> release_4.0
 
   const handleTogglePopup = () => {
     setIsPopupOpen(!isPopupOpen);
@@ -34,6 +78,7 @@ const Header = () => {
   };
 
   const onThemeChange = (value: boolean) => {
+<<<<<<< HEAD
     if (value === true) {
       document.documentElement.classList.add(THEME_COLOR_ENUM.DARK);
       //localStorage.setItem(STORAGE_CONSTANT.THEME, THEME_COLOR_ENUM.DARK);
@@ -42,11 +87,32 @@ const Header = () => {
       document.documentElement.classList.remove(THEME_COLOR_ENUM.DARK);
       //localStorage.removeItem(STORAGE_CONSTANT.THEME);
       setIsDark(false);
+=======
+    if (theme === THEME_COLOR_ENUM.DARK) {
+      setTheme(THEME_COLOR_ENUM.DARK);
+    } else {
+      setTheme(THEME_COLOR_ENUM.LIGHT);
+    }
+    if (value === true) {
+      document.documentElement.classList.add(THEME_COLOR_ENUM.DARK);
+      localStorage.setItem(STORAGE_KEY.THEME, THEME_COLOR_ENUM.DARK);
+      // setIsDark(true);
+      setTheme(THEME_COLOR_ENUM.DARK);
+    } else {
+      document.documentElement.classList.remove(THEME_COLOR_ENUM.DARK);
+      localStorage.removeItem(STORAGE_KEY.THEME);
+      // setIsDark(false);
+      setTheme(THEME_COLOR_ENUM.LIGHT);
+>>>>>>> release_4.0
     }
   };
 
   return (
+<<<<<<< HEAD
     <div className="w-full px-4 py-2 flex justify-between items-center border-b-red-500 border-b-2 h-[65px]">
+=======
+    <div className="w-full px-4 py-2 flex justify-between items-center shadow-md border-b-red-500 border-b-2 h-[65px]">
+>>>>>>> release_4.0
       <SidebarToggleIcon
         className="cursor-pointer block md:hidden"
         fill={isDark ? "white" : "black"}
@@ -77,6 +143,10 @@ const Header = () => {
             isPopupOpen && "rotate-180"
           }`}
           onClick={handleTogglePopup}
+<<<<<<< HEAD
+=======
+          fill={isDark ? "white" : "black"}
+>>>>>>> release_4.0
         />
         <Popup
           show={isPopupOpen}

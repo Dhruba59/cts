@@ -5,10 +5,13 @@ import { Fragment, useState } from 'react';
 import Popup from '../pop-up';
 import MenuItems from '../menu-item';
 import { getIconFromScreenId } from '@/utils/helpers';
+import { useThemeContext } from '@/context/theme-context';
+import { THEME_COLOR_ENUM } from '@/model/context';
 
 const SidebarItem = ({ item, showIconOnly = false }: SidebarItemProps) => {
   const [expanded, setExpanded] = useState(false);
-  const icon = getIconFromScreenId(item?.screenId);
+  const {theme, setTheme} = useThemeContext();
+  const isDarkMode = theme === THEME_COLOR_ENUM.DARK;
   
   const menuItems = item?.child?.map((item: any) => ({
     icon: item?.icon,
@@ -23,17 +26,17 @@ const SidebarItem = ({ item, showIconOnly = false }: SidebarItemProps) => {
   return (
     <Fragment>
       <div
-        className={`relative flex items-center gap-x-2 px-4 py-2 my-2 rounded-sm cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 ${showIconOnly ? 'group' : ''}`}
+        className={`relative flex items-center gap-x-2 px-2 mx-2 py-2 my-2 rounded-md cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 ${showIconOnly ? 'group' : ''}`}
         onClick={toggleExpand}
       >
-        {icon && <div className="w-6 h-6 flex justify-center items-center">{icon}</div>}
+        {item?.icon && <div className="w-6 h-6 flex justify-center items-center">{item?.icon}</div>}
         {item?.child && item?.child.length > 0 && <Popup show={true} className="w-60 hidden group-hover:block top-10 left-[164px]" showArrow>
           <MenuItems menus={menuItems} className='text-sm font-semibold'/>
         </Popup>}
         {!showIconOnly && <div className="flex-grow font-medium text-base truncate">{item?.funtionality}</div>}
         {item?.child && item?.child.length > 0 && !showIconOnly && (
           <div className="w-6 h-6 ml-2">
-            <DownArrowIcon className={`h-full ${expanded ? 'rotate-180' : ''}`} />
+            <DownArrowIcon className={`h-full w-3 ${expanded ? 'rotate-180' : ''}`} fill={isDarkMode? 'white':'black'}/>
           </div>
         )}
       </div>

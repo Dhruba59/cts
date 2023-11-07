@@ -14,7 +14,7 @@ const LoginPage = () => {
           priority
         />
       </div>
-      <div className="w-full md:w-3/5 pt-6 md:pt-0 px-8 lg:px-0 h-full md:flex md:items-center md:justify-center">
+      <div className="w-full md:w-3/5 pt-0 px-8 flex items-center justify-center">
         <LoginForm />
       </div>
     </main>

@@ -19,6 +19,6 @@ export interface ThemeContextProviderProps {
 }
 
 export interface ThemeContextValueType {
-  themeColor: THEME_COLOR_ENUM;
-  setThemeColor: Dispatch<SetStateAction<THEME_COLOR_ENUM>>;
+  theme: THEME_COLOR_ENUM;
+  setTheme: Dispatch<SetStateAction<THEME_COLOR_ENUM>>;
 }
