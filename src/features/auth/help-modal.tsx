@@ -37,16 +37,16 @@ const HelpModal = ({ open, setOpen }: HelpModalProps) => {
         autoClose: 5000,
         hideProgressBar: false,
         closeOnClick: true,
-        theme: "dark",
-        });
+        theme: "dark"
+      });
     } catch (err: any) {
       toast.warn(err?.message, {
         position: "top-center",
         autoClose: 5000,
         hideProgressBar: false,
         closeOnClick: true,
-        theme: "dark",
-        });
+        theme: "dark"
+      });
       console.log(err?.message);
     } finally {
       setIsLoading(false);
