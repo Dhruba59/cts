@@ -14,16 +14,18 @@ import { THEME_COLOR_ENUM } from '@/model/context';
 import { STORAGE_KEY } from '@/constants/storage-constant';
 import { useThemeContext } from '@/context/theme-context';
 import { deleteRemember } from '@/utils/session';
+import { signOut } from "next-auth/react";
 
 const handleLogout = () => {
   // deleteSession();
   // deleteRemember();
+  signOut();
 }
 
 const menuItems = [
   { icon: '', text: 'Settings', href: '' },
   { icon: '', text: 'Profile' },
-  { icon: '', text: 'Log out', href: '/auth/login', onClick: handleLogout },
+  { icon: '', text: 'Log out', onClick: handleLogout },
 ];
 
 const Header = () => {

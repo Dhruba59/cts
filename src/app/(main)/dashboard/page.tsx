@@ -2,24 +2,17 @@
 import Select from "@/components/ui/Select";
 import Button from "@/components/ui/button";
 import Input from "@/components/ui/input";
-import { RadioButton, RadioGroup } from "@/components/ui/radio";
-import { useMemo, useState } from "react";
 import Checkbox, { CheckboxGroup } from "@/components/ui/checkbox";
-import Toggle from "@/components/ui/toggle";
-import { USER_COLUMN, USERS } from "@/components/table/mockData";
-import SimpleTable from "@/components/table/simpleTable";
 import Textarea from "@/components/ui/textarea";
 
 export default function Dashboard() {
+
   const options = [
     { value: "blues", label: "Blues" },
     { value: "rock", label: "Rock" },
     { value: "jazz", label: "Jazz" },
     { value: "orchestra", label: "Orchestra" }
   ];
-
-  const columns = useMemo(() => USER_COLUMN, []);
-  const data = useMemo(() => USERS, []);
 
   return (
     <main className="p-16">
