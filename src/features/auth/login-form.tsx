@@ -12,7 +12,8 @@ import { createNestedMenusItems } from "@/utils/helpers";
 import { useMenuItemsContext } from "@/context/menu-items-context";
 import HelpModal from "@/features/auth/help-modal";
 import { getRememberData, setRemember } from "@/utils/session";
-import { toast } from 'react-toastify';
+import { toast } from "react-toastify";
+import Connector from "@/signalr-connection";
 
 interface RememberMeData {
   username: string;
@@ -25,12 +26,12 @@ const LoginForm = () => {
   const [rememberMeData, setRememberMeData] = useState<RememberMeData>();
   const [isRemember, setIsRemember] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const {items, setItems} = useMenuItemsContext();
+  const { items, setItems } = useMenuItemsContext();
   const [isHelpModalOpen, setIsHelpModalOpen] = useState<boolean>(false);
 
   useEffect(() => {
     const rememberData = getRememberData();
-    if(rememberData) {
+    if (rememberData) {
       const isRememberMe = rememberData ?? false;
       setIsRemember(isRememberMe);
       rememberData?.role && setRole(rememberData?.role);
@@ -55,7 +56,8 @@ const LoginForm = () => {
       const res = await login(payload);
       localStorage.setItem(STORAGE_KEY.ACCESS_TOKEN, res.token.accessToken);
       localStorage.setItem(STORAGE_KEY.REFRESH_TOKEN, res.token.refreshToken);
-      isRemember && setRemember(payload.username, payload.password, payload.role);
+      isRemember &&
+        setRemember(payload.username, payload.password, payload.role);
       setItems(createNestedMenusItems(res.screens));
       router.push("/dashboard");
     } catch (err: any) {
@@ -65,8 +67,8 @@ const LoginForm = () => {
         autoClose: 5000,
         hideProgressBar: false,
         closeOnClick: true,
-        theme: "dark",
-        });
+        theme: "dark"
+      });
     } finally {
       setIsLoading(false);
     }
@@ -76,8 +78,12 @@ const LoginForm = () => {
     <div className="border p-10 rounded-2xl bg-white w-[450px] shadow-2xl">
       <h3 className="mb-6 mx-auto text-center">Welcome back</h3>
       <form className="space-y-6" onSubmit={onSubmit}>
-        <Input label="Username" defaultValue={rememberMeData?.username}/>
-        <Input label="Password" type="password" defaultValue={rememberMeData?.password}/>
+        <Input label="Username" defaultValue={rememberMeData?.username} />
+        <Input
+          label="Password"
+          type="password"
+          defaultValue={rememberMeData?.password}
+        />
         <RadioGroup
           name="user-type"
           label="User Type:"
@@ -87,11 +93,7 @@ const LoginForm = () => {
           className="flex gap-5"
           onChange={onRoleChange}
         >
-          <RadioButton
-            id="site-user"
-            value="1"
-            className="accent-primary"
-          >
+          <RadioButton id="site-user" value="1" className="accent-primary">
             Site User
           </RadioButton>
           <RadioButton id="sys-admin" value="4" className="accent-primary">
@@ -102,10 +104,25 @@ const LoginForm = () => {
           </RadioButton>
         </RadioGroup>
         <div className="space-y-2">
-        <Checkbox checked={isRemember} onChange={()=> setIsRemember(!isRemember)} id="remember" className="accent-primary" rootClassName="flex items-center" labelClassName="text-xs italic">
+          <Checkbox
+            checked={isRemember}
+            onChange={() => setIsRemember(!isRemember)}
+            id="remember"
+            className="accent-primary"
+            rootClassName="flex items-center"
+            labelClassName="text-xs italic"
+          >
             Remember me
           </Checkbox>
-          <Button size='large' type="submit" className="w-full" loading={isLoading} disabled={isLoading}>Login</Button>
+          <Button
+            size="large"
+            type="submit"
+            className="w-full"
+            loading={isLoading}
+            disabled={isLoading}
+          >
+            Login
+          </Button>
         </div>
       </form>
       <div className="text-sm text-secondary flex justify-between items-center gap-8 mt-6">
