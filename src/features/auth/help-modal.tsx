@@ -1,12 +1,12 @@
 "use client";
-import { useForm, Controller } from "react-hook-form";
+import { useState } from "react";
+import { toast } from "react-toastify";
+import { useForm } from "react-hook-form";
 
 import Modal from "@/components/modal";
 import Input from "@/components/ui/input";
 import Textarea from "@/components/ui/textarea";
-import { helpQuery } from "@/service/help-service";
-import { useState } from "react";
-import { toast } from "react-toastify";
+import { useHelpMutation } from "@/hooks/rq-hooks/help-hooks";
 
 interface HelpModalProps {
   open: boolean;
@@ -15,42 +15,44 @@ interface HelpModalProps {
 
 const HelpModal = ({ open, setOpen }: HelpModalProps) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const { mutate } = useHelpMutation();
 
   const {
     handleSubmit,
-    control,
     formState: { errors },
     reset,
     register
   } = useForm();
 
   const onSubmit = async (data: any) => {
-    try {
-      setIsLoading(true);
-      console.log("saved");
-      const res = await helpQuery(data);
-      console.log(res);
-      reset();
-      setOpen(false);
-      toast.success(res?.message, {
-        position: "top-center",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        theme: "dark"
-      });
-    } catch (err: any) {
-      toast.warn(err?.message, {
-        position: "top-center",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        theme: "dark"
-      });
-      console.log(err?.message);
-    } finally {
-      setIsLoading(false);
-    }
+    setIsLoading(true);
+    mutate(data,{
+      onSuccess: (res: any) => {
+        reset();
+        setOpen(false);
+        console.log(res);
+        toast.success(res?.data.message, {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          theme: "dark"
+        });
+      },
+      onError: (err: any) => {
+        toast.warn(err?.error?.message, {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          theme: "dark"
+        });
+        console.log(err?.message);
+      },
+      onSettled: () => {
+        setIsLoading(false);
+      }
+    });
   };
 
   return (

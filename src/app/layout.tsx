@@ -6,6 +6,9 @@ import "react-toastify/dist/ReactToastify.css";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "./api/auth/[...nextauth]/route";
 import AuthSessionProvider from "@/context/client-provider";
+import ReactQueryClientProvider from "@/context/rqc-provider";
+
+import 'dotenv/config';
 
 export default async function RootLayout({
   children,
@@ -13,17 +16,20 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   const session = await getServerSession(authOptions);
+
   return (
     <html lang="en">
       <body className="dark:text-white dark:bg-neutral-800">
-        <AuthSessionProvider session={session}>
-          <ThemeContextProvider>
-            <MenuItemsContextProvider>
-              {children}
-              <ToastContainer />
-            </MenuItemsContextProvider>
-          </ThemeContextProvider>
-        </AuthSessionProvider>
+        <ReactQueryClientProvider >
+          <AuthSessionProvider session={session}>
+            <ThemeContextProvider>
+              <MenuItemsContextProvider>
+                {children}
+                <ToastContainer />
+              </MenuItemsContextProvider>
+            </ThemeContextProvider>
+          </AuthSessionProvider>
+        </ReactQueryClientProvider>
       </body>
     </html>
   );

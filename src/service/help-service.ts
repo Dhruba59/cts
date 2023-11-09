@@ -1,26 +1,6 @@
-interface HelpQueryPayload {
-  email: string;
-  subject: string;
-  query: string;
-}
+import { request } from "./axios-service";
+import { HelpQueryPayload } from "@/model/help";
 
-export async function helpQuery(data: HelpQueryPayload) {
-  const response = await fetch('https://app-cts-dev-api.azurewebsites.net/api/Help/submit', {
-    method: "POST", 
-    mode: "cors",
-    cache: "no-cache",
-    credentials: "same-origin",
-    headers: {
-      "Content-Type": "application/json",
-      "ApiKey":"test@123"
-    },
-    redirect: "follow", 
-    referrerPolicy: "no-referrer", 
-    body: JSON.stringify(data),
-  });
-  const responseData = await response.json();
-  if (!response.ok) {
-    throw new Error(responseData.detail);
-  }
-  return responseData;
+export const postHelpQuery = (data: HelpQueryPayload) => {
+  return request({url: 'Help/submit', method: 'post', data})
 }
