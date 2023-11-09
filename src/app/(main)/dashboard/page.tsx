@@ -15,6 +15,7 @@ import signalR, {
 } from "@microsoft/signalr";
 import { useEffect, useMemo, useState } from "react";
 import { USERS, USER_COLUMN } from "@/components/table/mockData";
+import { error } from "console";
 
 class CustomHttpClient extends DefaultHttpClient {
   public send(request: HttpRequest): Promise<HttpResponse> {
@@ -40,13 +41,24 @@ export default function Dashboard() {
   useEffect(() => {
     const connection = new HubConnectionBuilder()
       .withUrl(URL, {
-        headers: { ApiKey: "test@123" }
+        headers: { ApiKey: `${process.env.API_KEY}` }
       })
       .withAutomaticReconnect()
       .build();
 
     connection.on("ConnectionStatus", (message) => {
+      // just confirm the connection
       console.log(message);
+    });
+
+    connection.on("UserConnected", (connectionId) => {
+      // TODO: add this conectionId for further uses
+      console.log(connectionId);
+    });
+
+    connection.on("UserDisconnected", (connectionId) => {
+      // TODO: remove this connectionId from list
+      console.log(connectionId);
     });
 
     connection.on("OnlineUsersCount", (message) => {
@@ -54,12 +66,19 @@ export default function Dashboard() {
       console.log(`Total User connected: ${message}`);
     });
 
-    connection.start();
+    connection.start().catch((error) => {
+      return console.error(error.toString());
+    });
+
     setConnection(connection);
   }, []);
 
   const sendMessage = async () => {
-    if (connection) await connection.send("GetOnlineUsersCount");
+    //if (connection) await connection.send("GetOnlineUsersCount");
+    if (connection)
+      await connection.invoke("GetOnlineUsersCount").catch((error) => {
+        return console.error(error.toString());
+      });
   };
 
   return (
