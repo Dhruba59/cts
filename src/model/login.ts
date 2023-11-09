@@ -3,3 +3,9 @@ export interface RememberMeData {
   password: string;
   role: number;
 }
+
+export interface LoginPayload {
+  username: string;
+  password: string;
+  role: number
+}
