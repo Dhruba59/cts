@@ -1,11 +1,13 @@
 "use client";
 import { useState } from "react";
+import Link from "next/link";
 import { SubmitHandler, useForm } from "react-hook-form";
+
 import Alert from "@/components/ui/alert";
 import Button from "@/components/ui/button";
 import Input from "@/components/ui/input";
 import { forget_password } from "@/service/auth-service";
-import Link from "next/link";
+
 
 const ForgotPasswordForm = () => {
   const [isRequestSent, setIsRequestSent] = useState(false);
@@ -19,19 +21,19 @@ const ForgotPasswordForm = () => {
     reset
   } = useForm();
 
-  const onSubmit: SubmitHandler<any> = async (data) => {
-    try {
-      setIsLoading(true);
-      const res = await forget_password({ email: data.email });
-      setAlertText(res?.message+ ' ' + res?.details);
+  const onSubmit: SubmitHandler<any> = async (value) => {
+    setIsLoading(true);
+    const { data, error }: any = await forget_password({ email: value.email });
+    if (data) {
       setIsRequestSent(true);
       reset();
-    } catch (err: any) {
+      setAlertText(data?.message + ' ' + data?.details);
+    } else if (error) {
+      console.log(error);
       setIsRequestSent(false);
-      err.message && setAlertText(err.message);
-    } finally {
-      setIsLoading(false);
+      setAlertText(error.detail);
     }
+    setIsLoading(false);
   };
 
   return (
@@ -51,20 +53,9 @@ const ForgotPasswordForm = () => {
         {errors.email && (
           <span className="text-red-500">{errors.email.message as string}</span>
         )}
-        <Alert variant={isRequestSent ? 'warning' : 'success'} className="my-8">
+        <Alert variant={isRequestSent ? 'success' : 'warning'} className="my-8">
           {alertText}
         </Alert>
-        {/* {isRequestSent ? (
-          <Alert className="my-8">
-            A reset link has been sent to the supplied email address. Follow
-            instructions to reset the password.
-          </Alert>
-        ) : (
-          <Alert variant="warning" className="my-8">
-            * This email should be the same one you used during the user
-            creation process.
-          </Alert>
-        )} */}
         <Button type="submit" loading={isLoading}>
           {isRequestSent ? "Resend Request" : "Send"}
         </Button>

@@ -17,7 +17,7 @@ const ForgotPasswordPage = () => {
           priority
         />
       </div>
-      <div className="w-full h-fill flex items-center justify-center">
+      <div className="w-full h-fill bg-white flex items-center justify-center">
         <ForgotPasswordForm />
       </div>
     </main>
