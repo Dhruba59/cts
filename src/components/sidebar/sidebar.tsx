@@ -4,11 +4,15 @@ import SidebarItem from "./sidebar-item";
 import { SidebarExpandIcon, SidebarMinimizeIcon } from "@/assets/icons";
 import { useSidebarContext } from "@/context/sidebar-context";
 import { useMenuItemsContext } from "@/context/menu-items-context";
+import { useSession } from "next-auth/react";
+import { createNestedMenusItems } from "@/utils/helpers";
 
 const Sidebar: React.FC = ({}) => {
   const { isSidebarOpen, setIsSidebarOpen } = useSidebarContext();
+  const [menuItems, setMenuItems] = useState<any>();
   const [isSidebarMinimize, setIsSidebarMinimize] = useState<boolean>(false);
   const { items, setItems } = useMenuItemsContext();
+  const { data: session, status } = useSession();
 
   useEffect(() => {
     if (window) {
@@ -20,6 +24,10 @@ const Sidebar: React.FC = ({}) => {
           setIsSidebarOpen(true);
         }
       });
+    }
+    if (session) {
+      //@ts-ignore
+      setMenuItems(setItems(createNestedMenusItems(session.user.screens)));
     }
   }, []);
 

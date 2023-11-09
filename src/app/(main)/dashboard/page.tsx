@@ -2,12 +2,7 @@
 import Select from "@/components/ui/Select";
 import Button from "@/components/ui/button";
 import Input from "@/components/ui/input";
-import { RadioButton, RadioGroup } from "@/components/ui/radio";
-import { useEffect, useMemo, useState } from "react";
 import Checkbox, { CheckboxGroup } from "@/components/ui/checkbox";
-import Toggle from "@/components/ui/toggle";
-import { USER_COLUMN, USERS } from "@/components/table/mockData";
-import SimpleTable from "@/components/table/simpleTable";
 import Textarea from "@/components/ui/textarea";
 import CardDataStats from "@/components/CardDataStats";
 import signalR, {
@@ -18,6 +13,8 @@ import signalR, {
   HubConnection,
   HubConnectionBuilder
 } from "@microsoft/signalr";
+import { useEffect, useMemo, useState } from "react";
+import { USERS, USER_COLUMN } from "@/components/table/mockData";
 
 class CustomHttpClient extends DefaultHttpClient {
   public send(request: HttpRequest): Promise<HttpResponse> {
@@ -60,19 +57,6 @@ export default function Dashboard() {
     connection.start();
     setConnection(connection);
   }, []);
-
-  // useEffect(() => {
-  //   if (connection) {
-  //     connection
-  //       .start()
-  //       .then(() => {
-  //         connection.on("ConnectionStatus", (message) => {
-  //           console.log(message);
-  //         });
-  //       })
-  //       .catch((error) => console.log(error));
-  //   }
-  // }, [connection]);
 
   const sendMessage = async () => {
     if (connection) await connection.send("GetOnlineUsersCount");
