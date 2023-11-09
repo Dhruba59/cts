@@ -10,7 +10,7 @@ import Input from "@/components/ui/input";
 import { RadioButton, RadioGroup } from "@/components/ui/radio";
 import HelpModal from "@/features/auth/help-modal";
 import { getRememberData } from "@/utils/session";
-import { toast } from 'react-toastify';
+import { toast } from "react-toastify";
 import { RememberMeData } from "@/model/login";
 
 const LoginForm = () => {
@@ -42,44 +42,25 @@ const LoginForm = () => {
       password: e.target[1].value,
       role
     };
-<<<<<<< HEAD
-    try {
-      setIsLoading(true);
-      const res = await signIn("credentials", {
-        ...payload,
-        callbackUrl: "/dashboard"
-      });
-    } catch (err: any) {
-      console.log(err);
-      toast.warn(err?.message, {
-        position: "top-center",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        theme: "dark"
-      });
-    } finally {
-      setIsLoading(false);
-    }
-=======
     setIsLoading(true);
-    signIn("credentials", { ...payload, callbackUrl: '/dashboard', redirect: false })
-    .then(({ ok, error }: any) => {
-        if (ok) {
-            router.push("/dashboard");
-        } else {
-            toast.warn('Failed to log in!', {
-              position: "top-center",
-              autoClose: 5000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              theme: "dark",
-            });
-          }
-          setIsLoading(false);
-        }
-      )
->>>>>>> origin/release_4.0
+    signIn("credentials", {
+      ...payload,
+      callbackUrl: "/dashboard",
+      redirect: false
+    }).then(({ ok, error }: any) => {
+      if (ok) {
+        router.push("/dashboard");
+      } else {
+        toast.warn("Failed to log in!", {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          theme: "dark"
+        });
+      }
+      setIsLoading(false);
+    });
   };
 
   return (
