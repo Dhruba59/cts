@@ -13,7 +13,6 @@ import { getRememberData, setRemember } from "@/utils/session";
 import { toast } from 'react-toastify';
 import { RememberMeData } from "@/model/login";
 
-
 const LoginForm = () => {
   const [role, setRole] = useState<number>(1);
   const [rememberMeData, setRememberMeData] = useState<RememberMeData>();
@@ -90,7 +89,15 @@ const LoginForm = () => {
           <Checkbox checked={isRemember} onChange={() => setIsRemember(!isRemember)} id="remember" className="accent-primary" rootClassName="flex items-center" labelClassName="text-xs italic">
             Remember me
           </Checkbox>
-          <Button size='large' type="submit" className="w-full" loading={isLoading} disabled={isLoading}>Login</Button>
+          <Button
+            size="large"
+            type="submit"
+            className="w-full"
+            loading={isLoading}
+            disabled={isLoading}
+          >
+            Login
+          </Button>
         </div>
       </form>
       <div className="text-sm text-secondary flex justify-between items-center gap-8 mt-6">

@@ -1,12 +1,25 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 import Select from "@/components/ui/Select";
 import Button from "@/components/ui/button";
 import Input from "@/components/ui/input";
 import Checkbox, { CheckboxGroup } from "@/components/ui/checkbox";
 import Textarea from "@/components/ui/textarea";
+import CardDataStats from "@/components/CardDataStats";
+import signalR, {
+  DefaultHttpClient,
+  HttpRequest,
+  HttpResponse,
+  HttpTransportType,
+  HubConnection,
+  HubConnectionBuilder
+} from "@microsoft/signalr";
+import { useEffect, useMemo, useState } from "react";
+import { USERS, USER_COLUMN } from "@/components/table/mockData";
+import { error } from "console";
+import Connector from "@/service/signalr-connection";
 
 export default function Dashboard() {
-
   const options = [
     { value: "blues", label: "Blues" },
     { value: "rock", label: "Rock" },
@@ -14,8 +27,87 @@ export default function Dashboard() {
     { value: "orchestra", label: "Orchestra" }
   ];
 
+  const [totalUser, setTotalUser] = useState<number>(0);
+  const columns = useMemo(() => USER_COLUMN, []);
+  const data = useMemo(() => USERS, []);
+  const URL: string = `${process.env.NEXT_PUBLIC_HUB_ADDRESS}`;
+  const apiKey: string = `${process.env.NEXT_PUBLIC_API_KEY}`;
+
+  const { connection } = Connector();
+  //const [connection, setConnection] = useState<null | HubConnection>(null);
+
+  useEffect(() => {
+    // const connection = new HubConnectionBuilder()
+    //   .withUrl(URL, {
+    //     headers: { ApiKey: apiKey }
+    //   })
+    //   .withAutomaticReconnect()
+    //   .build();
+
+    // connection.on("ConnectionStatus", (message) => {
+    //   // just confirm the connection
+    //   console.log(message);
+    // });
+
+    connection.on("UserConnected", (connectionId) => {
+      // TODO: add this conectionId for further uses
+      console.log(connectionId);
+    });
+
+    connection.on("UserDisconnected", (connectionId) => {
+      // TODO: remove this connectionId from list
+      console.log(connectionId);
+    });
+
+    connection.on("OnlineUsersCount", (message) => {
+      setTotalUser(message);
+      console.log(`Total User connected: ${message}`);
+    });
+
+    // connection.start().catch((error) => {
+    //   return console.error(error.toString());
+    // });
+
+    //setConnection(connection);
+  }, []);
+
+  const sendMessage = async () => {
+    //if (connection) await connection.send("GetOnlineUsersCount");
+    if (connection)
+      await connection.invoke("GetOnlineUsersCount").catch((error) => {
+        return console.error(error.toString());
+      });
+  };
+
   return (
     <main className="p-16">
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-4 2xl:gap-7.5">
+        <CardDataStats
+          title="Total views"
+          total="$3.456K"
+          rate="0.43%"
+          levelUp
+        ></CardDataStats>
+        <CardDataStats
+          title="Total Profit"
+          total="$45,2K"
+          rate="4.35%"
+          levelUp
+        ></CardDataStats>
+        <CardDataStats
+          title="Total Product"
+          total="2.450"
+          rate="2.59%"
+          levelUp
+        ></CardDataStats>
+        <CardDataStats
+          title="Total Users"
+          total="3.456"
+          rate={totalUser.toString()}
+          levelDown
+        ></CardDataStats>
+      </div>
+
       <p className="mb-5 border-b text-lg text-primary"> Typography</p>
       <h1 className="text-orange-500">Hello World h1 !!</h1>
       <h2 className="text-primary">Hello World h2 !!</h2>
@@ -23,7 +115,7 @@ export default function Dashboard() {
       <h4 className="text-warning">Hello World h4 !!</h4>
       <h5 className="text-neutral-black">Hello World h5 !!</h5>
       <p className="my-5 border-b text-lg text-primary">Buttons</p>
-      <Button>Primary</Button>
+      <Button onClick={sendMessage}>Primary</Button>
       <Button variant="secondary" size="small" className="mx-4 outline-primary">
         Small Button
       </Button>

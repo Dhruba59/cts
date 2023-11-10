@@ -5,13 +5,13 @@ import { SidebarExpandIcon, SidebarMinimizeIcon } from '@/assets/icons';
 import { useSidebarContext } from '@/context/sidebar-context';
 import { useMenuItemsContext } from '@/context/menu-items-context';
 import { useSession } from "next-auth/react";
-import { createNestedMenusItems } from '@/utils/helpers';
+import { createNestedMenusItems } from "@/utils/helpers";
 
-const Sidebar: React.FC = ({ }) => {
-  const {isSidebarOpen, setIsSidebarOpen} = useSidebarContext();
+const Sidebar: React.FC = ({}) => {
+  const { isSidebarOpen, setIsSidebarOpen } = useSidebarContext();
   const [menuItems, setMenuItems] = useState<any>();
   const [isSidebarMinimize, setIsSidebarMinimize] = useState<boolean>(false);
-  const {items, setItems} = useMenuItemsContext();
+  const { items, setItems } = useMenuItemsContext();
   const { data: session, status } = useSession();
 
   useEffect(() => {
