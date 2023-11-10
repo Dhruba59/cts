@@ -17,7 +17,7 @@ import signalR, {
 import { useEffect, useMemo, useState } from "react";
 import { USERS, USER_COLUMN } from "@/components/table/mockData";
 import { error } from "console";
-import Connector from "@/signalr-connection";
+import Connector from "@/service/signalr-connection";
 
 export default function Dashboard() {
   const options = [
