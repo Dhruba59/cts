@@ -16,7 +16,7 @@ export default function RootLayout({
   return (
     <Fragment>
       <Header />
-      <div>{children}</div>
+      <div className="text-black bg-white">{children}</div>
       <Footer />
     </Fragment>
   );

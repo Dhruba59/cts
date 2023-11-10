@@ -8,7 +8,7 @@ interface LabelProps extends React.LabelHTMLAttributes<HTMLLabelElement> {
 
 const Label = ({ label, isRequired, className, ...props }: LabelProps) => {
   return (
-    <label {...props} className={cn("text-black/90 text-sm w-fit", className)}>
+    <label {...props} className={cn("text-sm w-fit", className)}>
       {isRequired && <span className="text-danger mr-1">*</span>}
       {label}
     </label>

@@ -1,9 +1,9 @@
-"use client";
-import { useEffect, useState } from "react";
-import SidebarItem from "./sidebar-item";
-import { SidebarExpandIcon, SidebarMinimizeIcon } from "@/assets/icons";
-import { useSidebarContext } from "@/context/sidebar-context";
-import { useMenuItemsContext } from "@/context/menu-items-context";
+'use client';
+import { useEffect, useMemo, useState } from 'react';
+import SidebarItem from './sidebar-item';
+import { SidebarExpandIcon, SidebarMinimizeIcon } from '@/assets/icons';
+import { useSidebarContext } from '@/context/sidebar-context';
+import { useMenuItemsContext } from '@/context/menu-items-context';
 import { useSession } from "next-auth/react";
 import { createNestedMenusItems } from "@/utils/helpers";
 
@@ -25,32 +25,22 @@ const Sidebar: React.FC = ({}) => {
         }
       });
     }
-    if (session) {
-      //@ts-ignore
-      setMenuItems(setItems(createNestedMenusItems(session.user.screens)));
-    }
   }, []);
 
+  //@ts-ignore
+  const memoizedScreens = useMemo(() => session?.user?.screens, [session?.user?.screens]);
+  useEffect(() => {
+    if(memoizedScreens && memoizedScreens.length > 0) {
+      setItems(createNestedMenusItems(memoizedScreens));
+    }
+  }, [setItems, memoizedScreens])
+
   return (
-    <div
-      className={`absolute min-h-screen h-auto md:relative bg-white dark:bg-neutral-black max-w-[250px] border-r dark:border-r-gray-700 shadow-lg ${
-        isSidebarOpen ? "block" : "hidden"
-      }`}
-    >
-      <SidebarExpandIcon
-        className={`absolute -right-[14px] z-10 top-4 cursor-pointer hidden md:${
-          isSidebarMinimize ? "hidden" : "block"
-        }`}
-        onClick={() => setIsSidebarMinimize(!isSidebarMinimize)}
-      />
-      <SidebarMinimizeIcon
-        className={`absolute -right-[14px] z-10 top-4 cursor-pointer hidden md:${
-          !isSidebarMinimize ? "hidden" : "block"
-        }`}
-        onClick={() => setIsSidebarMinimize(!isSidebarMinimize)}
-      />
-      {items.map((item, index) => (
-        <SidebarItem key={index} item={item} showIconOnly={isSidebarMinimize} />
+    <div className={`absolute min-h-screen h-auto md:relative max-w-[250px] border-r dark:border-r-gray-700 shadow-lg ${isSidebarOpen ? 'block' : 'hidden'}`}>
+      <SidebarExpandIcon className={`absolute -right-[14px] z-10 top-4 cursor-pointer hidden md:${isSidebarMinimize ? 'hidden' : 'block'}`} onClick={() => setIsSidebarMinimize(!isSidebarMinimize)}/>
+      <SidebarMinimizeIcon className={`absolute -right-[14px] z-10 top-4 cursor-pointer hidden md:${!isSidebarMinimize ? 'hidden' : 'block'}`} onClick={() => setIsSidebarMinimize(!isSidebarMinimize)}/>
+      {items?.map((item, index) => (
+        <SidebarItem key={index} item={item} showIconOnly={isSidebarMinimize}/>
       ))}
     </div>
   );

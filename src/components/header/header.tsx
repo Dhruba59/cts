@@ -23,9 +23,10 @@ const handleLogout = () => {
 };
 
 const menuItems = [
-  { icon: "", text: "Settings", href: "" },
-  { icon: "", text: "Profile" },
-  { icon: "", text: "Log out", onClick: handleLogout }
+  { icon: '', text: 'Settings', href: '' },
+  { icon: '', text: 'Profile' },
+  { icon: '', text: 'Change Password', href: 'change-password' },
+  { icon: '', text: 'Log out', onClick: handleLogout }
 ];
 
 const Header = () => {
@@ -97,7 +98,7 @@ const Header = () => {
           width={40}
         />
         <span>
-          <h5 className="text-sm">John doe</h5>
+          <h5 className="text-sm dark:text-white">John doe</h5>
           <p className="text-xs font-normal text-gray-500 dark:text-gray-200">
             Manager
           </p>

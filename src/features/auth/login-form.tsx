@@ -9,8 +9,8 @@ import Checkbox from "@/components/ui/checkbox";
 import Input from "@/components/ui/input";
 import { RadioButton, RadioGroup } from "@/components/ui/radio";
 import HelpModal from "@/features/auth/help-modal";
-import { getRememberData } from "@/utils/session";
-import { toast } from "react-toastify";
+import { getRememberData, setRemember } from "@/utils/session";
+import { toast } from 'react-toastify';
 import { RememberMeData } from "@/model/login";
 
 const LoginForm = () => {
@@ -43,24 +43,17 @@ const LoginForm = () => {
       role
     };
     setIsLoading(true);
-    signIn("credentials", {
-      ...payload,
-      callbackUrl: "/dashboard",
-      redirect: false
-    }).then(({ ok, error }: any) => {
-      if (ok) {
-        router.push("/dashboard");
-      } else {
-        toast.warn("Failed to log in!", {
-          position: "top-center",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          theme: "dark"
-        });
-      }
-      setIsLoading(false);
-    });
+    signIn("credentials", { ...payload, callbackUrl: '/dashboard', redirect: false })
+      .then((res: any) => {
+        if (res.ok) {
+          router.push("/dashboard");
+          setRemember(payload.username, payload.password, payload.role);
+          toast.success("Successfully logged in!", { position: "top-center" });
+        } else if (res.error) {
+          toast.warn(res.error, { position: "top-center" });
+        }
+        setIsLoading(false);
+      })
   };
 
   return (
@@ -68,11 +61,7 @@ const LoginForm = () => {
       <h3 className="mb-6 mx-auto text-center">Welcome back</h3>
       <form className="space-y-6" onSubmit={onSubmit}>
         <Input label="Username" defaultValue={rememberMeData?.username} />
-        <Input
-          label="Password"
-          type="password"
-          defaultValue={rememberMeData?.password}
-        />
+        <Input label="Password" type="password" defaultValue={rememberMeData?.password} />
         <RadioGroup
           name="user-type"
           label="User Type:"
@@ -82,7 +71,11 @@ const LoginForm = () => {
           className="flex gap-5"
           onChange={onRoleChange}
         >
-          <RadioButton id="site-user" value="1" className="accent-primary">
+          <RadioButton
+            id="site-user"
+            value="1"
+            className="accent-primary text-black"
+          >
             Site User
           </RadioButton>
           <RadioButton id="sys-admin" value="4" className="accent-primary">
@@ -92,15 +85,8 @@ const LoginForm = () => {
             Sponsor
           </RadioButton>
         </RadioGroup>
-        <div className="space-y-2">
-          <Checkbox
-            checked={isRemember}
-            onChange={() => setIsRemember(!isRemember)}
-            id="remember"
-            className="accent-primary"
-            rootClassName="flex items-center"
-            labelClassName="text-xs italic"
-          >
+        <div className="space-y-2 text-black">
+          <Checkbox checked={isRemember} onChange={() => setIsRemember(!isRemember)} id="remember" className="accent-primary" rootClassName="flex items-center" labelClassName="text-xs italic">
             Remember me
           </Checkbox>
           <Button

@@ -9,7 +9,6 @@ export const setRemember = (username: string, password:string, role: USER_ROLE_E
   localStorage.setItem(STORAGE_KEY.REMEMBER_ME, JSON.stringify(data));
 }
 export const getRememberData = () => {
-  console.log(localStorage.getItem(STORAGE_KEY.REMEMBER_ME));
   if(localStorage.getItem(STORAGE_KEY.REMEMBER_ME) && localStorage.getItem(STORAGE_KEY.REMEMBER_ME) !== null) {
     return JSON.parse(localStorage.getItem(STORAGE_KEY.REMEMBER_ME) as string);
   }
