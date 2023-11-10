@@ -1,16 +1,13 @@
 import * as signalR from "@microsoft/signalr";
 
-const URL: string = `${process.env.NEXT_PUBLIC_HUB_ADDRESS}`;
-const apiKey: string = `${process.env.NEXT_PUBLIC_API_KEY}`;
-
 class Connector {
     public connection: signalR.HubConnection;
     //public events: (onMessageReceived: (username: string, message: string) => void) => void;
     static instance: Connector;
     constructor() {
         this.connection = new signalR.HubConnectionBuilder()
-            .withUrl(URL, {
-                headers: { ApiKey: apiKey }
+            .withUrl(`${process.env.NEXT_PUBLIC_HUB_ADDRESS}`, {
+                headers: { ApiKey: `${process.env.NEXT_PUBLIC_API_KEY}` }
               })
             .withAutomaticReconnect()
             .build();
