@@ -29,7 +29,6 @@ const ForgotPasswordForm = () => {
       reset();
       setAlertText(data?.message + ' ' + data?.details);
     } else if (error) {
-      console.log(error);
       setIsRequestSent(false);
       setAlertText(error.detail);
     }
