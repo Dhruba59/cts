@@ -5,7 +5,7 @@ import Footer from "@/components/footer";
 import AuthManager from "@/components/auth/auth-manager";
 
 export default function RootLayout({
-  children,
+  children
 }: {
   children: React.ReactNode;
 }) {
@@ -13,15 +13,12 @@ export default function RootLayout({
     <AuthManager>
       <SidebarContextProvider>
         <Header />
-        <div className='flex'>
+        <div className="flex">
           <Sidebar />
           {children}
         </div>
         <Footer />
       </SidebarContextProvider>
     </AuthManager>
-
   );
 }
-
-

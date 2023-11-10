@@ -10,9 +10,8 @@ import Input from "@/components/ui/input";
 import { RadioButton, RadioGroup } from "@/components/ui/radio";
 import HelpModal from "@/features/auth/help-modal";
 import { getRememberData } from "@/utils/session";
-import { toast } from 'react-toastify';
+import { toast } from "react-toastify";
 import { RememberMeData } from "@/model/login";
-
 
 const LoginForm = () => {
   const [role, setRole] = useState<number>(1);
@@ -23,7 +22,7 @@ const LoginForm = () => {
 
   useEffect(() => {
     const rememberData = getRememberData();
-    if(rememberData) {
+    if (rememberData) {
       const isRememberMe = rememberData ?? false;
       setIsRemember(isRememberMe);
       rememberData?.role && setRole(rememberData?.role);
@@ -44,30 +43,36 @@ const LoginForm = () => {
       role
     };
     setIsLoading(true);
-    signIn("credentials", { ...payload, callbackUrl: '/dashboard', redirect: false })
-    .then(({ ok, error }: any) => {
-        if (ok) {
-            router.push("/dashboard");
-        } else {
-            toast.warn('Failed to log in!', {
-              position: "top-center",
-              autoClose: 5000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              theme: "dark",
-            });
-          }
-          setIsLoading(false);
-        }
-      )
+    signIn("credentials", {
+      ...payload,
+      callbackUrl: "/dashboard",
+      redirect: false
+    }).then(({ ok, error }: any) => {
+      if (ok) {
+        router.push("/dashboard");
+      } else {
+        toast.warn("Failed to log in!", {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          theme: "dark"
+        });
+      }
+      setIsLoading(false);
+    });
   };
 
   return (
     <div className="border p-10 rounded-2xl bg-white w-[450px] shadow-2xl">
       <h3 className="mb-6 mx-auto text-center">Welcome back</h3>
       <form className="space-y-6" onSubmit={onSubmit}>
-        <Input label="Username" defaultValue={rememberMeData?.username}/>
-        <Input label="Password" type="password" defaultValue={rememberMeData?.password}/>
+        <Input label="Username" defaultValue={rememberMeData?.username} />
+        <Input
+          label="Password"
+          type="password"
+          defaultValue={rememberMeData?.password}
+        />
         <RadioGroup
           name="user-type"
           label="User Type:"
@@ -77,11 +82,7 @@ const LoginForm = () => {
           className="flex gap-5"
           onChange={onRoleChange}
         >
-          <RadioButton
-            id="site-user"
-            value="1"
-            className="accent-primary"
-          >
+          <RadioButton id="site-user" value="1" className="accent-primary">
             Site User
           </RadioButton>
           <RadioButton id="sys-admin" value="4" className="accent-primary">
@@ -92,10 +93,25 @@ const LoginForm = () => {
           </RadioButton>
         </RadioGroup>
         <div className="space-y-2">
-        <Checkbox checked={isRemember} onChange={()=> setIsRemember(!isRemember)} id="remember" className="accent-primary" rootClassName="flex items-center" labelClassName="text-xs italic">
+          <Checkbox
+            checked={isRemember}
+            onChange={() => setIsRemember(!isRemember)}
+            id="remember"
+            className="accent-primary"
+            rootClassName="flex items-center"
+            labelClassName="text-xs italic"
+          >
             Remember me
           </Checkbox>
-          <Button size='large' type="submit" className="w-full" loading={isLoading} disabled={isLoading}>Login</Button>
+          <Button
+            size="large"
+            type="submit"
+            className="w-full"
+            loading={isLoading}
+            disabled={isLoading}
+          >
+            Login
+          </Button>
         </div>
       </form>
       <div className="text-sm text-secondary flex justify-between items-center gap-8 mt-6">

@@ -3,29 +3,29 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
-import logo from '@/assets/image/cts-logo.png';
-import userAvatar from '@/assets/image/dummy-avatar.png';
-import { DownArrowIcon, SidebarToggleIcon } from '@/assets/icons';
-import { useSidebarContext } from '@/context/sidebar-context';
-import Popup from '../pop-up';
-import MenuItems from '../menu-item';
-import DarkModeToggleSwitch from '../ui/dark-mode-toggle';
-import { THEME_COLOR_ENUM } from '@/model/context';
-import { STORAGE_KEY } from '@/constants/storage-constant';
-import { useThemeContext } from '@/context/theme-context';
-import { deleteRemember } from '@/utils/session';
+import logo from "@/assets/image/cts-logo.png";
+import userAvatar from "@/assets/image/dummy-avatar.png";
+import { DownArrowIcon, SidebarToggleIcon } from "@/assets/icons";
+import { useSidebarContext } from "@/context/sidebar-context";
+import Popup from "../pop-up";
+import MenuItems from "../menu-item";
+import DarkModeToggleSwitch from "../ui/dark-mode-toggle";
+import { THEME_COLOR_ENUM } from "@/model/context";
+import { STORAGE_KEY } from "@/constants/storage-constant";
+import { useThemeContext } from "@/context/theme-context";
+import { deleteRemember } from "@/utils/session";
 import { signOut } from "next-auth/react";
 
 const handleLogout = () => {
   // deleteSession();
   // deleteRemember();
   signOut();
-}
+};
 
 const menuItems = [
-  { icon: '', text: 'Settings', href: '' },
-  { icon: '', text: 'Profile' },
-  { icon: '', text: 'Log out', onClick: handleLogout },
+  { icon: "", text: "Settings", href: "" },
+  { icon: "", text: "Profile" },
+  { icon: "", text: "Log out", onClick: handleLogout }
 ];
 
 const Header = () => {
@@ -36,7 +36,10 @@ const Header = () => {
   const isDark = theme === THEME_COLOR_ENUM.DARK;
 
   useEffect(() => {
-    if (localStorage.getItem(STORAGE_KEY.THEME) && localStorage.getItem(STORAGE_KEY.THEME) === THEME_COLOR_ENUM.DARK) {
+    if (
+      localStorage.getItem(STORAGE_KEY.THEME) &&
+      localStorage.getItem(STORAGE_KEY.THEME) === THEME_COLOR_ENUM.DARK
+    ) {
       document.documentElement.classList.add(THEME_COLOR_ENUM.DARK);
       setTheme(THEME_COLOR_ENUM.DARK);
     } else {
