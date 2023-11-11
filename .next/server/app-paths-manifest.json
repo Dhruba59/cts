@@ -1,6 +1,17 @@
 {
+  "/_not-found": "app/_not-found.js",
   "/favicon.ico/route": "app/favicon.ico/route.js",
-  "/(authorization)/auth/forget-password/page": "app/(authorization)/auth/forget-password/page.js",
+  "/page": "app/page.js",
+  "/test/page": "app/test/page.js",
+  "/api/auth/[...nextauth]/route": "app/api/auth/[...nextauth]/route.js",
+  "/(main)/(indication)/list-of-indications/page": "app/(main)/(indication)/list-of-indications/page.js",
+  "/(main)/(site)/(site)/add-site/page": "app/(main)/(site)/(site)/add-site/page.js",
+  "/(main)/(indication)/add-indication/page": "app/(main)/(indication)/add-indication/page.js",
+  "/(main)/(site)/(site)/list-of-sites/page": "app/(main)/(site)/(site)/list-of-sites/page.js",
+  "/(main)/(sponsor)/add-sponsor/page": "app/(main)/(sponsor)/add-sponsor/page.js",
+  "/(main)/(sponsor)/list-of-sponsors/page": "app/(main)/(sponsor)/list-of-sponsors/page.js",
+  "/(main)/change-password/page": "app/(main)/change-password/page.js",
+  "/(main)/dashboard/page": "app/(main)/dashboard/page.js",
   "/(authorization)/auth/login/page": "app/(authorization)/auth/login/page.js",
-  "/(main)/dashboard/page": "app/(main)/dashboard/page.js"
+  "/(authorization)/auth/forget-password/page": "app/(authorization)/auth/forget-password/page.js"
 }

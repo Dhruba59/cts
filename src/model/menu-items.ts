@@ -21,6 +21,7 @@ export interface MenuItem {
   screenId: number;
   name: string;
   funtionality: string;
+  url: string;
   parentScreenId: number;
   description: string;
   child: Array<MenuItem>;
