@@ -12,12 +12,14 @@ export default function RootLayout({
   return (
     <AuthManager>
       <SidebarContextProvider>
-        <Header />
-        <div className="flex">
-          <Sidebar />
-          {children}
-        </div>
-        <Footer />
+        <main className="dark:text-white dark:bg-[#24303f]">
+          <Header />
+          <div className="flex">
+            <Sidebar />
+            {children}
+          </div>
+          <Footer />
+        </main>
       </SidebarContextProvider>
     </AuthManager>
   );

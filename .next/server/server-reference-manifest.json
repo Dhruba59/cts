@@ -1,5 +1,9 @@
 {
   "node": {},
   "edge": {},
+<<<<<<< HEAD
   "encryptionKey": "ALUmHJMZ4F8Dlj91CLk1jRaddWIvpjQO+mQrzM946sA="
+=======
+  "encryptionKey": "iFhUWbD4smA4isGcCGJBwM5VBaPhCVFv8BQJkiep+FM="
+>>>>>>> origin/release_4.0
 }

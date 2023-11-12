@@ -1,4 +1,6 @@
+'use client';
 import { ArrowSwapHorizontal, SettingsIcon, SettingsIcon2 } from "@/assets/icons";
+import { STORAGE_KEY } from "@/constants/storage-constant";
 import { MenuItem } from "@/model/menu-items";
 
 export function createNestedMenusItems(screenData: any): MenuItem[] {
@@ -78,4 +80,13 @@ export function getCookie(key: string) {
     }
   }
   return "";
+}
+
+export const getAccessToken = () => {
+  let token = localStorage.getItem(STORAGE_KEY.AUTH_TOKEN);
+  if(token) token = JSON.parse(token ?? '');
+  if(token) {
+    return token[STORAGE_KEY.ACCESS_TOKEN as any]
+  }
+  return '';
 }

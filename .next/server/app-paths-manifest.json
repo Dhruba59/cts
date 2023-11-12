@@ -1,6 +1,18 @@
 {
+<<<<<<< HEAD
   "/api/auth/[...nextauth]/route": "app/api/auth/[...nextauth]/route.js",
   "/favicon.ico/route": "app/favicon.ico/route.js",
   "/(main)/dashboard/page": "app/(main)/dashboard/page.js",
   "/(authorization)/auth/login/page": "app/(authorization)/auth/login/page.js"
+=======
+  "/not-found": "app/not-found.js",
+  "/favicon.ico/route": "app/favicon.ico/route.js",
+  "/api/auth/[...nextauth]/route": "app/api/auth/[...nextauth]/route.js",
+  "/(main)/(study)/add-study/page": "app/(main)/(study)/add-study/page.js",
+  "/(main)/change-password/page": "app/(main)/change-password/page.js",
+  "/(main)/(indication)/list-of-indications/page": "app/(main)/(indication)/list-of-indications/page.js",
+  "/(main)/(indication)/add-indication/page": "app/(main)/(indication)/add-indication/page.js",
+  "/(authorization)/auth/login/page": "app/(authorization)/auth/login/page.js",
+  "/(main)/dashboard/page": "app/(main)/dashboard/page.js"
+>>>>>>> origin/release_4.0
 }

@@ -1,7 +1,7 @@
 export const STORAGE_KEY = {
   THEME: 'theme',
-  ACCESS_TOKEN: 'access_token',
-  REFRESH_TOKEN: 'refresh_token',
-  AUTH_TOKEN: 'auth_token',
+  ACCESS_TOKEN: 'accessToken',
+  REFRESH_TOKEN: 'refreshToken',
+  AUTH_TOKEN: 'authToken',
   REMEMBER_ME: 'remember'
 }

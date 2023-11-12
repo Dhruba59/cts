@@ -11,13 +11,11 @@ export const authOptions: NextAuthOptions = {
 
   callbacks: {
     async signIn({ account, user }) {
-      console.log('user', user);
       if (account?.provider === "credentials") return true;
       return false;
     },
     async jwt({ token, user }) {
       user && (token.user = user);
-      console.log('jwt:::', token);
       return token;
     },
     async session({ session, token }: any) {
@@ -34,7 +32,8 @@ export const authOptions: NextAuthOptions = {
         role: { label: "Role", type: "number" },
       },
       async authorize(credentials: any) {
-        const { data, _ }: any= await login(credentials);
+        const { data, error }: any= await login(credentials);
+        if(error) throw new Error(error.detail);
         return data;
       },
     }),
