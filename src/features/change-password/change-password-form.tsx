@@ -11,8 +11,7 @@ import { signOut } from "next-auth/react";
 const ChangePasswordForm = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const { mutate: changePasswordMutation } = useChangePasswordMutation();
-  const { mutate: checkOldPassword} = useMatchPasswordMutation();
-  const router = useRouter();
+  const { mutate: checkOldPassword } = useMatchPasswordMutation();
 
   const {
     register,
@@ -53,25 +52,14 @@ const ChangePasswordForm = () => {
       oldPassword: value.old_password.trim() as string
     }
     changePasswordMutation(payload, {
-      onSuccess: ({ data, error }: any) => {
-        if (data) {
-          reset();
-          toast.success(data.message, { position: "top-center" });
-          signOut();
-        } else if (error) {
-          toast.warn(error?.detail, { position: "top-center" });
-        }
+      onSuccess: ({ data }: any) => {
+        reset();
+        toast.success(data.message, { position: "top-center" });
+        signOut();
       },
-      //TODO
-      // onError: (err: any) => {
-      //   toast.warn(err?.error?.message, {
-      //     position: "top-center",
-      //     autoClose: 5000,
-      //     hideProgressBar: false,
-      //     closeOnClick: true,
-      //     theme: "dark"
-      //   });
-      // },
+      onError: (err: any) => {
+        toast.warn(err?.response?.data?.detail, { position: "top-center" });
+      },
       onSettled: () => {
         setIsLoading(false);
       }
@@ -79,15 +67,14 @@ const ChangePasswordForm = () => {
   };
 
   const onChangeOldPassword = (e: React.ChangeEvent<HTMLInputElement>) => {
-    checkOldPassword({ password: e.target.value.trim() as string },{
-      onSettled: (res) => {
-        const {data, error}: any = res;
-        if(!data?.isValidPassword) {
+    checkOldPassword({ password: e.target.value.trim() as string }, {
+      onSuccess: ({ data }: any) => {
+        if (!data?.isValidPassword) {
           setError("old_password", {
             type: "manual",
             message: data.message,
           })
-        } else if(data?.isValidPassword){
+        } else if (data?.isValidPassword) {
           clearErrors("old_password");
         }
       }
