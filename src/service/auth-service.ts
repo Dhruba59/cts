@@ -1,4 +1,4 @@
-import { request } from "./axios-service";
+import { request } from "./axios-config";
 import { LoginPayload } from "@/model/login";
 import { ForgetPassPayload } from "@/model/forget-pass";
 

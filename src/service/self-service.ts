@@ -1,4 +1,4 @@
-import { request } from "./axios-service";
+import { request } from "./axios-config";
 
 export interface ChangePassPayload {
   oldPassword: string;

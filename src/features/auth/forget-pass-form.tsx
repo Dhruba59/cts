@@ -8,7 +8,6 @@ import Button from "@/components/ui/button";
 import Input from "@/components/ui/input";
 import { forget_password } from "@/service/auth-service";
 
-
 const ForgotPasswordForm = () => {
   const [isRequestSent, setIsRequestSent] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -23,16 +22,17 @@ const ForgotPasswordForm = () => {
 
   const onSubmit: SubmitHandler<any> = async (value) => {
     setIsLoading(true);
-    const { data, error }: any = await forget_password({ email: value.email });
-    if (data) {
+    try {
+      const res = await forget_password({ email: value.email });
       setIsRequestSent(true);
       reset();
-      setAlertText(data?.message + ' ' + data?.details);
-    } else if (error) {
+      setAlertText(res?.data?.message + ' ' + res?.data?.details);
+    } catch (error: any) {
       setIsRequestSent(false);
-      setAlertText(error.detail);
+      setAlertText(error?.response?.data?.detail);
+    } finally {
+      setIsLoading(false);
     }
-    setIsLoading(false);
   };
 
   return (

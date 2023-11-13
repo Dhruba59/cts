@@ -77,7 +77,7 @@ const Header = () => {
   };
 
   return (
-    <div className="w-full px-4 py-2 flex justify-between items-center shadow-md border-b-red-500 border-b-2 h-[65px]">
+    <div className="fixed z-10 bg-white dark:bg-[#24303f] w-full px-4 py-2 flex justify-between items-center shadow-md border-b-red-500 border-b-2 h-[65px]">
       <SidebarToggleIcon
         className="cursor-pointer block md:hidden"
         fill={isDark ? "white" : "black"}

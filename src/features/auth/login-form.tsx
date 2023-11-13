@@ -66,7 +66,7 @@ const LoginForm = () => {
           name="user-type"
           label="User Type:"
           labelClassName="my-auto"
-          selectedValue={role.toString()}
+          selectedValue={rememberMeData?.role.toString()}
           rootClassName="flex justify-between items-center"
           className="flex gap-5"
           onChange={onRoleChange}

@@ -9,6 +9,7 @@ import AuthSessionProvider from "@/context/client-provider";
 import ReactQueryClientProvider from "@/context/rqc-provider";
 
 import 'dotenv/config';
+import AuthManager from "@/components/auth/auth-manager";
 
 export default async function RootLayout({
   children,
@@ -22,12 +23,14 @@ export default async function RootLayout({
       <body>
         <ReactQueryClientProvider >
           <AuthSessionProvider session={session}>
-            <ThemeContextProvider>
-              <MenuItemsContextProvider>
-                {children}
-                <ToastContainer />
-              </MenuItemsContextProvider>
-            </ThemeContextProvider>
+            <AuthManager>
+              <ThemeContextProvider>
+                <MenuItemsContextProvider>
+                  {children}
+                  <ToastContainer />
+                </MenuItemsContextProvider>
+              </ThemeContextProvider>
+            </AuthManager>
           </AuthSessionProvider>
         </ReactQueryClientProvider>
       </body>
