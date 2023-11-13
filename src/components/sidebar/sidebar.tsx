@@ -36,7 +36,7 @@ const Sidebar: React.FC = ({}) => {
   }, [setItems, memoizedScreens])
 
   return (
-    <div className={`fixed overflow-y-auto z-[1] top-[66px]  min-h-screen h-auto md:relative max-w-[250px] border-r bg-white dark:bg-[#24303f] dark:border-r-gray-700 shadow-lg ${isSidebarOpen ? 'block' : 'hidden'}`}>
+    <div className={`fixed top-[66px] min-h-screen h-auto md:relative max-w-[250px] border-r bg-white dark:bg-[#24303f] dark:border-r-gray-700 shadow-lg ${isSidebarOpen ? 'block' : 'hidden'}`}>
       <SidebarExpandIcon className={`absolute -right-[14px] z-10 top-4 cursor-pointer hidden md:${isSidebarMinimize ? 'hidden' : 'block'}`} onClick={() => setIsSidebarMinimize(!isSidebarMinimize)}/>
       <SidebarMinimizeIcon className={`absolute -right-[14px] z-10 top-4 cursor-pointer hidden md:${!isSidebarMinimize ? 'hidden' : 'block'}`} onClick={() => setIsSidebarMinimize(!isSidebarMinimize)}/>
       {items?.map((item, index) => (
