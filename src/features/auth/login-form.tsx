@@ -14,7 +14,7 @@ import { toast } from 'react-toastify';
 import { RememberMeData } from "@/model/login";
 
 const LoginForm = () => {
-  const [role, setRole] = useState<string>('1');
+  const [role, setRole] = useState<number>(1);
   const [rememberMeData, setRememberMeData] = useState<RememberMeData>();
   const [isRemember, setIsRemember] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -40,7 +40,7 @@ const LoginForm = () => {
     const payload = {
       username: e.target[0].value,
       password: e.target[1].value,
-      role: parseInt(role)
+      role
     };
     setIsLoading(true);
     signIn("credentials", { ...payload, callbackUrl: '/dashboard', redirect: false })
