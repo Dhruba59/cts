@@ -1,6 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 "use client";
-import Select from "@/components/ui/Select";
 import Button from "@/components/ui/button";
 import Input from "@/components/ui/input";
 import Checkbox, { CheckboxGroup } from "@/components/ui/checkbox";
@@ -18,6 +17,7 @@ import { useEffect, useMemo, useState } from "react";
 import { USERS, USER_COLUMN } from "@/components/table/mockData";
 import { error } from "console";
 import Connector from "@/service/signalr-connection";
+import Select from "@/components/ui/select";
 
 export default function Dashboard() {
   const options = [

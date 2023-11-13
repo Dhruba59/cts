@@ -1,4 +1,5 @@
 
+import { ColumnDef } from "@tanstack/react-table";
 import { Query } from "./query";
 
 export interface Indication {
@@ -15,3 +16,31 @@ export interface Indication {
 export interface IndicationQuery extends Indication, Query {
 
 }
+
+
+export const Indication_coluns: ColumnDef<Indication>[] = [
+    {
+      header: "Code",
+      accessorKey: "code"
+    },
+    {
+      header: "indication Name",
+      accessorKey: "indicationName"
+    },
+    {
+      header: "Code Type",
+      accessorKey: "codeType"
+    },
+    // {
+    //   header: "Description",
+    //   accessorKey: "description"
+    // },
+    // {
+    //   header: "Active",
+    //   accessorKey: "active"
+    // },
+    // {
+    //   header: "Require",
+    //   accessorKey: "isRequireDetails"
+    // }
+  ];

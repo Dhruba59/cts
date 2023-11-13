@@ -26,16 +26,16 @@ const RadioButton: React.FC<RadioButtonProps> = ({
   }, [selectedValue, value]);
 
   return (
-    <div className='flex items-center gap-2'>
+    <div className="flex items-center gap-2">
       <input
         type="radio"
         id={id}
         ref={inputRef}
         value={value}
-        className={cn("accent-secondary h-4 w-4 cursor-pointer",  className)}
+        className={cn("accent-secondary h-4 w-4 cursor-pointer", className)}
         {...props}
       />
-      <Label label={children} htmlFor={id} className="cursor-pointer"/>
+      <Label label={children} htmlFor={id} className="cursor-pointer" />
     </div>
   );
 };
@@ -61,7 +61,12 @@ const RadioGroup = ({
 }: RadioGroupProps) => {
   return (
     <fieldset className={rootClassName}>
-      {label && <Label label={label} className={`inline-block mb-3 ${labelClassName}`} />}
+      {label && (
+        <Label
+          label={label}
+          className={`inline-block mb-3 ${labelClassName}`}
+        />
+      )}
       <div {...props}>
         {React.Children.map(children, (child) =>
           React.cloneElement(child, { name, onChange, selectedValue })
