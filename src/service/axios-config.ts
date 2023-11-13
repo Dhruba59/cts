@@ -10,11 +10,6 @@ export const request = async ({ ...options }: AxiosRequestConfig) => {
     axioInstance.defaults.headers.common.Authorization = `Bearer ${getAccessToken()}`;
   }
   axioInstance.defaults.headers.common.Apikey = process.env.NEXT_PUBLIC_API_KEY;
-  const onSuccess = (response: any) => {
-    return { data: response.data };
-  }
-  const onError = (error: any) => {
-    return { error: error.response.data };
-  }
-  return await axioInstance(options).then(onSuccess).catch(onError);
+  
+  return axioInstance(options);
 }

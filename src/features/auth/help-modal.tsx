@@ -26,41 +26,15 @@ const HelpModal = ({ open, setOpen }: HelpModalProps) => {
 
   const onSubmit = async (data: any) => {
     setIsLoading(true);
-    mutate(data,{
-      onSuccess: ({data, error}: any) => {
-        if(data) {
-          reset();
-          setOpen(false);
-          console.log(data);
-          toast.success(data?.message, {
-            position: "top-center",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            theme: "dark"
-          });
-        }
-        else if(error) {
-          toast.warn(error?.detail, {
-            position: "top-center",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            theme: "dark"
-          });
-        }
+    mutate(data, {
+      onSuccess: ({ data }: any) => {
+        reset();
+        setOpen(false);
+        toast.success(data?.message, { position: "top-center" });
       },
-      // TODO
-      // onError: (err: any) => {
-      //   toast.warn(err?.error?.message, {
-      //     position: "top-center",
-      //     autoClose: 5000,
-      //     hideProgressBar: false,
-      //     closeOnClick: true,
-      //     theme: "dark"
-      //   });
-      //   console.log(err?.message);
-      // },
+      onError: (err: any) => {
+        toast.warn(err?.response.data?.title, { position: "top-center" });
+      },
       onSettled: () => {
         setIsLoading(false);
       }

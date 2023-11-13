@@ -32,9 +32,12 @@ export const authOptions: NextAuthOptions = {
         role: { label: "Role", type: "number" },
       },
       async authorize(credentials: any) {
-        const { data, error }: any= await login(credentials);
-        if(error) throw new Error(error.detail);
-        return data;
+        try{
+          const res = await login(credentials);
+          return res?.data;
+        } catch(error: any) {
+          throw new Error(error?.response?.data?.detail);
+        }
       },
     }),
   ],

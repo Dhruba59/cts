@@ -10,17 +10,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <AuthManager>
-      <SidebarContextProvider>
-        <main className="dark:text-white dark:bg-[#24303f]">
-          <Header />
-          <div className="flex">
-            <Sidebar />
-            {children}
-          </div>
-          <Footer />
-        </main>
-      </SidebarContextProvider>
-    </AuthManager>
+    <SidebarContextProvider>
+      <main className="dark:text-white dark:bg-[#24303f]">
+        <Header />
+        <div className="flex">
+          <Sidebar />
+          {children}
+        </div>
+        <Footer />
+      </main>
+    </SidebarContextProvider>
   );
 }
