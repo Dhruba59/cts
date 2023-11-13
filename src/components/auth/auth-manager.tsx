@@ -7,7 +7,6 @@ import { useEffect } from "react";
 const AuthManager = ({ children }: any) => {
   const router = useRouter();
   const pathname = usePathname(); 
-  
   const { data, status }: any = useSession()
 
   useEffect(() => {
@@ -16,9 +15,9 @@ const AuthManager = ({ children }: any) => {
       if(data?.user?.needToChangePassword) {
         router.push('/change-password');
       }
-    }
-    else if(pathname.includes('auth') && status === 'authenticated') {
-      router.push('/dashboard');
+      else if(pathname.includes('auth')) {
+        router.push('/dashboard');
+      }
     }
     else if(status === 'unauthenticated' && !pathname.includes('auth')) {
       router.push('/auth/login');
