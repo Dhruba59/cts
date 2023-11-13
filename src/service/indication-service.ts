@@ -1,5 +1,5 @@
 import { Indication, IndicationQuery } from "@/model/indication";
-import { request } from "./axios-service";
+import { request } from "./axios-config";
 
 
 export const get_indication_by_id = (data: number) => {
