@@ -37,7 +37,7 @@ export const CheckboxGroup = ({ options, ...props }: CheckboxGroupProps) => {
   );
 };
 
-const  Checkbox = ({
+const Checkbox = ({
   id,
   className,
   rootClassName,
@@ -66,7 +66,7 @@ const  Checkbox = ({
         )}
         {...props}
       />
-      <Label label={children} htmlFor={id} className={labelClassName}/>
+      <Label label={children} htmlFor={id} className={labelClassName} />
     </div>
   );
 };

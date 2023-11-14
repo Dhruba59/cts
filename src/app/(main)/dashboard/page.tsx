@@ -1,23 +1,18 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 "use client";
-import Select from "@/components/ui/Select";
 import Button from "@/components/ui/button";
 import Input from "@/components/ui/input";
 import Checkbox, { CheckboxGroup } from "@/components/ui/checkbox";
 import Textarea from "@/components/ui/textarea";
 import CardDataStats from "@/components/CardDataStats";
-import signalR, {
-  DefaultHttpClient,
-  HttpRequest,
-  HttpResponse,
-  HttpTransportType,
-  HubConnection,
-  HubConnectionBuilder
-} from "@microsoft/signalr";
 import { useEffect, useMemo, useState } from "react";
 import { USERS, USER_COLUMN } from "@/components/table/mockData";
 import { error } from "console";
-import Connector from "@/service/signalr-connection";
+import createHubConnection from "@/service/signalr-connection";
+import Select from "@/components/ui/select";
+import {useHubContext } from "@/context/hub-connection-context";
+import getHubConnection from "@/service/signalr-connection";
+import { useEnvConfigContext } from "@/context/env-config-context";
 
 export default function Dashboard() {
   const options = [
@@ -30,24 +25,11 @@ export default function Dashboard() {
   const [totalUser, setTotalUser] = useState<number>(0);
   const columns = useMemo(() => USER_COLUMN, []);
   const data = useMemo(() => USERS, []);
-  const URL: string = `${process.env.NEXT_PUBLIC_HUB_ADDRESS}`;
-  const apiKey: string = `${process.env.NEXT_PUBLIC_API_KEY}`;
 
-  const { connection } = Connector();
-  //const [connection, setConnection] = useState<null | HubConnection>(null);
+
+  const {connection} = useHubContext();
 
   useEffect(() => {
-    // const connection = new HubConnectionBuilder()
-    //   .withUrl(URL, {
-    //     headers: { ApiKey: apiKey }
-    //   })
-    //   .withAutomaticReconnect()
-    //   .build();
-
-    // connection.on("ConnectionStatus", (message) => {
-    //   // just confirm the connection
-    //   console.log(message);
-    // });
 
     connection.on("UserConnected", (connectionId) => {
       // TODO: add this conectionId for further uses
@@ -63,10 +45,6 @@ export default function Dashboard() {
       setTotalUser(message);
       console.log(`Total User connected: ${message}`);
     });
-
-    // connection.start().catch((error) => {
-    //   return console.error(error.toString());
-    // });
 
     //setConnection(connection);
   }, []);

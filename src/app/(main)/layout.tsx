@@ -9,13 +9,14 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+
   return (
     <SidebarContextProvider>
       <main className="dark:text-white dark:bg-[#24303f]">
         <Header />
         <div className="flex">
           <Sidebar />
-          {children}
+          <div className="w-full mx-auto mt-16">{children}</div>
         </div>
         <Footer />
       </main>
