@@ -9,6 +9,7 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+
   return (
     <SidebarContextProvider>
       <main className="dark:text-white dark:bg-[#24303f]">

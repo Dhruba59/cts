@@ -8,25 +8,34 @@ import { authOptions } from "./api/auth/[...nextauth]/route";
 import AuthSessionProvider from "@/context/client-provider";
 import ReactQueryClientProvider from "@/context/rqc-provider";
 
-import 'dotenv/config';
+import "dotenv/config";
 import AuthManager from "@/components/auth/auth-manager";
 
+import createHubConnection from "@/service/signalr-connection";
+import { EnvConfigProvider } from "@/context/env-config-context";
+import { HubConnectionProvider } from "@/context/hub-connection-context";
+
 export default async function RootLayout({
-  children,
+  children
 }: {
   children: React.ReactNode;
 }) {
   const session = await getServerSession(authOptions);
 
+  const apiKey = `${process.env.API_KEY}`;
+  const hubUrl = `${process.env.HUB_URL}`;
+
   return (
     <html lang="en">
       <body>
-        <ReactQueryClientProvider >
+        <ReactQueryClientProvider>
           <AuthSessionProvider session={session}>
             <AuthManager>
               <ThemeContextProvider>
                 <MenuItemsContextProvider>
-                  {children}
+                  <HubConnectionProvider apiKey={apiKey} hubUrl={hubUrl}>
+                    {children}
+                  </HubConnectionProvider>
                   <ToastContainer />
                 </MenuItemsContextProvider>
               </ThemeContextProvider>
