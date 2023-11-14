@@ -15,7 +15,7 @@ export default function RootLayout({
         <Header />
         <div className="flex">
           <Sidebar />
-          <div className="flex-1 mt-16">{children}</div>
+          <div className="w-full mx-auto mt-16">{children}</div>
         </div>
         <Footer />
       </main>

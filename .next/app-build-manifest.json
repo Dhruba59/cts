@@ -16,11 +16,6 @@
       "static/chunks/main-app.js",
       "static/chunks/app/(main)/dashboard/page.js"
     ],
-    "/(main)/(indication)/list-of-indications/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/(main)/(indication)/list-of-indications/page.js"
-    ],
     "/(authorization)/layout": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
@@ -36,10 +31,20 @@
       "static/chunks/main-app.js",
       "static/chunks/app/(main)/(indication)/add-indication/page.js"
     ],
-    "/(main)/(sponsor)/list-of-sponsors/page": [
+    "/(main)/change-password/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/(main)/(sponsor)/list-of-sponsors/page.js"
+      "static/chunks/app/(main)/change-password/page.js"
+    ],
+    "/(main)/(indication)/list-of-indications/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(main)/(indication)/list-of-indications/page.js"
+    ],
+    "/not-found": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/not-found.js"
     ]
   }
 }
