@@ -5,18 +5,21 @@ import RightArrowIcon from "../icons/rightArrowIcon";
 
 export interface Props {
   lastPage: number;
-  maxLength: number;
+  pageSize: number;
+  setPageSize: (page: number) => void;
   currentPage: number;
   setCurrentPage: (page: number) => void;
 }
 
 const Pagination = ({
   lastPage,
-  maxLength,
+  pageSize,
+  setPageSize,
   currentPage,
   setCurrentPage
 }: Props) => {
-  const pageNumbers = getPaginationItems(currentPage, lastPage, maxLength);
+  
+  const pageNumbers = getPaginationItems(currentPage, lastPage, pageSize);
 
   return (
     <>
@@ -43,10 +46,10 @@ const Pagination = ({
           <RightArrowIcon className="-mt-0.5 md:mt-0" />
         </PageLink>
         <select
-        className="-mt-0.5 md:mt-0 ml-2 md:ml-3 border-solid border border-sky-500 rounded h-7 lg:h-9"
-        value={maxLength}
+        className="-mt-0.5 md:mt-0 ml-2 md:ml-3 border-solid border border-gray-300 rounded h-7 lg:h-9"
+        value={pageSize}
         onChange={(e) => {
-          maxLength = Number(e.target.value);
+          setPageSize(Number(e.target.value));
         }}
       >
         {[10, 20, 30, 40, 50, 100].map((pageSize) => (
