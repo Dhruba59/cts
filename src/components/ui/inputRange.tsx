@@ -1,33 +1,43 @@
-"use client";
+// InputRange component
+
+import React from 'react';
 import { cn } from "@/libs/utils";
-import { ComponentPropsWithoutRef } from "react";
+import { ComponentPropsWithoutRef, ChangeEvent } from "react";
 
 interface Props extends ComponentPropsWithoutRef<"div"> {
-  minValue: number;
-  maxValue: number;
+  values?: { minValue: number; maxValue: number };
+  onValuesChange: (newValues: { minValue: number; maxValue: number }) => void;
 }
 
-const InputRange = ({ minValue, maxValue, className, ...props }: Props) => {
+
+
+const InputRange = ({ values={minValue: 0, maxValue: 100}, onValuesChange, className, ...props }: Props) => {
+  const handleInputChange = (event: ChangeEvent<HTMLInputElement>, key: string) => {
+    const newValue = parseInt(event.target.value, 10);
+    onValuesChange({ ...values, [key]: newValue });
+  };
+
   return (
     <div
       className={cn(
         "px-3 h-10 rounded-[4px] border border-neutral-500 flex items-center gap-4 w-fit text-black/90",
         className
       )}
-      {...props}
     >
       <input
-        placeholder="Min"
         type="number"
         className="w-16 text-sm text-center focus-visible:outline-none bg-transparent"
-        min={minValue}
+        value={values.minValue}
+        onChange={(e) => handleInputChange(e, 'minValue')}
+        {...props}
       />
       <span className="text-neutral-400"> ⇀</span>
       <input
-        placeholder="Max"
         type="number"
         className="w-16 text-sm text-center focus-visible:outline-none bg-transparent"
-        max={maxValue}
+        value={values.maxValue}
+        onChange={(e) => handleInputChange(e, 'maxValue')}
+        {...props}
       />
     </div>
   );

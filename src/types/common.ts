@@ -15,7 +15,12 @@ export type SelectProps<
 
 export interface DndDataType {
   title: string;
-  items: Array<string>;
+  items: Array<DndDataItem>;
+}
+
+interface DndDataItem {
+  text: string;
+  value: string;
 }
 
 export interface DndCustomComponentType {
