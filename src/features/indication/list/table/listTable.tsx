@@ -11,23 +11,33 @@ const ListTable = () => {
   const columns = useMemo(() => LIST_COLUMN, []);
   //const data = useMemo(() => LIST_DATA, []);
   let indiationQuery = {} as IndicationQuery;
+
   let indiations = [] as Indication[];
 
   const [currentPage, setCurrentPage] = useState(1);
   const [data, setData] = useState<Indication[]>(indiations);
-  const [totalPages, setTotalPages] = useState<number>(10);
-  const [pageNumber, setPageNumber] = useState<number>(0);
+  const [totalPages, setTotalPages] = useState<number>(0);
+  const [pageSize, setPageSize] = useState<number>(10);
 
   const fetchData = async (query: IndicationQuery) => {
+    console.log(query);
+    
     const { data, error }: any = await get_indications(query);
     console.log(data);
     setData(data.items);
+    setCurrentPage(data.pageNumber);
     setTotalPages(data.totalPages);
   };
 
   useEffect(() => {
     fetchData(indiationQuery);
   }, []);
+  
+  useEffect(() => {
+    indiationQuery.pageNumber = currentPage;
+    indiationQuery.pageSize = pageSize;
+    fetchData(indiationQuery);
+  }, [currentPage, pageSize]);
 
   return (
     <div className="sm:wrapper">
@@ -47,12 +57,14 @@ const ListTable = () => {
         />
       </div>
 
-      <div className="my-8 flex items-center justify-center md:justify-normal md:pl-14">
+      <div className="my-8 flex items-center justify-center md:justify-normal md:pl-14" >
         <Pagination
           currentPage={currentPage}
-          lastPage={totalPages}
-          maxLength={7}
           setCurrentPage={setCurrentPage}
+          lastPage={totalPages}
+          pageSize={pageSize}
+          setPageSize={setPageSize}
+          maxLength={7}
         />
       </div>
     </div>

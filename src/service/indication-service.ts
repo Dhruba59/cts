@@ -2,12 +2,12 @@ import { Indication, IndicationQuery } from "@/model/indication";
 import { request } from "./axios-config";
 
 
-export const get_indication_by_id = (data: number) => {
-  return request({url: 'Indication/GetById', method: 'GET', data});
+export const get_indication_by_id = (params: number) => {
+  return request({url: 'Indication/GetById', method: 'GET', params});
 }
 
-export const get_indications = (data: IndicationQuery) => {
-  return request({url: 'Indication/Get', method: 'GET', data});
+export const get_indications = (params: IndicationQuery) => {
+  return request({url: 'Indication/Get', method: 'GET', params});
 }
 
 export const add_indication = (data: Indication) => {
