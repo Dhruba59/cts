@@ -7,6 +7,8 @@ import { LIST_COLUMN } from "./columns";
 import { Indication, IndicationQuery } from "@/model/indication";
 import { get_indications } from "@/service/indication-service";
 
+export const dynamic = "force-dynamic";
+
 const ListTable = () => {
   const columns = useMemo(() => LIST_COLUMN, []);
   //const data = useMemo(() => LIST_DATA, []);
@@ -14,7 +16,7 @@ const ListTable = () => {
 
   let indiations = [] as Indication[];
 
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(3);
   const [data, setData] = useState<Indication[]>(indiations);
   const [totalPages, setTotalPages] = useState<number>(0);
   const [pageSize, setPageSize] = useState<number>(10);
@@ -36,6 +38,8 @@ const ListTable = () => {
   useEffect(() => {
     indiationQuery.pageNumber = currentPage;
     indiationQuery.pageSize = pageSize;
+
+    console.log(`useef:${indiationQuery.pageNumber}`);
     fetchData(indiationQuery);
   }, [currentPage, pageSize]);
 
