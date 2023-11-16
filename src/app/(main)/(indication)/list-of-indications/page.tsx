@@ -14,7 +14,7 @@ import { useSearchParams } from "next/navigation";
 import AddIndication from "@/features/indication/add";
 import IndicationList from "@/features/indication/list";
 
-//export const dynamic = "force-dynamic";
+export const dynamic = "force-dynamic";
 
 export default function IndicationPage() {
   const searchParams = useSearchParams();
