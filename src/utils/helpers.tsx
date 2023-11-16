@@ -1,5 +1,6 @@
 'use client';
 import { ArrowSwapHorizontal, SettingsIcon, SettingsIcon2 } from "@/assets/icons";
+import { USER_ROLE_VALUE } from "@/constants/common";
 import { STORAGE_KEY } from "@/constants/storage-constant";
 import { MenuItem } from "@/model/menu-items";
 
@@ -89,4 +90,17 @@ export const getAccessToken = () => {
     return token[STORAGE_KEY.ACCESS_TOKEN as any]
   }
   return '';
+}
+
+export const getUserRoleFromValue = (role: string) => {
+  switch(parseInt(role)){
+    case USER_ROLE_VALUE.site_user:
+      return 'Site User';
+    case USER_ROLE_VALUE.sys_admin:
+      return 'Sys Admin';
+    case USER_ROLE_VALUE.sponsor:
+      return 'Sponsor';
+    default:
+      return 'Site User';
+  }
 }

@@ -13,8 +13,8 @@ import DarkModeToggleSwitch from "../ui/dark-mode-toggle";
 import { THEME_COLOR_ENUM } from "@/model/context";
 import { STORAGE_KEY } from "@/constants/storage-constant";
 import { useThemeContext } from "@/context/theme-context";
-import { deleteRemember } from "@/utils/session";
-import { signOut } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
+import { getUserRoleFromValue } from "@/utils/helpers";
 
 const handleLogout = () => {
   // deleteSession();
@@ -31,11 +31,13 @@ const menuItems = [
 
 const Header = () => {
   const [isPopupOpen, setIsPopupOpen] = useState<boolean>(false);
+  const [userRole, setUserRole] = useState<string>('');
   const { isSidebarOpen, setIsSidebarOpen } = useSidebarContext();
   // const [isDark, setIsDark] = useState<boolean>(localStorage.getItem(STORAGE_CONSTANT.THEME) === THEME_COLOR_ENUM.DARK);
   const { theme, setTheme } = useThemeContext();
   const isDark = theme === THEME_COLOR_ENUM.DARK;
 
+  const {data: session} = useSession();
   useEffect(() => {
     if (
       localStorage.getItem(STORAGE_KEY.THEME) &&
@@ -47,6 +49,8 @@ const Header = () => {
       document.documentElement.classList.remove(THEME_COLOR_ENUM.DARK);
       setTheme(THEME_COLOR_ENUM.LIGHT);
     }
+    
+    setUserRole(getUserRoleFromValue(localStorage.getItem(STORAGE_KEY.ROLE) ?? ''));
   }, []);
 
   const handleTogglePopup = () => {
@@ -98,9 +102,10 @@ const Header = () => {
           width={40}
         />
         <span>
-          <h5 className="text-sm dark:text-white">John doe</h5>
+          {/* @ts-ignore */}
+          <h5 className="text-sm dark:text-white">{session?.user?.lastName}</h5>
           <p className="text-xs font-normal text-gray-500 dark:text-gray-200">
-            Manager
+           {userRole}
           </p>
         </span>
         <DownArrowIcon

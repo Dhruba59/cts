@@ -3,6 +3,7 @@ import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
+import { toast } from 'react-toastify';
 
 import Button from "@/components/ui/button";
 import Checkbox from "@/components/ui/checkbox";
@@ -10,8 +11,9 @@ import Input from "@/components/ui/input";
 import { RadioButton, RadioGroup } from "@/components/ui/radio";
 import HelpModal from "@/features/auth/help-modal";
 import { getRememberData, setRemember } from "@/utils/session";
-import { toast } from 'react-toastify';
 import { RememberMeData } from "@/model/login";
+import { USER_ROLE_VALUE } from "@/constants/common";
+import { STORAGE_KEY } from "@/constants/storage-constant";
 
 const LoginForm = () => {
   const [role, setRole] = useState<number>(1);
@@ -23,6 +25,7 @@ const LoginForm = () => {
   useEffect(() => {
     const rememberData = getRememberData();
     if (rememberData) {
+
       const isRememberMe = rememberData ?? false;
       setIsRemember(isRememberMe);
       rememberData?.role && setRole(rememberData?.role);
@@ -48,6 +51,7 @@ const LoginForm = () => {
         if (res.ok) {
           router.push("/dashboard");
           setRemember(payload.username, payload.password, payload.role);
+          localStorage.setItem(STORAGE_KEY.ROLE, payload.role.toString());
           toast.success("Successfully logged in!", { position: "top-center" });
         } else if (res.error) {
           toast.warn(res.error, { position: "top-center" });
@@ -73,15 +77,15 @@ const LoginForm = () => {
         >
           <RadioButton
             id="site-user"
-            value="1"
+            value={USER_ROLE_VALUE.site_user.toString()}
             className="accent-primary text-black"
           >
             Site User
           </RadioButton>
-          <RadioButton id="sys-admin" value="4" className="accent-primary">
+          <RadioButton id="sys-admin" value={USER_ROLE_VALUE.sys_admin.toString()} className="accent-primary">
             Sys Admin
           </RadioButton>
-          <RadioButton id="sponsor" value="3" className="accent-primary">
+          <RadioButton id="sponsor" value={USER_ROLE_VALUE.sponsor.toString()} className="accent-primary">
             Sponsor
           </RadioButton>
         </RadioGroup>
