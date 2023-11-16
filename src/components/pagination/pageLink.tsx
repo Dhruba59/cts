@@ -21,14 +21,14 @@ const PageLink = ({
     }
   );
   if (disabled) {
-    return <span className={customClassName}>{children}</span>;
+    return <span className={`${customClassName}`}>{children}</span>;
   }
 
   return (
     <a
       aria-current={active ? "page" : undefined}
       {...props}
-      className={customClassName}
+      className={`${customClassName} `}
     >
       {children}
     </a>

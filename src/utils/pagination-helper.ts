@@ -6,7 +6,7 @@ export function getPaginationItems(
   const resultArray: Array<number> = [];
 
   // length is less than max length
-  if (currentPage <= maxLength) {
+  if (lastPage <= maxLength) {
     for (let index = 1; index <= lastPage; index++) {
       resultArray.push(index);
     }

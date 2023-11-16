@@ -11,6 +11,7 @@ const ListTable = () => {
   const columns = useMemo(() => LIST_COLUMN, []);
   //const data = useMemo(() => LIST_DATA, []);
   let indiationQuery = {} as IndicationQuery;
+
   let indiations = [] as Indication[];
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -56,13 +57,14 @@ const ListTable = () => {
         />
       </div>
 
-      <div className="my-8 flex items-center justify-center md:justify-normal md:pl-14">
+      <div className="my-8 flex items-center justify-center md:justify-normal md:pl-14" >
         <Pagination
           currentPage={currentPage}
           setCurrentPage={setCurrentPage}
           lastPage={totalPages}
           pageSize={pageSize}
           setPageSize={setPageSize}
+          maxLength={7}
         />
       </div>
     </div>
