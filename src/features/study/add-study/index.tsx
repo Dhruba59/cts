@@ -9,12 +9,12 @@ import { DndDataType } from "@/types/common";
 import { useAddStudyMutation, useGetStudyDropdownsList } from "@/hooks/rq-hooks/study-hooks";
 import { DropDownItem } from "@/model/drop-down-list";
 import { toast } from "react-toastify";
-import { AddStudyPayload, CriticalDataType } from "@/model/study";
-import { getUpdatedDndData, initialAssignedData, initialCriticalDndData } from "@/utils/study";
+import { AddStudyPayload, CriticalDataType, CriticalDndDataType, CriticalDndItem } from "@/model/study";
+import { getUpdatedCriticalDndData, getUpdatedDndData, initialAssignedData, initialCriticalDndData } from "@/utils/study";
 
 const AddStudy = () => {
   const [assignedData, setAssignedData] = useState<DndDataType[]>(initialAssignedData);
-  const [criticalDndData, setCriticalDndData] = useState<DndDataType[]>(initialCriticalDndData);
+  const [criticalDndData, setCriticalDndData] = useState<CriticalDndDataType[]>(initialCriticalDndData);
   const [criticalData, setCriticalData] = useState<CriticalDataType>(null!);
   const {data: dropdownList, error, isLoading} = useGetStudyDropdownsList();
   const { mutate: AddStudyMutation, isLoading: isAddStudyLoading } = useAddStudyMutation();
@@ -30,6 +30,15 @@ const AddStudy = () => {
     data.flatMap((group) => {
       if (group.title === title) {
         return group.items.map((item: DropDownItem) => parseInt(item.value));
+      }
+      return [];
+    }) || []
+  );
+
+  const getCriticalIdsFromDndData = (data: CriticalDndDataType[], title: string): number[] | [] => (
+    data.flatMap((group) => {
+      if (group.title === title) {
+        return group.items.map((item: CriticalDndItem) => parseInt(item.value));
       }
       return [];
     }) || []
@@ -53,14 +62,14 @@ const AddStudy = () => {
       studyCompound: val.studyCompound.value,
       // dslsp: val.dslsp,
       assignedSites: getIdsFromDndData(assignedData,'Selected'),
-      inclusionCriteria: getIdsFromDndData(criticalDndData ,'Inclusion Criteria'),
-      exclusionCriteria: getIdsFromDndData(criticalDndData ,'Exclusion Criteria'),
+      inclusionCriteria: getCriticalIdsFromDndData(criticalDndData ,'Inclusion Criteria'),
+      exclusionCriteria: getCriticalIdsFromDndData(criticalDndData ,'Exclusion Criteria'),
     }
     if(criticalData?.age) {
       payload = { ...payload, minAge: criticalData.age.minValue, maxAge: criticalData.age.maxValue }
     }
     if(criticalData?.bmi) {
-      payload = { ...payload, minBmi: criticalData.bmi.minValue, maxAge: criticalData.bmi.maxValue }
+      payload = { ...payload, minBmi: criticalData.bmi.minValue, maxBmi: criticalData.bmi.maxValue }
     }
     if(criticalData?.dslsp) {
       payload = { ...payload, dslsp: parseInt(criticalData.dslsp) }
@@ -80,8 +89,10 @@ const AddStudy = () => {
     });
   }
 
+  console.log(criticalData);
+
   useEffect(() => {
-    setCriticalDndData((data) => getUpdatedDndData(data, 'Indications', 'items', dropdownList?.data?.indications));
+    setCriticalDndData((data) => getUpdatedCriticalDndData(data, 'Indications', 'items', dropdownList?.data?.indications));
     setAssignedData((data) => getUpdatedDndData(data, 'Sites', 'items', dropdownList?.data?.sites));
   }, [dropdownList]);
 

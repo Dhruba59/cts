@@ -70,7 +70,6 @@ export interface AddStudyPayload {
   exclusionCriteria: number[];
 }
 
-
 export interface CriticalDataType {
   bmi: {
     minValue: number;
@@ -81,4 +80,16 @@ export interface CriticalDataType {
     maxValue: number;
   };
   dslsp: string;
+}
+
+export interface CriticalDndItem {
+  value: string;
+  name: string;
+  code: string;
+  codeType: string;
+}
+
+export interface CriticalDndDataType {
+  title: string;
+  items: Array<CriticalDndItem>;
 }

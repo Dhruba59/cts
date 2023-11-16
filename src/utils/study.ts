@@ -1,3 +1,4 @@
+import { CriticalDndDataType } from "@/model/study";
 import { DndDataType } from "@/types/common";
 
 export const initialAssignedData = [
@@ -32,6 +33,18 @@ export const getInitialInputRangeValue = (min:number, max: number) => ({
 })
 
 export const getUpdatedDndData = (data:DndDataType[], title: string, fieldToUpdate: string, fieldData: DndDataType[]): DndDataType[] => (
+  data.map((item) => {
+    if (item.title === title) {
+      return {
+        ...item,
+        [fieldToUpdate]: fieldData,
+      };
+    }
+    return item;
+  })
+);  
+
+export const getUpdatedCriticalDndData = (data:CriticalDndDataType[], title: string, fieldToUpdate: string, fieldData: DndDataType[]): CriticalDndDataType[] => (
   data.map((item) => {
     if (item.title === title) {
       return {

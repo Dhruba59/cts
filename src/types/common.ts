@@ -1,3 +1,4 @@
+import CriticalSetup from "@/features/study/add-study/critical-setup";
 import { GroupBase, Props } from "react-select";
 
 export interface KeyValueType {

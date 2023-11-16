@@ -1,53 +1,94 @@
 import SearchBox from "@/components/ui/search-box";
-import DragNDrop from "@/components/dnd";
 import Input from "@/components/ui/input";
 import InputRange from "@/components/ui/inputRange";
 import Label from "@/components/ui/label";
 import Select from "@/components/ui/select";
 import { DndCustomComponentType, DndDataType } from "@/types/common";
 import React, { ChangeEvent, Dispatch, SetStateAction, useEffect, useState } from "react";
-import { CriticalDataType } from "@/model/study";
+import { CriticalDataType, CriticalDndDataType, CriticalDndItem } from "@/model/study";
 import { InputRangeDataType } from "@/model/common";
+import CriticalDnd from "@/components/dnd/critical-setup-dnd";
+import { getIndicationList } from "@/service/study-service";
+import { useQuery } from "react-query";
+import { SelectOptionType } from "@/model/drop-down-list";
+import { SingleValue } from "react-select";
 
 interface CriticalSetupProps {
   setCriticalData: Dispatch<SetStateAction<CriticalDataType>>;
-  criticalSetupData: DndDataType[];
-  setCriticalSetupData: Dispatch<SetStateAction<DndDataType[]>>;
+  criticalSetupData: CriticalDndDataType[];
+  setCriticalSetupData: Dispatch<SetStateAction<CriticalDndDataType[]>>;
   register: any;
   control: any;
   Controller: any;
 }
 
+export interface CriticalIndicationQueryDataType {
+  searchValue: string;
+  searchField: SearchFieldEnum;
+}
+enum SearchFieldEnum {
+  NAME = '1',
+  CODE = '2',
+  CODE_TYPE = '3'
+}
+const initialQueryData: CriticalIndicationQueryDataType = {
+  searchField: SearchFieldEnum.NAME,
+  searchValue: 'S'
+}
+
+const searchValueTypeOptions = [
+  {
+    value: SearchFieldEnum.NAME,
+    label: 'Indication Name'
+  },
+  {
+    value: SearchFieldEnum.CODE,
+    label: 'Indication Code'
+  },
+  {
+    value: SearchFieldEnum.CODE_TYPE,
+    label: 'Code Type'
+  }
+]
+
 const CriticalSetup = ({ setCriticalData, criticalSetupData, setCriticalSetupData, register }: CriticalSetupProps) => {
   const [bmiValue, setBmiValue] = useState<InputRangeDataType>();
   const [ageValue, setAgeValue] = useState<InputRangeDataType>();
-  const [filteredData, setFilteredData] = useState<DndDataType[]>(criticalSetupData);
+  const [queryData, setQueryData] = useState<CriticalIndicationQueryDataType>(initialQueryData);
+
+  const { data: indicationData } = useQuery({
+    queryFn: getIndicationList,
+    queryKey: ['search', queryData],
+  });
 
   useEffect(() => {
-    if(criticalSetupData) {
-      setFilteredData(criticalSetupData);
+    if (indicationData) {
+      setCriticalSetupData((data: CriticalDndDataType[]) => {
+        return data.map((group: CriticalDndDataType) => {
+          if (group.title === 'Indications') {
+            console.log('indi test', data);
+            const newData = indicationData?.data?.indications as CriticalDndItem[];
+            return {
+              ...group,
+              items: newData,
+            };
+          }
+          return group;
+        });
+      });
     }
-  }, [criticalSetupData])
+  }, [indicationData, setCriticalSetupData]);
+
+  const handleSearchFieldTypeChange = (option: SingleValue<SelectOptionType>) => {
+    if(option) {
+      setQueryData((queryData) => ({...queryData, searchField: option.value.toString() as SearchFieldEnum}));
+    }
+  }
 
   const filterData = (e: ChangeEvent<HTMLInputElement>) => {
-    const searchTerm = e.target.value.toLowerCase();
-    
-    setFilteredData(() => (
-      criticalSetupData.map((group: DndDataType) => {
-        if (group.title === 'Indications') {
-          
-          const filteredItems = group.items.filter((item) =>
-            item.text.toLowerCase().includes(searchTerm)
-          );
-          console.log(filteredItems);
-          return { ...group, items: filteredItems };
-        }
-        return group;
-      })
-    ));
+    const searchTerm = e.target.value;
+    setQueryData((queryData) => ({...queryData, searchValue: searchTerm}));
   };
-
-  console.log(filteredData);
 
   const components: DndCustomComponentType[] = [
     {
@@ -57,18 +98,19 @@ const CriticalSetup = ({ setCriticalData, criticalSetupData, setCriticalSetupDat
           <div className="col-span-2">
             <SearchBox onChange={filterData}/>
           </div>
-          <Select placeholder="Name" />
+          <Select placeholder="Name" options={searchValueTypeOptions} onChange={handleSearchFieldTypeChange}/>
         </div>
       ),
     },
   ];
   
-  const onDragFinish = (data: DndDataType[]) => {
+  const onDragFinish = (data: CriticalDndDataType[]) => {
     setCriticalSetupData(data);
   }
   
   const onBmiChange = (values: InputRangeDataType) => {
     setBmiValue(values);
+    console.log(values);
     setCriticalData((data: CriticalDataType) => ({
       ...data,
       bmi: values
@@ -97,7 +139,7 @@ const CriticalSetup = ({ setCriticalData, criticalSetupData, setCriticalSetupDat
         <div className="hidden lg:flex gap-16">
           <div className="flex gap-2 items-center">
             <Label label="DSLSP:" />
-            <Input placeholder="Enter DSLSP value" type="number" onChange={onDslpChange} {...register('dslsp', {require})}/>
+            <Input placeholder="Enter DSLSP value" type="number" onChange={onDslpChange}/>
           </div>
           <div className="flex gap-2 items-center">
             <Label label="BMI:" />
@@ -110,8 +152,8 @@ const CriticalSetup = ({ setCriticalData, criticalSetupData, setCriticalSetupDat
         </div>
       </div>
       <hr />
-      <DragNDrop
-        data={filteredData}
+      <CriticalDnd
+        data={criticalSetupData}
         onDragFinish={onDragFinish}
         customComponents={components}
         wrapperClassName="p-6"
