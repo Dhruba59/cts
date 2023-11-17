@@ -34,7 +34,7 @@ const SidebarItem = ({ item, showIconOnly = false }: SidebarItemProps) => {
       >
         {item?.icon && (
           <div className="w-6 h-6 flex justify-center items-center">
-            {item?.icon}
+            <Link href={item.url}>{item?.icon}</Link>
           </div>
         )}
         {item?.child && item?.child.length > 0 && (
