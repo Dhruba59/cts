@@ -21,14 +21,14 @@ interface BasicInformationFormProps {
   Controller: any;
   control: any;
   dropdownList: DropdownList;
+  setValue: any;
 }
 
-const BasicInformation = ({ dropdownList, register, errors, control, Controller }: BasicInformationFormProps) => {
+const BasicInformation = ({ dropdownList, register, setValue, errors, control, Controller }: BasicInformationFormProps) => {
   const [commentOptions, setCommentOptions] = useState<SelectOptionType[]>([]);
   const [phaseOptions, setPhaseOptions] = useState<SelectOptionType[]>([]);
   const [sponsorOptions, setSponsorOptions] = useState<SelectOptionType[]>([]);
   const [studyCompoundOptions, setStudyCompoundOptions] = useState<SelectOptionType[]>([]);
-  const [studyDuration, setStudyDuration] = useState<number>(0);
 
   const convertTypeToSelectOption = (data: DropDownItem[]): SelectOptionType[] => (
     data?.map((item: DropDownItem) => ({
@@ -39,7 +39,9 @@ const BasicInformation = ({ dropdownList, register, errors, control, Controller 
 
   const calculateStudyDuration = (date: DateValueType) => {
     if(date?.endDate && date?.startDate) {
-      setStudyDuration(calculateDaysBetweenDates(date?.startDate, date?.endDate));
+      setValue('study_duration', calculateDaysBetweenDates(date?.startDate, date?.endDate))
+    } else {
+      setValue('study_duration', 0)
     }
   }
 
@@ -86,7 +88,6 @@ const BasicInformation = ({ dropdownList, register, errors, control, Controller 
             <Input
               label="Study Duration"
               disabled
-              value={studyDuration}
               placeholder="Enter study duration"
               {...register("study_duration", {
                 // required: "Study duration is required!"

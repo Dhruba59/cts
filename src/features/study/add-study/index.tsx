@@ -21,6 +21,7 @@ const AddStudy = () => {
     register,
     handleSubmit,
     control,
+    setValue,
     formState: { errors },
     reset,
   } = useForm();
@@ -91,7 +92,7 @@ const AddStudy = () => {
   return (
     <main>
       <form className="mb-20" onSubmit={handleSubmit(onSubmit)}>
-        <BasicInformation dropdownList={dropdownList?.data} register={register} errors={errors} Controller={Controller} control={control}/>
+        <BasicInformation dropdownList={dropdownList?.data} register={register} setValue={setValue} errors={errors} Controller={Controller} control={control}/>
         <AssignSite assignedData={assignedData} setAssignedData={setAssignedData} />
         <CriticalSetup errors={errors} criticalSetupData={criticalDndData} setCriticalSetupData={setCriticalDndData} Controller={Controller} control={control} register={register}/>
         <div className="flex items-center justify-center gap-4 mt-16">
