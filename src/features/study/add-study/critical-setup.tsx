@@ -117,11 +117,14 @@ const CriticalSetup = ({ criticalSetupData, setCriticalSetupData, register, erro
     {
       groupIndex: 1,
       component: (
-        <div className="grid grid-cols-3 gap-4 mb-4 ">
-          <div className="col-span-2">
+        <div className="sticky p-4 pb-2 bg-white top-0 flex flex-col xl:grid xl:grid-cols-5 gap-2 ">
+          <div className="col-span-3">
             <SearchBox onChange={filterData}/>
           </div>
-          <Select placeholder="Name" options={searchValueTypeOptions} onChange={handleSearchFieldTypeChange}/>
+          <div className="col-span-2">
+            <Select placeholder="Name" options={searchValueTypeOptions} onChange={handleSearchFieldTypeChange}/>
+          </div>
+        <hr className="w-full xl:hidden"/>
         </div>
       ),
     },
@@ -158,7 +161,7 @@ const CriticalSetup = ({ criticalSetupData, setCriticalSetupData, register, erro
   return (
     <section className="wrapper my-8">
       <div className="flex justify-between items-start lg:items-center px-6 py-5">
-        <h4 className=" text-neutral-black ">Critical Setup</h4>
+        <h4 className=" text-neutral-black min-w-[140px]">Critical Setup</h4>
         <div className="flex flex-col lg:flex-row justify-between items-center gap-4">
           <div className="flex gap-2 items-center">
             <Label label="DSLSP:" />
@@ -176,7 +179,7 @@ const CriticalSetup = ({ criticalSetupData, setCriticalSetupData, register, erro
             <InputRange  minInputProps={...register('minBmi', { required: 'Required'})}  maxInputProps={...register('maxBmi',  { required: 'Required'})} />
             {(errors.minBmi || errors.maxBmi) && (
               <span className="absolute -bottom-5 text-red-500 -mt-10">{'Bmi required'}</span>
-            )} 
+            )}
             </div>
             
           </div>
@@ -198,7 +201,7 @@ const CriticalSetup = ({ criticalSetupData, setCriticalSetupData, register, erro
         onDragFinish={onDragFinish}
         customComponents={components}
         wrapperClassName="p-6"
-        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-16 sm:gap-12"
+        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 2xl:gap-8"
       />
     </section>
   );

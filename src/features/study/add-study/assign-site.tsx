@@ -29,7 +29,9 @@ const AssignSite = ({ assignedData, setAssignedData }: AssignSiteProps) => {
   const components: DndCustomComponentType[] = [
     {
       groupIndex: 0,
-      component: <SearchBox className="mb-4" onChange={filterData}/>,
+      component: <div className="sticky top-0 p-4 pb-2 bg-white">
+        <SearchBox onChange={filterData} />
+      </div>,
     },
   ];
 
@@ -38,7 +40,7 @@ const AssignSite = ({ assignedData, setAssignedData }: AssignSiteProps) => {
   }
 
   useEffect(() => {
-    if(assignedData) {
+    if (assignedData) {
       setFilteredData(assignedData);
     }
   }, [assignedData]);

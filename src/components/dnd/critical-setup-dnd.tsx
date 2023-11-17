@@ -122,8 +122,9 @@ const CriticalDnd = ({
             }
           >
             <div className="text-dark-900 pb-4 pt-2">{group?.title}</div>
-            <div className="bg-white p-4 h-[290px] overflow-y-auto">
+            <div className="bg-white h-[290px] overflow-y-auto">
               {renderCustomComponent(groupIndex)}
+              <div className="p-4 pt-0">
               {group?.items?.map((item, itemIndex) => (
                 <div
                   draggable
@@ -145,6 +146,7 @@ const CriticalDnd = ({
                   </div>
                 </div>
               ))}
+              </div>
             </div>
           </div>
         ))}

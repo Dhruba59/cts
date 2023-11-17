@@ -90,3 +90,13 @@ export const getAccessToken = () => {
   }
   return '';
 }
+
+export function calculateDaysBetweenDates(startDate: string | Date, endDate: string | Date) {
+  const startDateTime = new Date(startDate).getTime();
+  const endDateTime = new Date(endDate).getTime();
+
+  const timeDifference = endDateTime - startDateTime;
+  const daysDifference = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+
+  return daysDifference;
+}

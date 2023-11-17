@@ -26,7 +26,7 @@ const InputRange = ({ values={minValue: 0, maxValue: 100}, onValuesChange, class
     >
       <input
         type="number"
-        className="w-16 text-sm text-center focus-visible:outline-none bg-transparent"
+        className="w-full max-w-[60px] text-sm text-center focus-visible:outline-none bg-transparent"
         // value={values.minValue}
         onChange={(e) => handleInputChange(e, 'minValue')}
         {...minInputProps}
@@ -34,7 +34,7 @@ const InputRange = ({ values={minValue: 0, maxValue: 100}, onValuesChange, class
       <span className="text-neutral-400"> ⇀</span>
       <input
         type="number"
-        className="w-16 text-sm text-center focus-visible:outline-none bg-transparent"
+        className="w-full max-w-[60px] text-sm text-center focus-visible:outline-none bg-transparent"
         // value={values.maxValue}
         onChange={(e) => handleInputChange(e, 'maxValue')}
         {...maxInputProps}

@@ -1,12 +1,15 @@
 "use client";
 import Breadcrumbs from "@/components/ui/breadcrumbs";
 import Checkbox from "@/components/ui/checkbox";
+import Datepicker2 from "@/components/ui/datepicker";
 import Datepicker from "@/components/ui/datepicker";
 import Input from "@/components/ui/input";
 import Label from "@/components/ui/label";
 import Select from "@/components/ui/select";
 import { DropDownItem, SelectOptionType } from "@/model/drop-down-list";
+import { calculateDaysBetweenDates } from "@/utils/helpers";
 import { useEffect, useState } from "react";
+import { DateValueType } from "react-tailwindcss-datepicker";
 
 type DropdownList = {
   [key: string]: DropDownItem[];
@@ -25,6 +28,7 @@ const BasicInformation = ({ dropdownList, register, errors, control, Controller 
   const [phaseOptions, setPhaseOptions] = useState<SelectOptionType[]>([]);
   const [sponsorOptions, setSponsorOptions] = useState<SelectOptionType[]>([]);
   const [studyCompoundOptions, setStudyCompoundOptions] = useState<SelectOptionType[]>([]);
+  const [studyDuration, setStudyDuration] = useState<number>(0);
 
   const convertTypeToSelectOption = (data: DropDownItem[]): SelectOptionType[] => (
     data?.map((item: DropDownItem) => ({
@@ -32,6 +36,12 @@ const BasicInformation = ({ dropdownList, register, errors, control, Controller 
       value: item.value,
     }))
   );
+
+  const calculateStudyDuration = (date: DateValueType) => {
+    if(date?.endDate && date?.startDate) {
+      setStudyDuration(calculateDaysBetweenDates(date?.startDate, date?.endDate));
+    }
+  }
 
   useEffect(() => {
     setCommentOptions(convertTypeToSelectOption(dropdownList?.commentTypes))
@@ -76,6 +86,7 @@ const BasicInformation = ({ dropdownList, register, errors, control, Controller 
             <Input
               label="Study Duration"
               disabled
+              value={studyDuration}
               placeholder="Enter study duration"
               {...register("study_duration", {
                 // required: "Study duration is required!"
@@ -164,7 +175,10 @@ const BasicInformation = ({ dropdownList, register, errors, control, Controller 
               render={({ field: { onChange, onBlur, value } }: any) => (
                 <Datepicker
                   value={value}
-                  onChange={onChange}
+                  onChange={(date) => {
+                    onChange(date);
+                    calculateStudyDuration(date);
+                  }}
                   placeholder="Start date   ⇀   End date"
                   label="Date"
                 />
