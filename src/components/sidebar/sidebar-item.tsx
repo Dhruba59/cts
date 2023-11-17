@@ -17,7 +17,7 @@ const SidebarItem = ({ item, showIconOnly = false }: SidebarItemProps) => {
   const menuItems = item?.child?.map((item: any) => ({
     icon: item?.icon,
     text: item?.funtionality,
-    href: item?.url
+    url: item?.url
   }));
 
   const toggleExpand = () => {
@@ -34,7 +34,7 @@ const SidebarItem = ({ item, showIconOnly = false }: SidebarItemProps) => {
       >
         {item?.icon && (
           <div className="w-6 h-6 flex justify-center items-center">
-            <Link href={item.url}>{item?.icon}</Link>
+            {item?.icon}
           </div>
         )}
         {item?.child && item?.child.length > 0 && (
