@@ -4,8 +4,9 @@ import Label from "./label";
 import React, { useEffect, useRef, useState } from "react";
 
 interface RadioButtonProps extends React.ComponentPropsWithoutRef<"input"> {
-  children: React.ReactNode;
+  children?: React.ReactNode;
   selectedValue?: string | number;
+  wrapperClassName?: string;
 }
 
 const RadioButton: React.FC<RadioButtonProps> = ({
@@ -14,6 +15,7 @@ const RadioButton: React.FC<RadioButtonProps> = ({
   className,
   children,
   selectedValue,
+  wrapperClassName,
   ...props
 }) => {
   const inputRef = useRef<HTMLInputElement>(null);
@@ -26,16 +28,16 @@ const RadioButton: React.FC<RadioButtonProps> = ({
   }, [selectedValue, value]);
 
   return (
-    <div className="flex items-center gap-2">
+    <div className={cn("flex items-center gap-2", wrapperClassName)}>
       <input
         type="radio"
         id={id}
         ref={inputRef}
         value={value}
-        className={cn("accent-secondary h-4 w-4 cursor-pointer", className)}
+        className={cn("accent-secondary h-4 w-4", className)}
         {...props}
       />
-      <Label label={children} htmlFor={id} className="cursor-pointer" />
+      {children && <Label label={children} htmlFor={id} />}
     </div>
   );
 };
@@ -43,9 +45,9 @@ const RadioButton: React.FC<RadioButtonProps> = ({
 interface RadioGroupProps extends React.ComponentPropsWithoutRef<"div"> {
   children: any;
   label?: string;
-  labelClassName?: string;
   name: string;
   selectedValue?: string | number;
+  labelClassName?: string;
   rootClassName?: string;
 }
 
@@ -61,12 +63,7 @@ const RadioGroup = ({
 }: RadioGroupProps) => {
   return (
     <fieldset className={rootClassName}>
-      {label && (
-        <Label
-          label={label}
-          className={`inline-block mb-3 ${labelClassName}`}
-        />
-      )}
+      {label && <Label label={label} className={`inline-block mb-3 ${labelClassName}`} />}
       <div {...props}>
         {React.Children.map(children, (child) =>
           React.cloneElement(child, { name, onChange, selectedValue })

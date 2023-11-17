@@ -5,7 +5,6 @@ import Input from "@/components/ui/input";
 import { useChangePasswordMutation, useMatchPasswordMutation } from "@/hooks/rq-hooks/self-hooks";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { useRouter } from "next/navigation";
 import { signOut } from "next-auth/react";
 
 const ChangePasswordForm = () => {

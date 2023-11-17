@@ -1,3 +1,4 @@
+import CriticalSetup from "@/features/study/add-study/critical-setup";
 import { GroupBase, Props } from "react-select";
 
 export interface KeyValueType {
@@ -15,7 +16,12 @@ export type SelectProps<
 
 export interface DndDataType {
   title: string;
-  items: Array<string>;
+  items: Array<DndDataItem>;
+}
+
+interface DndDataItem {
+  text: string;
+  value: string;
 }
 
 export interface DndCustomComponentType {

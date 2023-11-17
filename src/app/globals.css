@@ -21,13 +21,32 @@
 }
 
 @layer components {
-  /*remaining height after subtracting header and footer height*/
   .h-fill {
-    @apply h-[calc(100vh_-_104px)];
+    @apply h-[calc(100vh_-_127px)];
   }
   .wrapper {
-    @apply bg-white m-0 md:m-6 border rounded-md;
+    @apply bg-white m-0 md:mx-6 md:mt-8 md:mb-8 border rounded-lg;
   }
+  .subject-entry {
+    @apply px-8 py-3.5 h-20 text-center bg-white border-2 text-primary border-primary rounded-sm leading-tight;
+  }
+  .subject-entry-active {
+    @apply bg-primary text-white transition-colors duration-300 ease-in-out;
+  }
+}
+
+
+/* Drag and Drop */
+.dnd-item {
+  padding: 12px;
+  width: 100%;
+  font-size: 14px;
+  background-color: #e0e0e4;
+  border-radius: 4px;
+  cursor: grabbing;
+}
+.dnd-item:not(:last-of-type) {
+  margin-bottom: 0.5rem;
 }
 
 /* Hiding html number type default styling */
