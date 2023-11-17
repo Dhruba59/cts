@@ -6,7 +6,6 @@ import Select from "@/components/ui/select";
 import { DndCustomComponentType, DndDataType } from "@/types/common";
 import React, { ChangeEvent, Dispatch, SetStateAction, useEffect, useState } from "react";
 import { CriticalDataType, CriticalDndDataType, CriticalDndItem } from "@/model/study";
-import { InputRangeDataType } from "@/model/common";
 import CriticalDnd from "@/components/dnd/critical-setup-dnd";
 import { getIndicationList } from "@/service/study-service";
 import { useQuery } from "react-query";
@@ -14,12 +13,12 @@ import { SelectOptionType } from "@/model/drop-down-list";
 import { SingleValue } from "react-select";
 
 interface CriticalSetupProps {
-  setCriticalData: Dispatch<SetStateAction<CriticalDataType>>;
   criticalSetupData: CriticalDndDataType[];
   setCriticalSetupData: Dispatch<SetStateAction<CriticalDndDataType[]>>;
   register: any;
   control: any;
   Controller: any;
+  errors: any;
 }
 
 export interface CriticalIndicationQueryDataType {
@@ -51,9 +50,7 @@ const searchValueTypeOptions = [
   }
 ]
 
-const CriticalSetup = ({ setCriticalData, criticalSetupData, setCriticalSetupData, register }: CriticalSetupProps) => {
-  const [bmiValue, setBmiValue] = useState<InputRangeDataType>();
-  const [ageValue, setAgeValue] = useState<InputRangeDataType>();
+const CriticalSetup = ({ criticalSetupData, setCriticalSetupData, register, errors}: CriticalSetupProps) => {
   const [queryData, setQueryData] = useState<CriticalIndicationQueryDataType>(initialQueryData);
 
   const { data: indicationData } = useQuery({
@@ -66,7 +63,6 @@ const CriticalSetup = ({ setCriticalData, criticalSetupData, setCriticalSetupDat
       setCriticalSetupData((data: CriticalDndDataType[]) => {
         return data.map((group: CriticalDndDataType) => {
           if (group.title === 'Indications') {
-            console.log('indi test', data);
             const newData = indicationData?.data?.indications as CriticalDndItem[];
             return {
               ...group,
@@ -108,46 +104,64 @@ const CriticalSetup = ({ setCriticalData, criticalSetupData, setCriticalSetupDat
     setCriticalSetupData(data);
   }
   
-  const onBmiChange = (values: InputRangeDataType) => {
-    setBmiValue(values);
-    console.log(values);
-    setCriticalData((data: CriticalDataType) => ({
-      ...data,
-      bmi: values
-    }))
-  }
+  // const onBmiChange = (values: InputRangeDataType) => {
+  //   setBmiValue(values);
+  //   setCriticalData((data: CriticalDataType) => ({
+  //     ...data,
+  //     bmi: values
+  //   }))
+  //   console.log(values);
+  // }
 
-  const onDslpChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setCriticalData((data: CriticalDataType) => ({
-      ...data,
-      dslsp: e.target.value
-    }))
-  }
+  // const onDslpChange = (e: ChangeEvent<HTMLInputElement>) => {
+  //   setCriticalData((data: CriticalDataType) => ({
+  //     ...data,
+  //     dslsp: e.target.value
+  //   }))
+  // }
 
-  const onAgeChange = (values: InputRangeDataType) => {
-    setAgeValue(values);
-    setCriticalData((data: CriticalDataType) => ({
-      ...data,
-      age: values
-    }))
-  }
+  // const onAgeChange = (values: InputRangeDataType) => {
+  //   setAgeValue(values);
+  //   setCriticalData((data: CriticalDataType) => ({
+  //     ...data,
+  //     age: values
+  //   }))
+  // }
 
   return (
     <section className="wrapper my-8">
       <div className="flex justify-between items-center px-6 py-3">
         <h4 className=" text-neutral-black ">Critical Setup</h4>
-        <div className="hidden lg:flex gap-16">
+        <div className="hidden lg:flex justify-between items-center gap-4">
           <div className="flex gap-2 items-center">
             <Label label="DSLSP:" />
-            <Input placeholder="Enter DSLSP value" type="number" onChange={onDslpChange}/>
+            <div className="relative">
+            <Input placeholder="Enter DSLSP value" type="number" {...register('dslsp')} />
+            {(errors.minBmi || errors.maxBmi) && (
+              <span className="absolute -bottom-5 text-red-500 -mt-10">{'Required'}</span>
+            )}
+            </div>
+            
           </div>
           <div className="flex gap-2 items-center">
             <Label label="BMI:" />
-            <InputRange onValuesChange={onBmiChange} values={bmiValue}/>
+            <div className="relative">
+            <InputRange  minInputProps={...register('minBmi', { required: 'Required'})}  maxInputProps={...register('maxBmi',  { required: 'Required'})} />
+            {(errors.minBmi || errors.maxBmi) && (
+              <span className="absolute -bottom-5 text-red-500 -mt-10">{'Bmi required'}</span>
+            )} 
+            </div>
+            
           </div>
           <div className="flex gap-2 items-center">
             <Label label="AGE:" />
-            <InputRange onValuesChange={onAgeChange} values={ageValue}/>
+            <div className="relative">
+            <InputRange minInputProps={...register('minAge', { required: 'Required'})}  maxInputProps={...register('maxAge',  { required: 'Required'})}/>
+            {(errors.minAge || errors.maxAge) && (
+              <span className="absolute -bottom-5 text-red-500 -mt-10">{'Age required'}</span>
+            )}
+            </div>
+            
           </div>
         </div>
       </div>

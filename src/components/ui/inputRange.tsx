@@ -6,15 +6,15 @@ import { ComponentPropsWithoutRef, ChangeEvent } from "react";
 
 interface Props extends ComponentPropsWithoutRef<"div"> {
   values?: { minValue: number; maxValue: number };
-  onValuesChange: (newValues: { minValue: number; maxValue: number }) => void;
+  onValuesChange?: (newValues: { minValue: number; maxValue: number }) => void;
+  minInputProps?: ComponentPropsWithoutRef<'input'>;
+  maxInputProps?: ComponentPropsWithoutRef<'input'>;
 }
 
-
-
-const InputRange = ({ values={minValue: 0, maxValue: 100}, onValuesChange, className, ...props }: Props) => {
+const InputRange = ({ values={minValue: 0, maxValue: 100}, onValuesChange, className, minInputProps, maxInputProps, ...props }: Props) => {
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>, key: string) => {
     const newValue = parseInt(event.target.value, 10);
-    onValuesChange({ ...values, [key]: newValue });
+    onValuesChange?.({ ...values, [key]: newValue });
   };
 
   return (
@@ -27,17 +27,17 @@ const InputRange = ({ values={minValue: 0, maxValue: 100}, onValuesChange, class
       <input
         type="number"
         className="w-16 text-sm text-center focus-visible:outline-none bg-transparent"
-        value={values.minValue}
+        // value={values.minValue}
         onChange={(e) => handleInputChange(e, 'minValue')}
-        {...props}
+        {...minInputProps}
       />
       <span className="text-neutral-400"> ⇀</span>
       <input
         type="number"
         className="w-16 text-sm text-center focus-visible:outline-none bg-transparent"
-        value={values.maxValue}
+        // value={values.maxValue}
         onChange={(e) => handleInputChange(e, 'maxValue')}
-        {...props}
+        {...maxInputProps}
       />
     </div>
   );

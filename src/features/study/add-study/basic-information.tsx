@@ -44,7 +44,7 @@ const BasicInformation = ({ dropdownList, register, errors, control, Controller 
     <section>
       <Breadcrumbs title="Study Information" subTitle="Add Study" />
       <div className="wrapper">
-        <h4 className=" text-neutral-black px-6 py-4">Study Information</h4>
+        <h4 className=" px-6 py-4">Study Information</h4>
         <hr />
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-16 gap-y-8 p-8">
           <div>
@@ -75,9 +75,10 @@ const BasicInformation = ({ dropdownList, register, errors, control, Controller 
           <div>
             <Input
               label="Study Duration"
+              disabled
               placeholder="Enter study duration"
               {...register("study_duration", {
-                required: "Study duration is required!"
+                // required: "Study duration is required!"
               })}
             />
             {errors.study_duration && (
@@ -181,7 +182,7 @@ const BasicInformation = ({ dropdownList, register, errors, control, Controller 
               rules={{
                 required: "Study compound is required!",
               }}
-              render={({ field: { onChange, onBlur, value } }: any) => (
+              render={({ field: { onChange, onBlur } }: any) => (
                 <Select onChange={onChange} label="Study Compound" options={studyCompoundOptions} />
               )}
             />

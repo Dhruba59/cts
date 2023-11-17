@@ -15,7 +15,6 @@ import { getUpdatedCriticalDndData, getUpdatedDndData, initialAssignedData, init
 const AddStudy = () => {
   const [assignedData, setAssignedData] = useState<DndDataType[]>(initialAssignedData);
   const [criticalDndData, setCriticalDndData] = useState<CriticalDndDataType[]>(initialCriticalDndData);
-  const [criticalData, setCriticalData] = useState<CriticalDataType>(null!);
   const {data: dropdownList, error, isLoading} = useGetStudyDropdownsList();
   const { mutate: AddStudyMutation, isLoading: isAddStudyLoading } = useAddStudyMutation();
   const {
@@ -23,7 +22,7 @@ const AddStudy = () => {
     handleSubmit,
     control,
     formState: { errors },
-    reset
+    reset,
   } = useForm();
 
   const getIdsFromDndData = (data: DndDataType[], title: string): number[] | [] => (
@@ -60,19 +59,14 @@ const AddStudy = () => {
       // subjectIdentryFormat
       sr: val.sr == 'on' ? true : false,
       studyCompound: val.studyCompound.value,
-      // dslsp: val.dslsp,
+      dslsp: val.dslsp,
+      minBmi: val.minBmi,
+      maxBmi: val.maxBmi,
+      minAge: val.minAge,
+      maxAge: val.maxAge,
       assignedSites: getIdsFromDndData(assignedData,'Selected'),
       inclusionCriteria: getCriticalIdsFromDndData(criticalDndData ,'Inclusion Criteria'),
       exclusionCriteria: getCriticalIdsFromDndData(criticalDndData ,'Exclusion Criteria'),
-    }
-    if(criticalData?.age) {
-      payload = { ...payload, minAge: criticalData.age.minValue, maxAge: criticalData.age.maxValue }
-    }
-    if(criticalData?.bmi) {
-      payload = { ...payload, minBmi: criticalData.bmi.minValue, maxBmi: criticalData.bmi.maxValue }
-    }
-    if(criticalData?.dslsp) {
-      payload = { ...payload, dslsp: parseInt(criticalData.dslsp) }
     }
 
     AddStudyMutation(payload, {
@@ -82,33 +76,28 @@ const AddStudy = () => {
       },
       onError: (err: any) => {
         toast.warn(err?.response?.data?.detail, { position: "top-center" });
-      },
-      onSettled: () => {
-        // setIsLoading(false);
       }
     });
   }
-
-  console.log(criticalData);
 
   useEffect(() => {
     setCriticalDndData((data) => getUpdatedCriticalDndData(data, 'Indications', 'items', dropdownList?.data?.indications));
     setAssignedData((data) => getUpdatedDndData(data, 'Sites', 'items', dropdownList?.data?.sites));
   }, [dropdownList]);
 
+
   return (
     <main>
-      <form  className="mb-20" onSubmit={handleSubmit(onSubmit)}>
+      <form className="mb-20" onSubmit={handleSubmit(onSubmit)}>
         <BasicInformation dropdownList={dropdownList?.data} register={register} errors={errors} Controller={Controller} control={control}/>
         <AssignSite assignedData={assignedData} setAssignedData={setAssignedData} />
-        <CriticalSetup setCriticalData={setCriticalData} criticalSetupData={criticalDndData} setCriticalSetupData={setCriticalDndData} Controller={Controller} control={control} register={register}/>
+        <CriticalSetup errors={errors} criticalSetupData={criticalDndData} setCriticalSetupData={setCriticalDndData} Controller={Controller} control={control} register={register}/>
         <div className="flex items-center justify-center gap-4 mt-16">
           <Button className="px-8" type="submit" loading={isAddStudyLoading}>Submit</Button>
           <Button variant="outline" className="px-8">
             Cancel
           </Button>
         </div>
-
       </form>
     </main>
   );

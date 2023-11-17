@@ -74,7 +74,6 @@ const DragNDrop = ({
       );
 
       dragItem.current = destinationItem;
-      onDragFinish?.(newList);
       return newList;
     });
   };
@@ -84,6 +83,12 @@ const DragNDrop = ({
     setIsDragging(false);
     dragItem.current = null;
     currentDragNode.current = null;
+    setList((prevList) => {
+      if (onDragFinish) {
+        onDragFinish(prevList);
+      }
+      return prevList;
+    });
   };
 
   // styling for dragging item

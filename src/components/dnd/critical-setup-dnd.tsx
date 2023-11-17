@@ -1,6 +1,6 @@
 "use client";
 import { cn } from "@/libs/utils";
-import { CriticalDataType, CriticalDndDataType } from "@/model/study";
+import { CriticalDndDataType } from "@/model/study";
 import { DndCustomComponentType, DndDataType } from "@/types/common";
 import React, { ComponentPropsWithoutRef, useEffect, useRef, useState } from "react";
 
@@ -75,7 +75,6 @@ const CriticalDnd = ({
       );
 
       dragItem.current = destinationItem;
-      onDragFinish?.(newList);
       return newList;
     });
   };
@@ -85,6 +84,12 @@ const CriticalDnd = ({
     setIsDragging(false);
     dragItem.current = null;
     currentDragNode.current = null;
+    setList((prevList) => {
+      if (onDragFinish) {
+        onDragFinish(prevList);
+      }
+      return prevList;
+    });
   };
 
   // styling for dragging item
@@ -110,7 +115,7 @@ const CriticalDnd = ({
       <div className={cn("", className)} {...props}>
         {list?.map((group, groupIndex) => (
           <div
-            className="bg-light-200 rounded-md p-3"
+            className="bg-light-200 rounded-md p-3 "
             key={groupIndex}
             onDragEnter={
               isDragging && !group?.items?.length
