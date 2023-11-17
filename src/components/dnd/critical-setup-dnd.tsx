@@ -51,14 +51,12 @@ const CriticalDnd = ({
     }, 0);
   };
 
-  const handleDragEnter = (e: React.DragEvent<HTMLDivElement>, params: any) => {
-    if (!isDragging) return;
-    if (e.target === currentDragNode.current) {
-      return;
-    }
-
+  const handleDragEnter = (e: React.DragEvent<HTMLDivElement>, params: any) => {    
     const sourceItem = dragItem.current; // currently dragging item
     const destinationItem = params; // where I want to put it
+    if (!isDragging || e.target === currentDragNode.current || sourceItem.groupIndex === destinationItem.groupIndex) {
+      return;
+    }
 
     setList((oldList) => {
       let newList = JSON.parse(JSON.stringify(oldList));
@@ -118,7 +116,7 @@ const CriticalDnd = ({
             className="bg-light-200 rounded-md p-3 "
             key={groupIndex}
             onDragEnter={
-              isDragging && !group?.items?.length
+              isDragging
                 ? (e) => handleDragEnter(e, { groupIndex, itemIndex: 0 })
                 : undefined
             }
@@ -132,9 +130,9 @@ const CriticalDnd = ({
                   onDragStart={(e) =>
                     handleDragStart(e, { groupIndex, itemIndex })
                   }
-                  onDragEnter={(e) =>
-                    handleDragEnter(e, { groupIndex, itemIndex })
-                  }
+                  // onDragEnter={(e) =>
+                  //   handleDragEnter(e, { groupIndex, itemIndex })
+                  // }
                   className={
                     isDragging
                       ? getStyles({ groupIndex, itemIndex })

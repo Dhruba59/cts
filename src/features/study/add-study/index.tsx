@@ -15,7 +15,7 @@ import { getUpdatedCriticalDndData, getUpdatedDndData, initialAssignedData, init
 const AddStudy = () => {
   const [assignedData, setAssignedData] = useState<DndDataType[]>(initialAssignedData);
   const [criticalDndData, setCriticalDndData] = useState<CriticalDndDataType[]>(initialCriticalDndData);
-  const {data: dropdownList, error, isLoading} = useGetStudyDropdownsList();
+  const {data: dropdownList, error, isLoading, refetch} = useGetStudyDropdownsList();
   const { mutate: AddStudyMutation, isLoading: isAddStudyLoading } = useAddStudyMutation();
   const {
     register,
@@ -73,9 +73,12 @@ const AddStudy = () => {
       onSuccess: ({ data }: any) => {
         reset();
         toast.success(data.message, { position: "top-center" });
+        refetch();
+        setAssignedData(initialAssignedData);
+        setCriticalDndData(initialCriticalDndData);
       },
       onError: (err: any) => {
-        toast.warn(err?.response?.data?.detail, { position: "top-center" });
+        toast.warn(err?.response?.data?.title, { position: "top-center" });
       }
     });
   }
@@ -84,7 +87,6 @@ const AddStudy = () => {
     setCriticalDndData((data) => getUpdatedCriticalDndData(data, 'Indications', 'items', dropdownList?.data?.indications));
     setAssignedData((data) => getUpdatedDndData(data, 'Sites', 'items', dropdownList?.data?.sites));
   }, [dropdownList]);
-
 
   return (
     <main>

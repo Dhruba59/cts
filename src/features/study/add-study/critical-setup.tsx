@@ -64,9 +64,18 @@ const CriticalSetup = ({ criticalSetupData, setCriticalSetupData, register, erro
         return data.map((group: CriticalDndDataType) => {
           if (group.title === 'Indications') {
             const newData = indicationData?.data?.indications as CriticalDndItem[];
+  
+            const inclusionItems = data.find(g => g.title === 'Inclusion Criteria')?.items ?? [];
+            const exclusionItems = data.find(g => g.title === 'Exclusion Criteria')?.items ?? [];
+  
+            const filteredData = newData.filter(item => {
+              return !inclusionItems.some(i => i.value === item.value) &&
+                     !exclusionItems.some(i => i.value === item.value);
+            });
+  
             return {
               ...group,
-              items: newData,
+              items: filteredData,
             };
           }
           return group;
@@ -74,6 +83,24 @@ const CriticalSetup = ({ criticalSetupData, setCriticalSetupData, register, erro
       });
     }
   }, [indicationData, setCriticalSetupData]);
+  
+
+  // useEffect(() => {
+  //   if (indicationData) {
+  //     setCriticalSetupData((data: CriticalDndDataType[]) => {
+  //       return data.map((group: CriticalDndDataType) => {
+  //         if (group.title === 'Indications') {
+  //           const newData = indicationData?.data?.indications as CriticalDndItem[];
+  //           return {
+  //             ...group,
+  //             items: newData,
+  //           };
+  //         }
+  //         return group;
+  //       });
+  //     });
+  //   }
+  // }, [indicationData, setCriticalSetupData]);
 
   const handleSearchFieldTypeChange = (option: SingleValue<SelectOptionType>) => {
     if(option) {
@@ -130,15 +157,15 @@ const CriticalSetup = ({ criticalSetupData, setCriticalSetupData, register, erro
 
   return (
     <section className="wrapper my-8">
-      <div className="flex justify-between items-center px-6 py-3">
+      <div className="flex justify-between items-start lg:items-center px-6 py-5">
         <h4 className=" text-neutral-black ">Critical Setup</h4>
-        <div className="hidden lg:flex justify-between items-center gap-4">
+        <div className="flex flex-col lg:flex-row justify-between items-center gap-4">
           <div className="flex gap-2 items-center">
             <Label label="DSLSP:" />
             <div className="relative">
-            <Input placeholder="Enter DSLSP value" type="number" {...register('dslsp')} />
-            {(errors.minBmi || errors.maxBmi) && (
-              <span className="absolute -bottom-5 text-red-500 -mt-10">{'Required'}</span>
+            <Input placeholder="Enter DSLSP value" type="number" {...register('dslsp', { required: 'dslsp required' })} />
+            {errors.dslsp && (
+              <span className="absolute -bottom-5 text-red-500 -mt-10">{errors.dslsp.message}</span>
             )}
             </div>
             

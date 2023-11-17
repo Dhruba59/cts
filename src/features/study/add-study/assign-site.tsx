@@ -19,7 +19,6 @@ const AssignSite = ({ assignedData, setAssignedData }: AssignSiteProps) => {
           const filteredItems = group.items.filter((item) =>
             item.text.toLowerCase().includes(searchTerm)
           );
-          console.log(filteredItems);
           return { ...group, items: filteredItems };
         }
         return group;
