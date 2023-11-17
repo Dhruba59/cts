@@ -11,3 +11,9 @@ export type SelectProps<
 > = Props<Option, IsMulti, Group> & {
   label?: string;
 };
+
+export interface InputRangeDataType {
+  minValue: number;
+  maxValue: number;
+}
+

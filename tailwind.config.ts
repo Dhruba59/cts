@@ -24,12 +24,18 @@ const config: Config = {
           200: "#F2F3F3",
           400: "#DDE2E4",
           500: "#D9D9D9",
+          600: "#BFBFBF",
           black: "#262626",
           gray: "#5C5E64",
         },
         dark: {
           DEFAULT: "#212731",
           900: "#1A1919",
+        },
+        light: {
+          100: "#fafafd",
+          200: "#f5f7f9",
+          500: "#F9F9F9",
         },
         gold: {
           100: "#FFFBE6",

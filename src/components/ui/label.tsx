@@ -18,8 +18,8 @@ const Label = ({
     <label
       {...props}
       className={cn(
-        "text-black/90 text-sm w-fit",
-        { "text-neutral-600": isDisabled },
+        "text-sm w-fit",
+        { "text-neutral-600 dark:text-neutral-700": isDisabled },
         className
       )}
     >
