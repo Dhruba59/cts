@@ -50,6 +50,7 @@ const Pagination = ({
         value={pageSize}
         onChange={(e) => {
           setPageSize(Number(e.target.value));
+          setCurrentPage(1);
         }}
       >
         {[10, 20, 30, 40, 50, 100].map((ps) => (
