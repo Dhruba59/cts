@@ -7,12 +7,8 @@ import Textarea from "@/components/ui/textarea";
 import CardDataStats from "@/components/CardDataStats";
 import { useEffect, useMemo, useState } from "react";
 import { USERS, USER_COLUMN } from "@/components/table/mockData";
-import { error } from "console";
-import createHubConnection from "@/service/signalr-connection";
 import Select from "@/components/ui/select";
 import {useHubContext } from "@/context/hub-connection-context";
-import getHubConnection from "@/service/signalr-connection";
-import { useEnvConfigContext } from "@/context/env-config-context";
 
 export default function Dashboard() {
   const options = [
