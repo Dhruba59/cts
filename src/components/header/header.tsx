@@ -23,7 +23,6 @@ const handleLogout = () => {
 };
 
 const menuItems = [
-  { icon: '', text: 'Settings', href: '' },
   { icon: '', text: 'Profile' },
   { icon: '', text: 'Change Password', href: 'change-password' },
   { icon: '', text: 'Log out', onClick: handleLogout }
