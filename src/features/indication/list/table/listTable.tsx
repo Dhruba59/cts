@@ -6,6 +6,7 @@ import { useEffect, useMemo, useState } from "react";
 import { LIST_COLUMN } from "./columns";
 import { Indication, IndicationQuery } from "@/model/indication";
 import { get_indications } from "@/service/indication-service";
+import { SortingState } from "@tanstack/react-table";
 
 const ListTable = () => {
   const columns = useMemo(() => LIST_COLUMN, []);
@@ -18,26 +19,36 @@ const ListTable = () => {
   const [data, setData] = useState<Indication[]>(indiations);
   const [totalPages, setTotalPages] = useState<number>(0);
   const [pageSize, setPageSize] = useState<number>(10);
+  const [sortBy, setSortBy] = useState('');
+
+  const [sorting, setSorting] = useState<SortingState>([
+   {id: "indicationName", desc: false}
+])
+  
 
   const fetchData = async (query: IndicationQuery) => {
-    console.log(query);
+    //console.log(query);
     
     const { data, error }: any = await get_indications(query);
-    console.log(data);
+
     setData(data.items);
     setCurrentPage(data.pageNumber);
     setTotalPages(data.totalPages);
   };
 
+
   useEffect(() => {
-    fetchData(indiationQuery);
-  }, []);
-  
-  useEffect(() => {
+
+    setSortBy(sorting.map((s) => `${s.id} ${s.desc ? 'asc' : 'desc'}`).join(','));
+
+    console.log(sortBy);
+
     indiationQuery.pageNumber = currentPage;
     indiationQuery.pageSize = pageSize;
+    indiationQuery.orderBy = sortBy === '' || null || undefined ? null : sortBy;
+
     fetchData(indiationQuery);
-  }, [currentPage, pageSize]);
+  }, [currentPage, pageSize, sorting]);
 
   return (
     <div className="sm:wrapper">
@@ -46,7 +57,7 @@ const ListTable = () => {
       </h4>
 
       <div className="hidden sm:block">
-        <SimpleTable data={data} columns={columns} />
+        <SimpleTable data={data} columns={columns} sorting={sorting} setSorting={setSorting}/>
       </div>
       <div className="block sm:hidden">
         <ExpandableTable

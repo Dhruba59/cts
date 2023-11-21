@@ -11,10 +11,10 @@
       "static/chunks/main-app.js",
       "static/chunks/app/(main)/layout.js"
     ],
-    "/(main)/(study)/add-study/page": [
+    "/(main)/(indication)/list-of-indications/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/(main)/(study)/add-study/page.js"
+      "static/chunks/app/(main)/(indication)/list-of-indications/page.js"
     ],
     "/(authorization)/layout": [
       "static/chunks/webpack.js",
@@ -36,15 +36,10 @@
       "static/chunks/main-app.js",
       "static/chunks/app/(main)/(indication)/add-indication/page.js"
     ],
-    "/(main)/(indication)/list-of-indications/page": [
+    "/not-found": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/(main)/(indication)/list-of-indications/page.js"
-    ],
-    "/(main)/(site)/add-site/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/(main)/(site)/add-site/page.js"
+      "static/chunks/app/not-found.js"
     ]
   }
 }

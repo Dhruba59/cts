@@ -9,18 +9,19 @@ import { ColumnDef } from "@tanstack/react-table";
 import Cross from "@/components/icons/cross";
 
 export const LIST_COLUMN: ColumnDef<Indication>[] = [
-  {
-    header: "Code",
-    accessorKey: "code"
-  },
+
   {
     header: "Indication Name",
     accessorKey: "indicationName",
     cell: ({ row }) => {
       return (
-        <div className=" min-w-[100px]">{row.original.indicationName}</div>
+        <div className="min-w-[100px]">{row.original.indicationName}</div>
       );
     }
+  },
+  {
+    header: "Code",
+    accessorKey: "code"
   },
   {
     header: "Code Type",
