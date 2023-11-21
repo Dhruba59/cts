@@ -38,7 +38,7 @@ const BasicInformation = ({ dropdownList, register, setValue, errors, control, C
   );
 
   const calculateStudyDuration = (date: DateValueType) => {
-    if(date?.endDate && date?.startDate) {
+    if (date?.endDate && date?.startDate) {
       setValue('study_duration', calculateDaysBetweenDates(date?.startDate, date?.endDate))
     } else {
       setValue('study_duration', 0)
@@ -83,21 +83,6 @@ const BasicInformation = ({ dropdownList, register, setValue, errors, control, C
               <span className="text-red-500 -mt-10">{errors.study_id_format.message as string}</span>
             )}
           </div>
-
-          <div>
-            <Input
-              label="Study Duration"
-              disabled
-              placeholder="Enter study duration"
-              {...register("study_duration", {
-                // required: "Study duration is required!"
-              })}
-            />
-            {errors.study_duration && (
-              <span className="text-red-500 -mt-10">{errors.study_duration.message as string}</span>
-            )}
-          </div>
-
           <div>
             <Input
               label="Protocol"
@@ -110,62 +95,13 @@ const BasicInformation = ({ dropdownList, register, setValue, errors, control, C
               <span className="text-red-500 -mt-10">{errors.protocolNumber.message as string}</span>
             )}
           </div>
-          <div>
-            <Controller
-              control={control}
-              name='studyCommentType'
-              rules={{
-                required: 'Comment is required!',
-              }}
-              render={({ field: { onChange, onBlur, value } }: any) => (
-                <Select onChange={onChange} label="Comment type" options={commentOptions} />
-              )}
-            />
-            {errors.studyCommentType && (
-              <span className="text-red-500 -mt-10">{errors.studyCommentType.message as string}</span>
-            )}
-          </div>
-
+          
           <div>
             <Input type="number" label="Max Subjects" placeholder="Max subjects" {...register('maxSubjects', { required: 'max subject required!' })} />
             {errors.maxSubjects && (
               <span className="text-red-500 -mt-10">{errors.maxSubjects.message as string}</span>
             )}
           </div>
-
-          <div>
-            <Controller
-              control={control}
-              name='phase'
-              rules={{
-                required: 'Phase is required!',
-              }}
-              render={({ field: { onChange, onBlur, value } }: any) => (
-                <Select onChange={onChange} label="Phase" options={phaseOptions} />
-              )}
-            />
-            {errors.phase && (
-              <span className="text-red-500 -mt-10">{errors.phase.message as string}</span>
-            )}  
-          </div>
-
-
-          <div>
-            <Controller
-              control={control}
-              name='sponsor'
-              rules={{
-                required: "Sponsore is required!",
-              }}
-              render={({ field: { onChange, onBlur, value } }: any) => (
-                <Select onChange={onChange} label="Sponsor" options={sponsorOptions} />
-              )}
-            />
-            {errors.sponsor && (
-              <span className="text-red-500 -mt-10">{errors.sponsor.message as string}</span>
-            )}
-          </div>
-
           <div>
             <Controller
               control={control}
@@ -189,6 +125,65 @@ const BasicInformation = ({ dropdownList, register, setValue, errors, control, C
               <span className="text-red-500 -mt-10">{errors.date.message as string}</span>
             )}
           </div>
+          <div>
+            <Input
+              label="Study Duration"
+              disabled
+              placeholder="Enter study duration"
+              {...register("study_duration")}
+            />
+            {errors.study_duration && (
+              <span className="text-red-500 -mt-10">{errors.study_duration.message as string}</span>
+            )}
+          </div>
+          <div>
+            <Controller
+              control={control}
+              name='studyCommentType'
+              rules={{
+                required: 'Comment is required!',
+              }}
+              render={({ field: { onChange, onBlur, value } }: any) => (
+                <Select onChange={onChange} label="Comment type" options={commentOptions} />
+              )}
+            />
+            {errors.studyCommentType && (
+              <span className="text-red-500 -mt-10">{errors.studyCommentType.message as string}</span>
+            )}
+          </div>         
+          <div>
+            <Controller
+              control={control}
+              name='phase'
+              rules={{
+                required: 'Phase is required!',
+              }}
+              render={({ field: { onChange, onBlur, value } }: any) => (
+                <Select onChange={onChange} label="Phase" options={phaseOptions} />
+              )}
+            />
+            {errors.phase && (
+              <span className="text-red-500 -mt-10">{errors.phase.message as string}</span>
+            )}
+          </div>
+          
+          <div>
+            <Controller
+              control={control}
+              name='sponsor'
+              rules={{
+                required: "Sponsore is required!",
+              }}
+              render={({ field: { onChange, onBlur, value } }: any) => (
+                <Select onChange={onChange} label="Sponsor" options={sponsorOptions} />
+              )}
+            />
+            {errors.sponsor && (
+              <span className="text-red-500 -mt-10">{errors.sponsor.message as string}</span>
+            )}
+          </div>
+
+          
 
           <div>
             <Controller
@@ -207,37 +202,35 @@ const BasicInformation = ({ dropdownList, register, setValue, errors, control, C
 
           </div>
 
-          <div className="flex gap-8 items-center">
-            <div className="flex flex-col gap-2 ml-2 items-center">
+          <div className="flex gap-8 items-start justify-start">
+            <div className="flex flex-col justify-start gap-6 items-center h-full">
               <Label label='Pre Screen' />
-              <input
-                id="pre"
+              <Controller
                 name="preScreen"
-                type="radio"
-                {...register("preScreen")}
+                control={control}
+                render={({ field: { onChange, onBlur, value } }: any) => (
+                  <Checkbox className="" onChange={onChange} />
+                )}
               />
             </div>
-            <div className="flex flex-col gap-2 ml-2 items-center">
+            <div className="flex flex-col gap-6 justify-start items-center h-full">
               <Label label='Sr.com Only' />
-              <input
+              <Controller
                 name="sr"
-                id="sr"
-                type="radio"
-                {...register("sr")}
+                control={control}
+                render={({ field: { onChange, onBlur, value } }: any) => (
+                  <Checkbox className="" onChange={onChange} />
+                )}
               />
             </div>
           </div>
-          <div className="flex flex-col gap-2 justify-center ml-2 items-start">
-            <Label label="Active" className="inline-block mb-2" />
-           
+          <div className="flex flex-col gap-6 justify-start items-center w-fit h-full">
+            <Label label="Active" />
             <Controller
               name="active"
               control={control}
-              rules={{
-                // required: true,
-              }}
               render={({ field: { onChange, onBlur, value } }: any) => (
-                <Checkbox className="-mt-2" onChange={onChange} />
+                <Checkbox onChange={onChange} />
               )}
             />
           </div>

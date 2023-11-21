@@ -21,8 +21,13 @@ import React, { ComponentPropsWithoutRef, useEffect, useRef, useState } from "re
 interface Props extends ComponentPropsWithoutRef<"div"> {
   wrapperClassName?: string;
   data: CriticalDndDataType[];
-  onDragFinish?: (value:CriticalDndDataType[]) => void; 
+  onDragFinish?: (value: CriticalDndDataType[]) => void;
   customComponents?: DndCustomComponentType[];
+}
+
+interface DragItem {
+  groupIndex: number;
+  itemIndex: number;
 }
 
 const CriticalDnd = ({
@@ -34,6 +39,7 @@ const CriticalDnd = ({
   ...props
 }: Props) => {
   const [list, setList] = useState(data);
+  const [selectedItems, setSelectedItems] = useState<DragItem[]>([]);
   const [isDragging, setIsDragging] = useState(false);
   const dragItem = useRef<any>();
   const currentDragNode = useRef<any>();
@@ -42,37 +48,46 @@ const CriticalDnd = ({
     setList(data);
   }, [data])
 
-  const handleDragStart = (e: React.DragEvent<HTMLDivElement>, params: any) => {
+  const handleDragStart = (e: React.DragEvent<HTMLDivElement>, params: DragItem) => {
     dragItem.current = params;
     currentDragNode.current = e.target;
     currentDragNode.current.addEventListener("dragend", handleDragEnd);
-    setTimeout(() => {
+    setSelectedItems((prevSelected) => {
+      // Check if params is already present in prevSelected
+      const isParamsSelected = prevSelected.some(
+        (selectedItem) =>
+          selectedItem.groupIndex === params.groupIndex &&
+          selectedItem.itemIndex === params.itemIndex
+      );
+      // Add params only if it's not already in prevSelected
+      return isParamsSelected ? prevSelected : [params];
+    });
       setIsDragging(true);
-    }, 0);
   };
 
-  const handleDragEnter = (e: React.DragEvent<HTMLDivElement>, params: any) => {    
+  const handleDragEnter = (e: React.DragEvent<HTMLDivElement>, params: any) => {
     const sourceItem = dragItem.current; // currently dragging item
     const destinationItem = params; // where I want to put it
     if (!isDragging || e.target === currentDragNode.current || sourceItem.groupIndex === destinationItem.groupIndex) {
       return;
     }
-
     setList((oldList) => {
       let newList = JSON.parse(JSON.stringify(oldList));
-
-      const removedItem = newList[sourceItem?.groupIndex]?.items.splice(
-        sourceItem?.itemIndex,
-        1
-      )[0];
-
-      newList[destinationItem?.groupIndex]?.items.splice(
-        destinationItem?.itemIndex,
-        0,
-        removedItem
-      );
-
+      selectedItems.forEach((item: DragItem) => {
+        console.log(newList);
+        const removedItem = newList[item.groupIndex]?.items[item.itemIndex];
+        newList[destinationItem?.groupIndex]?.items.splice(0, 0,  removedItem);
+      });
+      selectedItems.forEach((item: DragItem, index) => {
+        delete newList[item.groupIndex]?.items[item.itemIndex];
+      });
+      newList[sourceItem.groupIndex].items = newList[sourceItem.groupIndex]?.items.filter((item: any) => item !== null)
       dragItem.current = destinationItem;
+      setSelectedItems((prevSelectedItem: any) => {
+        return prevSelectedItem.map((item: any, index: number) => {
+          return {itemIndex: prevSelectedItem.length - index - 1, groupIndex: destinationItem.groupIndex}
+        })
+      })
       return newList;
     });
   };
@@ -88,9 +103,33 @@ const CriticalDnd = ({
       }
       return prevList;
     });
+    setSelectedItems([]);
   };
 
-  // styling for dragging item
+  const toggleSelection = (item: DragItem) => {
+    setSelectedItems((prevSelectedItems) => {
+      const isSelected = prevSelectedItems.some(
+        (selectedItem) =>
+          selectedItem.groupIndex === item.groupIndex &&
+          selectedItem.itemIndex === item.itemIndex
+      );
+
+      if (isSelected) {
+        // Remove item from selection
+        return prevSelectedItems.filter(
+          (selectedItem) =>
+            selectedItem.groupIndex !== item.groupIndex ||
+            selectedItem.itemIndex !== item.itemIndex
+        );
+      } else if(prevSelectedItems.length !== 0 && prevSelectedItems[prevSelectedItems.length - 1]?.groupIndex !== item.groupIndex) {
+        return prevSelectedItems;
+      } else {
+        // Add item to selection
+        return [...prevSelectedItems, item];
+      }
+    });
+  };
+
   const getStyles = (item: any) => {
     if (
       dragItem?.current?.groupIndex === item.groupIndex &&
@@ -125,27 +164,31 @@ const CriticalDnd = ({
             <div className="bg-white h-[290px] overflow-y-auto">
               {renderCustomComponent(groupIndex)}
               <div className="p-4 pt-0">
-              {group?.items?.map((item, itemIndex) => (
-                <div
-                  draggable
-                  onDragStart={(e) =>
-                    handleDragStart(e, { groupIndex, itemIndex })
-                  }
-                  // onDragEnter={(e) =>
-                  //   handleDragEnter(e, { groupIndex, itemIndex })
-                  // }
-                  className={
-                    isDragging
+                {group?.items?.map((item, itemIndex) => (
+                  <div
+                    onClick={() => toggleSelection({ groupIndex, itemIndex })}
+                    draggable
+                    onDragStart={(e) =>
+                      handleDragStart(e, { groupIndex, itemIndex })
+                    }
+                    className={`${isDragging
                       ? getStyles({ groupIndex, itemIndex })
                       : "dnd-item transition-all ease-in-out duration-300"
-                  }
-                  key={itemIndex}
-                >
-                  <div>
-                    <p>{item?.name}</p>
+                      } ${selectedItems.some(
+                        (selectedItem) =>
+                          selectedItem.groupIndex === groupIndex &&
+                          selectedItem.itemIndex === itemIndex
+                      )
+                        ? '!bg-red-200'
+                        : ''
+                      }`}
+                    key={itemIndex}
+                  >
+                    <div>
+                      <p>{item?.name}</p>
+                    </div>
                   </div>
-                </div>
-              ))}
+                ))}
               </div>
             </div>
           </div>
