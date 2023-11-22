@@ -54,7 +54,7 @@ export default function Home() {
       <Checkbox id="terms">Accept terms and condition</Checkbox>
       <CheckboxGroup options={options} className="flex gap-3 my-4" />
       <Toggle onChange={() => {}} />
-      <SimpleTable columns={columns} data={data} />
+      {/* <SimpleTable columns={columns} data={data} /> */}
     </main>
   );
 }
