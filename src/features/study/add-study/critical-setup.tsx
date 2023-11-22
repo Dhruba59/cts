@@ -38,11 +38,11 @@ const initialQueryData: CriticalIndicationQueryDataType = {
 const searchValueTypeOptions = [
   {
     value: SearchFieldEnum.NAME,
-    label: 'Indication Name'
+    label: 'Name'
   },
   {
     value: SearchFieldEnum.CODE,
-    label: 'Indication Code'
+    label: 'Code'
   },
   {
     value: SearchFieldEnum.CODE_TYPE,
@@ -159,7 +159,7 @@ const CriticalSetup = ({ criticalSetupData, setCriticalSetupData, register, erro
         onDragFinish={onDragFinish}
         customComponents={components}
         wrapperClassName="p-6"
-        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 2xl:gap-8"
+        className="grid grid-cols-1 sm:grid-cols-2 sm:gap-y-4 lg:grid-cols-12 gap-0 2xl:gap-0"
       />
     </section>
   );
