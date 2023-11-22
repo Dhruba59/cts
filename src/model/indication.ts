@@ -12,6 +12,12 @@ export interface Indication {
     isRequireDetails: boolean | null;
 }
 
+export interface CodeType {
+
+  text: string;
+  value: string;
+
+}
 
 export interface IndicationQuery extends Indication, Query {
 

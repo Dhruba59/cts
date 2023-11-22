@@ -6,6 +6,10 @@ export const get_indication_by_id = (params: number) => {
   return request({url: 'Indication/GetById', method: 'GET', params});
 }
 
+export const get_indication_code_types = () => {
+  return request({url: 'Indication/GetIndicationCodeTypes', method: 'GET'});
+}
+
 export const get_indications = (params: IndicationQuery) => {
   return request({url: 'Indication/Get', method: 'GET', params});
 }
