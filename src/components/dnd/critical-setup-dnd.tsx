@@ -1,4 +1,5 @@
 "use client";
+import { DownArrowIcon, LeftArrowIcon, LightModeIcon, RightArrowIcon } from "@/assets/icons";
 import { cn } from "@/libs/utils";
 import { CriticalDndDataType } from "@/model/study";
 import { DndCustomComponentType, DndDataType } from "@/types/common";
@@ -62,7 +63,7 @@ const CriticalDnd = ({
       // Add params only if it's not already in prevSelected
       return isParamsSelected ? prevSelected : [params];
     });
-      setIsDragging(true);
+    setIsDragging(true);
   };
 
   const handleDragEnter = (e: React.DragEvent<HTMLDivElement>, params: any) => {
@@ -74,9 +75,8 @@ const CriticalDnd = ({
     setList((oldList) => {
       let newList = JSON.parse(JSON.stringify(oldList));
       selectedItems.forEach((item: DragItem) => {
-        console.log(newList);
         const removedItem = newList[item.groupIndex]?.items[item.itemIndex];
-        newList[destinationItem?.groupIndex]?.items.splice(0, 0,  removedItem);
+        newList[destinationItem?.groupIndex]?.items.splice(0, 0, removedItem);
       });
       selectedItems.forEach((item: DragItem, index) => {
         delete newList[item.groupIndex]?.items[item.itemIndex];
@@ -85,7 +85,7 @@ const CriticalDnd = ({
       dragItem.current = destinationItem;
       setSelectedItems((prevSelectedItem: any) => {
         return prevSelectedItem.map((item: any, index: number) => {
-          return {itemIndex: prevSelectedItem.length - index - 1, groupIndex: destinationItem.groupIndex}
+          return { itemIndex: prevSelectedItem.length - index - 1, groupIndex: destinationItem.groupIndex }
         })
       })
       return newList;
@@ -121,7 +121,7 @@ const CriticalDnd = ({
             selectedItem.groupIndex !== item.groupIndex ||
             selectedItem.itemIndex !== item.itemIndex
         );
-      } else if(prevSelectedItems.length !== 0 && prevSelectedItems[prevSelectedItems.length - 1]?.groupIndex !== item.groupIndex) {
+      } else if (prevSelectedItems.length !== 0 && prevSelectedItems[prevSelectedItems.length - 1]?.groupIndex !== item.groupIndex) {
         return prevSelectedItems;
       } else {
         // Add item to selection
@@ -147,50 +147,124 @@ const CriticalDnd = ({
     return isComponentAvailable ? isComponentAvailable?.component : null;
   };
 
+  const handleMoveDataRight = (groupIndex: number) => {
+    if(selectedItems && selectedItems.length === 0) {
+      return;
+    }
+    const sourceIndex = selectedItems[0]?.groupIndex;
+    const destinationIndex = sourceIndex + 1; 
+    const flagged = destinationIndex > 2;
+    if((groupIndex !== sourceIndex && groupIndex+1 !== sourceIndex) || ( 
+      groupIndex !== destinationIndex && groupIndex+1 !== destinationIndex) || flagged) {
+      return ;
+    }
+    setList((oldList) => {
+      let newList = JSON.parse(JSON.stringify(oldList));
+      selectedItems.forEach((item: DragItem) => {
+        const removedItem = newList[item.groupIndex]?.items[item.itemIndex];
+        newList[destinationIndex]?.items.splice(0, 0, removedItem);
+      });
+      selectedItems.forEach((item: DragItem, index) => {
+        delete newList[item.groupIndex]?.items[item.itemIndex];
+      });
+      newList[groupIndex].items = newList[groupIndex]?.items.filter((item: any) => item !== null)
+      setSelectedItems([]);
+      return newList;
+    });
+    setList((prevList) => {
+      if (onDragFinish) {
+        onDragFinish(prevList);
+      }
+      return prevList;
+    });
+  }
+
+
+
+  const handleMoveDataLeft = (groupIndex: number) => {
+    if(selectedItems && selectedItems.length === 0) {
+      return;
+    }
+    const sourceIndex = selectedItems[0]?.groupIndex;
+    const destinationIndex = sourceIndex - 1; 
+    const flagged = destinationIndex < 0;
+    if((groupIndex !== sourceIndex && groupIndex+1 !== sourceIndex) || ( 
+      groupIndex !== destinationIndex && groupIndex !== destinationIndex) || flagged) {
+      return ;
+    }
+    setList((oldList) => {
+      let newList = JSON.parse(JSON.stringify(oldList));
+      selectedItems.forEach((item: DragItem) => {
+        const removedItem = newList[item.groupIndex]?.items[item.itemIndex];
+        newList[destinationIndex]?.items.splice(0, 0, removedItem);
+      });
+      selectedItems.forEach((item: DragItem, index) => {
+        delete newList[item.groupIndex]?.items[item.itemIndex];
+      });
+      newList[sourceIndex].items = newList[sourceIndex]?.items.filter((item: any) => item !== null)
+      setSelectedItems([]);
+      return newList;
+    });
+    setList((prevList) => {
+      if (onDragFinish) {
+        onDragFinish(prevList);
+      }
+      return prevList;
+    });
+  }
+
   return (
     <div className={cn("mb-2", wrapperClassName)}>
       <div className={cn("", className)} {...props}>
         {list?.map((group, groupIndex) => (
-          <div
-            className="bg-light-200 rounded-md p-3 "
-            key={groupIndex}
-            onDragEnter={
-              isDragging
-                ? (e) => handleDragEnter(e, { groupIndex, itemIndex: 0 })
-                : undefined
-            }
-          >
-            <div className="text-dark-900 pb-4 pt-2">{group?.title}</div>
-            <div className="bg-white h-[290px] overflow-y-auto">
-              {renderCustomComponent(groupIndex)}
-              <div className="p-4 pt-0">
-                {group?.items?.map((item, itemIndex) => (
-                  <div
-                    onClick={() => toggleSelection({ groupIndex, itemIndex })}
-                    draggable
-                    onDragStart={(e) =>
-                      handleDragStart(e, { groupIndex, itemIndex })
-                    }
-                    className={`${isDragging
-                      ? getStyles({ groupIndex, itemIndex })
-                      : "dnd-item transition-all ease-in-out duration-300"
-                      } ${selectedItems.some(
-                        (selectedItem) =>
-                          selectedItem.groupIndex === groupIndex &&
-                          selectedItem.itemIndex === itemIndex
-                      )
-                        ? '!bg-red-200'
-                        : ''
-                      }`}
-                    key={itemIndex}
-                  >
-                    <div>
-                      <p>{item?.name}</p>
+          <div key={groupIndex} className={`flex flex-col items-center sm:flex-row sm:justify-between ${groupIndex === 1 ? 'lg:col-span-5' : groupIndex === 2 ? 'lg:col-span-3' : 'lg:col-span-4'}`}>
+            <div
+              className="bg-light-200 rounded-md p-3 w-full mr-4"
+              key={groupIndex}
+              onDragEnter={
+                isDragging
+                  ? (e) => handleDragEnter(e, { groupIndex, itemIndex: 0 })
+                  : undefined
+              }
+            >
+              <div className="text-dark-900 pb-4 pt-2">{group?.title}</div>
+              <div className="bg-white h-[290px] overflow-y-auto">
+                {renderCustomComponent(groupIndex)}
+                <div className="p-4 pt-0">
+                  {group?.items?.map((item, itemIndex) => (
+                    <div
+                      onClick={() => toggleSelection({ groupIndex, itemIndex })}
+                      draggable
+                      onDragStart={(e) =>
+                        handleDragStart(e, { groupIndex, itemIndex })
+                      }
+                      className={`${isDragging
+                        ? getStyles({ groupIndex, itemIndex })
+                        : "dnd-item transition-all ease-in-out duration-300"
+                        } ${selectedItems.some(
+                          (selectedItem) =>
+                            selectedItem.groupIndex === groupIndex &&
+                            selectedItem.itemIndex === itemIndex
+                        )
+                          ? '!bg-red-200'
+                          : ''
+                        }`}
+                      key={itemIndex}
+                    >
+                      <div>
+                        <p>{item?.name}</p>
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  ))}
+                </div>
               </div>
+
             </div>
+            {(groupIndex !== list.length-1) && <div className="w-fit my-4 mr-4 flex sm:flex-col items-center justify-center gap-4">
+              <RightArrowIcon onClick={() => handleMoveDataRight(groupIndex)} width={36} height={36} className="cursor-pointer rotate-90 sm:rotate-0"/>
+              <LeftArrowIcon onClick={() => handleMoveDataLeft(groupIndex)} width={36} height={36} className="cursor-pointer rotate-90 sm:rotate-0"/>
+
+            </div>}
           </div>
         ))}
       </div>

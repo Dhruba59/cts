@@ -115,24 +115,24 @@ export const LightModeIcon = ({ width = "16", height = "16", fill = 'none', ...r
 
 export const DarkModeIcon = ({ width = "16", height = "16", fill = 'none', ...rest }: SVGAttributes<SVGElement>) => (
   <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width={width}
-      height={height}
-      viewBox="0 0 24 24"
-      fill={fill}
-      stroke="currentColor"
-      stroke-width="2"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-      style={{ transform: "rotate(40deg)" }}
-      {...rest}
-    >
-      <mask id="mask">
-        <rect x="0" y="0" width="100%" height="100%" fill="white" /> 
-        <circle cx="12" cy="4" r="9" fill="black" />    
-      </mask>
-      <circle fill="black" cx="12" cy="12" r="9" mask="url(#mask)" />
-      {/* <g stroke="currentColor">
+    xmlns="http://www.w3.org/2000/svg"
+    width={width}
+    height={height}
+    viewBox="0 0 24 24"
+    fill={fill}
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    style={{ transform: "rotate(40deg)" }}
+    {...rest}
+  >
+    <mask id="mask">
+      <rect x="0" y="0" width="100%" height="100%" fill="white" />
+      <circle cx="12" cy="4" r="9" fill="black" />
+    </mask>
+    <circle fill="black" cx="12" cy="12" r="9" mask="url(#mask)" />
+    {/* <g stroke="currentColor">
         <line x1="12" y1="1" x2="12" y2="3" />
         <line x1="12" y1="21" x2="12" y2="23" />
         <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
@@ -142,7 +142,7 @@ export const DarkModeIcon = ({ width = "16", height = "16", fill = 'none', ...re
         <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
         <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
       </g> */}
-    </svg>
+  </svg>
 );
 
 export const ArrowSwapHorizontal = ({ width = "20", height = "20", fill = 'none', ...rest }: SVGAttributes<SVGElement>) => (
@@ -173,3 +173,24 @@ export const CloseIcon = ({ width = "16", height = "16", fill = 'none', ...rest 
     />
   </svg>
 );
+
+
+export const RightArrowIcon = ({ width = "16", height = "16", fill = 'none', ...rest }: SVGAttributes<SVGElement>) => (
+  <svg width={width} height={height} xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 64 64" viewBox="0 0 64 64" id="arrow"{...rest}>
+    <g transform="translate(28 328)">
+      <path fill="#134563" d="M4-272.1c-13.2 0-23.9-10.7-23.9-23.9S-9.2-319.9 4-319.9s23.9 10.7 23.9 23.9S17.2-272.1 4-272.1zm0-45.2c-11.7 0-21.3 9.6-21.3 21.3s9.6 21.3 21.3 21.3 21.3-9.6 21.3-21.3-9.6-21.3-21.3-21.3z"></path>
+      <path fill="#134563" d="m3.5-282.3-1.8-1.9L13.4-296 1.7-307.8l1.8-1.9L17.2-296 3.5-282.3"></path>
+      <path fill="#134563" d="M15.3-294.6h-24v-2.8h24z"></path>
+    </g>
+  </svg>
+);
+
+export const LeftArrowIcon = ({ width = "16", height = "16", fill = 'none', ...rest }: SVGAttributes<SVGElement>) => (
+  <svg width={width} height={height} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" id="arrow" {...rest}>
+    <g fill="#134563">
+      <path d="M32 55.9C18.8 55.9 8.1 45.2 8.1 32S18.8 8.1 32 8.1 55.9 18.8 55.9 32 45.2 55.9 32 55.9zm0-45.2c-11.7 0-21.3 9.6-21.3 21.3S20.3 53.3 32 53.3 53.3 43.7 53.3 32 43.7 10.7 32 10.7z"></path>
+      <path d="M32.5 45.7 18.8 32l13.7-13.7 1.8 1.9L22.6 32l11.7 11.8-1.8 1.9"></path>
+      <path d="M20.7 30.6h24v2.8h-24z"></path>
+      </g>
+    </svg>
+  );
