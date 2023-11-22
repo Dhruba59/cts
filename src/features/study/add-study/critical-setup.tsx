@@ -50,7 +50,7 @@ const searchValueTypeOptions = [
   }
 ]
 
-const CriticalSetup = ({ criticalSetupData, setCriticalSetupData, register, errors}: CriticalSetupProps) => {
+const CriticalSetup = ({ criticalSetupData, setCriticalSetupData, register, errors }: CriticalSetupProps) => {
   const [queryData, setQueryData] = useState<CriticalIndicationQueryDataType>(initialQueryData);
 
   const { data: indicationData } = useQuery({
@@ -64,15 +64,15 @@ const CriticalSetup = ({ criticalSetupData, setCriticalSetupData, register, erro
         return data.map((group: CriticalDndDataType) => {
           if (group.title === 'Indications') {
             const newData = indicationData?.data?.indications as CriticalDndItem[];
-  
+
             const inclusionItems = data.find(g => g.title === 'Inclusion Criteria')?.items ?? [];
             const exclusionItems = data.find(g => g.title === 'Exclusion Criteria')?.items ?? [];
-  
+
             const filteredData = newData.filter(item => {
               return !inclusionItems.some(i => i.value === item.value) &&
-                     !exclusionItems.some(i => i.value === item.value);
+                !exclusionItems.some(i => i.value === item.value);
             });
-  
+
             return {
               ...group,
               items: filteredData,
@@ -83,80 +83,38 @@ const CriticalSetup = ({ criticalSetupData, setCriticalSetupData, register, erro
       });
     }
   }, [indicationData, setCriticalSetupData]);
-  
-
-  // useEffect(() => {
-  //   if (indicationData) {
-  //     setCriticalSetupData((data: CriticalDndDataType[]) => {
-  //       return data.map((group: CriticalDndDataType) => {
-  //         if (group.title === 'Indications') {
-  //           const newData = indicationData?.data?.indications as CriticalDndItem[];
-  //           return {
-  //             ...group,
-  //             items: newData,
-  //           };
-  //         }
-  //         return group;
-  //       });
-  //     });
-  //   }
-  // }, [indicationData, setCriticalSetupData]);
 
   const handleSearchFieldTypeChange = (option: SingleValue<SelectOptionType>) => {
-    if(option) {
-      setQueryData((queryData) => ({...queryData, searchField: option.value.toString() as SearchFieldEnum}));
+    if (option) {
+      setQueryData((queryData) => ({ ...queryData, searchField: option.value.toString() as SearchFieldEnum }));
     }
   }
 
   const filterData = (e: ChangeEvent<HTMLInputElement>) => {
     const searchTerm = e.target.value;
-    setQueryData((queryData) => ({...queryData, searchValue: searchTerm}));
+    setQueryData((queryData) => ({ ...queryData, searchValue: searchTerm }));
   };
 
   const components: DndCustomComponentType[] = [
     {
       groupIndex: 1,
       component: (
-        <div className="sticky p-4 pb-2 bg-white top-0 flex flex-col xl:grid xl:grid-cols-5 gap-2 ">
+        <div className="sticky p-4 pb-1 bg-white top-0 flex flex-col xl:grid xl:grid-cols-5 gap-2 ">
           <div className="col-span-3">
-            <SearchBox onChange={filterData}/>
+            <SearchBox onChange={filterData} />
           </div>
           <div className="col-span-2">
-            <Select placeholder="Name" options={searchValueTypeOptions} onChange={handleSearchFieldTypeChange}/>
+            <Select placeholder="Name" options={searchValueTypeOptions} onChange={handleSearchFieldTypeChange} />
           </div>
-        <hr className="w-full xl:hidden"/>
+          <hr className="w-full xl:hidden" />
         </div>
       ),
     },
   ];
-  
+
   const onDragFinish = (data: CriticalDndDataType[]) => {
     setCriticalSetupData(data);
   }
-  
-  // const onBmiChange = (values: InputRangeDataType) => {
-  //   setBmiValue(values);
-  //   setCriticalData((data: CriticalDataType) => ({
-  //     ...data,
-  //     bmi: values
-  //   }))
-  //   console.log(values);
-  // }
-
-  // const onDslpChange = (e: ChangeEvent<HTMLInputElement>) => {
-  //   setCriticalData((data: CriticalDataType) => ({
-  //     ...data,
-  //     dslsp: e.target.value
-  //   }))
-  // }
-
-  // const onAgeChange = (values: InputRangeDataType) => {
-  //   setAgeValue(values);
-  //   setCriticalData((data: CriticalDataType) => ({
-  //     ...data,
-  //     age: values
-  //   }))
-  // }
 
   return (
     <section className="wrapper my-8">
@@ -166,32 +124,32 @@ const CriticalSetup = ({ criticalSetupData, setCriticalSetupData, register, erro
           <div className="flex gap-2 items-center">
             <Label label="DSLSP:" />
             <div className="relative">
-            <Input placeholder="Enter DSLSP value" type="number" {...register('dslsp', { required: 'dslsp required' })} />
-            {errors.dslsp && (
-              <span className="absolute -bottom-5 text-red-500 -mt-10">{errors.dslsp.message}</span>
-            )}
+              <Input placeholder="Enter DSLSP value" type="number" {...register('dslsp', { required: 'dslsp required' })} />
+              {errors.dslsp && (
+                <span className="absolute -bottom-5 text-red-500 -mt-10">{errors.dslsp.message}</span>
+              )}
             </div>
-            
+
           </div>
           <div className="flex gap-2 items-center">
             <Label label="BMI:" />
             <div className="relative">
-            <InputRange  minInputProps={...register('minBmi', { required: 'Required'})}  maxInputProps={...register('maxBmi',  { required: 'Required'})} />
-            {(errors.minBmi || errors.maxBmi) && (
-              <span className="absolute -bottom-5 text-red-500 -mt-10">{'Bmi required'}</span>
-            )}
+              <InputRange minInputProps={...register('minBmi', { required: 'Required' })} maxInputProps={...register('maxBmi', { required: 'Required' })} />
+              {(errors.minBmi || errors.maxBmi) && (
+                <span className="absolute -bottom-5 text-red-500 -mt-10">{'Bmi required'}</span>
+              )}
             </div>
-            
+
           </div>
           <div className="flex gap-2 items-center">
             <Label label="AGE:" />
             <div className="relative">
-            <InputRange minInputProps={...register('minAge', { required: 'Required'})}  maxInputProps={...register('maxAge',  { required: 'Required'})}/>
-            {(errors.minAge || errors.maxAge) && (
-              <span className="absolute -bottom-5 text-red-500 -mt-10">{'Age required'}</span>
-            )}
+              <InputRange minInputProps={...register('minAge', { required: 'Required' })} maxInputProps={...register('maxAge', { required: 'Required' })} />
+              {(errors.minAge || errors.maxAge) && (
+                <span className="absolute -bottom-5 text-red-500 -mt-10">{'Age required'}</span>
+              )}
             </div>
-            
+
           </div>
         </div>
       </div>

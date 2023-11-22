@@ -37,6 +37,7 @@
 
 
 /* Drag and Drop */
+
 .dnd-item {
   padding: 12px;
   width: 100%;
@@ -44,6 +45,9 @@
   background-color: #e0e0e4;
   border-radius: 4px;
   cursor: grabbing;
+}
+.dnd-item:first-child {
+  margin-top: 0.5rem;
 }
 .dnd-item:not(:last-of-type) {
   margin-bottom: 0.5rem;

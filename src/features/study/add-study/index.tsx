@@ -54,11 +54,11 @@ const AddStudy = () => {
       sponsorId: val.sponsor.value,
       studyType: val.study_id_format,
       phase: val.phase.value,
-      preScreen: val.preScreen == 'on' ? true : false,
+      preScreen: val.preScreen,
       active: val.active,
       studyCommentType: val.studyCommentType.value,
       // subjectIdentryFormat
-      sr: val.sr == 'on' ? true : false,
+      sr: val.sr,
       studyCompound: val.studyCompound.value,
       dslsp: val.dslsp,
       minBmi: val.minBmi,

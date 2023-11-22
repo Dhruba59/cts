@@ -1,7 +1,7 @@
 import SearchBox from "@/components/ui/search-box";
 import DragNDrop from "@/components/dnd";
 import { DndCustomComponentType, DndDataType } from "@/types/common";
-import React, { ChangeEvent, Dispatch, SetStateAction, useEffect, useState } from "react";
+import React, { ChangeEvent, Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 
 interface AssignSiteProps {
   assignedData: DndDataType[];
@@ -10,11 +10,26 @@ interface AssignSiteProps {
 
 const AssignSite = ({ assignedData, setAssignedData }: AssignSiteProps) => {
   const [filteredData, setFilteredData] = useState<DndDataType[]>(assignedData);
-
+  const searchRef = useRef();
   const filterData = (e: ChangeEvent<HTMLInputElement>) => {
     const searchTerm = e.target.value.toLowerCase();
-    setFilteredData(() => (
-      assignedData.map((group: DndDataType) => {
+    setFilteredData(() => {
+      const selectedItems = assignedData?.find(group => group.title === 'Selected')?.items ?? [];
+
+      const filteredAssignedData = assignedData?.map((group: DndDataType) => {
+        if (group.title === 'Sites') {
+          const filteredItems = group?.items?.filter(item => {
+            return !selectedItems.some(selectedItem => selectedItem.value === item.value);
+          });
+
+          return {
+            ...group,
+            items: filteredItems,
+          };
+        }
+        return group;
+      });
+      const newData = filteredAssignedData.map((group: DndDataType) => {
         if (group.title === 'Sites') {
           const filteredItems = group.items.filter((item) =>
             item.text.toLowerCase().includes(searchTerm)
@@ -23,27 +38,50 @@ const AssignSite = ({ assignedData, setAssignedData }: AssignSiteProps) => {
         }
         return group;
       })
-    ));
+      return newData;
+    });
   };
 
   const components: DndCustomComponentType[] = [
     {
       groupIndex: 0,
-      component: <div className="sticky top-0 p-4 pb-2 bg-white">
+      component: <div className="sticky top-0 p-4 pb-1 bg-white">
         <SearchBox onChange={filterData} />
       </div>,
     },
   ];
 
   const onDragFinish = (data: DndDataType[]) => {
-    setAssignedData(data);
+    setAssignedData((prevAssignedData) => {
+      const newData = JSON.parse(JSON.stringify(prevAssignedData));
+      newData[1].items = data[1].items;
+      return newData;
+    });
   }
 
   useEffect(() => {
     if (assignedData) {
-      setFilteredData(assignedData);
+      setFilteredData((data: DndDataType[]) => {
+        const selectedItems = assignedData?.find(group => group.title === 'Selected')?.items ?? [];
+        const newData = assignedData?.map((group: DndDataType) => {
+          if (group.title === 'Sites') {
+            const filteredItems = group?.items?.filter(item => {
+              return !selectedItems.some(selectedItem => selectedItem.value === item.value);
+            });
+
+            return {
+              ...group,
+              items: filteredItems,
+            };
+          }
+          return group;
+        });
+
+        return newData;
+      });
     }
   }, [assignedData]);
+
 
   return (
     <section className="wrapper my-8">
