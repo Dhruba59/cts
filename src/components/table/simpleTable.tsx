@@ -19,14 +19,9 @@ import {
 
 import ArrowLongUp from "../icons/arrow-long-up";
 import ArrowLongDown from "../icons/arrow-long-down";
+import { DataTableProps } from "@/model/common";
 
-interface DataTableProps<TData, TValue>
-  extends React.ComponentPropsWithoutRef<"div"> {
-  columns: ColumnDef<TData, TValue>[];
-  data: TData[];
-  sorting: SortingState;
-  setSorting: Dispatch<SetStateAction<SortingState>>
-}
+
 
 export function SimpleTable<TData, TValue>({
   columns,

@@ -2,53 +2,16 @@
 import Pagination from "@/components/pagination";
 import ExpandableTable from "@/components/table/expandableTable";
 import SimpleTable from "@/components/table/simpleTable";
-import { useEffect, useMemo, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useMemo, useState } from "react";
 import { LIST_COLUMN } from "./columns";
 import { Indication, IndicationQuery } from "@/model/indication";
 import { get_indications } from "@/service/indication-service";
-import { SortingState } from "@tanstack/react-table";
-
-const ListTable = () => {
-  const columns = useMemo(() => LIST_COLUMN, []);
-  //const data = useMemo(() => LIST_DATA, []);
-  let indiationQuery = {} as IndicationQuery;
-
-  let indiations = [] as Indication[];
-
-  const [currentPage, setCurrentPage] = useState(1);
-  const [data, setData] = useState<Indication[]>(indiations);
-  const [totalPages, setTotalPages] = useState<number>(0);
-  const [pageSize, setPageSize] = useState<number>(10);
-  const [sortBy, setSortBy] = useState('');
-
-  const [sorting, setSorting] = useState<SortingState>([
-   {id: "indicationName", desc: false}
-])
-  
-
-  const fetchData = async (query: IndicationQuery) => {
-    //console.log(query);
-    
-    const { data, error }: any = await get_indications(query);
-
-    setData(data.items);
-    setCurrentPage(data.pageNumber);
-    setTotalPages(data.totalPages);
-  };
+import { ColumnDef, SortingState } from "@tanstack/react-table";
+import { DataTableProps } from "@/model/common";
 
 
-  useEffect(() => {
 
-    setSortBy(sorting.map((s) => `${s.id} ${s.desc ? 'asc' : 'desc'}`).join(','));
-
-    console.log(sortBy);
-
-    indiationQuery.pageNumber = currentPage;
-    indiationQuery.pageSize = pageSize;
-    indiationQuery.orderBy = sortBy === '' || null || undefined ? null : sortBy;
-
-    fetchData(indiationQuery);
-  }, [currentPage, pageSize, sorting]);
+export function ListTable<TData, TValue>({data, columns, sorting, setSorting} :  DataTableProps<TData, TValue>){
 
   return (
     <div className="sm:wrapper">
@@ -68,16 +31,7 @@ const ListTable = () => {
         />
       </div>
 
-      <div className="my-8 flex items-center justify-center md:justify-normal md:pl-14" >
-        <Pagination
-          currentPage={currentPage}
-          setCurrentPage={setCurrentPage}
-          lastPage={totalPages}
-          pageSize={pageSize}
-          setPageSize={setPageSize}
-          maxLength={7}
-        />
-      </div>
+
     </div>
   );
 };

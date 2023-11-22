@@ -3,22 +3,23 @@ import Breadcrumbs from "@/components/ui/breadcrumbs";
 import Toggle from "@/components/ui/toggle";
 
 import { useState } from "react";
-import SearchForm from "./searchForm";
+import  {SearchForm, AdvanceSearchForm } from "./searchForm";
+import { DropDownItem, SelectOptionType } from "@/model/drop-down-list";
 
-const ListHeader = () => {
+const ListHeader = ({codeTypes}: any) => {
   
   const [isChecked, setIsChecked] = useState(false);
   return (
     <div>
       <Breadcrumbs title="Indication" subTitle="Indication List" />
       <div className="md:hidden">
-        <SearchForm />
+        <SearchForm codeTypes= {codeTypes}/>
       </div>
       <section className="hidden md:block wrapper">
         <div className="flex flex-row items-center justify-between px-3 py-3">
           <h4 className=" text-neutral-black">Search Indication</h4>
           <div className="">
-            <SearchForm />
+            <SearchForm codeTypes= {codeTypes}/>
           </div>
           <Toggle
             prefixLabel="More: "
@@ -28,6 +29,7 @@ const ListHeader = () => {
           />
         </div>
         <hr />
+        {isChecked && <AdvanceSearchForm />}
       </section>
     </div>
   );
