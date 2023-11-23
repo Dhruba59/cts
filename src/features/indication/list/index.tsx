@@ -49,7 +49,8 @@ const IndicationList = () => {
   const [sortBy, setSortBy] = useState('');
 
   const [sorting, setSorting] = useState<SortingState>([
-   {id: "indicationName", desc: false}])
+   //{id: "indicationName", desc: false}
+  ])
   
 
 
