@@ -90,8 +90,8 @@ const AddStudy = () => {
   }, [dropdownList]);
 
   return (
-    <main>
-      <form className="mb-20" onSubmit={handleSubmit(onSubmit)}>
+    <main className="w-full">
+      <form className="mb-20 w-full" onSubmit={handleSubmit(onSubmit)}>
         <BasicInformation dropdownList={dropdownList?.data} register={register} setValue={setValue} errors={errors} Controller={Controller} control={control}/>
         <AssignSite assignedData={assignedData} setAssignedData={setAssignedData} />
         <CriticalSetup errors={errors} criticalSetupData={criticalDndData} setCriticalSetupData={setCriticalDndData} Controller={Controller} control={control} register={register}/>

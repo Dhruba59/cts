@@ -124,7 +124,7 @@ const CriticalSetup = ({ criticalSetupData, setCriticalSetupData, register, erro
           <div className="flex gap-2 items-center">
             <Label label="DSLSP:" />
             <div className="relative">
-              <Input placeholder="Enter DSLSP value" type="number" {...register('dslsp', { required: 'dslsp required' })} />
+              <Input placeholder="Enter DSLSP value" type="number" {...register('dslsp', { required: 'DSLSP required' })} />
               {errors.dslsp && (
                 <span className="absolute -bottom-5 text-red-500 -mt-10">{errors.dslsp.message}</span>
               )}
@@ -136,7 +136,7 @@ const CriticalSetup = ({ criticalSetupData, setCriticalSetupData, register, erro
             <div className="relative">
               <InputRange minInputProps={...register('minBmi', { required: 'Required' })} maxInputProps={...register('maxBmi', { required: 'Required' })} />
               {(errors.minBmi || errors.maxBmi) && (
-                <span className="absolute -bottom-5 text-red-500 -mt-10">{'Bmi required'}</span>
+                <span className="absolute -bottom-5 text-red-500 -mt-10">{'BMI required'}</span>
               )}
             </div>
 
@@ -159,7 +159,7 @@ const CriticalSetup = ({ criticalSetupData, setCriticalSetupData, register, erro
         onDragFinish={onDragFinish}
         customComponents={components}
         wrapperClassName="p-6"
-        className="grid grid-cols-1 sm:grid-cols-2 sm:gap-y-4 lg:grid-cols-12 gap-0 2xl:gap-0"
+        className="flex flex-col lg:flex-row gap-x-2"
       />
     </section>
   );
