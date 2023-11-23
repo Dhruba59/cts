@@ -14,10 +14,10 @@ const AssignSite = ({ assignedData, setAssignedData }: AssignSiteProps) => {
   const filterData = (e: ChangeEvent<HTMLInputElement>) => {
     const searchTerm = e.target.value.toLowerCase();
     setFilteredData(() => {
-      const selectedItems = assignedData?.find(group => group.title === 'Selected')?.items ?? [];
+      const selectedItems = assignedData?.find(group => group?.title === 'Selected')?.items ?? [];
 
       const filteredAssignedData = assignedData?.map((group: DndDataType) => {
-        if (group.title === 'Sites') {
+        if (group?.title === 'Sites') {
           const filteredItems = group?.items?.filter(item => {
             return !selectedItems.some(selectedItem => selectedItem.value === item.value);
           });
@@ -30,9 +30,9 @@ const AssignSite = ({ assignedData, setAssignedData }: AssignSiteProps) => {
         return group;
       });
       const newData = filteredAssignedData.map((group: DndDataType) => {
-        if (group.title === 'Sites') {
-          const filteredItems = group.items.filter((item) =>
-            item.text.toLowerCase().includes(searchTerm)
+        if (group?.title === 'Sites') {
+          const filteredItems = group?.items?.filter((item) =>
+            item?.text?.toLowerCase().includes(searchTerm)
           );
           return { ...group, items: filteredItems };
         }

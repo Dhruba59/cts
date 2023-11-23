@@ -219,7 +219,7 @@ const CriticalDnd = ({
         {list?.map((group, groupIndex) => (
           <div key={groupIndex} className={`flex flex-col items-center sm:flex-row sm:justify-between ${groupIndex === 1 ? 'lg:col-span-5' : groupIndex === 2 ? 'lg:col-span-3' : 'lg:col-span-4'}`}>
             <div
-              className="bg-light-200 rounded-md p-3 w-full mr-4"
+              className={`bg-light-200 rounded-md p-3 w-full ${groupIndex !== list.length-1 ? 'mr-4' : ''}`}
               key={groupIndex}
               onDragEnter={
                 isDragging

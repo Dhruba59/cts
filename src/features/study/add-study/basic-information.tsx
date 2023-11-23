@@ -97,7 +97,7 @@ const BasicInformation = ({ dropdownList, register, setValue, errors, control, C
           </div>
           
           <div>
-            <Input type="number" label="Max Subjects" placeholder="Max subjects" {...register('maxSubjects', { required: 'max subject required!' })} />
+            <Input type="number" label="Max Subjects" placeholder="Max subjects" {...register('maxSubjects', { required: 'Max subject required!' })} />
             {errors.maxSubjects && (
               <span className="text-red-500 -mt-10">{errors.maxSubjects.message as string}</span>
             )}
@@ -111,6 +111,8 @@ const BasicInformation = ({ dropdownList, register, setValue, errors, control, C
               }}
               render={({ field: { onChange, onBlur, value } }: any) => (
                 <Datepicker
+                  popoverDirection='down'
+                  containerClassName='z-[100]'
                   value={value}
                   onChange={(date) => {
                     onChange(date);

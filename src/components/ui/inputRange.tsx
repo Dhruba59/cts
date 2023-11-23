@@ -25,14 +25,16 @@ const InputRange = ({ values={minValue: 0, maxValue: 100}, onValuesChange, class
       )}
     >
       <input
+        placeholder='min'
         type="number"
         className="w-full max-w-[60px] text-sm text-center focus-visible:outline-none bg-transparent"
         // value={values.minValue}
         onChange={(e) => handleInputChange(e, 'minValue')}
         {...minInputProps}
       />
-      <span className="text-neutral-400"> ⇀</span>
+      <span className="text-neutral-500"> ⇀</span>
       <input
+        placeholder='max'
         type="number"
         className="w-full max-w-[60px] text-sm text-center focus-visible:outline-none bg-transparent"
         // value={values.maxValue}

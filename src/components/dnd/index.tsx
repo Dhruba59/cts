@@ -221,7 +221,7 @@ const DragNDrop = ({
         {list?.map((group, groupIndex) => (
           <div key={groupIndex} className="flex flex-col items-center sm:flex-row sm:justify-between w-full min-w-[400px]">
             <div
-              className="bg-light-200 rounded-md p-3 mr-4 w-full"
+              className={`bg-light-200 rounded-md p-3 w-full ${groupIndex !== list.length-1 ? 'mr-4' : ''}`}
               key={groupIndex}
               onDragEnter={
                 isDragging
