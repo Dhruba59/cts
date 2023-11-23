@@ -159,7 +159,7 @@ const CriticalSetup = ({ criticalSetupData, setCriticalSetupData, register, erro
         onDragFinish={onDragFinish}
         customComponents={components}
         wrapperClassName="p-6"
-        className="grid grid-cols-1 sm:grid-cols-2 sm:gap-y-4 lg:grid-cols-12 gap-0 2xl:gap-0"
+        className="flex flex-col lg:flex-row gap-x-2"
       />
     </section>
   );

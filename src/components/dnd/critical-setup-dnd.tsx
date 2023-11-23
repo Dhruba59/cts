@@ -3,7 +3,7 @@ import { DownArrowIcon, LeftArrowIcon, LightModeIcon, RightArrowIcon } from "@/a
 import { cn } from "@/libs/utils";
 import { CriticalDndDataType } from "@/model/study";
 import { DndCustomComponentType, DndDataType } from "@/types/common";
-import React, { ComponentPropsWithoutRef, useEffect, useRef, useState } from "react";
+import React, { ComponentPropsWithoutRef, Fragment, useEffect, useRef, useState } from "react";
 
 /* DATA FORMAT */
 
@@ -148,15 +148,15 @@ const CriticalDnd = ({
   };
 
   const handleMoveDataRight = (groupIndex: number) => {
-    if(selectedItems && selectedItems.length === 0) {
+    if (selectedItems && selectedItems.length === 0) {
       return;
     }
     const sourceIndex = selectedItems[0]?.groupIndex;
-    const destinationIndex = sourceIndex + 1; 
+    const destinationIndex = sourceIndex + 1;
     const flagged = destinationIndex > 2;
-    if((groupIndex !== sourceIndex && groupIndex+1 !== sourceIndex) || ( 
-      groupIndex !== destinationIndex && groupIndex+1 !== destinationIndex) || flagged) {
-      return ;
+    if ((groupIndex !== sourceIndex && groupIndex + 1 !== sourceIndex) || (
+      groupIndex !== destinationIndex && groupIndex + 1 !== destinationIndex) || flagged) {
+      return;
     }
     setList((oldList) => {
       let newList = JSON.parse(JSON.stringify(oldList));
@@ -182,15 +182,15 @@ const CriticalDnd = ({
 
 
   const handleMoveDataLeft = (groupIndex: number) => {
-    if(selectedItems && selectedItems.length === 0) {
+    if (selectedItems && selectedItems.length === 0) {
       return;
     }
     const sourceIndex = selectedItems[0]?.groupIndex;
-    const destinationIndex = sourceIndex - 1; 
+    const destinationIndex = sourceIndex - 1;
     const flagged = destinationIndex < 0;
-    if((groupIndex !== sourceIndex && groupIndex+1 !== sourceIndex) || ( 
+    if ((groupIndex !== sourceIndex && groupIndex + 1 !== sourceIndex) || (
       groupIndex !== destinationIndex && groupIndex !== destinationIndex) || flagged) {
-      return ;
+      return;
     }
     setList((oldList) => {
       let newList = JSON.parse(JSON.stringify(oldList));
@@ -217,55 +217,59 @@ const CriticalDnd = ({
     <div className={cn("mb-2", wrapperClassName)}>
       <div className={cn("", className)} {...props}>
         {list?.map((group, groupIndex) => (
-          <div key={groupIndex} className={`flex flex-col items-center sm:flex-row sm:justify-between ${groupIndex === 1 ? 'lg:col-span-5' : groupIndex === 2 ? 'lg:col-span-3' : 'lg:col-span-4'}`}>
-            <div
-              className={`bg-light-200 rounded-md p-3 w-full ${groupIndex !== list.length-1 ? 'mr-4' : ''}`}
-              key={groupIndex}
-              onDragEnter={
-                isDragging
-                  ? (e) => handleDragEnter(e, { groupIndex, itemIndex: 0 })
-                  : undefined
-              }
-            >
-              <div className="text-dark-900 pb-4 pt-2">{group?.title}</div>
-              <div className="bg-white h-[290px] overflow-y-auto">
-                {renderCustomComponent(groupIndex)}
-                <div className="p-4 pt-0">
-                  {group?.items?.map((item, itemIndex) => (
-                    <div
-                      onClick={() => toggleSelection({ groupIndex, itemIndex })}
-                      draggable
-                      onDragStart={(e) =>
-                        handleDragStart(e, { groupIndex, itemIndex })
-                      }
-                      className={`${isDragging
-                        ? getStyles({ groupIndex, itemIndex })
-                        : "dnd-item transition-all ease-in-out duration-300"
-                        } ${selectedItems.some(
-                          (selectedItem) =>
-                            selectedItem.groupIndex === groupIndex &&
-                            selectedItem.itemIndex === itemIndex
-                        )
-                          ? '!bg-red-200'
-                          : ''
-                        }`}
-                      key={itemIndex}
-                    >
-                      <div>
-                        <p>{item?.name}</p>
+          <Fragment key={groupIndex}>
+            {/* <div className={`flex flex-col items-center sm:flex-row sm:justify-between flex-1 ${groupIndex === 1 ? 'flex-[1.5]' : 'flex-1'}
+`}> */}
+              <div
+                className={`bg-light-200 rounded-md p-3 w-full`}
+                key={groupIndex}
+                onDragEnter={
+                  isDragging
+                    ? (e) => handleDragEnter(e, { groupIndex, itemIndex: 0 })
+                    : undefined
+                }
+              >
+                <div className="text-dark-900 pb-4 pt-2">{group?.title}</div>
+                <div className="bg-white h-[290px] overflow-y-auto">
+                  {renderCustomComponent(groupIndex)}
+                  <div className="p-4 pt-0">
+                    {group?.items?.map((item, itemIndex) => (
+                      <div
+                        onClick={() => toggleSelection({ groupIndex, itemIndex })}
+                        draggable
+                        onDragStart={(e) =>
+                          handleDragStart(e, { groupIndex, itemIndex })
+                        }
+                        className={`${isDragging
+                          ? getStyles({ groupIndex, itemIndex })
+                          : "dnd-item transition-all ease-in-out duration-300"
+                          } ${selectedItems.some(
+                            (selectedItem) =>
+                              selectedItem.groupIndex === groupIndex &&
+                              selectedItem.itemIndex === itemIndex
+                          )
+                            ? '!bg-red-200'
+                            : ''
+                          }`}
+                        key={itemIndex}
+                      >
+                        <div>
+                          <p>{item?.name}</p>
+                        </div>
                       </div>
-                    </div>
-                  ))}
+                    ))}
+                  </div>
                 </div>
+
               </div>
 
-            </div>
-            {(groupIndex !== list.length-1) && <div className="w-fit my-4 mr-4 flex sm:flex-col items-center justify-center gap-4">
-              <RightArrowIcon onClick={() => handleMoveDataRight(groupIndex)} width={36} height={36} className="cursor-pointer rotate-90 sm:rotate-0"/>
-              <LeftArrowIcon onClick={() => handleMoveDataLeft(groupIndex)} width={36} height={36} className="cursor-pointer rotate-90 sm:rotate-0"/>
+            {/* </div> */}
+            {(groupIndex !== list.length - 1) && <div className="w-full lg:w-fit my-4 flex lg:flex-col items-center justify-center gap-4">
+              <RightArrowIcon onClick={() => handleMoveDataRight(groupIndex)} width={36} height={36} className="cursor-pointer rotate-90 lg:rotate-0" />
+              <LeftArrowIcon onClick={() => handleMoveDataLeft(groupIndex)} width={36} height={36} className="cursor-pointer rotate-90 lg:rotate-0" />
 
             </div>}
-          </div>
+          </Fragment>
         ))}
       </div>
     </div>

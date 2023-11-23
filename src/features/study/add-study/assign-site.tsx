@@ -92,7 +92,7 @@ const AssignSite = ({ assignedData, setAssignedData }: AssignSiteProps) => {
         data={filteredData}
         customComponents={components}
         wrapperClassName="p-6"
-        className="flex flex-col sm:flex-row "
+        className="flex flex-col gap-x-4 sm:flex-row"
       />
     </section>
   );

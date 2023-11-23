@@ -112,7 +112,6 @@ const BasicInformation = ({ dropdownList, register, setValue, errors, control, C
               render={({ field: { onChange, onBlur, value } }: any) => (
                 <Datepicker
                   popoverDirection='down'
-                  containerClassName='z-[100]'
                   value={value}
                   onChange={(date) => {
                     onChange(date);
@@ -205,7 +204,7 @@ const BasicInformation = ({ dropdownList, register, setValue, errors, control, C
           </div>
 
           <div className="flex gap-8 items-start justify-start">
-            <div className="flex flex-col justify-start gap-6 items-center h-full">
+            <div className="flex flex-col justify-start gap-6 items-start md:items-center h-full">
               <Label label='Pre Screen' />
               <Controller
                 name="preScreen"
@@ -215,7 +214,7 @@ const BasicInformation = ({ dropdownList, register, setValue, errors, control, C
                 )}
               />
             </div>
-            <div className="flex flex-col gap-6 justify-start items-center h-full">
+            <div className="flex flex-col gap-6 justify-start items-start md:items-center h-full">
               <Label label='Sr.com Only' />
               <Controller
                 name="sr"
@@ -226,7 +225,7 @@ const BasicInformation = ({ dropdownList, register, setValue, errors, control, C
               />
             </div>
           </div>
-          <div className="flex flex-col gap-6 justify-start items-center w-fit h-full">
+          <div className="flex flex-col gap-6 justify-start items-start md:items-center w-fit h-full">
             <Label label="Active" />
             <Controller
               name="active"
