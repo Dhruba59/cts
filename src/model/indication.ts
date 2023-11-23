@@ -19,8 +19,12 @@ export interface CodeType {
 
 }
 
-export interface IndicationQuery extends Indication, Query {
-
+export interface IndicationQuery extends  Query {
+  code: string | null;
+  indicationName: string;
+  codeType: string;
+  description: string | null;
+  isRequireDetails: boolean | null;
 }
 
 

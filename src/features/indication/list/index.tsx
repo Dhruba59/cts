@@ -7,11 +7,11 @@ import { get_indication_code_types, get_indications } from "@/service/indication
 import { SortingState } from "@tanstack/react-table";
 import { LIST_COLUMN } from "./table/columns";
 import { DropDownItem, SelectOptionType } from "@/model/drop-down-list";
-import { register } from "module";
 
 const IndicationList = () => {
 
   const [codeTypes, setCodeTypes] = useState<SelectOptionType[]>([]);
+  const [search, setSearch] = useState<boolean>(false);
 
   const convertTypeToSelectOption = (
     data: DropDownItem[]
@@ -39,7 +39,17 @@ const IndicationList = () => {
   
   const columns = useMemo(() => LIST_COLUMN, []);
   //const data = useMemo(() => LIST_DATA, []);
-  let indiationQuery = {} as IndicationQuery;
+  const [indiationQuery, setIndicationQuery] = useState<IndicationQuery>({
+    pageNumber: 1,
+    pageSize:10,
+    orderBy: '',
+
+    code: null, 
+    indicationName: '', 
+    codeType: '',
+    isRequireDetails: null,
+    description: ''
+  });
 
   let indiations = [] as Indication[];
 
@@ -73,31 +83,32 @@ const IndicationList = () => {
   useEffect(() => {
 
     setSortBy(sorting.map((s) => `${s.id} ${s.desc ? 'asc' : 'desc'}`).join(','));
-
-    console.log(sortBy);
-
-    indiationQuery.pageNumber = currentPage;
-    indiationQuery.pageSize = pageSize;
-    indiationQuery.orderBy = sortBy === '' || null || undefined ? null : sortBy;
+    setIndicationQuery((prev) => {
+      prev.pageNumber = currentPage;
+      prev.pageSize = pageSize;
+      prev.orderBy = sortBy === '' || null || undefined ? null : sortBy;
+      return prev;
+    });
+    console.log(indiationQuery);
 
     fetchData(indiationQuery);
-  }, [currentPage, pageSize, sorting]);
+  }, [currentPage, pageSize, sorting, search]);
 
   const onSubmit = (val: any) => {
-    let payload: IndicationQuery = {
-      indicationId: 0,
-      code: null,
-      indicationName: "",
-      codeType: "",
-      description: null,
-      active: null,
-      isRequireDetails: null,
-      pageNumber: 0,
-      pageSize: 0,
-      orderBy: null
-    }
-   
-    console.log(val);
+    console.log(val)
+   setIndicationQuery((prev) => {
+    prev.pageNumber = 1;
+    prev.pageSize = pageSize;
+    prev.orderBy = sortBy === '' || null || undefined ? null : sortBy;
+    prev.isRequireDetails = val.isRequireDetails === '' || null || undefined ? null : val.isRequireDetails;
+    prev.indicationName = val.indicationName === '' || null || undefined ? null : val.indicationName;
+    prev.code = val.code === '' || null || undefined ? null : val.code;
+    prev.codeType = val.codeType === undefined ? null : val.codeType.value;
+    prev.description = val.description === '' || null || undefined ? null : val.description;
+    return prev;
+  });
+   console.log(indiationQuery);
+   setSearch(!search);
   }
   return (
     <main>

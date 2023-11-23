@@ -16,6 +16,11 @@
       "static/chunks/main-app.js",
       "static/chunks/app/(main)/(indication)/list-of-indications/page.js"
     ],
+    "/(main)/(indication)/add-indication/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(main)/(indication)/add-indication/page.js"
+    ],
     "/(authorization)/layout": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
