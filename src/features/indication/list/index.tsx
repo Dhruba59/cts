@@ -95,7 +95,7 @@ const IndicationList = () => {
   }, [currentPage, pageSize, sorting, search]);
 
   const onSubmit = (val: any) => {
-    console.log(val)
+
    setIndicationQuery((prev) => {
     prev.pageNumber = 1;
     prev.pageSize = pageSize;
@@ -107,9 +107,12 @@ const IndicationList = () => {
     prev.description = val.description === '' || null || undefined ? null : val.description;
     return prev;
   });
-   console.log(indiationQuery);
+  
    setSearch(!search);
+   
   }
+
+
   return (
     <main>
       <ListHeader codeTypes ={codeTypes} onSubmit= {onSubmit} />

@@ -8,7 +8,7 @@ import { DropDownItem, SelectOptionType } from "@/model/drop-down-list";
 import { Controller, useForm } from "react-hook-form";
 
 
-const ListHeader = ({ codeTypes, onSubmit }: any) => {
+const ListHeader = ({ codeTypes, onSubmit, onReset }: any) => {
   const {
     register,
     handleSubmit,
@@ -24,7 +24,7 @@ const ListHeader = ({ codeTypes, onSubmit }: any) => {
       <Breadcrumbs title="Indication" subTitle="Indication List" />
       <form className="" onSubmit={handleSubmit(onSubmit)}>
         <div className="md:hidden">
-          <SearchForm codeTypes={codeTypes} register={register} Controller={Controller} control={control}/>
+          <SearchForm codeTypes={codeTypes} register={register} Controller={Controller} control={control} />
         </div>
         <section className="hidden md:block wrapper">
           <div className="flex flex-row items-center justify-between px-3 py-3">

@@ -21,11 +21,11 @@ export function SearchForm({
   Controller,
   control
 }: SearchFormProps) {
-  const onChange = () => {};
+  const onChange = () => { };
   return (
     <div className="flex items-end gap-3 md:gap-6 p-4 md:p-0">
       <div className="grid lg:flex lg:items-center gap-2 flex-1 md:flex-none">
-        <Label label="Indication Code: " className="hidden lg:block" />
+        <Label label="Code: " className="hidden lg:block" />
         <Input
           name="code"
           placeholder="Enter indication code"
@@ -35,16 +35,23 @@ export function SearchForm({
       </div>
       <div className="grid lg:flex lg:items-center gap-2 flex-1 md:flex-none">
         <Label label="Code Type: " className="hidden lg:block" />
-        <Controller
-          control={control}
-          name="codeType"
-          render={({ field: { onChange, onBlur, value } }: any) =>
-            <Select onChange={onChange} label="" options={codeTypes} />}
-        />
+        <div className="w-32">
+          <Controller
+            control={control}
+            name="codeType"
+            render={({ field: { onChange, onBlur, value } }: any) =>
+              <Select onChange={onChange} label="" options={codeTypes} />}
+          />
+        </div>
       </div>
-      <Button type="submit" className="!h-10 mb-[1px]">
-        Search
-      </Button>
+      <div className="flex gap-3">
+        <Button type="submit" className="!h-10 mb-[1px]">
+          Search
+        </Button>
+        <Button className="" variant="outline">
+          Reset
+        </Button>
+      </div>
     </div>
   );
 }
