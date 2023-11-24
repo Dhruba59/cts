@@ -100,7 +100,7 @@ const IndicationList = () => {
     console.log(val);
   }
   return (
-    <main>
+    <main className="px-6 md:px-0">
       <ListHeader codeTypes ={codeTypes} onSubmit= {onSubmit} />
       <ListTable data={data} columns={columns} sorting={sorting} setSorting={setSorting}/>
       <div className="flex items-center justify-center" >

@@ -15,7 +15,7 @@ const ExpandableTable = ({
   ...props
 }: Props) => {
   return (
-    <div className="px-4" {...props}>
+    <div className="" {...props}>
       {tableTitle && (
         <h4 className="bg-white text-neutral-black py-3 px-6 shadow rounded-t-md mb-2">
           {tableTitle}

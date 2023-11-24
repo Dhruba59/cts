@@ -5,3 +5,5 @@ export const USER_ROLE_VALUE = {
   sys_admin: 4,
   sponsor: 3
 }
+
+export const DEFAULT_PAGE_SIZE = 10;
