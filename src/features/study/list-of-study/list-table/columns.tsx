@@ -3,7 +3,6 @@ import DeleteOutlined from "@/components/icons/deleteOutlined";
 import Edit from "@/components/icons/edit";
 import Error from "@/components/icons/error";
 import { IndeterminateCheckbox } from "@/components/ui/checkbox";
-import { formateTableDate } from "@/utils/helpers";
 import { ColumnDef } from "@tanstack/react-table";
 
 export type List = {

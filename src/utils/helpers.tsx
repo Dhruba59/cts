@@ -2,6 +2,7 @@
 import { ArrowSwapHorizontal, SettingsIcon, SettingsIcon2 } from "@/assets/icons";
 import { USER_ROLE_VALUE } from "@/constants/common";
 import { STORAGE_KEY } from "@/constants/storage-constant";
+import { DropDownItem, SelectOptionType } from "@/model/drop-down-list";
 import { MenuItem } from "@/model/menu-items";
 
 export function createNestedMenusItems(screenData: any): MenuItem[] {
@@ -114,3 +115,9 @@ export const getUserRoleFromValue = (role: string) => {
       return 'Site User';
   }
 }
+export const convertTypeToSelectOption = (data: DropDownItem[]): SelectOptionType[] => (
+  data?.map((item: DropDownItem) => ({
+    label: item.text,
+    value: item.value,
+  }))
+);
