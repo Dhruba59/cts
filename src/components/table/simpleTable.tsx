@@ -1,13 +1,10 @@
 "use client";
 import {
-  ColumnDef,
-  SortingState,
   flexRender,
   getCoreRowModel,
   getSortedRowModel,
   useReactTable
 } from "@tanstack/react-table";
-import { Dispatch, SetStateAction, useState } from "react";
 import {
   Table,
   TableBody,
@@ -20,8 +17,7 @@ import {
 import ArrowLongUp from "../icons/arrow-long-up";
 import ArrowLongDown from "../icons/arrow-long-down";
 import { DataTableProps } from "@/model/common";
-
-
+import Spinner from "../ui/spinner";
 
 export function SimpleTable<TData, TValue>({
   columns,
@@ -44,11 +40,18 @@ export function SimpleTable<TData, TValue>({
     manualSorting: true,
   });
 
+  if(data === undefined) {
+    return (
+      <div className="w-full h-full p-10 flex justify-center items-center">
+          <Spinner size="large"/>
+      </div>)
+  }
+
   return (
     <div {...props}>
       <Table>
         <TableHeader>
-          {table.getHeaderGroups().map((headerGroup) => (
+          {table?.getHeaderGroups()?.map((headerGroup) => (
             <TableRow key={headerGroup.id}>
               {headerGroup.headers.map((header, index) => (
                 <TableHead
@@ -85,7 +88,7 @@ export function SimpleTable<TData, TValue>({
           ))}
         </TableHeader>
         <TableBody>
-          {table.getRowModel().rows.map((row) => (
+          {table?.getRowModel()?.rows.map((row) => (
             <TableRow key={row.id} className="text-sm text-start">
               {row.getVisibleCells().map((cell) => (
                 <TableCell key={cell.id}>

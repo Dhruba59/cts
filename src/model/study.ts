@@ -93,3 +93,20 @@ export interface CriticalDndDataType {
   title: string;
   items: Array<CriticalDndItem>;
 }
+
+export interface StudyListQueryData {
+  PageNumber?: number;
+  PageSize?: number;
+  ProtocolNumber?: string;
+  StudyName?: string;
+  StudyStartDate?: string;
+  StudyEndDate?: string;
+  MaxSubjects?: number;
+  SponsorId?: number;
+  Phase?: string;
+  PreScreen?: boolean;
+  Active?: boolean;
+  SubjectIdentryFormat?: string;
+  Sr?: boolean;
+  OrderBy?: string;
+}

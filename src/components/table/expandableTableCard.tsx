@@ -5,7 +5,6 @@ import { cn } from "@/libs/utils";
 import { useState } from "react";
 import Check from "@/components/icons/check";
 import Error from "@/components/icons/error";
-import { Row } from "@tanstack/react-table";
 
 interface TableCardProps {
   columns: any;

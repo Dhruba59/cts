@@ -8,7 +8,7 @@ interface Props {
 
 const Breadcrumbs = ({ title, subTitle }: Props) => {
   return (
-    <nav className="sm:hidden flex px-6 py-2" aria-label="Breadcrumb">
+    <nav className="sm:hidden flex py-2" aria-label="Breadcrumb">
       <ol className="inline-flex items-center space-x-1 md:space-x-3">
         <li className="inline-flex items-center">
           <a

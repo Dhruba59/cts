@@ -1,7 +1,9 @@
+import StudyListFeature from "@/features/study/list-of-study";
+
 export default function ChangePassword() {
   return (
-    <div className="w-full h-fill px-8 flex justify-center items-center md:justify-start md:items-start">
-      <p>List of Studies</p>
+    <div className="w-full px-8 flex justify-center items-center md:justify-start md:items-start">
+      <StudyListFeature />
     </div>
   );
 }

@@ -24,3 +24,8 @@ export const getIndicationList = ({queryKey}: any) => {
   }
   return request({ url: `${API_ROUTE_CONSTANT.STUDY}/indication-dropdowns`, method: "get", params });
 };
+
+export const getStudyList = ({queryKey}: any) => {
+  const [key, params ] = queryKey as any;
+  return request({ url: `${API_ROUTE_CONSTANT.STUDY}/studies`, method: "get", params });
+};
