@@ -46,15 +46,13 @@ const StudyListFeature = () => {
   }, [pageSize]);
 
   useEffect(() => {
-    sorting?.map((item) => {
-      setQueryData((data) => ({
-        ...data,
-        OrderBy: `${item.id} ${item.desc ? 'desc' : 'asc'}`
-      }));
-    });
-    
+    const orderby: any = sorting.map((s) => `${s.id} ${s.desc ? 'desc' : 'asc'}`).join(',');   
+    setQueryData((data) => ({
+      ...data,
+      OrderBy: typeof orderby!='undefined' && orderby ? orderby : null  
+    }));
   }, [sorting]);
-
+  
   return (
     <main className='w-full'>
       <ListHeader setQueryData={setQueryData}/>
