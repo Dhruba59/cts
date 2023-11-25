@@ -1,5 +1,5 @@
 export interface Query{
-    pageNumber: number;
-    pageSize: number;
-    orderBy: string | null;
+    pageNumber?: number;
+    pageSize?: number;
+    orderBy?: string;
 }

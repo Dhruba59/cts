@@ -7,30 +7,34 @@ import Textarea from "@/components/ui/textarea";
 import { DropDownItem, SelectOptionType } from "@/model/drop-down-list";
 import { CodeType } from "@/model/indication";
 import { get_indication_code_types } from "@/service/indication-service";
+import { convertTypeToSelectOption } from "@/utils/helpers";
 import { useEffect, useState } from "react";
 
 interface SearchFormProps {
-  codeTypes: SelectOptionType[];
+  isAdvancedOpen: boolean;
+  codeTypeDropDown: any;
   register: any;
   Controller: any;
   control: any;
   reset: any;
 }
 export function SearchForm({
-  codeTypes,
+  isAdvancedOpen,
+  codeTypeDropDown,
   register,
   Controller,
   control,
   reset
 }: SearchFormProps) {
 
-  const defaultValues = {
-    codeType: { value: "ICD-10", label: "ICD-10" },
-    code: '',
-    indicationName: '',
-    description: '',
-    isRequireDetails: null
-  };
+  const [codeTypeOptions, setCodeTypeOptions] = useState<SelectOptionType[]>([]);
+
+  //console.log(codeTypeDropDown);
+  useEffect(() => {
+
+    setCodeTypeOptions(convertTypeToSelectOption(codeTypeDropDown?.codeTypes));
+
+  }, [codeTypeDropDown])
 
   return (
     <div className="flex items-end gap-3 md:gap-6 p-4 md:p-0">
@@ -51,15 +55,15 @@ export function SearchForm({
             name="codeType"
             defaultValue={""}
             render={({ field: { onChange, onBlur, value } }: any) =>
-              <Select onChange={onChange} label="" options={codeTypes} />}
+              <Select onChange={onChange} label="" options={codeTypeOptions} />}
           />
         </div>
       </div>
-      <div className="flex gap-3">
+      <div className={`flex gap-3 ${isAdvancedOpen ? 'hidden' : 'block'}`}>
         <Button type="submit" className="!h-10 mb-[1px]">
           Search
         </Button>
-        <Button className="" variant="outline" onClick={() => reset(defaultValues)}>
+        <Button className="" variant="outline" onClick={() => reset()}>
           Reset
         </Button>
       </div>
@@ -87,21 +91,25 @@ export function AdvanceSearchForm({ register, Controller, control, reset }: any)
         />
       </div>
 
-      <div className="flex flex-row items-center">
-        <Controller
-          name="isRequireDetails"
-          control={control}
-          render={({ field: { onChange, onBlur, value } }: any) =>
-            <Checkbox className="" onChange={onChange} />}
-        />
-        <Label label="Require Details" />
+      <div className="flex flex-grow justify-between">
+        <div className="flex flex-row items-center -mt-6">
+          <Controller
+            name="isRequireDetails"
+            control={control}
+            render={({ field: { onChange, onBlur, value } }: any) =>
+              <Checkbox className="" onChange={onChange} />}
+          />
+          <Label label="Require Details" className="-mt-1" />
+        </div>
+        <div className="flex gap-3">
+          <Button type="submit" className="!h-10 mb-[1px]">
+            Search
+          </Button>
+          <Button className="" variant="outline" onClick={() => reset()}>
+            Reset
+          </Button>
+        </div>
       </div>
-      {/* <div className="flex items-center justify-center gap-4 !mt-2">
-        <Button className="px-8" variant="outline">
-          Cancel
-        </Button>
-        <Button className="">Advance Search</Button>
-      </div> */}
     </div>
   );
 }

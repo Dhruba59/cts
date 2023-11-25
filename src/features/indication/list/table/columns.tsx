@@ -4,11 +4,11 @@ import DeleteOutlined from "@/components/icons/deleteOutlined";
 import Edit from "@/components/icons/edit";
 import View from "@/components/icons/view";
 import { IndeterminateCheckbox } from "@/components/ui/checkbox";
-import { Indication } from "@/model/indication";
+import { Indication, IndicationQuery } from "@/model/indication";
 import { ColumnDef } from "@tanstack/react-table";
 import Cross from "@/components/icons/cross";
 
-export const LIST_COLUMN: ColumnDef<Indication>[] = [
+export const INDICATION_LIST_COLUMN: ColumnDef<IndicationQuery>[] = [
 
   {
     header: "Indication Name",

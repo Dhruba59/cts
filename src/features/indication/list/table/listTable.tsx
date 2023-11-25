@@ -2,9 +2,11 @@
 import ExpandableTable from "@/components/table/expandableTable";
 import SimpleTable from "@/components/table/simpleTable";
 import { DataTableProps } from "@/model/common";
+import { useMemo } from "react";
+import { INDICATION_LIST_COLUMN } from "./columns";
 
-export function ListTable<TData, TValue>({data, columns, sorting, setSorting} :  DataTableProps<TData, TValue>){
-
+export function ListTable({data, sorting, setSorting} :  any){
+  const columns = useMemo(() => INDICATION_LIST_COLUMN, []);
   return (
     <div className="sm:wrapper">
       <h4 className="hidden md:block font-semibold py-4 px-6 text-dark-900">

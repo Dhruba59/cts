@@ -22,7 +22,7 @@ export interface InputRangeDataType {
 export interface DataTableProps<TData, TValue>
   extends React.ComponentPropsWithoutRef<"div"> {
   columns: ColumnDef<TData, TValue>[];
-  data: TData[];
+  data: any;
   sorting: SortingState;
   setSorting: Dispatch<SetStateAction<SortingState>>
 }

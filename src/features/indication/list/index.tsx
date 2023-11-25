@@ -5,123 +5,71 @@ import { Indication, IndicationQuery } from "@/model/indication";
 import Pagination from "@/components/pagination";
 import { get_indication_code_types, get_indications } from "@/service/indication-service";
 import { SortingState } from "@tanstack/react-table";
-import { LIST_COLUMN } from "./table/columns";
+
 import { DropDownItem, SelectOptionType } from "@/model/drop-down-list";
+import { DEFAULT_PAGE_SIZE } from "@/constants/common";
+import { useQuery } from "react-query";
 
 const IndicationList = () => {
 
-  const [codeTypes, setCodeTypes] = useState<SelectOptionType[]>([]);
-  const [search, setSearch] = useState<boolean>(false);
+  const [queryData, setQueryData] = useState<IndicationQuery>();
+  const [pageSize, setPageSize] = useState<number>(DEFAULT_PAGE_SIZE);
+  const [sorting, setSorting] = useState<SortingState>([
+    { id: "indicationName", desc: false }
+  ]);
 
-  const convertTypeToSelectOption = (
-    data: DropDownItem[]
-  ): SelectOptionType[] =>
-    data?.map((item: DropDownItem) => ({
-      label: item.text,
-      value: item.value
-    }));
-
-    const fetchData = async (query: IndicationQuery) => {
-      //console.log(query);
-      
-      const { data, error }: any = await get_indications(query);
-  
-      setData(data.items);
-      setCurrentPage(data.pageNumber);
-      setTotalPages(data.totalPages);
-    };
-  const fetchDropData = async () => {
-    const { data, error }: any = await get_indication_code_types();
-    console.log(data);
-    setCodeTypes(convertTypeToSelectOption(data.codeTypes));
-    console.log(codeTypes);
-  };
-  
-  const columns = useMemo(() => LIST_COLUMN, []);
-  //const data = useMemo(() => LIST_DATA, []);
-  const [indiationQuery, setIndicationQuery] = useState<IndicationQuery>({
-    pageNumber: 1,
-    pageSize:10,
-    orderBy: '',
-
-    code: null, 
-    indicationName: '', 
-    codeType: '',
-    isRequireDetails: null,
-    description: ''
+  const { data: studyData } = useQuery({
+    queryFn: get_indications,
+    queryKey: ['sort', queryData],
   });
 
-  let indiations = [] as Indication[];
-
-  const [currentPage, setCurrentPage] = useState(1);
-  const [data, setData] = useState<Indication[]>(indiations);
-  const [totalPages, setTotalPages] = useState<number>(0);
-  const [pageSize, setPageSize] = useState<number>(10);
-  const [sortBy, setSortBy] = useState('');
-
-  const [sorting, setSorting] = useState<SortingState>([
-   //{id: "indicationName", desc: false}
-  ])
-  
-
-
-   useEffect(() => {
-
-    setSortBy(sorting.map((s) => `${s.id} ${s.desc ? 'asc' : 'desc'}`).join(','));
-
-    console.log(sortBy);
-
-    indiationQuery.pageNumber = currentPage;
-    indiationQuery.pageSize = pageSize;
-    indiationQuery.orderBy = sortBy === '' || null || undefined ? null : sortBy;
-
-    fetchData(indiationQuery);
-    fetchDropData();
-
-  }, []);
+  const setCurrentPageNumber = (page: number) => {
+    setQueryData((data) => {
+      if (data) {
+        return {
+          ...data,
+          PageNumber: page
+        }
+      } else {
+        return { PageNumber: page };
+      }
+    });
+  }
 
   useEffect(() => {
-
-    setSortBy(sorting.map((s) => `${s.id} ${s.desc ? 'asc' : 'desc'}`).join(','));
-    setIndicationQuery((prev) => {
-      prev.pageNumber = currentPage;
-      prev.pageSize = pageSize;
-      prev.orderBy = sortBy === '' || null || undefined ? null : sortBy;
-      return prev;
+    setQueryData((data) => {
+      if (data) {
+        return {
+          ...data,
+          PageSize: pageSize
+        }
+      } else {
+        return { PageSize: pageSize };
+      };
     });
-    console.log(indiationQuery);
+  }, [pageSize]);
 
-    fetchData(indiationQuery);
-  }, [currentPage, pageSize, sorting, search]);
-
-  const onSubmit = (val: any) => {
-
-   setIndicationQuery((prev) => {
-    prev.pageNumber = 1;
-    prev.pageSize = pageSize;
-    prev.orderBy = sortBy === '' || null || undefined ? null : sortBy;
-    prev.isRequireDetails = val.isRequireDetails === '' || null || undefined ? null : val.isRequireDetails;
-    prev.indicationName = val.indicationName === '' || null || undefined ? null : val.indicationName;
-    prev.code = val.code === '' || null || undefined ? null : val.code;
-    prev.codeType = val.codeType === undefined ? null : val.codeType.value;
-    prev.description = val.description === '' || null || undefined ? null : val.description;
-    return prev;
-  });
-  
-   setSearch(!search);
-   
-  }
+  useEffect(() => {
+    const orderby: any = sorting?.map((item) => {
+      return `${item.id} ${item.desc ? 'desc' : 'asc'}`;
+    });
+    console.log(orderby)
+    setQueryData((data) => ({
+      ...data,
+      OrderBy: orderby
+    }));
+  }, [sorting]);
 
 
   return (
     <main className="px-6 md:px-0">
-      <ListHeader codeTypes ={codeTypes} onSubmit= {onSubmit} />
-      <ListTable data={data} columns={columns} sorting={sorting} setSorting={setSorting}/>
+      <ListHeader setQueryData={setQueryData} />
+      <ListTable data={studyData?.data?.items} sorting={sorting} setSorting={setSorting} />
       <div className="flex items-center justify-center" >
         <Pagination
-          currentPage={currentPage}
-          setCurrentPage={setCurrentPage}
-          lastPage={totalPages}
+          currentPage={studyData?.data?.pageNumber}
+          setCurrentPage={setCurrentPageNumber}
+          lastPage={studyData?.data?.totalPages}
           pageSize={pageSize}
           setPageSize={setPageSize}
           maxLength={7}

@@ -20,15 +20,15 @@ export interface CodeType {
 }
 
 export interface IndicationQuery extends  Query {
-  code: string | null;
-  indicationName: string;
-  codeType: string;
-  description: string | null;
-  isRequireDetails: boolean | null;
+  code?: string;
+  indicationName?: string;
+  codeType?: string;
+  description?: string;
+  isRequireDetails?: boolean;
 }
 
 
-export const Indication_coluns: ColumnDef<Indication>[] = [
+export const Indication_coluns: ColumnDef<IndicationQuery>[] = [
     {
       header: "Code",
       accessorKey: "code"
