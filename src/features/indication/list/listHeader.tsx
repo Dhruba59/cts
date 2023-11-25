@@ -24,13 +24,13 @@ const ListHeader = ({ codeTypes, onSubmit, onReset }: any) => {
       <Breadcrumbs title="Indication" subTitle="Indication List" />
       <form className="" onSubmit={handleSubmit(onSubmit)}>
         <div className="md:hidden">
-          <SearchForm codeTypes={codeTypes} register={register} Controller={Controller} control={control} />
+          <SearchForm codeTypes={codeTypes} register={register} Controller={Controller} control={control}  reset={reset}/>
         </div>
         <section className="hidden md:block wrapper">
           <div className="flex flex-row items-center justify-between px-3 py-3">
             <h4 className=" text-neutral-black">Search Indication</h4>
             <div className="">
-              <SearchForm codeTypes={codeTypes}  register={register} Controller={Controller} control={control}/>
+              <SearchForm codeTypes={codeTypes}  register={register} Controller={Controller} control={control} reset={reset}/>
             </div>
             <Toggle
               prefixLabel="More: "
@@ -40,7 +40,7 @@ const ListHeader = ({ codeTypes, onSubmit, onReset }: any) => {
             />
           </div>
           <hr />
-          {isChecked && <AdvanceSearchForm  register={register} Controller={Controller} control={control}/>}
+          {isChecked && <AdvanceSearchForm  register={register} Controller={Controller} control={control} reset={reset}/>}
         </section>
       </form>
     </div>

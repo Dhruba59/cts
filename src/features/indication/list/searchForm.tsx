@@ -14,14 +14,24 @@ interface SearchFormProps {
   register: any;
   Controller: any;
   control: any;
+  reset: any;
 }
 export function SearchForm({
   codeTypes,
   register,
   Controller,
-  control
+  control,
+  reset
 }: SearchFormProps) {
-  const onChange = () => { };
+
+  const defaultValues = {
+    codeType: { value: "ICD-10", label: "ICD-10" },
+    code: '',
+    indicationName: '',
+    description: '',
+    isRequireDetails: null
+  };
+
   return (
     <div className="flex items-end gap-3 md:gap-6 p-4 md:p-0">
       <div className="grid lg:flex lg:items-center gap-2 flex-1 md:flex-none">
@@ -39,6 +49,7 @@ export function SearchForm({
           <Controller
             control={control}
             name="codeType"
+            defaultValue={""}
             render={({ field: { onChange, onBlur, value } }: any) =>
               <Select onChange={onChange} label="" options={codeTypes} />}
           />
@@ -48,7 +59,7 @@ export function SearchForm({
         <Button type="submit" className="!h-10 mb-[1px]">
           Search
         </Button>
-        <Button className="" variant="outline">
+        <Button className="" variant="outline" onClick={() => reset(defaultValues)}>
           Reset
         </Button>
       </div>
@@ -56,17 +67,19 @@ export function SearchForm({
   );
 }
 
-export function AdvanceSearchForm({ register, Controller, control }: any) {
+export function AdvanceSearchForm({ register, Controller, control, reset }: any) {
   return (
     <div className="hidden lg:block p-6 pt-2 space-y-4">
       <div className="flex flex-row items-center gap-5">
         <Input
+          name="indicationName"
           label="Indication name"
           placeholder="Enter Indication name"
           className="md:w-72"
           {...register("indicationName")}
         />
         <Input
+          name="description"
           label="Description"
           placeholder="Enter description"
           wrapperClassName="md:w-full"
