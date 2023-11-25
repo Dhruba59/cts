@@ -54,7 +54,7 @@ const ListHeader = ({ setQueryData }: ListHeaderProps) => {
             <SearchForm isAdvancedOpen={isChecked} register={register} Controller={Controller} control={control}/>
           </div>
           <Toggle
-            prefixLabel="Advanced: "
+            prefixLabel="More: "
             className="hidden lg:block"
             isChecked={isChecked}
             setIsChecked={setIsChecked}

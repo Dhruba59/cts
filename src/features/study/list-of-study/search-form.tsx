@@ -131,9 +131,9 @@ const AdvanceSearchForm = ({ dropDownList, register, Controller, control }: Adva
 
         </div>
         <div className="flex items-center justify-center gap-4 ">
-          <Button className="" type="submit">Advance Search</Button>
+          <Button className="" type="submit">Search</Button>
           <Button className="px-8" variant="outline">
-            Cancel
+            Reset
           </Button>
         </div>
       </div>
