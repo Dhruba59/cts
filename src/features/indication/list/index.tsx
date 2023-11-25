@@ -15,7 +15,7 @@ const IndicationList = () => {
   const [queryData, setQueryData] = useState<IndicationQuery>();
   const [pageSize, setPageSize] = useState<number>(DEFAULT_PAGE_SIZE);
   const [sorting, setSorting] = useState<SortingState>([
-    { id: "indicationName", desc: false }
+    //{ id: "indicationName", desc: false }
   ]);
 
   const { data: studyData } = useQuery({
@@ -50,16 +50,14 @@ const IndicationList = () => {
   }, [pageSize]);
 
   useEffect(() => {
-    const orderby: any = sorting?.map((item) => {
-      return `${item.id} ${item.desc ? 'desc' : 'asc'}`;
-    });
-    console.log(orderby)
+    const orderby: any = sorting.map((s) => `${s.id} ${s.desc ? 'desc' : 'asc'}`).join(',');
+    //console.log(orderby)
+    
     setQueryData((data) => ({
       ...data,
-      OrderBy: orderby
+      OrderBy: typeof orderby!='undefined' && orderby ? orderby : null  
     }));
   }, [sorting]);
-
 
   return (
     <main className="px-6 md:px-0">

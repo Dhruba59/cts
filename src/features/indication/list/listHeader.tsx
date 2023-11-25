@@ -25,12 +25,13 @@ const ListHeader = ({ setQueryData }: any) => {
   } = useForm<IndicationQuery>();
 
   const onSubmit = (value: any) => {
-   
+    console.log(value);
     const params = {
-      ...value
+      ...value,
+      codeType: value?.codeType?.value
     }
     //delete params.date;
-    //console.log(params);
+    console.log(params);
     setQueryData(params);
   }
 
