@@ -9,7 +9,7 @@ import { SortingState } from "@tanstack/react-table";
 import { DropDownItem, SelectOptionType } from "@/model/drop-down-list";
 import { DEFAULT_PAGE_SIZE } from "@/constants/common";
 import { useQuery } from "react-query";
-import {MainContainer, PaginationContainer} from "@/components/style-container";
+import { MainContainer, PaginationContainer } from "@/components/style-container";
 
 const IndicationList = () => {
 
@@ -53,27 +53,25 @@ const IndicationList = () => {
   useEffect(() => {
     const orderby: any = sorting.map((s) => `${s.id} ${s.desc ? 'desc' : 'asc'}`).join(',');
     //console.log(orderby)
-    
+
     setQueryData((data) => ({
       ...data,
-      OrderBy: typeof orderby!='undefined' && orderby ? orderby : null  
+      OrderBy: typeof orderby != 'undefined' && orderby ? orderby : null
     }));
   }, [sorting]);
 
   return (
-    <MainContainer >
+    <MainContainer>
       <ListHeader setQueryData={setQueryData} />
       <ListTable data={studyData?.data?.items} sorting={sorting} setSorting={setSorting} />
-      <PaginationContainer>
-        <Pagination
-          currentPage={studyData?.data?.pageNumber}
-          setCurrentPage={setCurrentPageNumber}
-          lastPage={studyData?.data?.totalPages}
-          pageSize={pageSize}
-          setPageSize={setPageSize}
-          maxLength={7}
-        />
-      </PaginationContainer>
+      <Pagination
+        currentPage={studyData?.data?.pageNumber}
+        setCurrentPage={setCurrentPageNumber}
+        lastPage={studyData?.data?.totalPages}
+        pageSize={pageSize}
+        setPageSize={setPageSize}
+        maxLength={7}
+      />
     </MainContainer>
   );
 };

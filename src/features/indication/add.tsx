@@ -81,7 +81,7 @@ const AddIndication = () => {
   }, [])
 
   return (
-    <MainContainer>
+    <div className="w-full">
       <Breadcrumbs title="Indication" subTitle="Add Indication" />
       <section className="wrapper">
         <h4 className=" text-neutral-black px-6 py-4">
@@ -150,7 +150,7 @@ const AddIndication = () => {
           </div>
         </form>
       </section>
-    </MainContainer>
+    </div>
   );
 };
 

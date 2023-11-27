@@ -91,7 +91,7 @@ const AddStudy = () => {
   }, [dropdownList]);
 
   return (
-    <MainContainer >
+    < >
       <form className="mb-20 w-full" onSubmit={handleSubmit(onSubmit)}>
         <BasicInformation dropdownList={dropdownList?.data} register={register} setValue={setValue} errors={errors} Controller={Controller} control={control}/>
         <AssignSite assignedData={assignedData} setAssignedData={setAssignedData} />
@@ -103,7 +103,7 @@ const AddStudy = () => {
           </Button>
         </div>
       </form>
-    </MainContainer>
+    </>
   );
 };
 
