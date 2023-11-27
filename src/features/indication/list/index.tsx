@@ -9,6 +9,7 @@ import { SortingState } from "@tanstack/react-table";
 import { DropDownItem, SelectOptionType } from "@/model/drop-down-list";
 import { DEFAULT_PAGE_SIZE } from "@/constants/common";
 import { useQuery } from "react-query";
+import {PaginationContainer} from "@/components/style-container";
 
 const IndicationList = () => {
 
@@ -63,7 +64,7 @@ const IndicationList = () => {
     <main className="px-6 md:px-0">
       <ListHeader setQueryData={setQueryData} />
       <ListTable data={studyData?.data?.items} sorting={sorting} setSorting={setSorting} />
-      <div className="flex items-center justify-center" >
+      <PaginationContainer>
         <Pagination
           currentPage={studyData?.data?.pageNumber}
           setCurrentPage={setCurrentPageNumber}
@@ -72,7 +73,7 @@ const IndicationList = () => {
           setPageSize={setPageSize}
           maxLength={7}
         />
-      </div>
+      </PaginationContainer>
     </main>
   );
 };

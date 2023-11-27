@@ -384,6 +384,13 @@
   dependencies:
     "@types/react" "*"
 
+"@types/react-select@^5.0.1":
+  version "5.0.1"
+  resolved "https://registry.npmjs.org/@types/react-select/-/react-select-5.0.1.tgz"
+  integrity sha512-h5Im0AP0dr4AVeHtrcvQrLV+gmPa7SA0AGdxl2jOhtwiE6KgXBFSogWw8az32/nusE6AQHlCOHQWjP1S/+oMWA==
+  dependencies:
+    react-select "*"
+
 "@types/react-transition-group@^4.4.0":
   version "4.4.7"
   resolved "https://registry.npmjs.org/@types/react-transition-group/-/react-transition-group-4.4.7.tgz"
@@ -893,7 +900,7 @@ damerau-levenshtein@^1.0.8:
   resolved "https://registry.npmjs.org/damerau-levenshtein/-/damerau-levenshtein-1.0.8.tgz"
   integrity sha512-sdQSFB7+llfUcQHUQO3+B8ERRj0Oa4w9POWMI/puGtuf7gFywGmkaLCElnudfTiKZV+NvHqL0ifzdrI8Ro7ESA==
 
-dayjs@^1.11.6:
+dayjs@^1.11.10, dayjs@^1.11.6:
   version "1.11.10"
   resolved "https://registry.npmjs.org/dayjs/-/dayjs-1.11.10.tgz"
   integrity sha512-vjAczensTgRcqDERK0SR2XMwsF/tSvnvlv6VcF2GIhg6Sx4yOIt/irsr1RDJsKiIyBzJDpCoXiWWq28MqH2cnQ==
@@ -2474,7 +2481,7 @@ queue-microtask@^1.2.2:
   resolved "https://registry.npmjs.org/queue-microtask/-/queue-microtask-1.2.3.tgz"
   integrity sha512-NuaNSa6flKT5JaSYQzJok04JzTL1CA6aGhv5rfLW3PgqA+M2ChpZQnAC8h8i4ZFkBS8X5RqkDBHA7r4hej3K9A==
 
-"react-dom@^16.8.0 || ^17.0.0 || ^18.0.0", "react-dom@^17.0.2 || ^18", react-dom@^18.0.0, react-dom@^18.2.0, react-dom@>=16, react-dom@>=16.6.0:
+"react-dom@^16.8.0 || ^17.0.0 || ^18.0.0", "react-dom@^17.0.2 || ^18", react-dom@^18.0.0, react-dom@^18.2.0, "react-dom@>= 16.8.0", react-dom@>=16, react-dom@>=16.6.0:
   version "18.2.0"
   resolved "https://registry.npmjs.org/react-dom/-/react-dom-18.2.0.tgz"
   integrity sha512-6IMTriUmvsjHUjNtEDudZfuDQUoWXVxKHhlEGSk81n4YFS+r/Kl99wXiwlVXtPBtJenozv2P+hxDsw9eA7Xo6g==
@@ -2513,7 +2520,7 @@ react-query@^3.39.3:
     broadcast-channel "^3.4.1"
     match-sorter "^6.0.2"
 
-react-select@^5.7.7:
+react-select@*, react-select@^5.7.7:
   version "5.7.7"
   resolved "https://registry.npmjs.org/react-select/-/react-select-5.7.7.tgz"
   integrity sha512-HhashZZJDRlfF/AKj0a0Lnfs3sRdw/46VJIRd8IbB9/Ovr74+ZIwkAdSBjSPXsFMG+u72c5xShqwLSKIJllzqw==
@@ -2550,7 +2557,7 @@ react-transition-group@^4.3.0:
     loose-envify "^1.4.0"
     prop-types "^15.6.2"
 
-react@*, "react@^16 || ^17 || ^18", "react@^16.8.0 || ^17 || ^18", "react@^16.8.0 || ^17.0.0 || ^18.0.0", "react@^17.0.2 || ^18", "react@^17.0.2 || ^18.2.0", react@^18.0.0, react@^18.2.0, "react@>= 16.8.0 || 17.x.x || ^18.0.0-0", react@>=16, react@>=16.6.0, react@>=16.8.0:
+react@*, "react@^16 || ^17 || ^18", "react@^16.8.0 || ^17 || ^18", "react@^16.8.0 || ^17.0.0 || ^18.0.0", "react@^17.0.2 || ^18", "react@^17.0.2 || ^18.2.0", react@^18.0.0, react@^18.2.0, "react@>= 16.8.0", "react@>= 16.8.0 || 17.x.x || ^18.0.0-0", react@>=16, react@>=16.6.0, react@>=16.8.0:
   version "18.2.0"
   resolved "https://registry.npmjs.org/react/-/react-18.2.0.tgz"
   integrity sha512-/3IjMdb2L9QbBdWiW5e3P2/npwMBaU9mHCSCUzNln0ZCYbcfTsGbTJrU/kGemdH2IWmB2ioZ+zkxtmq6g09fGQ==
@@ -2855,10 +2862,17 @@ supports-preserve-symlinks-flag@^1.0.0:
   resolved "https://registry.npmjs.org/supports-preserve-symlinks-flag/-/supports-preserve-symlinks-flag-1.0.0.tgz"
   integrity sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==
 
-tailwind-merge@^1.14.0:
+tailwind-merge@^1.14.0, tailwind-merge@^1.3.0:
   version "1.14.0"
   resolved "https://registry.npmjs.org/tailwind-merge/-/tailwind-merge-1.14.0.tgz"
   integrity sha512-3mFKyCo/MBcgyOTlrY8T7odzZFx+w+qKSMAmdFzRvqBfLlSigU6TZnlFHK0lkMwj9Bj8OYU+9yW9lmGuS0QEnQ==
+
+tailwind-styled-components@^2.2.0:
+  version "2.2.0"
+  resolved "https://registry.npmjs.org/tailwind-styled-components/-/tailwind-styled-components-2.2.0.tgz"
+  integrity sha512-Ogemwk0p69aU8WE/ooJZHjqstdJgT5R6HGU6TFz2uSnveSEtvW+C6aWOjGCvCr5H/bREv0IbbQ4yODknRrLBRQ==
+  dependencies:
+    tailwind-merge "^1.3.0"
 
 tailwindcss@^3:
   version "3.3.3"
