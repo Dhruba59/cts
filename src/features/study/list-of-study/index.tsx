@@ -8,7 +8,7 @@ import { getStudyList } from '@/service/study-service';
 import { DEFAULT_PAGE_SIZE } from '@/constants/common'
 import { StudyListQueryData } from '@/model/study'
 import { SortingState } from '@tanstack/react-table';
-import { MainContainer, PaginationContainer } from '@/components/style-container';
+import { MainContainer } from '@/components/style-container';
 
 const StudyListFeature = () => {
   const [queryData, setQueryData] = useState<StudyListQueryData>();

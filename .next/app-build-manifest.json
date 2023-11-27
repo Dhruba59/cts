@@ -31,26 +31,6 @@
       "static/chunks/main-app.js",
       "static/chunks/app/(main)/(study)/list-of-studies/page.js"
     ],
-    "/(main)/(indication)/add-indication/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/(main)/(indication)/add-indication/page.js"
-    ],
-    "/(main)/(indication)/list-of-indications/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/(main)/(indication)/list-of-indications/page.js"
-    ],
-    "/(main)/(sponsor)/list-of-sponsors/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/(main)/(sponsor)/list-of-sponsors/page.js"
-    ],
-    "/(main)/(study)/add-study/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/(main)/(study)/add-study/page.js"
-    ],
     "/not-found": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",

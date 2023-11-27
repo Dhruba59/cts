@@ -29,7 +29,7 @@ const ListTable = ({ data, sorting, setSorting }: ListTableProps) => {
         />
       </div>
       <div className="hidden sm:block">
-        <SimpleTable data={data} columns={columns} sorting={sorting} setSorting={setSorting}/>
+        <SimpleTable data={data} columns={columns} sorting={sorting} setSorting={setSorting} />
       </div>
     </div>
   );
