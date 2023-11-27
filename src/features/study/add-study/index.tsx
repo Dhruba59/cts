@@ -11,6 +11,7 @@ import { DropDownItem } from "@/model/drop-down-list";
 import { toast } from "react-toastify";
 import { AddStudyPayload, CriticalDataType, CriticalDndDataType, CriticalDndItem } from "@/model/study";
 import { getUpdatedCriticalDndData, getUpdatedDndData, initialAssignedData, initialCriticalDndData } from "@/utils/study";
+import { MainContainer } from "@/components/style-container";
 
 const AddStudy = () => {
   const [assignedData, setAssignedData] = useState<DndDataType[]>(initialAssignedData);
@@ -90,7 +91,7 @@ const AddStudy = () => {
   }, [dropdownList]);
 
   return (
-    <main className="w-full">
+    <MainContainer >
       <form className="mb-20 w-full" onSubmit={handleSubmit(onSubmit)}>
         <BasicInformation dropdownList={dropdownList?.data} register={register} setValue={setValue} errors={errors} Controller={Controller} control={control}/>
         <AssignSite assignedData={assignedData} setAssignedData={setAssignedData} />
@@ -102,7 +103,7 @@ const AddStudy = () => {
           </Button>
         </div>
       </form>
-    </main>
+    </MainContainer>
   );
 };
 

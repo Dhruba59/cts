@@ -1,4 +1,5 @@
 'use client'
+import { MainContainer } from "@/components/style-container";
 import Breadcrumbs from "@/components/ui/breadcrumbs";
 import Button from "@/components/ui/button";
 import Checkbox from "@/components/ui/checkbox";
@@ -80,7 +81,7 @@ const AddIndication = () => {
   }, [])
 
   return (
-    <main>
+    <MainContainer>
       <Breadcrumbs title="Indication" subTitle="Add Indication" />
       <section className="wrapper">
         <h4 className=" text-neutral-black px-6 py-4">
@@ -149,7 +150,7 @@ const AddIndication = () => {
           </div>
         </form>
       </section>
-    </main>
+    </MainContainer>
   );
 };
 

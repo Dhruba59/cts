@@ -8,6 +8,7 @@ import { getStudyList } from '@/service/study-service';
 import { DEFAULT_PAGE_SIZE } from '@/constants/common'
 import { StudyListQueryData } from '@/model/study'
 import { SortingState } from '@tanstack/react-table';
+import { MainContainer, PaginationContainer } from '@/components/style-container';
 
 const StudyListFeature = () => {
   const [queryData, setQueryData] = useState<StudyListQueryData>();
@@ -54,10 +55,10 @@ const StudyListFeature = () => {
   }, [sorting]);
   
   return (
-    <main className='w-full'>
+    <MainContainer>
       <ListHeader setQueryData={setQueryData}/>
       <ListTable data={studyData?.data?.items} sorting={sorting} setSorting={setSorting}/>
-      <div className="flex items-center justify-center mb-20" >
+      <PaginationContainer>
         <Pagination
           currentPage={studyData?.data?.pageNumber ?? 1}
           setCurrentPage={setCurrentPageNumber}
@@ -66,8 +67,8 @@ const StudyListFeature = () => {
           setPageSize={setPageSize}
           maxLength={7}
         />
-      </div>
-    </main>
+      </PaginationContainer>
+    </MainContainer>
   )
 }
 

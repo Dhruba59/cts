@@ -20,10 +20,8 @@ export default function IndicationPage() {
   const currentTab = searchParams.get("tab");
 
   return (
-    <ListPageContainer>
+  
       <IndicationList></IndicationList>
-    </ListPageContainer>
-
 
   );
 }
