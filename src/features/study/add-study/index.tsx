@@ -13,6 +13,20 @@ import { AddStudyPayload, CriticalDataType, CriticalDndDataType, CriticalDndItem
 import { getUpdatedCriticalDndData, getUpdatedDndData, initialAssignedData, initialCriticalDndData } from "@/utils/study";
 import { MainContainer } from "@/components/style-container";
 
+const initialFormValues ={
+  phase: '',
+  active: false,
+  studyCommentType: '',
+  sr: false,
+  studyCompound: '',
+  sponsor: '',
+  preScreen: false,
+  date: {
+    startDate: null,
+    endDate: null
+  }
+}
+
 const AddStudy = () => {
   const [assignedData, setAssignedData] = useState<DndDataType[]>(initialAssignedData);
   const [criticalDndData, setCriticalDndData] = useState<CriticalDndDataType[]>(initialCriticalDndData);
@@ -25,7 +39,9 @@ const AddStudy = () => {
     setValue,
     formState: { errors },
     reset,
-  } = useForm();
+  } = useForm({
+    defaultValues: initialFormValues
+  });
 
   const getIdsFromDndData = (data: DndDataType[], title: string): number[] | [] => (
     data.flatMap((group) => {

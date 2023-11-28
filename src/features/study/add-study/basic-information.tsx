@@ -145,7 +145,7 @@ const BasicInformation = ({ dropdownList, register, setValue, errors, control, C
                 required: 'Comment is required!',
               }}
               render={({ field: { onChange, onBlur, value } }: any) => (
-                <Select onChange={onChange} label="Comment type" options={commentOptions} />
+                <Select onChange={onChange} label="Comment type" options={commentOptions} value={value}/>
               )}
             />
             {errors.studyCommentType && (
@@ -160,7 +160,7 @@ const BasicInformation = ({ dropdownList, register, setValue, errors, control, C
                 required: 'Phase is required!',
               }}
               render={({ field: { onChange, onBlur, value } }: any) => (
-                <Select onChange={onChange} label="Phase" options={phaseOptions} />
+                <Select onChange={onChange} label="Phase" options={phaseOptions} value={value}/>
               )}
             />
             {errors.phase && (
@@ -176,7 +176,7 @@ const BasicInformation = ({ dropdownList, register, setValue, errors, control, C
                 required: "Sponsore is required!",
               }}
               render={({ field: { onChange, onBlur, value } }: any) => (
-                <Select onChange={onChange} label="Sponsor" options={sponsorOptions} />
+                <Select onChange={onChange} label="Sponsor" options={sponsorOptions} value={value}/>
               )}
             />
             {errors.sponsor && (
@@ -193,8 +193,8 @@ const BasicInformation = ({ dropdownList, register, setValue, errors, control, C
               rules={{
                 required: "Study compound is required!",
               }}
-              render={({ field: { onChange, onBlur } }: any) => (
-                <Select onChange={onChange} label="Study Compound" options={studyCompoundOptions} />
+              render={({ field: { onChange, onBlur, value } }: any) => (
+                <Select onChange={onChange} label="Study Compound" options={studyCompoundOptions} value={value}/>
               )}
             />
             {errors.studyCompound && (
@@ -210,7 +210,7 @@ const BasicInformation = ({ dropdownList, register, setValue, errors, control, C
                 name="preScreen"
                 control={control}
                 render={({ field: { onChange, onBlur, value } }: any) => (
-                  <Checkbox className="" onChange={onChange} />
+                  <Checkbox className="" onChange={onChange} value={value}/>
                 )}
               />
             </div>
@@ -220,7 +220,7 @@ const BasicInformation = ({ dropdownList, register, setValue, errors, control, C
                 name="sr"
                 control={control}
                 render={({ field: { onChange, onBlur, value } }: any) => (
-                  <Checkbox className="" onChange={onChange} />
+                  <Checkbox className="" onChange={onChange} value={value}/>
                 )}
               />
             </div>
@@ -231,7 +231,7 @@ const BasicInformation = ({ dropdownList, register, setValue, errors, control, C
               name="active"
               control={control}
               render={({ field: { onChange, onBlur, value } }: any) => (
-                <Checkbox onChange={onChange} />
+                <Checkbox onChange={onChange} value={value}/>
               )}
             />
           </div>
