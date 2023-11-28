@@ -25,7 +25,20 @@ const AddStudy = () => {
     setValue,
     formState: { errors },
     reset,
-  } = useForm();
+  } = useForm({
+    defaultValues: {
+      protocolNumber: '23423',
+      studyName: 'asdfasdf',
+      studyStartDate: Date.now(),
+      studyEndDate: Date.now(),
+      maxSubjects: '23',
+      sponsorId: 3,
+      // studyType: val.study_id_format,
+      phase: 5,
+      preScreen: 3,
+      active: true,
+      studyCommentType: { label: 'ssss', value: 'ssss'},
+    }});
 
   const getIdsFromDndData = (data: DndDataType[], title: string): number[] | [] => (
     data.flatMap((group) => {

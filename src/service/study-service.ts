@@ -29,3 +29,9 @@ export const getStudyList = ({queryKey}: any) => {
   const [key, params ] = queryKey as any;
   return request({ url: `${API_ROUTE_CONSTANT.STUDY}/studies`, method: "get", params });
 };
+
+export const getStudiyById = ({queryKey}: any) => {
+  const [key, params ] = queryKey as any;
+  console.log(params);
+  return request({ url: API_ROUTE_CONSTANT.STUDY, method: "get", params });
+};
