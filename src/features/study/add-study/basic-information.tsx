@@ -140,13 +140,12 @@ const BasicInformation = ({ dropdownList, register, setValue, errors, control, C
           <div>
             <Controller
               control={control}
-              // name='studyCommentType'
-              {...register('studyCommentType')}
+              name='studyCommentType'
               rules={{
                 required: 'Comment is required!',
               }}
               render={({ field: { onChange, onBlur, value } }: any) => (
-                <Select onChange={onChange} label="Comment type" options={commentOptions} value={value} {...register('studyCommentType')}/>
+                <Select onChange={onChange} label="Comment type" options={commentOptions} value={value}/>
               )}
             />
             {errors.studyCommentType && (
