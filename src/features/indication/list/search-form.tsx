@@ -63,7 +63,7 @@ export function SearchForm({
         <Button type="submit" className="!h-10 mb-[1px]">
           Search
         </Button>
-        <Button variant="outline" onClick={() => reset()}>
+        <Button type="submit" variant="outline" onClick={() => reset()}>
           Reset
         </Button>
       </div>
