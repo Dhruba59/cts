@@ -16,7 +16,7 @@ const ListTable = ({ data, sorting, setSorting }: ListTableProps) => {
   const columns = useMemo(() => LIST_COLUMN, []);
 
   return (
-    <div className="w-full sm:wrapper">
+    <div className="sm:wrapper">
       <h4 className="hidden md:block font-semibold py-4 px-6 text-dark-900">
         List of Study
       </h4>
@@ -29,7 +29,7 @@ const ListTable = ({ data, sorting, setSorting }: ListTableProps) => {
         />
       </div>
       <div className="hidden sm:block">
-        <SimpleTable data={data} columns={columns} sorting={sorting} setSorting={setSorting}/>
+        <SimpleTable data={data} columns={columns} sorting={sorting} setSorting={setSorting} />
       </div>
     </div>
   );

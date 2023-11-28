@@ -13,7 +13,25 @@ import { AddStudyPayload, CriticalDataType, CriticalDndDataType, CriticalDndItem
 import { getUpdatedCriticalDndData, getUpdatedDndData, initialAssignedData, initialCriticalDndData } from "@/utils/study";
 import { MainContainer } from "@/components/style-container";
 
-const AddStudy = () => {
+const initialFormValues ={
+  phase: '',
+  active: false,
+  studyCommentType: '',
+  sr: false,
+  studyCompound: '',
+  sponsor: '',
+  preScreen: false,
+  date: {
+    startDate: null,
+    endDate: null
+  }
+}
+
+interface AddStudyProps {
+  id?: string;
+}
+
+const AddStudy = ({ id }: AddStudyProps) => {
   const [assignedData, setAssignedData] = useState<DndDataType[]>(initialAssignedData);
   const [criticalDndData, setCriticalDndData] = useState<CriticalDndDataType[]>(initialCriticalDndData);
   const {data: dropdownList, error, isLoading, refetch} = useGetStudyDropdownsList();
@@ -26,19 +44,8 @@ const AddStudy = () => {
     formState: { errors },
     reset,
   } = useForm({
-    defaultValues: {
-      protocolNumber: '23423',
-      studyName: 'asdfasdf',
-      studyStartDate: Date.now(),
-      studyEndDate: Date.now(),
-      maxSubjects: '23',
-      sponsorId: 3,
-      // studyType: val.study_id_format,
-      phase: 5,
-      preScreen: 3,
-      active: true,
-      studyCommentType: { label: 'ssss', value: 'ssss'},
-    }});
+    defaultValues: initialFormValues
+  });
 
   const getIdsFromDndData = (data: DndDataType[], title: string): number[] | [] => (
     data.flatMap((group) => {
@@ -104,7 +111,7 @@ const AddStudy = () => {
   }, [dropdownList]);
 
   return (
-    <MainContainer >
+    < >
       <form className="mb-20 w-full" onSubmit={handleSubmit(onSubmit)}>
         <BasicInformation dropdownList={dropdownList?.data} register={register} setValue={setValue} errors={errors} Controller={Controller} control={control}/>
         <AssignSite assignedData={assignedData} setAssignedData={setAssignedData} />
@@ -116,7 +123,7 @@ const AddStudy = () => {
           </Button>
         </div>
       </form>
-    </MainContainer>
+    </>
   );
 };
 

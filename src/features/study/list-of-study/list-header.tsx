@@ -13,8 +13,8 @@ interface ListHeaderProps {
 
 const ListHeader = ({ setQueryData }: ListHeaderProps) => {
   const [isChecked, setIsChecked] = useState(false);
-  
-  const {data: StudydropdownList, error, isLoading, refetch} = useGetStudyDropdownsList();
+
+  const { data: StudydropdownList, error, isLoading, refetch } = useGetStudyDropdownsList();
 
 
   const {
@@ -27,7 +27,7 @@ const ListHeader = ({ setQueryData }: ListHeaderProps) => {
   } = useForm<StudyListQueryData>();
 
   const onSubmit = (value: any) => {
-   
+
     const params = {
       ...value,
       StudyStartDate: value?.date?.startDate,
@@ -41,18 +41,15 @@ const ListHeader = ({ setQueryData }: ListHeaderProps) => {
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <Breadcrumbs title="Study Information" subTitle="Study List" />
-      {/* <div className="block md:hidden p-4">
-        <SearchForm isAdvancedOpen={isChecked} register={register} Controller={Controller} control={control}/>
-      </div> */}
-      <section className="lg:wrapper ">
+    <div className="sm:wrapper">
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <Breadcrumbs title="Study Information" subTitle="Study List" />
         <div className="flex flex-row items-center justify-between gap-2 md:px-6 py-3">
           <h4 className="hidden lg:block text-neutral-black">
             Search Study
           </h4>
           <div className="">
-            <SearchForm isAdvancedOpen={isChecked} register={register} Controller={Controller} control={control}/>
+            <SearchForm isAdvancedOpen={isChecked} register={register} Controller={Controller} control={control} />
           </div>
           <Toggle
             prefixLabel="More: "
@@ -61,10 +58,10 @@ const ListHeader = ({ setQueryData }: ListHeaderProps) => {
             setIsChecked={setIsChecked}
           />
         </div>
-        <hr className=""/>
-        {isChecked && <AdvanceSearchForm dropDownList={StudydropdownList?.data} register={register} Controller={Controller} control={control}/>}
-      </section>
-    </form>
+        <hr className="" />
+        {isChecked && <AdvanceSearchForm dropDownList={StudydropdownList?.data} register={register} Controller={Controller} control={control} />}
+      </form>
+    </div>
   );
 };
 
