@@ -3,7 +3,7 @@ import Breadcrumbs from "@/components/ui/breadcrumbs";
 import Toggle from "@/components/ui/toggle";
 
 import { useState } from "react";
-import { SearchForm, AdvanceSearchForm } from "./searchForm";
+import { SearchForm, AdvanceSearchForm } from "./search-form";
 import { DropDownItem, SelectOptionType } from "@/model/drop-down-list";
 import { Controller, useForm } from "react-hook-form";
 import { IndicationQuery } from "@/model/indication";

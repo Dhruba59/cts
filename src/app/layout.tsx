@@ -15,6 +15,20 @@ import createHubConnection from "@/service/signalr-connection";
 import { EnvConfigProvider } from "@/context/env-config-context";
 import { HubConnectionProvider } from "@/context/hub-connection-context";
 
+import { Metadata, Viewport } from "next";
+
+<link rel="manifest" href="public/manifest.json" />
+
+export const metadata: Metadata = {
+  manifest: "/manifest.json",
+  title: "CTSdatabase",
+  description: "Clinical Trial Database"
+}
+
+export const viewport: Viewport = {
+  themeColor: "#FFFFFF"
+}
+
 export default async function RootLayout({
   children
 }: {
