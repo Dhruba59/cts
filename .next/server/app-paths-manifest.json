@@ -1,8 +1,8 @@
 {
+  "/not-found": "app/not-found.js",
   "/api/auth/[...nextauth]/route": "app/api/auth/[...nextauth]/route.js",
   "/favicon.ico/route": "app/favicon.ico/route.js",
-  "/(main)/dashboard/page": "app/(main)/dashboard/page.js",
-  "/(authorization)/auth/login/page": "app/(authorization)/auth/login/page.js",
-  "/(main)/(study)/list-of-studies/page": "app/(main)/(study)/list-of-studies/page.js",
+  "/(main)/(indication)/add-indication/page": "app/(main)/(indication)/add-indication/page.js",
+  "/(main)/(study)/add-study/page": "app/(main)/(study)/add-study/page.js",
   "/(main)/(indication)/list-of-indications/page": "app/(main)/(indication)/list-of-indications/page.js"
 }

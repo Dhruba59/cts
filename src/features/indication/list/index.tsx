@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import ListHeader from "./list-header";
-import ListTable from "./table/list-table";
+import ListTable from "./table/listTable";
 import { Indication, IndicationQuery } from "@/model/indication";
 import Pagination from "@/components/pagination";
 import { get_indication_code_types, get_indications } from "@/service/indication-service";

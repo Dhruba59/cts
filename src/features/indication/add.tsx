@@ -1,4 +1,5 @@
 'use client'
+import { IndicationIcon } from "@/assets/icons";
 import { MainContainer } from "@/components/style-container";
 import Breadcrumbs from "@/components/ui/breadcrumbs";
 import Button from "@/components/ui/button";
@@ -11,25 +12,22 @@ import { useAddIndicationMutation, useGetIndicationCodeTypes } from "@/hooks/rq-
 import { DropDownItem, SelectOptionType } from "@/model/drop-down-list";
 import { Indication } from "@/model/indication";
 import { get_indication_code_types } from "@/service/indication-service";
+import { convertTypeToSelectOption } from "@/utils/helpers";
 import React, { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 
 const AddIndication = () => {
-  const convertTypeToSelectOption = (
-    data: DropDownItem[]
-  ): SelectOptionType[] =>
-    data?.map((item: DropDownItem) => ({
-      label: item.text,
-      value: item.value
-    }));
 
-  const fetchIndicationCodeTypes = async () => {
-    const { data, error }: any = await get_indication_code_types();
-    setCodeTypes(convertTypeToSelectOption(data.codeTypes));
-
-  };
-
+  const defaultValues = {
+    indicationId: 0,
+    isRequireDetails: null,
+    indicationName: '',
+    code: '',
+    codeType: '',
+    description: '',
+    active: null,
+  }
   const {
     register,
     handleSubmit,
@@ -37,33 +35,31 @@ const AddIndication = () => {
     setValue,
     formState: { errors },
     reset,
-  } = useForm();
-  const { mutate: AddIndicationMutation, isLoading: isAddIndicationLoading } = useAddIndicationMutation();
-  const { data: dropdownList, error, isLoading, refetch } = useGetIndicationCodeTypes();
-  const [codeTypes, setCodeTypes] = useState<SelectOptionType[]>([]);
-  const [indication, setIndication] = useState<Indication>({
-    indicationId: 0,
-    isRequireDetails: false,
-    indicationName: '',
-    code: '',
-    codeType: '',
-    description: null,
-    active: null,
+  } = useForm<Indication>({
+    defaultValues: defaultValues
   });
+  const { mutate: AddIndicationMutation, isLoading: isAddIndicationLoading } = useAddIndicationMutation();
+  const { data: codeTypesDropdown, error, isLoading, refetch } = useGetIndicationCodeTypes();
+  const [codeTypes, setCodeTypes] = useState<SelectOptionType[]>([]);
+
 
   const onSubmit = (val: any) => {
-    console.log(val);
-      setIndication((prev) => {
-       prev.isRequireDetails = val.isRequireDetails === '' || null || undefined ? null : val.isRequireDetails;
-       prev.indicationName = val.indicationName === '' || null || undefined ? null : val.indicationName;
-       prev.code = val.code === '' || null || undefined ? null : val.code;
-       prev.codeType = val.codeType === undefined ? null : val.codeType.value;
-       prev.description = val.description === '' || null || undefined ? null : val.description;
-       return prev;
-     });  
+
+    const params = {
+      ...val,
+      codeType: val?.codeType?.value
+    }
+    // setIndication((prev) => {
+    //   prev.isRequireDetails = val.isRequireDetails === '' || null || undefined ? null : val.isRequireDetails;
+    //   prev.indicationName = val.indicationName === '' || null || undefined ? null : val.indicationName;
+    //   prev.code = val.code === '' || null || undefined ? null : val.code;
+    //   prev.codeType = val.codeType === undefined ? null : val.codeType.value;
+    //   prev.description = val.description === '' || null || undefined ? null : val.description;
+    //   return prev;
+    // });
 
 
-     AddIndicationMutation(indication, {
+    AddIndicationMutation(params, {
       onSuccess: ({ data }: any) => {
         reset();
         toast.success(data.message, { position: "top-center" });
@@ -77,8 +73,8 @@ const AddIndication = () => {
   }
 
   useEffect(() => {
-    fetchIndicationCodeTypes();
-  }, [])
+    setCodeTypes(convertTypeToSelectOption(codeTypesDropdown?.data?.codeTypes));
+  }, [codeTypesDropdown])
 
   return (
     <div className="w-full">
@@ -116,19 +112,18 @@ const AddIndication = () => {
             </div>
             <div>
               <Controller
-                name="codeType"
                 control={control}
+                name='codeType'
                 rules={{
-                  required: "Code type is required!",
+                  required: 'Code type is required!',
                 }}
-                render={({ field: { onChange, onBlur } }: any) => (
-                  <Select onChange={onChange} label="Code Type" options={codeTypes} />
+                render={({ field: { onChange, onBlur, value } }: any) => (
+                  <Select onChange={onChange} label="Code type" options={codeTypes} value={value} />
                 )}
               />
               {errors.codeType && (
                 <span className="text-red-500 -mt-10">{errors.codeType.message as string}</span>
               )}
-
             </div>
           </div>
           <Textarea label="Description" placeholder="Enter description here"  {...register("description")} />
@@ -144,7 +139,7 @@ const AddIndication = () => {
 
           <div className="flex justify-center gap-4 mt-8 md:mt-14">
             <Button type="submit" className="px-8">Submit</Button>
-            <Button className="px-8" variant="outline" onClick={() => { }}>
+            <Button className="px-8" variant="outline" onClick={() => { reset() }}>
               Cancel
             </Button>
           </div>

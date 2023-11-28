@@ -114,7 +114,7 @@ const AddStudy = () => {
         <CriticalSetup errors={errors} criticalSetupData={criticalDndData} setCriticalSetupData={setCriticalDndData} Controller={Controller} control={control} register={register}/>
         <div className="flex items-center justify-center gap-4 mt-16">
           <Button className="px-8" type="submit" loading={isAddStudyLoading}>Submit</Button>
-          <Button variant="outline" className="px-8">
+          <Button variant="outline" className="px-8" onClick={()=>{reset()}}>
             Cancel
           </Button>
         </div>

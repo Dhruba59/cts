@@ -1,4 +1,0 @@
-{
-    "appService.defaultWebAppToDeploy": "/subscriptions/f96452e1-ad7a-485d-8458-f8956d1a5fc5/resourceGroups/rg-cts-dev/providers/Microsoft.Web/sites/app-cts-dev-ui",
-    "appService.deploySubpath": "."
-}
