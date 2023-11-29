@@ -49,7 +49,7 @@ const ListHeader = ({ setQueryData }: ListHeaderProps) => {
             Search Study
           </h4>
           <div className="">
-            <SearchForm isAdvancedOpen={isChecked} register={register} Controller={Controller} control={control} />
+            <SearchForm isAdvancedOpen={isChecked} register={register} reset={reset} Controller={Controller} control={control} />
           </div>
           <Toggle
             prefixLabel="More: "
@@ -59,7 +59,7 @@ const ListHeader = ({ setQueryData }: ListHeaderProps) => {
           />
         </div>
         <hr className="" />
-        {isChecked && <AdvanceSearchForm dropDownList={StudydropdownList?.data} register={register} Controller={Controller} control={control} />}
+        {isChecked && <AdvanceSearchForm dropDownList={StudydropdownList?.data} register={register} reset={reset} Controller={Controller} control={control} />}
       </form>
     </div>
   );

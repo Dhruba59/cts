@@ -55,3 +55,27 @@ export const getUpdatedCriticalDndData = (data:CriticalDndDataType[], title: str
     return item;
   })
 );  
+
+export const initialFormValues = {
+  studyName: '',
+  subjectIdentryFormat: '',
+  protocolNumber: '',
+  phase: '',
+  active: false,
+  studyCommentType: '',
+  maxSubjects: '',
+  sr: false,
+  studyCompound: '',
+  sponsor: '',
+  study_duration: '',
+  preScreen: false,
+  date: {
+    startDate: null,
+    endDate: null
+  },
+  dslsp: '',
+  minBmi: '',
+  maxBmi: '',
+  minAge: '',
+  maxAge: '',
+}

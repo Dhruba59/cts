@@ -19,7 +19,7 @@ export interface DndDataType {
   items: Array<DndDataItem>;
 }
 
-interface DndDataItem {
+export interface DndDataItem {
   text: string;
   value: string;
 }

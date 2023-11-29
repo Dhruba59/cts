@@ -75,11 +75,11 @@ const BasicInformation = ({ dropdownList, register, setValue, errors, control, C
             <Input
               label="Study ID Entry Format"
               placeholder="Enter study format"
-              {...register("study_id_format", {
+              {...register("subjectIdentryFormat", {
                 required: "Study id format is required!"
               })}
             />
-            {errors.study_id_format && (
+            {errors.subjectIdentryFormat && (
               <span className="text-red-500 -mt-10">{errors.study_id_format.message as string}</span>
             )}
           </div>
@@ -160,7 +160,7 @@ const BasicInformation = ({ dropdownList, register, setValue, errors, control, C
                 required: 'Phase is required!',
               }}
               render={({ field: { onChange, onBlur, value } }: any) => (
-                <Select onChange={onChange} label="Phase" options={phaseOptions} value={value}/>
+                <Select onChange={onChange} label="Phase" options={phaseOptions} value={value} />
               )}
             />
             {errors.phase && (
@@ -183,9 +183,6 @@ const BasicInformation = ({ dropdownList, register, setValue, errors, control, C
               <span className="text-red-500 -mt-10">{errors.sponsor.message as string}</span>
             )}
           </div>
-
-          
-
           <div>
             <Controller
               name="studyCompound"
@@ -194,15 +191,13 @@ const BasicInformation = ({ dropdownList, register, setValue, errors, control, C
                 required: "Study compound is required!",
               }}
               render={({ field: { onChange, onBlur, value } }: any) => (
-                <Select onChange={onChange} label="Study Compound" options={studyCompoundOptions} value={value}/>
+                <Select onChange={onChange} label="Study Compound" options={studyCompoundOptions} value={value} />
               )}
             />
             {errors.studyCompound && (
               <span className="text-red-500 -mt-10">{errors.studyCompound.message as string}</span>
             )}
-
           </div>
-
           <div className="flex gap-8 items-start justify-start">
             <div className="flex flex-col justify-start gap-6 items-start md:items-center h-full">
               <Label label='Pre Screen' />
@@ -210,7 +205,7 @@ const BasicInformation = ({ dropdownList, register, setValue, errors, control, C
                 name="preScreen"
                 control={control}
                 render={({ field: { onChange, onBlur, value } }: any) => (
-                  <Checkbox className="" onChange={onChange} value={value}/>
+                  <Checkbox className="" onChange={onChange} value={value} checked={value} />
                 )}
               />
             </div>
@@ -220,7 +215,7 @@ const BasicInformation = ({ dropdownList, register, setValue, errors, control, C
                 name="sr"
                 control={control}
                 render={({ field: { onChange, onBlur, value } }: any) => (
-                  <Checkbox className="" onChange={onChange} value={value}/>
+                  <Checkbox onChange={onChange} value={value} checked={value}/>
                 )}
               />
             </div>
@@ -231,7 +226,7 @@ const BasicInformation = ({ dropdownList, register, setValue, errors, control, C
               name="active"
               control={control}
               render={({ field: { onChange, onBlur, value } }: any) => (
-                <Checkbox onChange={onChange} value={value}/>
+                <Checkbox onChange={onChange} value={value} checked={value} />
               )}
             />
           </div>

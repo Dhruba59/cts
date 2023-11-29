@@ -45,14 +45,15 @@ export interface StudyDropdowns {
   indications: DropDownItem[];
 }
 
-export interface AddStudyPayload {
+export interface AddUpdateStudyPayload {
+  studyId?: number;
   protocolNumber: string;
   studyName: string;
   studyStartDate: string;
   studyEndDate: string;
   maxSubjects: number;
   sponsorId: number;
-  studyType: string;
+  studyType?: string;
   phase: string;
   preScreen: boolean;
   active?: boolean;

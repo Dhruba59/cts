@@ -17,13 +17,30 @@ interface SearchFormProps {
   Controller: React.ElementType;
   control: Control<StudyListQueryData>;
   isAdvancedOpen: boolean;
+  reset: any;
 }
 
 interface AdvancedSearchFormProps extends Omit<SearchFormProps, 'isAdvancedOpen'> {
   dropDownList: any;
 }
 
-const SearchForm: React.FC<SearchFormProps> = ({ isAdvancedOpen, register }) => {
+const initialSearchFormValues = {
+  StudyName: '',
+  ProtocolNumber: '',
+  SponsorId: '',
+  Phase: '',
+  MaxSubjects: '',
+  SubjectIdentryFormat: '',
+  date: {
+    startDate: null,
+    endDate: null
+  },
+  Sr: false,
+  PreScreen: false,
+  Active: false
+}
+
+const SearchForm: React.FC<SearchFormProps> = ({ isAdvancedOpen, register, reset }) => {
   return (
     <div className="flex justify-start gap-3 md:gap-6">
       <div className="flex lg:flex lg:items-center gap-2 flex-1 md:flex-none">
@@ -41,7 +58,7 @@ const SearchForm: React.FC<SearchFormProps> = ({ isAdvancedOpen, register }) => 
 
 export default SearchForm;
 
-const AdvanceSearchForm = ({ dropDownList, register, Controller, control }: AdvancedSearchFormProps) => {
+const AdvanceSearchForm = ({ dropDownList, register, Controller, control, reset }: AdvancedSearchFormProps) => {
   const [value, setValue] = useState<DateValueType>({
     startDate: new Date(),
     endDate: null,
@@ -64,7 +81,7 @@ const AdvanceSearchForm = ({ dropDownList, register, Controller, control }: Adva
           control={control}
           name='SponsorId'
           render={({ field: { onChange, onBlur, value } }: any) => (
-            <Select onChange={onChange} label="Sponsor Name" options={sponsorOptions} />
+            <Select onChange={onChange} label="Sponsor Name" options={sponsorOptions} value={value}/>
           )}
         />
 
@@ -72,7 +89,7 @@ const AdvanceSearchForm = ({ dropDownList, register, Controller, control }: Adva
           control={control}
           name='Phase'
           render={({ field: { onChange, onBlur, value } }: any) => (
-            <Select onChange={onChange} label="Phase Name" placeholder="Pre screen phase" options={phaseOptions} />
+            <Select onChange={onChange} label="Phase Name" placeholder="Pre screen phase" options={phaseOptions} value={value}/>
           )}
         />
 
@@ -104,7 +121,7 @@ const AdvanceSearchForm = ({ dropDownList, register, Controller, control }: Adva
               name="PreScreen"
               control={control}
               render={({ field: { onChange, onBlur, value } }: any) => (
-                <Checkbox className="" onChange={onChange} />
+                <Checkbox className="" onChange={onChange} checked={value} />
               )}
             />
           </div>
@@ -114,7 +131,7 @@ const AdvanceSearchForm = ({ dropDownList, register, Controller, control }: Adva
               name="Sr"
               control={control}
               render={({ field: { onChange, onBlur, value } }: any) => (
-                <Checkbox className="" onChange={onChange} />
+                <Checkbox className="" onChange={onChange} checked={value} />
               )}
             />
           </div>
@@ -124,7 +141,7 @@ const AdvanceSearchForm = ({ dropDownList, register, Controller, control }: Adva
               name="Active"
               control={control}
               render={({ field: { onChange, onBlur, value } }: any) => (
-                <Checkbox onChange={onChange} />
+                <Checkbox onChange={onChange} checked={value} />
               )}
             />
           </div>
@@ -132,7 +149,7 @@ const AdvanceSearchForm = ({ dropDownList, register, Controller, control }: Adva
         </div>
         <div className="flex items-center justify-center gap-4 ">
           <Button className="" type="submit">Search</Button>
-          <Button className="px-8" variant="outline">
+          <Button className="px-8" variant="outline" onClick={() => reset(initialSearchFormValues)}>
             Reset
           </Button>
         </div>

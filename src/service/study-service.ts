@@ -1,6 +1,6 @@
 import { API_ROUTE_CONSTANT } from "@/constants/api-route";
 import { request } from "./axios-config";
-import { AddStudyPayload } from "@/model/study";
+import { AddUpdateStudyPayload } from "@/model/study";
 import { getIndicationListProps } from "@/hooks/rq-hooks/study-hooks";
 
 interface GetIndicationListParams {
@@ -8,8 +8,12 @@ interface GetIndicationListParams {
   SearchValue: string;
 }
 
-export const addStudy = (data: AddStudyPayload) => {
+export const addStudy = (data: AddUpdateStudyPayload) => {
   return request({ url: API_ROUTE_CONSTANT.STUDY, method: "post", data });
+};
+
+export const updateStudy = (data: AddUpdateStudyPayload) => {
+  return request({ url: API_ROUTE_CONSTANT.STUDY, method: "put", data });
 };
 
 export const getStudyDropDownsList = () => {

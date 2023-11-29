@@ -4,6 +4,7 @@ import Edit from "@/components/icons/edit";
 import Error from "@/components/icons/error";
 import { IndeterminateCheckbox } from "@/components/ui/checkbox";
 import { ColumnDef } from "@tanstack/react-table";
+import Link from "next/link";
 
 export type List = {
   protocol_number: string;
@@ -15,6 +16,7 @@ export type List = {
   preScreen: boolean;
   sr: boolean;
   active: boolean;
+  studyId: number;
 };
 
 // export const LIST_DATA: List[] = [
@@ -131,9 +133,10 @@ export const LIST_COLUMN: ColumnDef<List>[] = [
     header: "Action",
     size: 140,
     cell: ({ row }) => {
+      console.log(row);
       return (
         <div className="flex items-center gap-6">
-          <Edit />
+          <Link href={`/study/${row.original.studyId}/edit`}><Edit/></Link>
           <DeleteOutlined />
         </div>
       );
