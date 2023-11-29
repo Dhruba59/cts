@@ -14,7 +14,14 @@ const ListHeader = ({ setQueryData }: any) => {
   const [isChecked, setIsChecked] = useState(false);
 
   const {data: codeTypeDropDown} = useGetIndicationCodeTypes();
-  //console.log(codeTypeDropDown?.data);
+
+  const defaultValues: IndicationQuery = {
+    code: '',
+    indicationName: '',
+    codeType: '',
+    description: '',
+    isRequireDetails: undefined   
+  }
   const {
     register,
     handleSubmit,
@@ -22,16 +29,18 @@ const ListHeader = ({ setQueryData }: any) => {
     setValue,
     formState: { errors },
     reset,
-  } = useForm<IndicationQuery>();
+  } = useForm<IndicationQuery>({
+    defaultValues: defaultValues
+  });
 
   const onSubmit = (value: any) => {
-    console.log(value);
+    //console.log(value);
     const params = {
       ...value,
       codeType: value?.codeType?.value
     }
     //delete params.date;
-    console.log(params);
+    //console.log(params);
     setQueryData(params);
   }
 

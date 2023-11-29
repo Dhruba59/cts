@@ -122,6 +122,15 @@ const AddStudy = ({ id }: AddStudyProps) => {
     }
   }
 
+  const handleCancel = () => {
+    if(!id) {
+      reset();
+      setAssignedData(initialAssignedData);
+      setCriticalDndData(initialCriticalDndData);
+      refetch();
+    }
+  }
+
   useEffect(() => {
     setCriticalDndData((data) => getUpdatedCriticalDndData(data, 'Indications', 'items', dropdownList?.data?.indications));
 
@@ -200,7 +209,7 @@ const AddStudy = ({ id }: AddStudyProps) => {
         <CriticalSetup errors={errors} criticalSetupData={criticalDndData} setCriticalSetupData={setCriticalDndData} Controller={Controller} control={control} register={register}/>
         <div className="flex items-center justify-center gap-4 mt-16">
           <Button className="px-8" type="submit" loading={isAddStudyLoading || isUpdateStudyLoading}>Submit</Button>
-          <Button variant="outline" className="px-8">
+          <Button variant="outline" className="px-8" onClick={handleCancel} disabled={!!id}>
             Cancel
           </Button>
         </div>

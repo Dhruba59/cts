@@ -35,11 +35,7 @@ export function SearchForm({
     setCodeTypeOptions(convertTypeToSelectOption(codeTypeDropDown?.codeTypes));
 
   }, [codeTypeDropDown])
-  const defaultValues = {
 
-    codeType: { value: "ICD-10", label: "ICD-10" },
-
-  };
   return (
     <div className="flex items-end gap-3 md:gap-6 p-4 md:p-0">
       <div className="grid lg:flex lg:items-center gap-2 flex-1 md:flex-none">
@@ -59,7 +55,7 @@ export function SearchForm({
             name="codeType"
             isClearable
             render={({ field: { onChange, onBlur, value } }: any) =>
-              <Select onChange={onChange} label="" options={codeTypeOptions} />}
+              <Select onChange={onChange} options={codeTypeOptions}  value={value}/>}
           />
         </div>
       </div>
@@ -67,7 +63,7 @@ export function SearchForm({
         <Button type="submit" className="!h-10 mb-[1px]">
           Search
         </Button>
-        <Button className="" variant="outline" onClick={() => reset(defaultValues)}>
+        <Button type="submit" variant="outline" onClick={() => reset()}>
           Reset
         </Button>
       </div>
@@ -76,6 +72,12 @@ export function SearchForm({
 }
 
 export function AdvanceSearchForm({ register, Controller, control, reset }: any) {
+  const defaultValues = {
+
+    codeType: { value: "", label: "Select " },
+
+  };
+  
   return (
     <div className="hidden lg:block p-6 pt-2 space-y-4">
       <div className="flex flex-row items-center gap-5">
@@ -109,7 +111,7 @@ export function AdvanceSearchForm({ register, Controller, control, reset }: any)
           <Button type="submit" className="!h-10 mb-[1px]">
             Search
           </Button>
-          <Button className="" variant="outline" onClick={() => reset()}>
+          <Button type="submit" variant="outline" onClick={() => reset()}>
             Reset
           </Button>
         </div>
