@@ -17,12 +17,10 @@ import { HubConnectionProvider } from "@/context/hub-connection-context";
 
 import { Metadata, Viewport } from "next";
 
-<link rel="manifest" href="public/manifest.json" />
-
 export const metadata: Metadata = {
-  manifest: "/manifest.json",
   title: "CTSdatabase",
-  description: "Clinical Trial Database"
+  description: "Clinical Trial Database",
+  manifest: "/manifest.json"
 }
 
 export const viewport: Viewport = {
