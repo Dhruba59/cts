@@ -4,7 +4,7 @@ import Checkbox from "@/components/ui/checkbox";
 import Datepicker from "@/components/ui/datepicker";
 import Input from "@/components/ui/input";
 import Label from "@/components/ui/label";
-import Select from "@/components/ui/select";
+import Select from "@/components/ui/Select";
 import { SelectOptionType } from "@/model/drop-down-list";
 import { StudyListQueryData } from "@/model/study";
 import { convertTypeToSelectOption } from "@/utils/helpers";

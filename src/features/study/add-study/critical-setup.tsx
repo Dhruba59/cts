@@ -2,7 +2,7 @@ import SearchBox from "@/components/ui/search-box";
 import Input from "@/components/ui/input";
 import InputRange from "@/components/ui/inputRange";
 import Label from "@/components/ui/label";
-import Select from "@/components/ui/select";
+import Select from "@/components/ui/Select";
 import { DndCustomComponentType, DndDataType } from "@/types/common";
 import React, { ChangeEvent, Dispatch, SetStateAction, useEffect, useState } from "react";
 import { CriticalDataType, CriticalDndDataType, CriticalDndItem } from "@/model/study";

@@ -7,7 +7,7 @@ import Textarea from "@/components/ui/textarea";
 import CardDataStats from "@/components/CardDataStats";
 import { useEffect, useMemo, useState } from "react";
 import { USERS, USER_COLUMN } from "@/components/table/mockData";
-import Select from "@/components/ui/select";
+import Select from "@/components/ui/Select";
 import {useHubContext } from "@/context/hub-connection-context";
 
 export default function Dashboard() {
