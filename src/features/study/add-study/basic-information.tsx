@@ -5,7 +5,7 @@ import Datepicker2 from "@/components/ui/datepicker";
 import Datepicker from "@/components/ui/datepicker";
 import Input from "@/components/ui/input";
 import Label from "@/components/ui/label";
-import Select from "@/components/ui/Select";
+import Select from "@/components/ui/select";
 import { DropDownItem, SelectOptionType } from "@/model/drop-down-list";
 import { calculateDaysBetweenDates } from "@/utils/helpers";
 import { useEffect, useState } from "react";

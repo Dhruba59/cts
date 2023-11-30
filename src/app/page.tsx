@@ -9,7 +9,7 @@ import Toggle from "@/components/ui/toggle";
 import { USER_COLUMN, USERS } from "@/components/table/mockData";
 import SimpleTable from "@/components/table/simpleTable";
 import Textarea from "@/components/ui/textarea";
-import Select from "@/components/ui/Select";
+import Select from "@/components/ui/select";
 
 export default function Home() {
   const options = [
