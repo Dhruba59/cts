@@ -1,5 +1,5 @@
 'use client';
-import { ArrowSwapHorizontal, SettingsIcon, SettingsIcon2 } from "@/assets/icons";
+import { ArrowSwapHorizontal, ChangeRequestIcon, DashboardIcon, IdIcon, IndicationIcon, SettingsIcon, SettingsIcon2, SiteIcon, SponsorIcon, StudyCompoundIcon, StudyInformationIcon, SubjectManagementIcon, UserIcon } from "@/assets/icons";
 import { USER_ROLE_VALUE } from "@/constants/common";
 import { STORAGE_KEY } from "@/constants/storage-constant";
 import { DropDownItem, SelectOptionType } from "@/model/drop-down-list";
@@ -29,29 +29,27 @@ export function createNestedMenusItems(screenData: any): MenuItem[] {
 
 export const getIconFromScreenId = (id: number) => {
   switch(id) {
+    case 0:
+      return <DashboardIcon />
+    case 1:
+      return <IndicationIcon />
+    case 4:
+
+      return <SponsorIcon />
+    case 7:
+      return <SiteIcon />
+    case 10:
+      return <StudyInformationIcon />
+    case 13:
+      return <IdIcon />
+    case 16:
+      return <UserIcon />
     case 19:
-      return <ArrowSwapHorizontal />
-    case 20:
-      // return <SendRequestIcon /> not available icon on figma
-      return <ArrowSwapHorizontal />
-    case 21:
-      // return <RequsetDashboard /> not available icon on figma
-      return <ArrowSwapHorizontal />
-    case 23:
-      // return <Change password /> not available icon on figma
-      return <ArrowSwapHorizontal />
+      return <ChangeRequestIcon />
     case 24:
-      // return <Change password /> not available icon on figma
-      return <SettingsIcon2 />
-    case 25:
-      // return <Enter Study SUbject /> not available icon on figma
-      return <ArrowSwapHorizontal />
-    case 28:
-      // return <Re print match report /> not available icon on figma
-      return <ArrowSwapHorizontal />
-    case 29:
-      // return <RePrintLastSubjectReport /> not available icon on figma
-      return <ArrowSwapHorizontal />
+      return <SubjectManagementIcon />
+    case 30:
+      return <StudyCompoundIcon />
     case 202:
       return <SettingsIcon />
     default:
