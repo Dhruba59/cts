@@ -27,14 +27,13 @@ const SidebarItem = ({ item, showIconOnly = false }: SidebarItemProps) => {
   return (
     <Fragment>
       <div
-        className={`relative flex items-center gap-x-2 px-2 mx-2 py-2 my-2 rounded-md cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 ${
-          showIconOnly ? "group" : ""
-        }`}
+        className={`relative flex items-center gap-x-2 px-2 mx-2 py-2 my-2 rounded-md cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 ${showIconOnly ? "group" : ""
+          }`}
         onClick={toggleExpand}
       >
         {item?.icon && (
           <div className="w-6 h-6 flex justify-center items-center">
-           <Link href={item.url}> {item?.icon}</Link>
+            <Link href={`/${item.url}`}> {item?.icon}</Link>
           </div>
         )}
         {item?.child && item?.child.length > 0 && (
@@ -47,9 +46,9 @@ const SidebarItem = ({ item, showIconOnly = false }: SidebarItemProps) => {
           </Popup>
         )}
         {!showIconOnly && (
-          <div className="flex-grow font-medium text-base truncate">
-            <Link href={item.url}>{item?.funtionality}</Link>
-          </div>
+
+          <Link  href={`/${item.url}`} className="flex-grow font-medium text-base truncate">{item?.funtionality} </Link>
+
         )}
         {item?.child && item?.child.length > 0 && !showIconOnly && (
           <div className="w-6 h-6 ml-2">
@@ -63,9 +62,8 @@ const SidebarItem = ({ item, showIconOnly = false }: SidebarItemProps) => {
 
       {item?.child && item?.child.length > 0 && !showIconOnly && (
         <div
-          className={`ml-6 my-2 border-l border-l-[#b3b2b2]  ${
-            expanded ? "h-auto" : "h-0 hidden"
-          } transition duration-300`}
+          className={`ml-6 my-2 border-l border-l-[#b3b2b2]  ${expanded ? "h-auto" : "h-0 hidden"
+            } transition duration-300`}
         >
           {item?.child?.map((subItem, index) => (
             <SidebarItem

@@ -10,7 +10,7 @@ const MenuList: React.FC<MenuListProps> = ({ menus, className }) => {
           key={index}
           icon={menu.icon}
           text={menu.text}
-          href={menu.href}
+          url={menu.url}
           onClick={menu.onClick}
         />
       ))}
