@@ -1,6 +1,4 @@
 import Check from "@/components/icons/check";
-import Error from "@/components/icons/error";
-import DeleteOutlined from "@/components/icons/deleteOutlined";
 import Edit from "@/components/icons/edit";
 import View from "@/components/icons/view";
 import { IndeterminateCheckbox } from "@/components/ui/checkbox";
@@ -8,6 +6,7 @@ import { Indication, IndicationQuery } from "@/model/indication";
 import { ColumnDef } from "@tanstack/react-table";
 import Cross from "@/components/icons/cross";
 import Link from "next/link";
+import { DeleteOutlined } from "@/assets/icons";
 
 export const INDICATION_LIST_COLUMN: ColumnDef<IndicationQuery>[] = [
 
