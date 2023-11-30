@@ -34,7 +34,7 @@ class Connector {
 
     this.connection.on("ConnectionStatus", (message) => {
       // just confirm the connection
-      console.log(message);
+      //console.log(message);
     });
     //this.connection.start().catch(err => document.write(err));
     this.connection.start().catch((error) => {

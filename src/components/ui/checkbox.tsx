@@ -17,7 +17,7 @@ interface CheckboxGroupProps extends React.ComponentPropsWithoutRef<"div"> {
 export const CheckboxGroup = ({ options, ...props }: CheckboxGroupProps) => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.checked) {
-      console.log(e.target.value);
+     // console.log(e.target.value);
     }
   };
 
