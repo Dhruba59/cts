@@ -107,7 +107,7 @@ const AddIndication = ({ id }: AddIndicationProps) => {
 
 
   useEffect(() => {
-    console.log(indicationData);
+    //console.log(indicationData);
     if (indicationData) {
       reset({
         ...indicationData?.data
