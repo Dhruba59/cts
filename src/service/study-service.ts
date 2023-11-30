@@ -36,6 +36,5 @@ export const getStudyList = ({queryKey}: any) => {
 
 export const getStudiyById = ({queryKey}: any) => {
   const [key, params ] = queryKey as any;
-  console.log(params);
   return request({ url: API_ROUTE_CONSTANT.STUDY, method: "get", params });
 };

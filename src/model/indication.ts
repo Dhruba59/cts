@@ -9,7 +9,7 @@ export interface Indication {
     codeType?: string;
     description?: string;
     active?: boolean | null;
-    isRequireDetails?: boolean | null;
+    isRequireDetails?: boolean;
 }
 
 export interface CodeType {
@@ -19,12 +19,8 @@ export interface CodeType {
 
 }
 
-export interface IndicationQuery extends  Query {
-  code?: string;
-  indicationName?: string;
-  codeType?: string;
-  description?: string;
-  isRequireDetails?: boolean;
+export interface IndicationQuery extends Indication,  Query {
+
 }
 
 
@@ -41,16 +37,4 @@ export const Indication_coluns: ColumnDef<IndicationQuery>[] = [
       header: "Code Type",
       accessorKey: "codeType"
     },
-    // {
-    //   header: "Description",
-    //   accessorKey: "description"
-    // },
-    // {
-    //   header: "Active",
-    //   accessorKey: "active"
-    // },
-    // {
-    //   header: "Require",
-    //   accessorKey: "isRequireDetails"
-    // }
   ];

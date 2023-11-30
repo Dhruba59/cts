@@ -1,5 +1,5 @@
 
-import { add_indication, get_indications, get_indication_code_types } from "@/service/indication-service";
+import { add_indication, get_indications, get_indication_code_types, edit_indication } from "@/service/indication-service";
 import { UseQueryOptions, useMutation, useQuery } from "react-query";
 
 
@@ -10,6 +10,11 @@ export interface getIndicationListProps {
 
 export const useAddIndicationMutation = () => useMutation({
   mutationFn: add_indication,
+})
+
+
+export const useEditIndicationMutation = () => useMutation({
+  mutationFn: edit_indication,
 })
 
 export const useGetIndicationCodeTypes = () => useQuery({

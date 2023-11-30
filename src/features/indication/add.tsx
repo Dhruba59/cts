@@ -8,24 +8,29 @@ import Input from "@/components/ui/input";
 import Label from "@/components/ui/label";
 import Select from "@/components/ui/select";
 import Textarea from "@/components/ui/textarea";
-import { useAddIndicationMutation, useGetIndicationCodeTypes } from "@/hooks/rq-hooks/indication-hooks";
+import { useAddIndicationMutation, useEditIndicationMutation, useGetIndicationCodeTypes } from "@/hooks/rq-hooks/indication-hooks";
 import { DropDownItem, SelectOptionType } from "@/model/drop-down-list";
-import { Indication } from "@/model/indication";
-import { get_indication_code_types } from "@/service/indication-service";
+import { Indication, IndicationQuery } from "@/model/indication";
+import { get_indication_by_id, get_indication_code_types } from "@/service/indication-service";
 import { convertTypeToSelectOption } from "@/utils/helpers";
 import React, { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
+import { useQuery } from "react-query";
 import { toast } from "react-toastify";
+import { number } from "yup";
 
-const AddIndication = () => {
+type AddIndicationProps = {
+  id?: string
+}
+const AddIndication = ({ id }: AddIndicationProps) => {
 
   const defaultValues = {
     indicationId: 0,
-    isRequireDetails: null,
     indicationName: '',
     code: '',
     codeType: '',
     description: '',
+    isRequireDetails: false,
     active: null,
   }
   const {
@@ -35,46 +40,80 @@ const AddIndication = () => {
     setValue,
     formState: { errors },
     reset,
-  } = useForm<Indication>({
+  } = useForm<IndicationQuery>({
     defaultValues: defaultValues
   });
+
+
   const { mutate: AddIndicationMutation, isLoading: isAddIndicationLoading } = useAddIndicationMutation();
+  const { mutate: EditIndicationMutation, isLoading: isEditIndicationLoading } = useEditIndicationMutation();
   const { data: codeTypesDropdown, error, isLoading, refetch } = useGetIndicationCodeTypes();
   const [codeTypes, setCodeTypes] = useState<SelectOptionType[]>([]);
 
+  const { data: indicationData } = useQuery({
+    queryFn: get_indication_by_id,
+    queryKey: ['indication', { indicationId: id }],
+    enabled: !!id
+  });
 
-  const onSubmit = (val: any) => {
-
-    const params = {
-      ...val,
-      codeType: val?.codeType?.value
+  const handleCancel = () => {
+    if(!id) {
+      reset();
+      refetch();
     }
-    // setIndication((prev) => {
-    //   prev.isRequireDetails = val.isRequireDetails === '' || null || undefined ? null : val.isRequireDetails;
-    //   prev.indicationName = val.indicationName === '' || null || undefined ? null : val.indicationName;
-    //   prev.code = val.code === '' || null || undefined ? null : val.code;
-    //   prev.codeType = val.codeType === undefined ? null : val.codeType.value;
-    //   prev.description = val.description === '' || null || undefined ? null : val.description;
-    //   return prev;
-    // });
+  }
 
+  const onSubmit = (payload: any) => {
 
-    AddIndicationMutation(params, {
-      onSuccess: ({ data }: any) => {
-        reset();
-        toast.success(data.message, { position: "top-center" });
-        refetch();
-      },
-      onError: (err: any) => {
-        toast.warn(err?.response?.data?.title, { position: "top-center" });
-      }
-    });
+    //console.log(payload);
+
+    payload = {
+      ...payload,
+      codeType: payload?.codeType?.value ?? payload?.codeType
+    }
+
+    if (id) {
+      payload = { ...payload};
+      EditIndicationMutation(payload, {
+        onSuccess: ({ data }: any) => {
+          const newFieldValues = {
+            ...payload
+          }
+          reset(newFieldValues as any);
+          toast.success(data.message, { position: "top-center" });
+        },
+        onError: (err: any) => {
+          toast.warn(err?.response?.data?.title, { position: "top-center" });
+        }
+      });
+    } else {
+      AddIndicationMutation(payload, {
+        onSuccess: ({ data }: any) => {
+          reset();
+          toast.success(data.message, { position: "top-center" });
+          refetch();
+        },
+        onError: (err: any) => {
+          toast.warn(err?.response?.data?.title, { position: "top-center" });
+        }
+      })
+    };
 
   }
 
   useEffect(() => {
     setCodeTypes(convertTypeToSelectOption(codeTypesDropdown?.data?.codeTypes));
-  }, [codeTypesDropdown])
+  }, [codeTypesDropdown, indicationData])
+
+
+  useEffect(() => {
+    console.log(indicationData);
+    if (indicationData) {
+      reset({
+        ...indicationData?.data
+      });
+    }
+  }, [indicationData]);
 
   return (
     <div className="w-full">
@@ -132,14 +171,14 @@ const AddIndication = () => {
               name="isRequireDetails"
               control={control}
               render={({ field: { onChange, onBlur, value } }: any) =>
-                <Checkbox className="" onChange={onChange} />}
+                <Checkbox className="" onChange={onChange} value={value} checked={value}/>}
             />
             <Label label="Require Details" />
           </div>
 
           <div className="flex justify-center gap-4 mt-8 md:mt-14">
             <Button type="submit" className="px-8">Submit</Button>
-            <Button className="px-8" variant="outline" onClick={() => { reset() }}>
+            <Button className="px-8" variant="outline" onClick={handleCancel} disabled={!!id} >
               Cancel
             </Button>
           </div>

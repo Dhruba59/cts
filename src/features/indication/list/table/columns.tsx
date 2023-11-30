@@ -7,6 +7,7 @@ import { IndeterminateCheckbox } from "@/components/ui/checkbox";
 import { Indication, IndicationQuery } from "@/model/indication";
 import { ColumnDef } from "@tanstack/react-table";
 import Cross from "@/components/icons/cross";
+import Link from "next/link";
 
 export const INDICATION_LIST_COLUMN: ColumnDef<IndicationQuery>[] = [
 
@@ -57,8 +58,8 @@ export const INDICATION_LIST_COLUMN: ColumnDef<IndicationQuery>[] = [
     cell: ({ row }) => {
       return (
         <div className="flex items-center gap-6">
-          <View />
-          <Edit />
+          {/* <View /> */}
+          <Link href={`/indication/${row.original.indicationId}/edit`}><Edit/></Link>
           <DeleteOutlined />
         </div>
       );

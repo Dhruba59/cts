@@ -34,7 +34,7 @@ export default function Dashboard() {
 
     connection.on("UserDisconnected", (connectionId) => {
       // TODO: remove this connectionId from list
-      console.log(connectionId);
+      //console.log(connectionId);
     });
 
     connection.on("OnlineUsersCount", (message) => {

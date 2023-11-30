@@ -133,7 +133,7 @@ export const LIST_COLUMN: ColumnDef<List>[] = [
     header: "Action",
     size: 140,
     cell: ({ row }) => {
-      console.log(row);
+      //console.log(row);
       return (
         <div className="flex items-center gap-6">
           <Link href={`/study/${row.original.studyId}/edit`}><Edit/></Link>

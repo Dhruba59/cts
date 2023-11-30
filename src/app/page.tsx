@@ -64,7 +64,7 @@ const Radio = () => {
   const [selectedValue, setSelectedValue] = useState("Banana");
 
   function handleFruitSelection(event: React.ChangeEvent<HTMLInputElement>) {
-    console.log(event.target.value);
+    //console.log(event.target.value);
     setSelectedValue(event.target.value);
   }
 
