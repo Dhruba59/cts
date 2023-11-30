@@ -111,3 +111,30 @@ export interface StudyListQueryData {
   Sr?: boolean;
   OrderBy?: string;
 }
+
+export interface StudyDeletePayload {
+  studyId: number;
+}
+
+export type StuyListType = {
+  protocol_number: string;
+  study_name: string;
+  start_date: string;
+  end_date: string;
+  max_subject: number;
+  phase: string;
+  preScreen: boolean;
+  sr: boolean;
+  active: boolean;
+  studyId: number;
+};
+
+
+export interface StudyListColumnsProps {
+  onDelete: (studyId: number) => void;
+}
+
+export interface GetIndicationListParams {
+  SearchField: number;
+  SearchValue: string;
+}

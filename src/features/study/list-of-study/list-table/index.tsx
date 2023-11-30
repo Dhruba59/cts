@@ -1,10 +1,11 @@
 "use client";
-import Pagination from "@/components/pagination";
 import ExpandableTable from "@/components/table/expandableTable";
 import SimpleTable from "@/components/table/simpleTable";
-import { Dispatch, SetStateAction, useMemo, useState } from "react";
-import { LIST_COLUMN } from "./columns";
-import { SortingFn, SortingState } from "@tanstack/react-table";
+import { Dispatch, SetStateAction, useMemo } from "react";
+import { getColumns } from "./columns";
+import { SortingState } from "@tanstack/react-table";
+import { useGetStudyDelete } from "@/hooks/rq-hooks/study-hooks";
+import { toast } from "react-toastify";
 
 export interface ListTableProps {
   data: any;
@@ -13,7 +14,20 @@ export interface ListTableProps {
 }
 
 const ListTable = ({ data, sorting, setSorting }: ListTableProps) => {
-  const columns = useMemo(() => LIST_COLUMN, []);
+  const { mutate: deleteStudy } = useGetStudyDelete();
+
+  const onDelete = (studyId: number) => {
+    deleteStudy({ studyId }, {
+      onSuccess: (data) => {
+        console.log(data);
+        toast.success(data?.data.details ,{position:"top-center"});
+      },
+      onError: (error: any) => {
+        toast.error(error?.response?.data.title ,{position:"top-center"});
+      }
+    });
+  }
+  const columns = useMemo(() => getColumns({ onDelete }), []);
 
   return (
     <div className="sm:wrapper">

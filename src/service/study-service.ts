@@ -1,12 +1,6 @@
 import { API_ROUTE_CONSTANT } from "@/constants/api-route";
 import { request } from "./axios-config";
-import { AddUpdateStudyPayload } from "@/model/study";
-import { getIndicationListProps } from "@/hooks/rq-hooks/study-hooks";
-
-interface GetIndicationListParams {
-  SearchField: number;
-  SearchValue: string;
-}
+import { AddUpdateStudyPayload, GetIndicationListParams, StudyDeletePayload } from "@/model/study";
 
 export const addStudy = (data: AddUpdateStudyPayload) => {
   return request({ url: API_ROUTE_CONSTANT.STUDY, method: "post", data });
@@ -37,4 +31,8 @@ export const getStudyList = ({queryKey}: any) => {
 export const getStudiyById = ({queryKey}: any) => {
   const [key, params ] = queryKey as any;
   return request({ url: API_ROUTE_CONSTANT.STUDY, method: "get", params });
+};
+
+export const deleteStudyById = (data: StudyDeletePayload) => {
+  return request({ url: API_ROUTE_CONSTANT.STUDY, method: "delete", data });
 };

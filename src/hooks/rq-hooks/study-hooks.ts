@@ -1,5 +1,5 @@
 
-import { addStudy, getIndicationList, getStudyDropDownsList, updateStudy } from "@/service/study-service";
+import { addStudy, deleteStudyById, getStudyDropDownsList, updateStudy } from "@/service/study-service";
 import { UseQueryOptions, useMutation, useQuery } from "react-query";
 
 export interface getIndicationListProps {
@@ -17,6 +17,10 @@ export const useUpdateStudyMutation = () => useMutation({
 
 export const useGetStudyDropdownsList = () => useQuery({
   queryFn: getStudyDropDownsList,
+})
+
+export const useGetStudyDelete = () => useMutation({
+  mutationFn: deleteStudyById
 })
 
 // export const useGetStudyIndicationList = ( options: UseQueryOptions) => useQuery({
