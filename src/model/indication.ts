@@ -38,3 +38,9 @@ export const Indication_coluns: ColumnDef<IndicationQuery>[] = [
       accessorKey: "codeType"
     },
   ];
+
+
+  export interface getIndicationListProps {
+    searchField: string;
+    searchValue: string;
+  }

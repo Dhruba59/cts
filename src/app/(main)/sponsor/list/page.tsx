@@ -1,7 +1,15 @@
-export default function ChangePassword() {
+"use client";
+
+import { useEffect, useState } from "react";
+import SponsorList from "@/features/sponsor/list";
+import { useSearchParams } from "next/navigation";
+
+
+export default function SponsorListPage() {
+  const searchParams = useSearchParams();
+  const currentTab = searchParams.get("tab");
+
   return (
-    <div className="w-full h-fill px-8 flex justify-center items-center md:justify-start md:items-start">
-      <p>List of Sponsors</p>
-    </div>
+      <SponsorList></SponsorList>
   );
 }

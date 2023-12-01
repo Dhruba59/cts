@@ -1,20 +1,23 @@
 
-import { addIndication, getIndications, getIndicationCodeTypes, editIndication, deleteIndicationById } from "@/service/indication-service";
+import { getIndications, getIndicationById, getIndicationCodeTypes, addIndication, editIndication, deleteIndication } from "@/service/indication-service";
 import { UseQueryOptions, useMutation, useQuery } from "react-query";
 
 
-export interface getIndicationListProps {
-  searchField: string;
-  searchValue: string;
-}
 
 
-export const useAddIndicationMutation = () => useMutation({
+export const useGetIndications = () => useQuery({
+  queryFn: getIndications,
+})
+export const useGetIndicationById = () => useQuery({
+  queryFn: getIndicationById,
+})
+
+export const useAddIndication = () => useMutation({
   mutationFn: addIndication,
 })
 
 
-export const useEditIndicationMutation = () => useMutation({
+export const useEditIndication = () => useMutation({
   mutationFn: editIndication,
 })
 
@@ -23,8 +26,9 @@ export const useGetIndicationCodeTypes = () => useQuery({
 })
 
 export const useDeleteIndication = () => useMutation({
-  mutationFn: deleteIndicationById
+  mutationFn: deleteIndication
 })
+
 // export const useGetStudyIndicationList = ( options: UseQueryOptions) => useQuery({
 //   queryFn: getIndicationList,
 //   ...options

@@ -27,6 +27,6 @@ export const editIndication = (data: Indication) => {
 export interface DeleteIndicationPayload {
   id: number;
 }
-export const deleteIndicationById = (data: DeleteIndicationPayload) => {
+export const deleteIndication = (data: DeleteIndicationPayload) => {
   return request({url: 'Indication', method: 'DELETE', data});
 }

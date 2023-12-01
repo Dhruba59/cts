@@ -8,7 +8,7 @@ import Input from "@/components/ui/input";
 import Label from "@/components/ui/label";
 import Select from "@/components/ui/select";
 import Textarea from "@/components/ui/textarea";
-import { useAddIndicationMutation, useEditIndicationMutation, useGetIndicationCodeTypes } from "@/hooks/rq-hooks/indication-hooks";
+import { useAddIndication, useEditIndication, useGetIndicationCodeTypes } from "@/hooks/rq-hooks/indication-hooks";
 import { DropDownItem, SelectOptionType } from "@/model/drop-down-list";
 import { Indication, IndicationQuery } from "@/model/indication";
 import { getIndicationById, getIndicationCodeTypes } from "@/service/indication-service";
@@ -45,8 +45,8 @@ const AddIndication = ({ id }: AddIndicationProps) => {
   });
 
 
-  const { mutate: AddIndicationMutation, isLoading: isAddIndicationLoading } = useAddIndicationMutation();
-  const { mutate: EditIndicationMutation, isLoading: isEditIndicationLoading } = useEditIndicationMutation();
+  const { mutate: AddIndication, isLoading: isAddIndicationLoading } = useAddIndication();
+  const { mutate: EditIndication, isLoading: isEditIndicationLoading } = useEditIndication();
   const { data: codeTypesDropdown, error, isLoading, refetch } = useGetIndicationCodeTypes();
   const [codeTypes, setCodeTypes] = useState<SelectOptionType[]>([]);
 
@@ -74,7 +74,7 @@ const AddIndication = ({ id }: AddIndicationProps) => {
 
     if (id) {
       payload = { ...payload};
-      EditIndicationMutation(payload, {
+      EditIndication(payload, {
         onSuccess: ({ data }: any) => {
           const newFieldValues = {
             ...payload
@@ -87,7 +87,7 @@ const AddIndication = ({ id }: AddIndicationProps) => {
         }
       });
     } else {
-      AddIndicationMutation(payload, {
+      AddIndication(payload, {
         onSuccess: ({ data }: any) => {
           reset();
           toast.success(data.message, { position: "top-center" });

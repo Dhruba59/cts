@@ -1,9 +1,8 @@
-export default function ChangePassword() {
+import { MainContainer } from "@/components/style-container";
+import AddSponsor from "@/features/sponsor/add";
+
+export default function AddAddSponsorPage() {
   return (
-    <>
-      <div className="w-full h-fill px-8 flex justify-center items-center md:justify-start md:items-start">
-        <p>Add-Sponsor</p>
-      </div>
-    </>
+      <AddSponsor />
   );
 }
