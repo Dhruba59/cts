@@ -4,15 +4,19 @@ import { SidebarItemProps } from "@/model/layout";
 import { Fragment, useState } from "react";
 import Popup from "../pop-up";
 import MenuItems from "../menu-item";
-import { getIconFromScreenId } from "@/utils/helpers";
 import { useThemeContext } from "@/context/theme-context";
 import { THEME_COLOR_ENUM } from "@/model/context";
-import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
 
 const SidebarItem = ({ item, showIconOnly = false }: SidebarItemProps) => {
   const [expanded, setExpanded] = useState(false);
   const { theme, setTheme } = useThemeContext();
+  const router = useRouter();
   const isDarkMode = theme === THEME_COLOR_ENUM.DARK;
+
+  let pathname = usePathname();
+  pathname = pathname[0] ? pathname.slice(1) : pathname;
+  const selected = pathname === item.url || pathname.includes(item.funtionality.toLowerCase())
 
   const menuItems = item?.child?.map((item: any) => ({
     icon: item?.icon,
@@ -22,18 +26,22 @@ const SidebarItem = ({ item, showIconOnly = false }: SidebarItemProps) => {
 
   const toggleExpand = () => {
     setExpanded(!expanded);
+
+    if (item?.child && item?.child.length === 0) {
+      router.push(`/${item.url}`);
+    }
   };
 
   return (
     <Fragment>
       <div
         className={`relative flex items-center gap-x-2 px-2 mx-2 py-2 my-2 rounded-md cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 ${showIconOnly ? "group" : ""
-          }`}
+          } ${selected ? "bg-red-200 dark:bg-red-900" : ""}`}
         onClick={toggleExpand}
       >
         {item?.icon && (
           <div className="w-6 h-6 flex justify-center items-center">
-            <Link href={`/${item.url}`}> {item?.icon}</Link>
+            {item?.icon}
           </div>
         )}
         {item?.child && item?.child.length > 0 && (
@@ -47,7 +55,7 @@ const SidebarItem = ({ item, showIconOnly = false }: SidebarItemProps) => {
         )}
         {!showIconOnly && (
 
-          <Link  href={`/${item.url}`} className="flex-grow font-medium text-base truncate">{item?.funtionality} </Link>
+          <div className="flex-grow font-medium text-base truncate">{item?.funtionality} </div>
 
         )}
         {item?.child && item?.child.length > 0 && !showIconOnly && (
