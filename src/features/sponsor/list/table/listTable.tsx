@@ -29,10 +29,14 @@ export function ListTable({ data, sorting, setSorting }: any) {
   const onDeleteConfirm = () => {
      deleteSponsor({id} , {
       onSuccess: (data) => {
-        console.log(data);
+        //console.log(data);
+        setId(0);
+        setOpen(false);
         toast.success(data?.data.details ,{position:"top-center"});
       },
       onError: (error: any) => {
+        setId(0);
+        setOpen(false);
         toast.error(error?.response?.data.title ,{position:"top-center"});
       }
     });

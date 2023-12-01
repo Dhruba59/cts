@@ -24,20 +24,22 @@ export function ListTable({ data, sorting, setSorting }: any) {
   } = useForm();
   
   const [open, setOpen] = useState<boolean>(false);
-  const [indicationId, setIndicationId] = useState<number>(0);
+  const [id, setId] = useState<number>(0);
   const { mutate: deleteIndication } = useDeleteIndication();
 
   const onDeleteConfirm = () => {
 
      console.log('onDelete called')
-
-     const id = indicationId;
      deleteIndication({id} , {
       onSuccess: (data) => {
-        console.log(data);
+        //console.log(data);
+        setId(0);
+        setOpen(false);
         toast.success(data?.data.details ,{position:"top-center"});
       },
       onError: (error: any) => {
+        setId(0);
+        setOpen(false);
         toast.error(error?.response?.data.title ,{position:"top-center"});
       }
     });
@@ -46,12 +48,12 @@ export function ListTable({ data, sorting, setSorting }: any) {
 
   const onDeleteCancel = () => {
     console.log('onDelete Cancel')
-    setIndicationId(0);
+    setId(0);
     setOpen(false);
  }
  
   const onDelete = (id: number) => {
-    setIndicationId(id);
+    setId(id);
     setOpen(true);
   }
 
