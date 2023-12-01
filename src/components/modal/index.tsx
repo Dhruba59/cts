@@ -1,9 +1,11 @@
 "use client";
 import { cn } from "@/libs/utils";
-import React, { useEffect, useState } from "react";
+import React, { ReactNode, useEffect, useState } from "react";
 import Button from "../ui/button";
-import { CloseIcon } from "@/assets/icons";
+import { CloseIcon, ErrorIcon, SuccessIcon, WarningIcon } from "@/assets/icons";
 import Link from "next/link";
+import { MODAL_TYPE_ENUM } from "@/model/enum";
+
 interface Props {
   open?: boolean;
   onClose?: () => void;
@@ -13,10 +15,12 @@ interface Props {
   containerClassName?: string;
   titleClassName?: string;
   isLoading?: boolean;
+  type?: MODAL_TYPE_ENUM;
   renderFooter?: {
     onSave: () => void;
     submitButtonName?: string;
     cancelButtonName?: string;
+    privacyPolicyLink?: boolean;
   };
 }
 
@@ -29,7 +33,8 @@ const Modal = ({
   titleClassName,
   renderFooter,
   isLoading,
-  children
+  children,
+  type = MODAL_TYPE_ENUM.DEFAULT,
 }: Props) => {
   const [visible, setVisible] = useState(open);
 
@@ -47,10 +52,23 @@ const Modal = ({
     setVisible(open);
   }, [open]);
 
+  const renderModalIcon = () => {
+    switch(type) {
+      case MODAL_TYPE_ENUM.WARNING: return <WarningIcon/> ;
+      case MODAL_TYPE_ENUM.ERROR: return <ErrorIcon/> ;
+      case MODAL_TYPE_ENUM.SUCCESS: return <SuccessIcon/> ;
+      default: return <></>;
+    }
+  }
+
   const renderModalHeader = () => {
     return title ? (
       <header className="flex items-center justify-between md:px-6 px-4 py-4 border-b">
-        <h5 className={cn("text-black/90", titleClassName)}>{title}</h5>
+        <div className="flex gap-3">
+          {renderModalIcon()}
+         <h5 className={cn("text-black/90", titleClassName)}>{title}</h5>
+        </div>
+        
         <CloseIcon onClick={handleModalClose} />
       </header>
     ) : (
@@ -61,13 +79,14 @@ const Modal = ({
   };
 
   const renderModalFooter = () => {
+    const isPrivacyOpen = renderFooter?.privacyPolicyLink;
     return renderFooter ? (
-      <footer className="flex justify-between border-t p-2.5">
-        <div>
+      <footer className={`flex ${isPrivacyOpen ? 'justify-between' : 'justify-end'} border-t p-2.5`}>
+        {isPrivacyOpen && <div>
           <Link href="https://ctsdatabase.com/privacy/" target="_blank">
             CTSdatabase Privacy Policy
           </Link>
-        </div>
+        </div>}
         <div className="flex justify-end gap-2.5">
           <Button
             className=""
@@ -75,6 +94,7 @@ const Modal = ({
             size="small"
             onClick={handleModalSave}
             loading={isLoading}
+            disabled={isLoading}
           >
             {renderFooter?.submitButtonName ?? "Save"}
           </Button>

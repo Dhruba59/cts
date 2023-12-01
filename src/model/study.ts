@@ -1,5 +1,7 @@
+import { SortingState } from "@tanstack/react-table";
 import { DropDownItem } from "./drop-down-list";
 import { Query } from "./query";
+import { Dispatch, SetStateAction } from "react";
 
 export interface Study {
   studyId: number;
@@ -137,4 +139,10 @@ export interface StudyListColumnsProps {
 export interface GetIndicationListParams {
   SearchField: number;
   SearchValue: string;
+}
+
+export interface ListTableProps {
+  data: any;
+  sorting: SortingState;
+  setSorting: Dispatch<SetStateAction<SortingState>>;
 }

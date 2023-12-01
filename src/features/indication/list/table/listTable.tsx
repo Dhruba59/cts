@@ -11,6 +11,7 @@ import Modal from "@/components/modal";
 import { useForm } from "react-hook-form";
 import { useDeleteIndication } from "@/hooks/rq-hooks/indication-hooks";
 import { number } from 'yup';
+import { MODAL_TYPE_ENUM } from "@/model/enum";
 
 
 export function ListTable({ data, sorting, setSorting }: any) {
@@ -73,6 +74,7 @@ export function ListTable({ data, sorting, setSorting }: any) {
         />
       </div>
       <Modal
+        type={MODAL_TYPE_ENUM.WARNING}
         open={open}
         onClose={() => onDeleteCancel()}
         title="Confirmation!"
