@@ -1,31 +1,41 @@
 "use client";
 import ExpandableTable from "@/components/table/expandableTable";
 import SimpleTable from "@/components/table/simpleTable";
-import { Dispatch, SetStateAction, useMemo } from "react";
+import { useMemo, useState } from "react";
 import { getColumns } from "./columns";
-import { SortingState } from "@tanstack/react-table";
 import { useGetStudyDelete } from "@/hooks/rq-hooks/study-hooks";
 import { toast } from "react-toastify";
-
-export interface ListTableProps {
-  data: any;
-  sorting: SortingState;
-  setSorting: Dispatch<SetStateAction<SortingState>>;
-}
+import Modal from "@/components/modal";
+import { ListTableProps } from "@/model/study";
+import { MODAL_TYPE_ENUM } from "@/model/enum";
 
 const ListTable = ({ data, sorting, setSorting }: ListTableProps) => {
-  const { mutate: deleteStudy } = useGetStudyDelete();
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
+  const [studyDeleteId, setStudyDeleteId] = useState<number>();
+  const { mutate: deleteStudy, isLoading: isDeleteLoading } = useGetStudyDelete();
+
+  const onDeleteConfirm = () => {
+    if (studyDeleteId) {
+      deleteStudy({ studyId: studyDeleteId }, {
+        onSuccess: (data) => {
+          setIsDeleteModalOpen(false);
+          toast.success(data?.data.details, { position: "top-center" });
+        },
+        onError: (error: any) => {
+          toast.error(error?.response?.data.detail, { position: "top-center" });
+        }
+      });
+    }
+  }
+
+  const onDeleteCancel = () => {
+    setStudyDeleteId(undefined);
+    setIsDeleteModalOpen(false);
+  }
 
   const onDelete = (studyId: number) => {
-    deleteStudy({ studyId }, {
-      onSuccess: (data) => {
-        console.log(data);
-        toast.success(data?.data.details ,{position:"top-center"});
-      },
-      onError: (error: any) => {
-        toast.error(error?.response?.data.title ,{position:"top-center"});
-      }
-    });
+    setIsDeleteModalOpen(true);
+    setStudyDeleteId(studyId)
   }
   const columns = useMemo(() => getColumns({ onDelete }), []);
 
@@ -45,6 +55,23 @@ const ListTable = ({ data, sorting, setSorting }: ListTableProps) => {
       <div className="hidden sm:block">
         <SimpleTable data={data} columns={columns} sorting={sorting} setSorting={setSorting} />
       </div>
+      <Modal
+        type={MODAL_TYPE_ENUM.WARNING}
+        open={isDeleteModalOpen}
+        isLoading={isDeleteLoading}
+        onClose={() => onDeleteCancel()}
+        title="Delete Confirmation!"
+        containerClassName="!w-[624px] h-fit"
+        renderFooter={{
+          onSave: onDeleteConfirm,
+          submitButtonName: "Confirm",
+          cancelButtonName: "Cancel"
+        }}
+      >
+        <div className="text-black text-base">
+          Do you want to delete this study?
+        </div>
+      </Modal>
     </div>
   );
 };

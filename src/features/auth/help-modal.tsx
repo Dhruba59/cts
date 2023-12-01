@@ -54,7 +54,8 @@ const HelpModal = ({ open, setOpen }: HelpModalProps) => {
       renderFooter={{
         onSave: handleSubmit(onSubmit),
         submitButtonName: "Send",
-        cancelButtonName: "Close"
+        cancelButtonName: "Close",
+        privacyPolicyLink: true,
       }}
     >
       <div className="text-black text-base px-6 py-2">
