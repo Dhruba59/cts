@@ -2,28 +2,31 @@ import { Indication, IndicationQuery } from "@/model/indication";
 import { request } from "./axios-config";
 
 
-export const get_indication_by_id = ({queryKey}: any) => {
+export const getIndicationById = ({queryKey}: any) => {
   const [key, params ] = queryKey as any;
   return request({url: 'Indication/GetById', method: 'GET', params});
 }
 
-export const get_indication_code_types = () => {
+export const getIndicationCodeTypes = () => {
   return request({url: 'Indication/GetIndicationCodeTypes', method: 'GET'});
 }
 
-export const get_indications = ({queryKey}: any) => {
+export const getIndications = ({queryKey}: any) => {
   const [key, params ] = queryKey as any;
   return request({url: 'Indication/Get', method: 'GET', params});
 }
 
-export const add_indication = (data: Indication) => {
+export const addIndication = (data: Indication) => {
   return request({url: 'Indication', method: 'POST', data});
 }
 
-export const edit_indication = (data: Indication) => {
+export const editIndication = (data: Indication) => {
   return request({url: 'Indication', method: 'PUT', data});
 } 
 
-export const delete_indication = (data: number) => {
+export interface DeleteIndicationPayload {
+  id: number;
+}
+export const deleteIndicationById = (data: DeleteIndicationPayload) => {
   return request({url: 'Indication', method: 'DELETE', data});
 }

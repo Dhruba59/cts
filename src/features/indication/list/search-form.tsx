@@ -6,7 +6,7 @@ import Select from "@/components/ui/select";
 import Textarea from "@/components/ui/textarea";
 import { DropDownItem, SelectOptionType } from "@/model/drop-down-list";
 import { CodeType } from "@/model/indication";
-import { get_indication_code_types } from "@/service/indication-service";
+import { getIndicationCodeTypes } from "@/service/indication-service";
 import { convertTypeToSelectOption } from "@/utils/helpers";
 import { useEffect, useState } from "react";
 

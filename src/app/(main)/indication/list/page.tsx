@@ -3,7 +3,7 @@
 import SimpleTable from "@/components/table/simpleTable";
 
 import { useEffect, useState } from "react";
-import { get_indications } from "@/service/indication-service";
+import { getIndications } from "@/service/indication-service";
 import {
   Indication,
   IndicationQuery,

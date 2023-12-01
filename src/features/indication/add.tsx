@@ -11,7 +11,7 @@ import Textarea from "@/components/ui/textarea";
 import { useAddIndicationMutation, useEditIndicationMutation, useGetIndicationCodeTypes } from "@/hooks/rq-hooks/indication-hooks";
 import { DropDownItem, SelectOptionType } from "@/model/drop-down-list";
 import { Indication, IndicationQuery } from "@/model/indication";
-import { get_indication_by_id, get_indication_code_types } from "@/service/indication-service";
+import { getIndicationById, getIndicationCodeTypes } from "@/service/indication-service";
 import { convertTypeToSelectOption } from "@/utils/helpers";
 import React, { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
@@ -51,7 +51,7 @@ const AddIndication = ({ id }: AddIndicationProps) => {
   const [codeTypes, setCodeTypes] = useState<SelectOptionType[]>([]);
 
   const { data: indicationData } = useQuery({
-    queryFn: get_indication_by_id,
+    queryFn: getIndicationById,
     queryKey: ['indication', { indicationId: id }],
     enabled: !!id
   });

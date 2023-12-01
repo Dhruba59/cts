@@ -8,7 +8,11 @@ import Cross from "@/components/icons/cross";
 import Link from "next/link";
 import { DeleteOutlined } from "@/assets/icons";
 
-export const INDICATION_LIST_COLUMN: ColumnDef<IndicationQuery>[] = [
+type IndicationListColumnsProps = {
+  onDelete: (id: any) => void
+}
+export const IndicationListColumns = ({ onDelete }: IndicationListColumnsProps): ColumnDef<IndicationQuery>[] => {
+return ([
 
   {
     header: "Indication Name",
@@ -59,9 +63,9 @@ export const INDICATION_LIST_COLUMN: ColumnDef<IndicationQuery>[] = [
         <div className="flex items-center gap-6">
           {/* <View /> */}
           <Link href={`/indication/${row.original.indicationId}/edit`}><Edit/></Link>
-          <DeleteOutlined />
+          <DeleteOutlined className="cursor-pointer" onClick={() => onDelete(row.original.indicationId)}/>
         </div>
       );
     }
   }
-];
+])};

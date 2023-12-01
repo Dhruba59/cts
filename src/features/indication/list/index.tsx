@@ -3,7 +3,7 @@ import ListHeader from "./list-header";
 import ListTable from "./table/listTable";
 import { Indication, IndicationQuery } from "@/model/indication";
 import Pagination from "@/components/pagination";
-import { get_indication_code_types, get_indications } from "@/service/indication-service";
+import { getIndicationCodeTypes, getIndications } from "@/service/indication-service";
 import { SortingState } from "@tanstack/react-table";
 
 import { DropDownItem, SelectOptionType } from "@/model/drop-down-list";
@@ -20,7 +20,7 @@ const IndicationList = () => {
   ]);
 
   const { data: studyData } = useQuery({
-    queryFn: get_indications,
+    queryFn: getIndications,
     queryKey: ['sort', queryData],
   });
 
