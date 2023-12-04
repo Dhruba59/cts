@@ -23,7 +23,7 @@ export interface DataTableProps<TData, TValue>
   extends React.ComponentPropsWithoutRef<"div"> {
   columns: ColumnDef<TData, TValue>[];
   data: any;
-  sorting: SortingState;
-  setSorting: Dispatch<SetStateAction<SortingState>>
+  sorting?: SortingState;
+  setSorting?: Dispatch<SetStateAction<SortingState>>
 }
 

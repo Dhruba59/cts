@@ -1,4 +1,5 @@
 'use client';
+import dayjs from "dayjs";
 import { ArrowSwapHorizontal, ChangeRequestIcon, DashboardIcon, IdIcon, IndicationIcon, SettingsIcon, SettingsIcon2, SiteIcon, SponsorIcon, StudyCompoundIcon, StudyInformationIcon, SubjectManagementIcon, UserIcon } from "@/assets/icons";
 import { USER_ROLE_VALUE } from "@/constants/common";
 import { STORAGE_KEY } from "@/constants/storage-constant";
@@ -119,3 +120,7 @@ export const convertTypeToSelectOption = (data: DropDownItem[]): SelectOptionTyp
     value: item.value,
   }))
 );
+
+export const formateTableDate = (date: string) => {
+  return dayjs(date).format("DD-MMM-YYYY");
+};
