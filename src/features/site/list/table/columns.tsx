@@ -7,45 +7,56 @@ import { ColumnDef } from "@tanstack/react-table";
 import Cross from "@/components/icons/cross";
 import Link from "next/link";
 import { DeleteOutlined } from "@/assets/icons";
+import { SiteListColumnsProps, SiteQuery } from "@/model/site";
 
-type IndicationListColumnsProps = {
-  onDelete: (id: any) => void
-}
-export const IndicationListColumns = ({ onDelete }: IndicationListColumnsProps): ColumnDef<IndicationQuery>[] => {
+
+export const SiteListColumns = ({ onDelete }: SiteListColumnsProps): ColumnDef<SiteQuery>[] => {
 return ([
 
   {
-    header: "Indication Name",
-    accessorKey: "indicationName",
+    header: "Site Name",
+    accessorKey: "siteName",
     cell: ({ row }) => {
       return (
-        <div className="min-w-[100px]">{row.original.indicationName}</div>
+        <div>{row.original.siteName}</div>
       );
     }
   },
   {
-    header: "Code",
+    header: "Site Code",
     accessorKey: "code"
   },
   {
-    header: "Code Type",
-    accessorKey: "codeType",
+    header: "Address One",
+    accessorKey: "address1",
     cell: ({ row }) => {
-      return <div className=" min-w-[100px]">{row.original.codeType}</div>;
+      return <div className=" min-w-[100px]">{row.original.address1}</div>;
     }
   },
   {
-    header: "Description",
-    accessorKey: "description"
+    header: "City",
+    accessorKey: "city"
   },
   {
-    header: "Require Details",
-    accessorKey: "isRequireDetails",
+    header: "State",
+    accessorKey: "state"
+  },
+  {
+    header: "Zip Code",
+    accessorKey: "siteZip"
+  },
+  {
+    header: "PI Name",
+    accessorKey: "piname"
+  },
+  {
+    header: "Partial Date Allowed",
+    accessorKey: "partialDateAllowed",
     cell: ({ row }) => {
       return (
         <div className="min-w-[50px] text-center">
-          {row.original.isRequireDetails === null ||
-          row.original.isRequireDetails === false ? (
+          {row.original.partialDateAllowed === null ||
+          row.original.partialDateAllowed === false ? (
             <Cross />
           ) : (
             <Check />
@@ -62,8 +73,8 @@ return ([
       return (
         <div className="flex items-center gap-6">
           {/* <View /> */}
-          <Link href={`/indication/${row.original.indicationId}/edit`}><Edit/></Link>
-          <DeleteOutlined className="cursor-pointer" onClick={() => onDelete(row.original.indicationId)}/>
+          <Link href={`/site/${row.original.siteId}/edit`}><Edit/></Link>
+          <DeleteOutlined className="cursor-pointer" onClick={() => onDelete(row.original.siteId)}/>
         </div>
       );
     }

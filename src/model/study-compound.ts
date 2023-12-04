@@ -6,7 +6,7 @@ export interface StudyCompound {
     studyCompoundName?: string;
     description?: string;
     active?: boolean;
-    studyTbs: Study[];
+    //studyTbs: Study[];
 }
 
 export interface StudyCompoundQuery extends StudyCompound, Query{
@@ -15,4 +15,13 @@ export interface StudyCompoundQuery extends StudyCompound, Query{
 
 export interface DeleteStudyCompoundPayload {
     id: number;
+  }
+
+
+  export interface StudyCompoundListColumnsProps {
+    onDelete: (id: any) => void
+  }
+
+  export interface AddStudyCompoundProps {
+    id?: string
   }

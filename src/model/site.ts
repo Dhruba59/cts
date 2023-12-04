@@ -22,10 +22,15 @@ export interface Site {
     partialDateAllowed?: boolean;
 }
 
-export interface SiteQuery extends Site, Query{
-    
+export interface SiteQuery extends Site, Query {
+
 }
 
 export interface DeleteSitePayload {
     id: number;
-  }
+}
+
+
+export interface SiteListColumnsProps{
+    onDelete: (id: any) => void
+}

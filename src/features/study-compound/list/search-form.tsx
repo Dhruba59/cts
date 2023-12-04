@@ -12,7 +12,6 @@ import { useEffect, useState } from "react";
 
 interface SearchFormProps {
   isAdvancedOpen: boolean;
-  codeTypeDropDown: any;
   register: any;
   Controller: any;
   control: any;
@@ -20,7 +19,6 @@ interface SearchFormProps {
 }
 export function SearchForm({
   isAdvancedOpen,
-  codeTypeDropDown,
   register,
   Controller,
   control,
@@ -29,36 +27,19 @@ export function SearchForm({
 
   const [codeTypeOptions, setCodeTypeOptions] = useState<SelectOptionType[]>([]);
 
-  //console.log(codeTypeDropDown);
-  useEffect(() => {
-
-    setCodeTypeOptions(convertTypeToSelectOption(codeTypeDropDown?.codeTypes));
-
-  }, [codeTypeDropDown])
-
   return (
     <div className="flex items-end gap-3 md:gap-6 p-4 md:p-0">
       <div className="grid lg:flex lg:items-center gap-2 flex-1 md:flex-none">
-        <Label label="Code: " className="hidden lg:block" />
+        <Label label="Study Compound name: " className="hidden lg:block" />
         <Input
-          name="code"
-          placeholder="Enter indication code"
-          className="md:w-48"
-          {...register("code")}
+          name="studyCompoundName"
+          label=""
+          placeholder="Enter study compound name"
+          className="md:w-72"
+          {...register("studyCompoundName")}
         />
       </div>
-      <div className="grid lg:flex lg:items-center gap-2 flex-1 md:flex-none">
-        <Label label="Code Type: " className="hidden lg:block" />
-        <div className="w-32">
-          <Controller
-            control={control}
-            name="codeType"
-            isClearable
-            render={({ field: { onChange, onBlur, value } }: any) =>
-              <Select onChange={onChange} options={codeTypeOptions}  value={value}/>}
-          />
-        </div>
-      </div>
+
       <div className={`flex gap-3 ${isAdvancedOpen ? 'hidden' : 'block'}`}>
         <Button type="submit" className="!h-10 mb-[1px]">
           Search
@@ -82,11 +63,11 @@ export function AdvanceSearchForm({ register, Controller, control, reset }: any)
     <div className="hidden lg:block p-6 pt-2 space-y-4">
       <div className="flex flex-row items-center gap-5">
         <Input
-          name="indicationName"
-          label="Indication name"
-          placeholder="Enter Indication name"
+          name="studyCompoundName"
+          label="Study Compound name"
+          placeholder="Enter study compound name"
           className="md:w-72"
-          {...register("indicationName")}
+          {...register("studyCompoundName")}
         />
         <Input
           name="description"
@@ -96,17 +77,7 @@ export function AdvanceSearchForm({ register, Controller, control, reset }: any)
           {...register("description")}
         />
       </div>
-
       <div className="flex flex-grow justify-between">
-        <div className="flex flex-row items-center -mt-6">
-          <Controller
-            name="isRequireDetails"
-            control={control}
-            render={({ field: { onChange, onBlur, value } }: any) =>
-              <Checkbox className="" onChange={onChange} />}
-          />
-          <Label label="Require Details" className="-mt-1" />
-        </div>
         <div className="flex gap-3">
           <Button type="submit" className="!h-10 mb-[1px]">
             Search
