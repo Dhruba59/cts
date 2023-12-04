@@ -19,5 +19,9 @@ export interface NationalIdTypeColumnsProps  {
 }
 
 export interface DeleteNationalIdTypePayload {
-    id: number;
+  id: number;
+}
+
+export interface AddNationalIdTypeProps {
+    id?: string
   }

@@ -2,7 +2,7 @@ import { Site, SiteQuery, DeleteSitePayload } from "@/model/site";
 import { request } from "./axios-config";
 
 
-export const getSiteQueryById = ({queryKey}: any) => {
+export const getSiteById = ({queryKey}: any) => {
   const [key, params ] = queryKey as any;
   return request({url: 'Site/GetById', method: 'GET', params});
 }
@@ -25,6 +25,6 @@ export const editSite = (data: Site) => {
 } 
 
 
-export const deleteIndication = (data: DeleteSitePayload) => {
-  return request({url: 'Indication', method: 'DELETE', data});
+export const deleteSite = (data: DeleteSitePayload) => {
+  return request({url: 'Site', method: 'DELETE', data});
 }

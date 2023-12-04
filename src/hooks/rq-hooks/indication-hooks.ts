@@ -28,8 +28,3 @@ export const useGetIndicationCodeTypes = () => useQuery({
 export const useDeleteIndication = () => useMutation({
   mutationFn: deleteIndication
 })
-
-// export const useGetStudyIndicationList = ( options: UseQueryOptions) => useQuery({
-//   queryFn: getIndicationList,
-//   ...options
-// })

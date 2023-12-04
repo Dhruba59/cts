@@ -1,32 +1,27 @@
-import { Indication, IndicationQuery } from "@/model/indication";
+import { StudyCompound, DeleteStudyCompoundPayload 
+} from "@/model/study-compound";
 import { request } from "./axios-config";
 
 
-export const getIndicationById = ({queryKey}: any) => {
+export const getStudyCompoundById = ({queryKey}: any) => {
   const [key, params ] = queryKey as any;
-  return request({url: 'Indication/GetById', method: 'GET', params});
+  return request({url: 'StudyCompound/GetById', method: 'GET', params});
 }
 
-export const getIndicationCodeTypes = () => {
-  return request({url: 'Indication/GetIndicationCodeTypes', method: 'GET'});
-}
-
-export const getIndications = ({queryKey}: any) => {
+export const getStudyCompounds = ({queryKey}: any) => {
   const [key, params ] = queryKey as any;
-  return request({url: 'Indication/Get', method: 'GET', params});
+  return request({url: 'StudyCompound/Get', method: 'GET', params});
 }
 
-export const addIndication = (data: Indication) => {
-  return request({url: 'Indication', method: 'POST', data});
+export const addStudyCompound = (data: StudyCompound) => {
+  return request({url: 'StudyCompound', method: 'POST', data});
 }
 
-export const editIndication = (data: Indication) => {
-  return request({url: 'Indication', method: 'PUT', data});
+export const editStudyCompound = (data: StudyCompound) => {
+  return request({url: 'StudyCompound', method: 'PUT', data});
 } 
 
-export interface DeleteIndicationPayload {
-  id: number;
-}
-export const deleteIndication = (data: DeleteIndicationPayload) => {
-  return request({url: 'Indication', method: 'DELETE', data});
+
+export const deleteStudyCompound = (data: DeleteStudyCompoundPayload) => {
+  return request({url: 'StudyCompound', method: 'DELETE', data});
 }

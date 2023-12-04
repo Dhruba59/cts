@@ -6,13 +6,13 @@ import Select from "@/components/ui/select";
 import Textarea from "@/components/ui/textarea";
 import { DropDownItem, SelectOptionType } from "@/model/drop-down-list";
 import { CodeType } from "@/model/indication";
-import { getIndicationCodeTypes } from "@/service/indication-service";
+import { getFrequencyTypes } from "@/service/national-id-type-service";
 import { convertTypeToSelectOption } from "@/utils/helpers";
 import { useEffect, useState } from "react";
 
 interface SearchFormProps {
   isAdvancedOpen: boolean;
-  codeTypeDropDown: any;
+  frequencyTypeDropDown: any;
   register: any;
   Controller: any;
   control: any;
@@ -20,31 +20,31 @@ interface SearchFormProps {
 }
 export function SearchForm({
   isAdvancedOpen,
-  codeTypeDropDown,
+  frequencyTypeDropDown,
   register,
   Controller,
   control,
   reset
 }: SearchFormProps) {
 
-  const [codeTypeOptions, setCodeTypeOptions] = useState<SelectOptionType[]>([]);
+  const [frequencyTypeOptions, setFrequencyTypeOptions] = useState<SelectOptionType[]>([]);
 
   //console.log(codeTypeDropDown);
   useEffect(() => {
 
-    setCodeTypeOptions(convertTypeToSelectOption(codeTypeDropDown?.codeTypes));
+    setFrequencyTypeOptions(convertTypeToSelectOption(frequencyTypeDropDown?.codeTypes));
 
-  }, [codeTypeDropDown])
+  }, [frequencyTypeDropDown])
 
   return (
     <div className="flex items-end gap-3 md:gap-6 p-4 md:p-0">
       <div className="grid lg:flex lg:items-center gap-2 flex-1 md:flex-none">
-        <Label label="Code: " className="hidden lg:block" />
+        <Label label="nationalIdtypeName: " className="hidden lg:block" />
         <Input
-          name="code"
+          name="nationalIdtypeName"
           placeholder="Enter indication code"
           className="md:w-48"
-          {...register("code")}
+          {...register("nationalIdtypeName")}
         />
       </div>
       <div className="grid lg:flex lg:items-center gap-2 flex-1 md:flex-none">
@@ -55,7 +55,7 @@ export function SearchForm({
             name="codeType"
             isClearable
             render={({ field: { onChange, onBlur, value } }: any) =>
-              <Select onChange={onChange} options={codeTypeOptions}  value={value}/>}
+              <Select onChange={onChange} options={frequencyTypeOptions}  value={value}/>}
           />
         </div>
       </div>

@@ -8,9 +8,10 @@ import Input from "@/components/ui/input";
 import Label from "@/components/ui/label";
 import Select from "@/components/ui/select";
 import Textarea from "@/components/ui/textarea";
-import { useAddIndication, useEditIndication, useGetIndicationCodeTypes } from "@/hooks/rq-hooks/indication-hooks";
+import { useAddNationalIdType, useEditNationalIdType, useGetFrequencyTypes 
+} from "@/hooks/rq-hooks/national-id-type-hooks";
 import { DropDownItem, SelectOptionType } from "@/model/drop-down-list";
-import { Indication, IndicationQuery } from "@/model/indication";
+import { AddNationalIdTypeProps, NationalIdType, NationalIdTypeQuery } from "@/model/national-id-type";
 import { getIndicationById, getIndicationCodeTypes } from "@/service/indication-service";
 import { convertTypeToSelectOption } from "@/utils/helpers";
 import React, { useEffect, useState } from "react";
@@ -19,19 +20,15 @@ import { useQuery } from "react-query";
 import { toast } from "react-toastify";
 import { number } from "yup";
 
-type AddIndicationProps = {
-  id?: string
-}
-const AddIndication = ({ id }: AddIndicationProps) => {
+
+const AddNationalIdType = ({ id }: AddNationalIdTypeProps) => {
 
   const defaultValues = {
-    indicationId: 0,
-    indicationName: '',
-    code: '',
-    codeType: '',
+    nationalTypeId: 0,
+    nationalIdtypeName: '',
     description: '',
-    isRequireDetails: false,
-    active: null,
+    frequencyTypeId: 0,
+    active: undefined,
   }
   const {
     register,
@@ -40,19 +37,22 @@ const AddIndication = ({ id }: AddIndicationProps) => {
     setValue,
     formState: { errors },
     reset,
-  } = useForm<IndicationQuery>({
+  } = useForm<NationalIdTypeQuery>({
     defaultValues: defaultValues
   });
 
 
-  const { mutate: AddIndication, isLoading: isAddIndicationLoading } = useAddIndication();
-  const { mutate: EditIndication, isLoading: isEditIndicationLoading } = useEditIndication();
-  const { data: codeTypesDropdown, error, isLoading, refetch } = useGetIndicationCodeTypes();
-  const [codeTypes, setCodeTypes] = useState<SelectOptionType[]>([]);
+  const { mutate: AddNationalIdType, isLoading: isAddNationalIdTypeLoading 
+  } = useAddNationalIdType();
+  const { mutate: EditNationalIdType, isLoading: isEditNationalIdTypeLoading 
+  } = useEditNationalIdType();
+  const { data: frequencyTypesDropdown, error, isLoading, refetch 
+  } = useGetFrequencyTypes();
+  const [frequencyTypes, setFrequencyTypes] = useState<SelectOptionType[]>([]);
 
-  const { data: indicationData } = useQuery({
+  const { data: nationalIdTypeData } = useQuery({
     queryFn: getIndicationById,
-    queryKey: ['indication', { indicationId: id }],
+    queryKey: ['NationalIdType', { nationalTypeId: id }],
     enabled: !!id
   });
 
@@ -74,7 +74,7 @@ const AddIndication = ({ id }: AddIndicationProps) => {
 
     if (id) {
       payload = { ...payload};
-      EditIndication(payload, {
+      EditNationalIdType(payload, {
         onSuccess: ({ data }: any) => {
           const newFieldValues = {
             ...payload
@@ -87,7 +87,7 @@ const AddIndication = ({ id }: AddIndicationProps) => {
         }
       });
     } else {
-      AddIndication(payload, {
+      AddNationalIdType(payload, {
         onSuccess: ({ data }: any) => {
           reset();
           toast.success(data.message, { position: "top-center" });
@@ -102,79 +102,58 @@ const AddIndication = ({ id }: AddIndicationProps) => {
   }
 
   useEffect(() => {
-    setCodeTypes(convertTypeToSelectOption(codeTypesDropdown?.data?.codeTypes));
-  }, [codeTypesDropdown, indicationData])
+    setFrequencyTypes(convertTypeToSelectOption(frequencyTypesDropdown?.data?.codeTypes));
+  }, [frequencyTypesDropdown, nationalIdTypeData])
 
 
   useEffect(() => {
     //console.log(indicationData);
-    if (indicationData) {
+    if (nationalIdTypeData) {
       reset({
-        ...indicationData?.data
+        ...nationalIdTypeData?.data
       });
     }
-  }, [indicationData]);
+  }, [nationalIdTypeData]);
 
   return (
     <div className="w-full">
-      <Breadcrumbs title="Indication" subTitle="Add Indication" />
+      <Breadcrumbs title="NationalID Type" subTitle="Add NationalID Type" />
       <section className="wrapper">
         <h4 className=" text-neutral-black px-6 py-4">
-          Indication Information
+        NationalID Type Information
         </h4>
         <hr />
         <form onSubmit={handleSubmit(onSubmit)} className="px-6 py-8 space-y-6">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-16">
             <div>
               <Input
-                label="Indication Name"
-                placeholder="Enter indication name"
-                {...register("indicationName", {
-                  required: "Indication name is required!"
+                label="nationalIdtypeName"
+                placeholder="Enter nationalID type name"
+                {...register("nationalIdtypeName", {
+                  required: "NationalID type name is required!"
                 })}
               />
-              {errors.indicationName && (
-                <span className="text-red-500 -mt-10">{errors.indicationName.message as string}</span>
-              )}
-            </div>
-            <div>
-              <Input
-                label="code"
-                placeholder="Enter indication code"
-                {...register("code", {
-                  required: "Code is required!"
-                })}
-              />
-              {errors.code && (
-                <span className="text-red-500 -mt-10">{errors.code.message as string}</span>
+              {errors.nationalIdtypeName && (
+                <span className="text-red-500 -mt-10">{errors.nationalIdtypeName.message as string}</span>
               )}
             </div>
             <div>
               <Controller
                 control={control}
-                name='codeType'
+                name='frequencyTypeId'
                 rules={{
-                  required: 'Code type is required!',
+                  required: 'Country is required!',
                 }}
                 render={({ field: { onChange, onBlur, value } }: any) => (
-                  <Select onChange={onChange} label="Code type" options={codeTypes} value={value} />
+                  <Select onChange={onChange} label="Country" options={frequencyTypes} value={value} />
                 )}
               />
-              {errors.codeType && (
-                <span className="text-red-500 -mt-10">{errors.codeType.message as string}</span>
+              {errors.frequencyTypeId && (
+                <span className="text-red-500 -mt-10">{errors.frequencyTypeId.message as string}</span>
               )}
             </div>
           </div>
           <Textarea label="Description" placeholder="Enter description here"  {...register("description")} />
-          <div className="flex flex-row items-center">
-            <Controller
-              name="isRequireDetails"
-              control={control}
-              render={({ field: { onChange, onBlur, value } }: any) =>
-                <Checkbox className="" onChange={onChange} value={value} checked={value}/>}
-            />
-            <Label label="Require Details" />
-          </div>
 
           <div className="flex justify-center gap-4 mt-8 md:mt-14">
             <Button type="submit" className="px-8">Submit</Button>
@@ -188,4 +167,4 @@ const AddIndication = ({ id }: AddIndicationProps) => {
   );
 };
 
-export default AddIndication;
+export default AddNationalIdType;
