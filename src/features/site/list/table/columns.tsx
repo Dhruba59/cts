@@ -24,7 +24,7 @@ return ([
   },
   {
     header: "Site Code",
-    accessorKey: "code"
+    accessorKey: "siteCode"
   },
   {
     header: "Address One",

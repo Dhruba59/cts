@@ -102,7 +102,7 @@ const AddNationalIdType = ({ id }: AddNationalIdTypeProps) => {
   }
 
   useEffect(() => {
-    setFrequencyTypes(convertTypeToSelectOption(frequencyTypesDropdown?.data?.codeTypes));
+    setFrequencyTypes(convertTypeToSelectOption(frequencyTypesDropdown?.data?.countries));
   }, [frequencyTypesDropdown, nationalIdTypeData])
 
 
@@ -127,7 +127,7 @@ const AddNationalIdType = ({ id }: AddNationalIdTypeProps) => {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-16">
             <div>
               <Input
-                label="nationalIdtypeName"
+                label="NationalID Type"
                 placeholder="Enter nationalID type name"
                 {...register("nationalIdtypeName", {
                   required: "NationalID type name is required!"

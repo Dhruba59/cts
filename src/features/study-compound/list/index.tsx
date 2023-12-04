@@ -1,9 +1,9 @@
 import { useEffect, useMemo, useState } from "react";
 import ListHeader from "./list-header";
 import ListTable from "./table/listTable";
-import { Indication, IndicationQuery } from "@/model/indication";
+import { StudyCompound, StudyCompoundQuery } from "@/model/study-compound";
 import Pagination from "@/components/pagination";
-import { getIndicationCodeTypes, getIndications } from "@/service/indication-service";
+import { getStudyCompounds } from "@/service/study-compound-service";
 import { SortingState } from "@tanstack/react-table";
 
 import { DropDownItem, SelectOptionType } from "@/model/drop-down-list";
@@ -11,16 +11,16 @@ import { DEFAULT_PAGE_SIZE } from "@/constants/common";
 import { useQuery } from "react-query";
 import { MainContainer } from "@/components/style-container";
 
-const IndicationList = () => {
+const StudyCompoundList = () => {
 
-  const [queryData, setQueryData] = useState<IndicationQuery>();
+  const [queryData, setQueryData] = useState<StudyCompoundQuery>();
   const [pageSize, setPageSize] = useState<number>(DEFAULT_PAGE_SIZE);
   const [sorting, setSorting] = useState<SortingState>([
     //{ id: "indicationName", desc: false }
   ]);
 
-  const { data: studyData } = useQuery({
-    queryFn: getIndications,
+  const { data: studyCompoundData } = useQuery({
+    queryFn: getStudyCompounds,
     queryKey: ['sort', queryData],
   });
 
@@ -63,11 +63,11 @@ const IndicationList = () => {
   return (
     <MainContainer>
       <ListHeader setQueryData={setQueryData} />
-      <ListTable data={studyData?.data?.items} sorting={sorting} setSorting={setSorting} />
+      <ListTable data={studyCompoundData?.data?.items} sorting={sorting} setSorting={setSorting} />
       <Pagination
-        currentPage={studyData?.data?.pageNumber}
+        currentPage={studyCompoundData?.data?.pageNumber}
         setCurrentPage={setCurrentPageNumber}
-        lastPage={studyData?.data?.totalPages}
+        lastPage={studyCompoundData?.data?.totalPages}
         pageSize={pageSize}
         setPageSize={setPageSize}
         maxLength={7}
@@ -76,4 +76,4 @@ const IndicationList = () => {
   );
 };
 
-export default IndicationList;
+export default StudyCompoundList;

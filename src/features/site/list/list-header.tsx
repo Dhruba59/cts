@@ -6,21 +6,33 @@ import { useState } from "react";
 import { SearchForm, AdvanceSearchForm } from "./search-form";
 import { DropDownItem, SelectOptionType } from "@/model/drop-down-list";
 import { Controller, useForm } from "react-hook-form";
-import { IndicationQuery } from "@/model/indication";
-import { useGetIndicationCodeTypes } from "@/hooks/rq-hooks/indication-hooks";
+import { SiteQuery } from "@/model/site";
+import { useGetFrequencyTypes } from "@/hooks/rq-hooks/site-hooks";
 
 
 const ListHeader = ({ setQueryData }: any) => {
   const [isChecked, setIsChecked] = useState(false);
 
-  const {data: codeTypeDropDown} = useGetIndicationCodeTypes();
+  const {data: frequencyDropDown} = useGetFrequencyTypes();
 
-  const defaultValues: IndicationQuery = {
-    code: '',
-    indicationName: '',
-    codeType: '',
-    description: '',
-    isRequireDetails: undefined   
+  const defaultValues: SiteQuery = {
+    siteId: 0,
+    siteName: '',
+    address1: '',
+    address2: '',
+    city: '',
+    state: '',
+    siteNumber: '',
+    siteZip: '',
+    siteCode: '',
+    sponsorId: 0,
+    frequencyTypeId: 0,
+    primaryContactPhone: '',
+    primaryContactName: '',
+    primaryContactEmail: '',
+    locationId: '',
+    piname: '',
+    active: undefined   
   }
   const {
     register,
@@ -29,7 +41,7 @@ const ListHeader = ({ setQueryData }: any) => {
     setValue,
     formState: { errors },
     reset,
-  } = useForm<IndicationQuery>({
+  } = useForm<SiteQuery>({
     defaultValues: defaultValues
   });
 
@@ -49,13 +61,13 @@ const ListHeader = ({ setQueryData }: any) => {
       <Breadcrumbs title="Indication" subTitle="Indication List" />
       <form className="" onSubmit={handleSubmit(onSubmit)}>
         <div className="md:hidden">
-          <SearchForm  isAdvancedOpen={isChecked} codeTypeDropDown={codeTypeDropDown?.data} register={register} Controller={Controller} control={control}  reset={reset}/>
+          <SearchForm  isAdvancedOpen={isChecked} register={register} Controller={Controller} control={control}  reset={reset}/>
         </div>
         <section className="hidden md:block wrapper">
           <div className="flex flex-row items-center justify-between px-3 py-3">
             <h4 className=" text-neutral-black">Search Indication</h4>
             <div className="">
-              <SearchForm isAdvancedOpen={isChecked}  codeTypeDropDown={codeTypeDropDown?.data}  register={register} Controller={Controller} control={control} reset={reset}/>
+              <SearchForm isAdvancedOpen={isChecked}  register={register} Controller={Controller} control={control} reset={reset}/>
             </div>
             <Toggle
               prefixLabel="More: "
@@ -65,7 +77,7 @@ const ListHeader = ({ setQueryData }: any) => {
             />
           </div>
           <hr />
-          {isChecked && <AdvanceSearchForm  register={register} Controller={Controller} control={control} reset={reset}/>}
+          {isChecked && <AdvanceSearchForm  frequencyDropDown={frequencyDropDown?.data} register={register} Controller={Controller} control={control} reset={reset}/>}
         </section>
       </form>
     </div>

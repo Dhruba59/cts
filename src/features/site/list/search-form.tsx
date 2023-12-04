@@ -12,7 +12,6 @@ import { useEffect, useState } from "react";
 
 interface SearchFormProps {
   isAdvancedOpen: boolean;
-  codeTypeDropDown: any;
   register: any;
   Controller: any;
   control: any;
@@ -20,44 +19,31 @@ interface SearchFormProps {
 }
 export function SearchForm({
   isAdvancedOpen,
-  codeTypeDropDown,
   register,
   Controller,
   control,
   reset
 }: SearchFormProps) {
 
-  const [codeTypeOptions, setCodeTypeOptions] = useState<SelectOptionType[]>([]);
-
-  //console.log(codeTypeDropDown);
-  useEffect(() => {
-
-    setCodeTypeOptions(convertTypeToSelectOption(codeTypeDropDown?.codeTypes));
-
-  }, [codeTypeDropDown])
-
   return (
     <div className="flex items-end gap-3 md:gap-6 p-4 md:p-0">
       <div className="grid lg:flex lg:items-center gap-2 flex-1 md:flex-none">
-        <Label label="Code: " className="hidden lg:block" />
+        <Label label="siteName: " className="hidden lg:block" />
         <Input
-          name="code"
-          placeholder="Enter indication code"
+          name="siteName"
+          placeholder="Enter site name"
           className="md:w-48"
-          {...register("code")}
+          {...register("siteName")}
         />
       </div>
       <div className="grid lg:flex lg:items-center gap-2 flex-1 md:flex-none">
-        <Label label="Code Type: " className="hidden lg:block" />
-        <div className="w-32">
-          <Controller
-            control={control}
-            name="codeType"
-            isClearable
-            render={({ field: { onChange, onBlur, value } }: any) =>
-              <Select onChange={onChange} options={codeTypeOptions}  value={value}/>}
-          />
-        </div>
+        <Label label="Site Code: " className="hidden lg:block" />
+        <Input
+          name="siteCode"
+          placeholder="Enter site code"
+          className="md:w-48"
+          {...register("siteCode")}
+        />
       </div>
       <div className={`flex gap-3 ${isAdvancedOpen ? 'hidden' : 'block'}`}>
         <Button type="submit" className="!h-10 mb-[1px]">
@@ -71,50 +57,165 @@ export function SearchForm({
   );
 }
 
-export function AdvanceSearchForm({ register, Controller, control, reset }: any) {
-  const defaultValues = {
+export function AdvanceSearchForm({ frequencyDropDown, register, Controller, control, reset }: any) {
 
-    codeType: { value: "", label: "Select " },
+  const [frequencyTypeOptions, setFrequencyTypeOptions] = useState<SelectOptionType[]>([]);
+  useEffect(() => {
 
-  };
-  
+    setFrequencyTypeOptions(convertTypeToSelectOption(frequencyDropDown?.frequencyType));
+
+  }, [frequencyDropDown])
+
   return (
     <div className="hidden lg:block p-6 pt-2 space-y-4">
-      <div className="flex flex-row items-center gap-5">
-        <Input
-          name="indicationName"
-          label="Indication name"
-          placeholder="Enter Indication name"
-          className="md:w-72"
-          {...register("indicationName")}
-        />
-        <Input
-          name="description"
-          label="Description"
-          placeholder="Enter description"
-          wrapperClassName="md:w-full"
-          {...register("description")}
-        />
-      </div>
+      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6 lg:gap-16">
+        <div>
+          <Input
+            label="Site Name"
+            placeholder="Enter site name"
+            {...register("siteName", {
+              required: "Site name is required!"
+            })}
+          />
+        </div>
+        <div>
+          <Input
+            label="siteCode"
+            placeholder="Enter site code"
+            {...register("siteCode", {
+              required: "Site code is required!"
+            })}
+          />
 
-      <div className="flex flex-grow justify-between">
-        <div className="flex flex-row items-center -mt-6">
+        </div>
+        <div>
           <Controller
-            name="isRequireDetails"
+            control={control}
+            name='frequencyTypeId'
+            rules={{
+              required: 'Country is required!',
+            }}
+            render={({ field: { onChange, onBlur, value } }: any) => (
+              <Select onChange={onChange} label="Country" options={frequencyTypeOptions} value={value} />
+            )}
+          />
+
+        </div>
+        <div>
+          <Input
+            label="city"
+            placeholder="Enter city code"
+            {...register("city", {
+              required: "City is required!"
+            })}
+          />
+
+        </div>
+        <div>
+          <Input
+            label="state"
+            placeholder="Enter state code"
+            {...register("state", {
+              required: "State is required!"
+            })}
+          />
+
+        </div>
+        <div>
+          <Input
+            label="siteZip"
+            placeholder="Enter zip code"
+            {...register("siteZip", {
+              required: "Zip is required!"
+            })}
+          />
+
+        </div>
+        <div>
+          <Input
+            label="address1"
+            placeholder="Enter address one code"
+            {...register("address1", {
+              required: "Address one is required!"
+            })}
+          />
+
+        </div>
+        <div>
+          <Input
+            label="address2"
+            placeholder="Enter address two code"
+            {...register("address2", {
+              required: "Address two is required!"
+            })}
+          />
+
+        </div>
+        <div>
+          <Input
+            label="primaryContactPhone"
+            placeholder="Enter primary contact phone"
+            {...register("primaryContactPhone", {
+              required: "Primary contact phone is required!"
+            })}
+          />
+
+        </div>
+        <div>
+          <Input
+            label="primaryContactName"
+            placeholder="Enter primary contact name"
+            {...register("primaryContactName", {
+              required: "Primary contact name is required!"
+            })}
+          />
+
+        </div>
+        <div>
+          <Input
+            label="primaryContactEmail"
+            placeholder="Enter primary contact email"
+            {...register("primaryContactEmail", {
+              required: "Primary contact email is required!"
+            })}
+          />
+
+        </div>
+        <div>
+          <Input
+            label="locationId"
+            placeholder="Enter LocationID"
+            {...register("locationId", {
+              required: "LocationID is required!"
+            })}
+          />
+
+        </div>
+        <div>
+          <Input
+            label="piname"
+            placeholder="Enter PI name"
+            {...register("piname", {
+              required: "PI name is required!"
+            })}
+          />
+
+        </div>
+        <div className="flex flex-row items-center">
+          <Controller
+            name="partialDateAllowed"
             control={control}
             render={({ field: { onChange, onBlur, value } }: any) =>
-              <Checkbox className="" onChange={onChange} />}
+              <Checkbox className="" onChange={onChange} value={value} checked={value} />}
           />
-          <Label label="Require Details" className="-mt-1" />
+          <Label label="Partial Date Allowed" />
         </div>
-        <div className="flex gap-3">
-          <Button type="submit" className="!h-10 mb-[1px]">
-            Search
-          </Button>
-          <Button type="submit" variant="outline" onClick={() => reset()}>
-            Reset
-          </Button>
-        </div>
+      </div>
+      <div className="flex justify-center gap-4 mt-8 md:mt-14">
+        <Button type="submit" className="px-8">Submit</Button>
+        <Button className="px-8" variant="outline" onClick={reset()} >
+          Reset
+        </Button>
       </div>
     </div>
   );

@@ -8,10 +8,12 @@ import Input from "@/components/ui/input";
 import Label from "@/components/ui/label";
 import Select from "@/components/ui/select";
 import Textarea from "@/components/ui/textarea";
-import { useAddIndication, useEditIndication, useGetIndicationCodeTypes } from "@/hooks/rq-hooks/indication-hooks";
+import {
+  useAddSite, useEditSite, useGetFrequencyTypes
+} from "@/hooks/rq-hooks/site-hooks";
 import { DropDownItem, SelectOptionType } from "@/model/drop-down-list";
-import { Indication, IndicationQuery } from "@/model/indication";
-import { getIndicationById, getIndicationCodeTypes } from "@/service/indication-service";
+import { AddSiteProps, Site, SiteQuery } from "@/model/site";
+import { getSiteById, getFrequencyTypes } from "@/service/site-service";
 import { convertTypeToSelectOption } from "@/utils/helpers";
 import React, { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
@@ -19,19 +21,28 @@ import { useQuery } from "react-query";
 import { toast } from "react-toastify";
 import { number } from "yup";
 
-type AddIndicationProps = {
-  id?: string
-}
-const AddIndication = ({ id }: AddIndicationProps) => {
+
+const AddIndication = ({ id }: AddSiteProps) => {
 
   const defaultValues = {
-    indicationId: 0,
-    indicationName: '',
-    code: '',
-    codeType: '',
-    description: '',
-    isRequireDetails: false,
-    active: null,
+    siteId: 0,
+    siteName: '',
+    address1: '',
+    address2: '',
+    city: '',
+    state: '',
+    siteNumber: '',
+    siteZip: '',
+    siteCode: '',
+    sponsorId: 0,
+    frequencyTypeId: 0,
+    primaryContactPhone: '',
+    primaryContactName: '',
+    primaryContactEmail: '',
+    locationId: '',
+    piname: '',
+    partialDateAllowed: false,
+    active: undefined,
   }
   const {
     register,
@@ -40,24 +51,25 @@ const AddIndication = ({ id }: AddIndicationProps) => {
     setValue,
     formState: { errors },
     reset,
-  } = useForm<IndicationQuery>({
+  } = useForm<SiteQuery>({
     defaultValues: defaultValues
   });
 
 
-  const { mutate: AddIndication, isLoading: isAddIndicationLoading } = useAddIndication();
-  const { mutate: EditIndication, isLoading: isEditIndicationLoading } = useEditIndication();
-  const { data: codeTypesDropdown, error, isLoading, refetch } = useGetIndicationCodeTypes();
-  const [codeTypes, setCodeTypes] = useState<SelectOptionType[]>([]);
+  const { mutate: AddSite, isLoading: isAddSiteLoading
+  } = useAddSite();
+  const { mutate: EditSite, isLoading: isEditSiteLoading } = useEditSite();
+  const { data: frequencyTypesDropdown, error, isLoading, refetch } = useGetFrequencyTypes();
+  const [frequencyTypes, setFrequencyTypes] = useState<SelectOptionType[]>([]);
 
-  const { data: indicationData } = useQuery({
-    queryFn: getIndicationById,
+  const { data: siteData } = useQuery({
+    queryFn: getSiteById,
     queryKey: ['indication', { indicationId: id }],
     enabled: !!id
   });
 
   const handleCancel = () => {
-    if(!id) {
+    if (!id) {
       reset();
       refetch();
     }
@@ -69,12 +81,12 @@ const AddIndication = ({ id }: AddIndicationProps) => {
 
     payload = {
       ...payload,
-      codeType: payload?.codeType?.value ?? payload?.codeType
+      codeType: payload?.frequencyTypeId?.value ?? payload?.frequencyTypeId
     }
 
     if (id) {
-      payload = { ...payload};
-      EditIndication(payload, {
+      payload = { ...payload };
+      EditSite(payload, {
         onSuccess: ({ data }: any) => {
           const newFieldValues = {
             ...payload
@@ -87,7 +99,7 @@ const AddIndication = ({ id }: AddIndicationProps) => {
         }
       });
     } else {
-      AddIndication(payload, {
+      AddSite(payload, {
         onSuccess: ({ data }: any) => {
           reset();
           toast.success(data.message, { position: "top-center" });
@@ -102,80 +114,198 @@ const AddIndication = ({ id }: AddIndicationProps) => {
   }
 
   useEffect(() => {
-    setCodeTypes(convertTypeToSelectOption(codeTypesDropdown?.data?.codeTypes));
-  }, [codeTypesDropdown, indicationData])
+    setFrequencyTypes(convertTypeToSelectOption(frequencyTypesDropdown?.data?.frequencyTypes));
+  }, [frequencyTypesDropdown, siteData])
 
 
   useEffect(() => {
     //console.log(indicationData);
-    if (indicationData) {
+    if (siteData) {
       reset({
-        ...indicationData?.data
+        ...siteData?.data
       });
     }
-  }, [indicationData]);
+  }, [siteData]);
 
   return (
     <div className="w-full">
-      <Breadcrumbs title="Indication" subTitle="Add Indication" />
+      <Breadcrumbs title="Site" subTitle="Add Site" />
       <section className="wrapper">
         <h4 className=" text-neutral-black px-6 py-4">
-          Indication Information
+          Site Information
         </h4>
         <hr />
         <form onSubmit={handleSubmit(onSubmit)} className="px-6 py-8 space-y-6">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-16">
+          <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6 lg:gap-16">
             <div>
               <Input
-                label="Indication Name"
-                placeholder="Enter indication name"
-                {...register("indicationName", {
-                  required: "Indication name is required!"
+                label="Site Name"
+                placeholder="Enter site name"
+                {...register("siteName", {
+                  required: "Site name is required!"
                 })}
               />
-              {errors.indicationName && (
-                <span className="text-red-500 -mt-10">{errors.indicationName.message as string}</span>
+              {errors.siteName && (
+                <span className="text-red-500 -mt-10">{errors.siteName.message as string}</span>
               )}
             </div>
             <div>
               <Input
-                label="code"
-                placeholder="Enter indication code"
-                {...register("code", {
-                  required: "Code is required!"
+                label="siteCode"
+                placeholder="Enter site code"
+                {...register("siteCode", {
+                  required: "Site code is required!"
                 })}
               />
-              {errors.code && (
-                <span className="text-red-500 -mt-10">{errors.code.message as string}</span>
+              {errors.siteCode && (
+                <span className="text-red-500 -mt-10">{errors.siteCode.message as string}</span>
               )}
             </div>
             <div>
               <Controller
                 control={control}
-                name='codeType'
+                name='frequencyTypeId'
                 rules={{
-                  required: 'Code type is required!',
+                  required: 'Country is required!',
                 }}
                 render={({ field: { onChange, onBlur, value } }: any) => (
-                  <Select onChange={onChange} label="Code type" options={codeTypes} value={value} />
+                  <Select onChange={onChange} label="Code type" options={frequencyTypes} value={value} />
                 )}
               />
-              {errors.codeType && (
-                <span className="text-red-500 -mt-10">{errors.codeType.message as string}</span>
+              {errors.frequencyTypeId && (
+                <span className="text-red-500 -mt-10">{errors.frequencyTypeId.message as string}</span>
               )}
             </div>
+            <div>
+              <Input
+                label="city"
+                placeholder="Enter city code"
+                {...register("city", {
+                  required: "City is required!"
+                })}
+              />
+              {errors.city && (
+                <span className="text-red-500 -mt-10">{errors.city.message as string}</span>
+              )}
+            </div>
+            <div>
+              <Input
+                label="state"
+                placeholder="Enter state code"
+                {...register("state", {
+                  required: "State is required!"
+                })}
+              />
+              {errors.state && (
+                <span className="text-red-500 -mt-10">{errors.state.message as string}</span>
+              )}
+            </div>
+            <div>
+              <Input
+                label="siteZip"
+                placeholder="Enter zip code"
+                {...register("siteZip", {
+                  required: "Zip is required!"
+                })}
+              />
+              {errors.siteZip && (
+                <span className="text-red-500 -mt-10">{errors.siteZip.message as string}</span>
+              )}
+            </div>
+            <div>
+              <Input
+                label="address1"
+                placeholder="Enter address one code"
+                {...register("address1", {
+                  required: "Address one is required!"
+                })}
+              />
+              {errors.address1 && (
+                <span className="text-red-500 -mt-10">{errors.address1.message as string}</span>
+              )}
+            </div>
+            <div>
+              <Input
+                label="address2"
+                placeholder="Enter address two code"
+                {...register("address2", {
+                  required: "Address two is required!"
+                })}
+              />
+              {errors.address2 && (
+                <span className="text-red-500 -mt-10">{errors.address2.message as string}</span>
+              )}
+            </div>
+            <div>
+              <Input
+                label="primaryContactPhone"
+                placeholder="Enter primary contact phone"
+                {...register("primaryContactPhone", {
+                  required: "Primary contact phone is required!"
+                })}
+              />
+              {errors.primaryContactPhone && (
+                <span className="text-red-500 -mt-10">{errors.primaryContactPhone.message as string}</span>
+              )}
+            </div>
+            <div>
+              <Input
+                label="primaryContactName"
+                placeholder="Enter primary contact name"
+                {...register("primaryContactName", {
+                  required: "Primary contact name is required!"
+                })}
+              />
+              {errors.primaryContactName && (
+                <span className="text-red-500 -mt-10">{errors.primaryContactName.message as string}</span>
+              )}
+            </div>
+            <div>
+              <Input
+                label="primaryContactEmail"
+                placeholder="Enter primary contact email"
+                {...register("primaryContactEmail", {
+                  required: "Primary contact email is required!"
+                })}
+              />
+              {errors.primaryContactEmail && (
+                <span className="text-red-500 -mt-10">{errors.primaryContactEmail.message as string}</span>
+              )}
+            </div>
+            <div>
+              <Input
+                label="locationId"
+                placeholder="Enter LocationID"
+                {...register("locationId", {
+                  required: "LocationID is required!"
+                })}
+              />
+              {errors.locationId && (
+                <span className="text-red-500 -mt-10">{errors.locationId.message as string}</span>
+              )}
+            </div>
+            <div>
+              <Input
+                label="piname"
+                placeholder="Enter PI name"
+                {...register("piname", {
+                  required: "PI name is required!"
+                })}
+              />
+              {errors.piname && (
+                <span className="text-red-500 -mt-10">{errors.piname.message as string}</span>
+              )}
+            </div>
+            <div className="flex flex-row items-center">
+              <Controller
+                name="partialDateAllowed"
+                control={control}
+                render={({ field: { onChange, onBlur, value } }: any) =>
+                  <Checkbox className="" onChange={onChange} value={value} checked={value} />}
+              />
+              <Label label="Partial Date Allowed" />
+            </div>
           </div>
-          <Textarea label="Description" placeholder="Enter description here"  {...register("description")} />
-          <div className="flex flex-row items-center">
-            <Controller
-              name="isRequireDetails"
-              control={control}
-              render={({ field: { onChange, onBlur, value } }: any) =>
-                <Checkbox className="" onChange={onChange} value={value} checked={value}/>}
-            />
-            <Label label="Require Details" />
-          </div>
-
           <div className="flex justify-center gap-4 mt-8 md:mt-14">
             <Button type="submit" className="px-8">Submit</Button>
             <Button className="px-8" variant="outline" onClick={handleCancel} disabled={!!id} >

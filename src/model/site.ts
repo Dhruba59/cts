@@ -3,7 +3,6 @@ import { Query } from "./query";
 export interface Site {
     siteId?: number;
     siteName?: string;
-    address?: string;
     address1?: string;
     address2?: string;
     city?: string;
@@ -11,8 +10,8 @@ export interface Site {
     siteNumber?: string;
     siteZip?: string;
     siteCode?: string;
-    sponsorId: number;
-    active: boolean;
+    sponsorId?: number;
+    active?: boolean;
     frequencyTypeId?: number;
     primaryContactPhone?: string;
     primaryContactName?: string;
@@ -34,3 +33,7 @@ export interface DeleteSitePayload {
 export interface SiteListColumnsProps{
     onDelete: (id: any) => void
 }
+
+export interface AddSiteProps {
+    id?: string
+  }

@@ -1,9 +1,9 @@
 import { useEffect, useMemo, useState } from "react";
 import ListHeader from "./list-header";
 import ListTable from "./table/listTable";
-import { Indication, IndicationQuery } from "@/model/indication";
+import { Site, SiteQuery } from "@/model/site";
 import Pagination from "@/components/pagination";
-import { getIndicationCodeTypes, getIndications } from "@/service/indication-service";
+import { getFrequencyTypes, getSites } from "@/service/site-service";
 import { SortingState } from "@tanstack/react-table";
 
 import { DropDownItem, SelectOptionType } from "@/model/drop-down-list";
@@ -11,16 +11,16 @@ import { DEFAULT_PAGE_SIZE } from "@/constants/common";
 import { useQuery } from "react-query";
 import { MainContainer } from "@/components/style-container";
 
-const IndicationList = () => {
+const SiteList = () => {
 
-  const [queryData, setQueryData] = useState<IndicationQuery>();
+  const [queryData, setQueryData] = useState<SiteQuery>();
   const [pageSize, setPageSize] = useState<number>(DEFAULT_PAGE_SIZE);
   const [sorting, setSorting] = useState<SortingState>([
     //{ id: "indicationName", desc: false }
   ]);
 
-  const { data: studyData } = useQuery({
-    queryFn: getIndications,
+  const { data: siteData } = useQuery({
+    queryFn: getSites,
     queryKey: ['sort', queryData],
   });
 
@@ -63,11 +63,11 @@ const IndicationList = () => {
   return (
     <MainContainer>
       <ListHeader setQueryData={setQueryData} />
-      <ListTable data={studyData?.data?.items} sorting={sorting} setSorting={setSorting} />
+      <ListTable data={siteData?.data?.items} sorting={sorting} setSorting={setSorting} />
       <Pagination
-        currentPage={studyData?.data?.pageNumber}
+        currentPage={siteData?.data?.pageNumber}
         setCurrentPage={setCurrentPageNumber}
-        lastPage={studyData?.data?.totalPages}
+        lastPage={siteData?.data?.totalPages}
         pageSize={pageSize}
         setPageSize={setPageSize}
         maxLength={7}
@@ -76,4 +76,4 @@ const IndicationList = () => {
   );
 };
 
-export default IndicationList;
+export default SiteList;

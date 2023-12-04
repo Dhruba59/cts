@@ -9,7 +9,7 @@ export const getNationalIdTypeById = ({queryKey}: any) => {
 }
 
 export const getFrequencyTypes = () => {
-  return request({url: 'NationalIdType/GetFrequencyTypes', method: 'GET'});
+  return request({url: 'NationalIdType/country-dropdown', method: 'GET'});
 }
 
 export const getNationalIdTypes = ({queryKey}: any) => {

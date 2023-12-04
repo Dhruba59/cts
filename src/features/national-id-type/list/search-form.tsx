@@ -29,10 +29,10 @@ export function SearchForm({
 
   const [frequencyTypeOptions, setFrequencyTypeOptions] = useState<SelectOptionType[]>([]);
 
-  //console.log(codeTypeDropDown);
+ 
   useEffect(() => {
-
-    setFrequencyTypeOptions(convertTypeToSelectOption(frequencyTypeDropDown?.codeTypes));
+    console.log(frequencyTypeDropDown);
+    setFrequencyTypeOptions(convertTypeToSelectOption(frequencyTypeDropDown?.countries));
 
   }, [frequencyTypeDropDown])
 
