@@ -1,7 +1,14 @@
-export default function ChangePassword() {
+"use client";
+
+import { useSearchParams } from "next/navigation";
+import NationalIdTypeList from "@/features/indication/list";
+
+
+export default function NationalIdTypeListPage() {
+  const searchParams = useSearchParams();
+  const currentTab = searchParams.get("tab");
+
   return (
-    <div className="w-full h-fill px-8 flex justify-center items-center md:justify-start md:items-start">
-      <p>list-of-national-id-types</p>
-    </div>
+      <NationalIdTypeList></NationalIdTypeList>
   );
 }

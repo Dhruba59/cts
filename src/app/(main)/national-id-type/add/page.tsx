@@ -1,7 +1,8 @@
-export default function ChangePassword() {
+import { MainContainer } from "@/components/style-container";
+import AddNationalIdType from "@/features/national-id-type/add";
+
+export default function AddIndicationPage() {
   return (
-    <div className="w-full h-fill px-8 flex justify-center items-center md:justify-start md:items-start">
-      <p>add-national-id-type</p>
-    </div>
+      <AddNationalIdType />
   );
 }
