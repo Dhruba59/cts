@@ -8,10 +8,11 @@ import Input from "@/components/ui/input";
 import Label from "@/components/ui/label";
 import Select from "@/components/ui/select";
 import Textarea from "@/components/ui/textarea";
-import { useAddIndication, useEditIndication, useGetIndicationById, useGetIndicationCodeTypes } from "@/hooks/rq-hooks/indication-hooks";
+import { useAddStudyCompound, useEditStudyCompound, useGetStudyCompoundById } from "@/hooks/rq-hooks/study-compound-hooks";
 import { DropDownItem, SelectOptionType } from "@/model/drop-down-list";
-import { Indication, IndicationQuery } from "@/model/indication";
-import { getIndicationById, getIndicationCodeTypes } from "@/service/indication-service";
+import { StudyCompound, StudyCompoundQuery } from "@/model/study-compound";
+import { AddStudyCompoundProps } from "@/model/study-compound";
+import { getStudyCompoundById } from "@/service/study-compound-service";
 import { convertTypeToSelectOption } from "@/utils/helpers";
 import React, { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
@@ -19,19 +20,14 @@ import { useQuery } from "react-query";
 import { toast } from "react-toastify";
 import { number } from "yup";
 
-type AddIndicationProps = {
-  id?: string
-}
-const AddIndication = ({ id }: AddIndicationProps) => {
+
+const AddStudyCompound = ({ id }: AddStudyCompoundProps) => {
 
   const defaultValues = {
-    indicationId: 0,
-    indicationName: '',
-    code: '',
-    codeType: '',
+    studyCompoundId: 0,
+    studyCompoundName: '',
     description: '',
-    isRequireDetails: false,
-    active: null,
+    active: undefined
   }
   const {
     register,
@@ -40,22 +36,24 @@ const AddIndication = ({ id }: AddIndicationProps) => {
     setValue,
     formState: { errors },
     reset,
-  } = useForm<IndicationQuery>({
+  } = useForm<StudyCompoundQuery>({
     defaultValues: defaultValues
   });
 
 
-  const { mutate: AddIndication, isLoading: isAddIndicationLoading } = useAddIndication();
-  const { mutate: EditIndication, isLoading: isEditIndicationLoading } = useEditIndication();
-  const { data: codeTypesDropdown, error, isLoading, refetch } = useGetIndicationCodeTypes();
-  const [codeTypes, setCodeTypes] = useState<SelectOptionType[]>([]);
-  const { data: indicationData, error: indicationDataError, isLoading: isIndicationDataLoading, refetch: refetchIndicationData 
-  } = useGetIndicationById(id);
+  const { mutate: AddStudyCompound, isLoading: isAddStudyCompoundLoading } = useAddStudyCompound();
+  const { mutate: EditStudyCompound, isLoading: isEditIndicationLoading } = useEditStudyCompound();
+
+  const { data: studyCompoundData } = useGetStudyCompoundById(id);
+  // const { data: studyCompoundData } = useQuery({
+  //   queryFn: getStudyCompoundById,
+  //   queryKey: ['studyCompound', { StudyCompoundId: id }],
+  //   enabled: !!id
+  // });
 
   const handleCancel = () => {
     if(!id) {
       reset();
-      refetch();
     }
   }
 
@@ -70,7 +68,7 @@ const AddIndication = ({ id }: AddIndicationProps) => {
 
     if (id) {
       payload = { ...payload};
-      EditIndication(payload, {
+      EditStudyCompound(payload, {
         onSuccess: ({ data }: any) => {
           const newFieldValues = {
             ...payload
@@ -83,11 +81,10 @@ const AddIndication = ({ id }: AddIndicationProps) => {
         }
       });
     } else {
-      AddIndication(payload, {
+      AddStudyCompound(payload, {
         onSuccess: ({ data }: any) => {
           reset();
           toast.success(data.message, { position: "top-center" });
-          refetch();
         },
         onError: (err: any) => {
           toast.warn(err?.response?.data?.title, { position: "top-center" });
@@ -97,79 +94,48 @@ const AddIndication = ({ id }: AddIndicationProps) => {
 
   }
 
-  useEffect(() => {
-    setCodeTypes(convertTypeToSelectOption(codeTypesDropdown?.data?.codeTypes));
-  }, [codeTypesDropdown, indicationData])
-
 
   useEffect(() => {
     //console.log(indicationData);
-    if (indicationData) {
+    if (studyCompoundData) {
       reset({
-        ...indicationData?.data
+        ...studyCompoundData?.data
       });
     }
-  }, [indicationData]);
+  }, [studyCompoundData]);
 
   return (
     <div className="w-full">
-      <Breadcrumbs title="Indication" subTitle="Add Indication" />
+      <Breadcrumbs title="Study Compound" subTitle="Add Study Compound" />
       <section className="wrapper">
         <h4 className=" text-neutral-black px-6 py-4">
-          Indication Information
+        Study Compound Information
         </h4>
         <hr />
         <form onSubmit={handleSubmit(onSubmit)} className="px-6 py-8 space-y-6">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 lg:gap-6">
             <div>
               <Input
-                label="Indication Name"
+                label="CompoundNa Name"
                 placeholder="Enter indication name"
-                {...register("indicationName", {
-                  required: "Indication name is required!"
+                {...register("studyCompoundName", {
+                  required: "Compound name is required!"
                 })}
               />
-              {errors.indicationName && (
-                <span className="text-red-500 -mt-10">{errors.indicationName.message as string}</span>
-              )}
-            </div>
-            <div>
-              <Input
-                label="code"
-                placeholder="Enter indication code"
-                {...register("code", {
-                  required: "Code is required!"
-                })}
-              />
-              {errors.code && (
-                <span className="text-red-500 -mt-10">{errors.code.message as string}</span>
-              )}
-            </div>
-            <div>
-              <Controller
-                control={control}
-                name='codeType'
-                rules={{
-                  required: 'Code type is required!',
-                }}
-                render={({ field: { onChange, onBlur, value } }: any) => (
-                  <Select onChange={onChange} label="Code type" options={codeTypes} value={value} />
-                )}
-              />
-              {errors.codeType && (
-                <span className="text-red-500 -mt-10">{errors.codeType.message as string}</span>
+              {errors.studyCompoundName && (
+                <span className="text-red-500 -mt-10">{errors.studyCompoundName.message as string}</span>
               )}
             </div>
           </div>
           <Textarea label="Description" placeholder="Enter description here"  {...register("description")} />
           <div className="flex flex-row items-center">
             <Controller
-              name="isRequireDetails"
+              name="active"
               control={control}
               render={({ field: { onChange, onBlur, value } }: any) =>
                 <Checkbox className="" onChange={onChange} value={value} checked={value}/>}
             />
-            <Label label="Require Details" />
+            <Label label="Active" />
           </div>
 
           <div className="flex justify-center gap-4 mt-8 md:mt-14">
@@ -184,4 +150,4 @@ const AddIndication = ({ id }: AddIndicationProps) => {
   );
 };
 
-export default AddIndication;
+export default AddStudyCompound;

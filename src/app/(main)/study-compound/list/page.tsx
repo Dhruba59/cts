@@ -1,14 +1,14 @@
 "use client";
 
 import { useSearchParams } from "next/navigation";
-import SiteList from "@/features/site/list";
+import StudyCompoundList from "@/features/study-compound/list";
 
 
-export default function SiteListPage() {
+export default function StudyCompoundListPage() {
   const searchParams = useSearchParams();
   const currentTab = searchParams.get("tab");
 
   return (
-      <SiteList></SiteList>
+      <StudyCompoundList></StudyCompoundList>
   );
 }

@@ -1,20 +1,16 @@
 "use client";
 import ExpandableTable from "@/components/table/expandableTable";
 import SimpleTable from "@/components/table/simpleTable";
-import { DataTableProps } from "@/model/common";
 import { useMemo, useState } from "react";
-import { IndicationListColumns } from "./columns";
-import { useGetStudyDelete } from "@/hooks/rq-hooks/study-hooks";
+import { StudyCompoundListColumns } from "./columns";
+import { useDeleteStudyCompound } from "@/hooks/rq-hooks/study-compound-hooks";
 import { toast } from "react-toastify";
-import { getColumns } from "@/features/study/list-of-study/list-table/columns";
 import Modal from "@/components/modal";
 import { useForm } from "react-hook-form";
-import { useDeleteIndication } from "@/hooks/rq-hooks/indication-hooks";
-import { number } from 'yup';
 import { MODAL_TYPE_ENUM } from "@/model/enum";
 
 
-export function ListTable({ data, sorting, setSorting, refetchIndications }: any) {
+export function ListTable({ data, sorting, setSorting }: any) {
 
   const {
     handleSubmit,
@@ -25,21 +21,22 @@ export function ListTable({ data, sorting, setSorting, refetchIndications }: any
   
   const [open, setOpen] = useState<boolean>(false);
   const [id, setId] = useState<number>(0);
-  const { mutate: deleteIndication } = useDeleteIndication();
+  const { mutate: deleteIndication } = useDeleteStudyCompound();
 
   const onDeleteConfirm = () => {
+
+     console.log('onDelete called')
      deleteIndication({id} , {
       onSuccess: (data) => {
+        //console.log(data);
         setId(0);
         setOpen(false);
         toast.success(data?.data.details ,{position:"top-center"});
-        refetchIndications();
       },
       onError: (error: any) => {
         setId(0);
         setOpen(false);
         toast.error(error?.response?.data.title ,{position:"top-center"});
-        refetchIndications();
       }
     });
 
@@ -56,7 +53,7 @@ export function ListTable({ data, sorting, setSorting, refetchIndications }: any
     setOpen(true);
   }
 
-  const columns = useMemo(() => IndicationListColumns({ onDelete }), []);
+  const columns = useMemo(() => StudyCompoundListColumns({ onDelete }), []);
 
   return (
     <div className="sm:wrapper">

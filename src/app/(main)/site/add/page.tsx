@@ -1,7 +1,8 @@
-export default function ChangePassword() {
+import { MainContainer } from "@/components/style-container";
+import AddSite from "@/features/site/add";
+
+export default function AddSitePage() {
   return (
-    <div className="w-full h-fill px-8 flex justify-center items-center md:justify-start md:items-start">
-      <p>Add-Site</p>
-    </div>
+      <AddSite />
   );
 }
