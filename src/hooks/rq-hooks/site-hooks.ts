@@ -13,7 +13,7 @@ export const useGetSites = (queryData: any) => useQuery({
 })
 export const useGetSiteById = (id: any) => useQuery({
   queryFn: getSiteById,
-  queryKey: ['indication', { indicationId: id }],
+  queryKey: ['siteId', { siteId: id }],
   enabled: !!id
 })
 

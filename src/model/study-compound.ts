@@ -2,7 +2,7 @@ import { Query } from "./query";
 import { Study } from "./study";
 
 export interface StudyCompound {
-    studyCompoundNameId?: number;
+    studyCompoundId?: number;
     studyCompoundName?: string;
     description?: string;
     active?: boolean;

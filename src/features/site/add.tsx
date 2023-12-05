@@ -61,13 +61,8 @@ const AddIndication = ({ id }: AddSiteProps) => {
   const { mutate: EditSite, isLoading: isEditSiteLoading } = useEditSite();
   const { data: frequencyTypesDropdown, error, isLoading, refetch } = useGetFrequencyTypes();
   const [frequencyTypes, setFrequencyTypes] = useState<SelectOptionType[]>([]);
-
   const { data: siteData } = useGetSiteById(id)
-  // const { data: siteData } = useQuery({
-  //   queryFn: getSiteById,
-  //   queryKey: ['indication', { indicationId: id }],
-  //   enabled: !!id
-  // });
+
 
   const handleCancel = () => {
     if (!id) {
@@ -77,9 +72,6 @@ const AddIndication = ({ id }: AddSiteProps) => {
   }
 
   const onSubmit = (payload: any) => {
-
-    //console.log(payload);
-
     payload = {
       ...payload,
       codeType: payload?.frequencyTypeId?.value ?? payload?.frequencyTypeId
@@ -115,7 +107,7 @@ const AddIndication = ({ id }: AddSiteProps) => {
   }
 
   useEffect(() => {
-    setFrequencyTypes(convertTypeToSelectOption(frequencyTypesDropdown?.data?.frequencyTypes));
+    setFrequencyTypes(convertTypeToSelectOption(frequencyTypesDropdown?.data?.countries));
   }, [frequencyTypesDropdown, siteData])
 
 
@@ -137,7 +129,7 @@ const AddIndication = ({ id }: AddSiteProps) => {
         </h4>
         <hr />
         <form onSubmit={handleSubmit(onSubmit)} className="px-6 py-8 space-y-6">
-          <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6 lg:gap-16">
+          <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 lg:gap-6">
             <div>
               <Input
                 label="Site Name"
@@ -152,7 +144,7 @@ const AddIndication = ({ id }: AddSiteProps) => {
             </div>
             <div>
               <Input
-                label="siteCode"
+                label="Site Code"
                 placeholder="Enter site code"
                 {...register("siteCode", {
                   required: "Site code is required!"
@@ -170,7 +162,7 @@ const AddIndication = ({ id }: AddSiteProps) => {
                   required: 'Country is required!',
                 }}
                 render={({ field: { onChange, onBlur, value } }: any) => (
-                  <Select onChange={onChange} label="Code type" options={frequencyTypes} value={value} />
+                  <Select onChange={onChange} label="Country" options={frequencyTypes} value={value} />
                 )}
               />
               {errors.frequencyTypeId && (
@@ -179,7 +171,7 @@ const AddIndication = ({ id }: AddSiteProps) => {
             </div>
             <div>
               <Input
-                label="city"
+                label="City"
                 placeholder="Enter city code"
                 {...register("city", {
                   required: "City is required!"
@@ -191,7 +183,7 @@ const AddIndication = ({ id }: AddSiteProps) => {
             </div>
             <div>
               <Input
-                label="state"
+                label="State"
                 placeholder="Enter state code"
                 {...register("state", {
                   required: "State is required!"
@@ -203,7 +195,7 @@ const AddIndication = ({ id }: AddSiteProps) => {
             </div>
             <div>
               <Input
-                label="siteZip"
+                label="Zip"
                 placeholder="Enter zip code"
                 {...register("siteZip", {
                   required: "Zip is required!"
@@ -215,7 +207,7 @@ const AddIndication = ({ id }: AddSiteProps) => {
             </div>
             <div>
               <Input
-                label="address1"
+                label="Address one"
                 placeholder="Enter address one code"
                 {...register("address1", {
                   required: "Address one is required!"
@@ -227,7 +219,7 @@ const AddIndication = ({ id }: AddSiteProps) => {
             </div>
             <div>
               <Input
-                label="address2"
+                label="Address two"
                 placeholder="Enter address two code"
                 {...register("address2", {
                   required: "Address two is required!"
@@ -239,7 +231,7 @@ const AddIndication = ({ id }: AddSiteProps) => {
             </div>
             <div>
               <Input
-                label="primaryContactPhone"
+                label="Primary Contact Phone"
                 placeholder="Enter primary contact phone"
                 {...register("primaryContactPhone", {
                   required: "Primary contact phone is required!"
@@ -251,7 +243,7 @@ const AddIndication = ({ id }: AddSiteProps) => {
             </div>
             <div>
               <Input
-                label="primaryContactName"
+                label="Primary Contact Name"
                 placeholder="Enter primary contact name"
                 {...register("primaryContactName", {
                   required: "Primary contact name is required!"
@@ -263,7 +255,7 @@ const AddIndication = ({ id }: AddSiteProps) => {
             </div>
             <div>
               <Input
-                label="primaryContactEmail"
+                label="Primary Contact Email"
                 placeholder="Enter primary contact email"
                 {...register("primaryContactEmail", {
                   required: "Primary contact email is required!"
@@ -275,7 +267,7 @@ const AddIndication = ({ id }: AddSiteProps) => {
             </div>
             <div>
               <Input
-                label="locationId"
+                label="Location ID"
                 placeholder="Enter LocationID"
                 {...register("locationId", {
                   required: "LocationID is required!"
@@ -287,7 +279,7 @@ const AddIndication = ({ id }: AddSiteProps) => {
             </div>
             <div>
               <Input
-                label="piname"
+                label="PI Name"
                 placeholder="Enter PI name"
                 {...register("piname", {
                   required: "PI name is required!"
@@ -302,7 +294,7 @@ const AddIndication = ({ id }: AddSiteProps) => {
                 name="partialDateAllowed"
                 control={control}
                 render={({ field: { onChange, onBlur, value } }: any) =>
-                  <Checkbox className="" onChange={onChange} value={value} checked={value} />}
+                  <Checkbox className="" onChange={onChange} value={value} checked={value}></Checkbox>}
               />
               <Label label="Partial Date Allowed" />
             </div>

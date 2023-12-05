@@ -113,7 +113,7 @@ const AddStudyCompound = ({ id }: AddStudyCompoundProps) => {
         </h4>
         <hr />
         <form onSubmit={handleSubmit(onSubmit)} className="px-6 py-8 space-y-6">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-16">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 lg:gap-6">
             <div>
               <Input
                 label="CompoundNa Name"
