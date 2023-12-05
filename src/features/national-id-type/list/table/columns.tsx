@@ -33,9 +33,9 @@ return ([
   },
   {
     header: "Country",
-    accessorKey: "nationalTypeId",
+    accessorKey: "frequencyType",
     cell: ({ row }) => {
-      return <div>{row.original.nationalTypeId}</div>;
+      return <div>{row.original.frequencyType}</div>;
     }
   },
   {

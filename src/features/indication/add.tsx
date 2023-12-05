@@ -8,7 +8,7 @@ import Input from "@/components/ui/input";
 import Label from "@/components/ui/label";
 import Select from "@/components/ui/select";
 import Textarea from "@/components/ui/textarea";
-import { useAddIndication, useEditIndication, useGetIndicationCodeTypes } from "@/hooks/rq-hooks/indication-hooks";
+import { useAddIndication, useEditIndication, useGetIndicationById, useGetIndicationCodeTypes } from "@/hooks/rq-hooks/indication-hooks";
 import { DropDownItem, SelectOptionType } from "@/model/drop-down-list";
 import { Indication, IndicationQuery } from "@/model/indication";
 import { getIndicationById, getIndicationCodeTypes } from "@/service/indication-service";
@@ -49,12 +49,8 @@ const AddIndication = ({ id }: AddIndicationProps) => {
   const { mutate: EditIndication, isLoading: isEditIndicationLoading } = useEditIndication();
   const { data: codeTypesDropdown, error, isLoading, refetch } = useGetIndicationCodeTypes();
   const [codeTypes, setCodeTypes] = useState<SelectOptionType[]>([]);
-
-  const { data: indicationData } = useQuery({
-    queryFn: getIndicationById,
-    queryKey: ['indication', { indicationId: id }],
-    enabled: !!id
-  });
+  const { data: indicationData, error: indicationDataError, isLoading: isIndicationDataLoading, refetch: refetchIndicationData 
+  } = useGetIndicationById(id);
 
   const handleCancel = () => {
     if(!id) {

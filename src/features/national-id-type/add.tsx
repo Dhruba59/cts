@@ -8,11 +8,11 @@ import Input from "@/components/ui/input";
 import Label from "@/components/ui/label";
 import Select from "@/components/ui/select";
 import Textarea from "@/components/ui/textarea";
-import { useAddNationalIdType, useEditNationalIdType, useGetFrequencyTypes 
+import { useAddNationalIdType, useEditNationalIdType, useGetFrequencyTypes, useGetNationalIdTypeById 
 } from "@/hooks/rq-hooks/national-id-type-hooks";
 import { DropDownItem, SelectOptionType } from "@/model/drop-down-list";
 import { AddNationalIdTypeProps, NationalIdType, NationalIdTypeQuery } from "@/model/national-id-type";
-import { getIndicationById, getIndicationCodeTypes } from "@/service/indication-service";
+import { getNationalIdTypeById, } from "@/service/national-id-type-service";
 import { convertTypeToSelectOption } from "@/utils/helpers";
 import React, { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
@@ -50,11 +50,10 @@ const AddNationalIdType = ({ id }: AddNationalIdTypeProps) => {
   } = useGetFrequencyTypes();
   const [frequencyTypes, setFrequencyTypes] = useState<SelectOptionType[]>([]);
 
-  const { data: nationalIdTypeData } = useQuery({
-    queryFn: getIndicationById,
-    queryKey: ['NationalIdType', { nationalTypeId: id }],
-    enabled: !!id
-  });
+  const { data: nationalIdTypeData, refetch: refetchNationalIdType 
+  } = useGetNationalIdTypeById(id)
+
+
 
   const handleCancel = () => {
     if(!id) {
@@ -69,7 +68,7 @@ const AddNationalIdType = ({ id }: AddNationalIdTypeProps) => {
 
     payload = {
       ...payload,
-      codeType: payload?.codeType?.value ?? payload?.codeType
+      frequencyTypeId: payload?.frequencyTypeId?.value ?? payload?.frequencyTypeId
     }
 
     if (id) {

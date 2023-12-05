@@ -10,6 +10,7 @@ import { DropDownItem, SelectOptionType } from "@/model/drop-down-list";
 import { DEFAULT_PAGE_SIZE } from "@/constants/common";
 import { useQuery } from "react-query";
 import { MainContainer } from "@/components/style-container";
+import { useGetIndications } from "@/hooks/rq-hooks/indication-hooks";
 
 const IndicationList = () => {
 
@@ -19,10 +20,15 @@ const IndicationList = () => {
     //{ id: "indicationName", desc: false }
   ]);
 
-  const { data: studyData } = useQuery({
-    queryFn: getIndications,
-    queryKey: ['sort', queryData],
-  });
+  const { data: studyData, error, isLoading, refetch: refetchIndications 
+  } = useGetIndications(queryData);
+  
+  //console.log(studyData);
+
+  // const { data: studyData } = useQuery({
+  //   queryFn: getIndications,
+  //   queryKey: ['sort', queryData],
+  // });
 
   const setCurrentPageNumber = (page: number) => {
     setQueryData((data) => {
@@ -52,8 +58,6 @@ const IndicationList = () => {
 
   useEffect(() => {
     const orderby: any = sorting.map((s) => `${s.id} ${s.desc ? 'desc' : 'asc'}`).join(',');
-    //console.log(orderby)
-
     setQueryData((data) => ({
       ...data,
       OrderBy: typeof orderby != 'undefined' && orderby ? orderby : null

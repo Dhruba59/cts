@@ -7,11 +7,14 @@ import { UseQueryOptions, useMutation, useQuery } from "react-query";
 
 
 
-export const useGetSites = () => useQuery({
+export const useGetSites = (queryData: any) => useQuery({
   queryFn: getSites,
+  queryKey: ['sort', queryData],
 })
-export const useGetSiteById = () => useQuery({
+export const useGetSiteById = (id: any) => useQuery({
   queryFn: getSiteById,
+  queryKey: ['indication', { indicationId: id }],
+  enabled: !!id
 })
 
 export const useAddSite = () => useMutation({

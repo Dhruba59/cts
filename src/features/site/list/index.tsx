@@ -10,6 +10,7 @@ import { DropDownItem, SelectOptionType } from "@/model/drop-down-list";
 import { DEFAULT_PAGE_SIZE } from "@/constants/common";
 import { useQuery } from "react-query";
 import { MainContainer } from "@/components/style-container";
+import { useGetSites } from "@/hooks/rq-hooks/site-hooks";
 
 const SiteList = () => {
 
@@ -19,10 +20,11 @@ const SiteList = () => {
     //{ id: "indicationName", desc: false }
   ]);
 
-  const { data: siteData } = useQuery({
-    queryFn: getSites,
-    queryKey: ['sort', queryData],
-  });
+  const { data: siteData } = useGetSites(queryData)
+  // const { data: siteData } = useQuery({
+  //   queryFn: getSites,
+  //   queryKey: ['sort', queryData],
+  // });
 
   const setCurrentPageNumber = (page: number) => {
     setQueryData((data) => {

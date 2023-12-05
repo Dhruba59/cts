@@ -8,7 +8,7 @@ import Input from "@/components/ui/input";
 import Label from "@/components/ui/label";
 import Select from "@/components/ui/select";
 import Textarea from "@/components/ui/textarea";
-import { useAddStudyCompound, useEditStudyCompound } from "@/hooks/rq-hooks/study-compound-hooks";
+import { useAddStudyCompound, useEditStudyCompound, useGetStudyCompoundById } from "@/hooks/rq-hooks/study-compound-hooks";
 import { DropDownItem, SelectOptionType } from "@/model/drop-down-list";
 import { StudyCompound, StudyCompoundQuery } from "@/model/study-compound";
 import { AddStudyCompoundProps } from "@/model/study-compound";
@@ -24,7 +24,7 @@ import { number } from "yup";
 const AddStudyCompound = ({ id }: AddStudyCompoundProps) => {
 
   const defaultValues = {
-    studyCompoundNameId: 0,
+    studyCompoundId: 0,
     studyCompoundName: '',
     description: '',
     active: undefined
@@ -44,11 +44,12 @@ const AddStudyCompound = ({ id }: AddStudyCompoundProps) => {
   const { mutate: AddStudyCompound, isLoading: isAddStudyCompoundLoading } = useAddStudyCompound();
   const { mutate: EditStudyCompound, isLoading: isEditIndicationLoading } = useEditStudyCompound();
 
-  const { data: studyCompoundData } = useQuery({
-    queryFn: getStudyCompoundById,
-    queryKey: ['indication', { indicationId: id }],
-    enabled: !!id
-  });
+  const { data: studyCompoundData } = useGetStudyCompoundById(id);
+  // const { data: studyCompoundData } = useQuery({
+  //   queryFn: getStudyCompoundById,
+  //   queryKey: ['studyCompound', { StudyCompoundId: id }],
+  //   enabled: !!id
+  // });
 
   const handleCancel = () => {
     if(!id) {

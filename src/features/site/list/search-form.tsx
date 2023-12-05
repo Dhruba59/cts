@@ -28,7 +28,7 @@ export function SearchForm({
   return (
     <div className="flex items-end gap-3 md:gap-6 p-4 md:p-0">
       <div className="grid lg:flex lg:items-center gap-2 flex-1 md:flex-none">
-        <Label label="siteName: " className="hidden lg:block" />
+        <Label label="Site Name: " className="hidden lg:block" />
         <Input
           name="siteName"
           placeholder="Enter site name"

@@ -5,6 +5,7 @@ export interface NationalIdType {
     nationalIdtypeName?: string;
     description?: string;
     frequencyTypeId?: number;
+    frequencyType?: string;
     active?: boolean;
 }
 

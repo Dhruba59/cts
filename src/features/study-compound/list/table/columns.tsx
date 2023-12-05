@@ -50,8 +50,8 @@ return ([
       return (
         <div className="flex items-center gap-6">
           {/* <View /> */}
-          <Link href={`/study-compound/${row.original.studyCompoundNameId}/edit`}><Edit/></Link>
-          <DeleteOutlined className="cursor-pointer" onClick={() => onDelete(row.original.studyCompoundNameId)}/>
+          <Link href={`/study-compound/${row.original.studyCompoundId}/edit`}><Edit/></Link>
+          <DeleteOutlined className="cursor-pointer" onClick={() => onDelete(row.original.studyCompoundId)}/>
         </div>
       );
     }

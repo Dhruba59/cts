@@ -10,6 +10,7 @@ import { DropDownItem, SelectOptionType } from "@/model/drop-down-list";
 import { DEFAULT_PAGE_SIZE } from "@/constants/common";
 import { useQuery } from "react-query";
 import { MainContainer } from "@/components/style-container";
+import { useGetNationalIdTypes } from "@/hooks/rq-hooks/national-id-type-hooks";
 
 const NationalIdTypeList = () => {
 
@@ -19,10 +20,11 @@ const NationalIdTypeList = () => {
     //{ id: "indicationName", desc: false }
   ]);
 
-  const { data: nationalIdTypeData } = useQuery({
-    queryFn: getNationalIdTypes,
-    queryKey: ['sort', queryData],
-  });
+  const { data: nationalIdTypeData, refetch: refetchNationalIdType } = useGetNationalIdTypes(queryData)
+  // const { data: nationalIdTypeData, refetch: refetchNationalIdType } = useQuery({
+  //   queryFn: getNationalIdTypes,
+  //   queryKey: ['sort', queryData],
+  // });
 
   const setCurrentPageNumber = (page: number) => {
     setQueryData((data) => {
@@ -63,7 +65,7 @@ const NationalIdTypeList = () => {
   return (
     <MainContainer>
       <ListHeader setQueryData={setQueryData} />
-      <ListTable data={nationalIdTypeData?.data?.items} sorting={sorting} setSorting={setSorting} />
+      <ListTable data={nationalIdTypeData?.data?.items} sorting={sorting} setSorting={setSorting} refetchNationalIdType={refetchNationalIdType}/>
       <Pagination
         currentPage={nationalIdTypeData?.data?.pageNumber}
         setCurrentPage={setCurrentPageNumber}

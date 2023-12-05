@@ -7,11 +7,14 @@ import { UseQueryOptions, useMutation, useQuery } from "react-query";
 
 
 
-export const useGetStudyCompounds = () => useQuery({
+export const useGetStudyCompounds = (queryData: any) => useQuery({
   queryFn: getStudyCompounds,
+  queryKey: ['sort', queryData],
 })
-export const useGetStudyCompoundById = () => useQuery({
+export const useGetStudyCompoundById = (id: any) => useQuery({
   queryFn: getStudyCompoundById,
+  queryKey: ['studyCompound', { StudyCompoundId: id }],
+  enabled: !!id
 })
 
 export const useAddStudyCompound = () => useMutation({

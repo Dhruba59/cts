@@ -1,16 +1,20 @@
 
-import { getNationalIdTypes, getNationalIdTypeById, addNationalIdType, 
-  editNationalIdType, deleteNationalIdType, getFrequencyTypes 
+import {
+  getNationalIdTypes, getNationalIdTypeById, addNationalIdType,
+  editNationalIdType, deleteNationalIdType, getFrequencyTypes
 } from "@/service/national-id-type-service";
 import { UseQueryOptions, useMutation, useQuery } from "react-query";
 
 
 
-export const useGetNationalIdTypes = () => useQuery({
+export const useGetNationalIdTypes = (queryData: any) => useQuery({
   queryFn: getNationalIdTypes,
+  queryKey: ['sort', queryData],
 })
-export const useNationalIdTypeById = () => useQuery({
+export const useGetNationalIdTypeById = (id: any) => useQuery({
   queryFn: getNationalIdTypeById,
+  queryKey: ['NationalIdType', { nationalTypeId: id }],
+  enabled: !!id
 })
 
 export const useAddNationalIdType = () => useMutation({

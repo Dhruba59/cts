@@ -8,7 +8,7 @@ export const getSiteById = ({queryKey}: any) => {
 }
 
 export const getFrequencyTypes = () => {
-  return request({url: 'Site/GetIndicationCodeTypes', method: 'GET'});
+  return request({url: 'Site/country-dropdown', method: 'GET'});
 }
 
 export const getSites = ({queryKey}: any) => {

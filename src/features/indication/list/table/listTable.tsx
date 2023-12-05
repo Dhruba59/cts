@@ -14,7 +14,7 @@ import { number } from 'yup';
 import { MODAL_TYPE_ENUM } from "@/model/enum";
 
 
-export function ListTable({ data, sorting, setSorting }: any) {
+export function ListTable({ data, sorting, setSorting, refetchIndications }: any) {
 
   const {
     handleSubmit,
@@ -28,19 +28,18 @@ export function ListTable({ data, sorting, setSorting }: any) {
   const { mutate: deleteIndication } = useDeleteIndication();
 
   const onDeleteConfirm = () => {
-
-     console.log('onDelete called')
      deleteIndication({id} , {
       onSuccess: (data) => {
-        //console.log(data);
         setId(0);
         setOpen(false);
         toast.success(data?.data.details ,{position:"top-center"});
+        refetchIndications();
       },
       onError: (error: any) => {
         setId(0);
         setOpen(false);
         toast.error(error?.response?.data.title ,{position:"top-center"});
+        refetchIndications();
       }
     });
 

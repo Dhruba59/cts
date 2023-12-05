@@ -14,7 +14,7 @@ import { number } from 'yup';
 import { MODAL_TYPE_ENUM } from "@/model/enum";
 
 
-export function ListTable({ data, sorting, setSorting }: any) {
+export function ListTable({ data, sorting, setSorting, refetchNationalIdType }: any) {
 
   const {
     handleSubmit,
@@ -28,19 +28,18 @@ export function ListTable({ data, sorting, setSorting }: any) {
   const { mutate: deleteNationalIdType } = useDeleteNationalIdType();
 
   const onDeleteConfirm = () => {
-
-     console.log('onDelete called')
      deleteNationalIdType({id} , {
       onSuccess: (data) => {
-        //console.log(data);
         setId(0);
         setOpen(false);
         toast.success(data?.data.details ,{position:"top-center"});
+        refetchNationalIdType();
       },
       onError: (error: any) => {
         setId(0);
         setOpen(false);
         toast.error(error?.response?.data.title ,{position:"top-center"});
+        refetchNationalIdType();
       }
     });
 

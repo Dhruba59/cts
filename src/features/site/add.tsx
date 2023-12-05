@@ -9,7 +9,7 @@ import Label from "@/components/ui/label";
 import Select from "@/components/ui/select";
 import Textarea from "@/components/ui/textarea";
 import {
-  useAddSite, useEditSite, useGetFrequencyTypes
+  useAddSite, useEditSite, useGetFrequencyTypes, useGetSiteById
 } from "@/hooks/rq-hooks/site-hooks";
 import { DropDownItem, SelectOptionType } from "@/model/drop-down-list";
 import { AddSiteProps, Site, SiteQuery } from "@/model/site";
@@ -62,11 +62,12 @@ const AddIndication = ({ id }: AddSiteProps) => {
   const { data: frequencyTypesDropdown, error, isLoading, refetch } = useGetFrequencyTypes();
   const [frequencyTypes, setFrequencyTypes] = useState<SelectOptionType[]>([]);
 
-  const { data: siteData } = useQuery({
-    queryFn: getSiteById,
-    queryKey: ['indication', { indicationId: id }],
-    enabled: !!id
-  });
+  const { data: siteData } = useGetSiteById(id)
+  // const { data: siteData } = useQuery({
+  //   queryFn: getSiteById,
+  //   queryKey: ['indication', { indicationId: id }],
+  //   enabled: !!id
+  // });
 
   const handleCancel = () => {
     if (!id) {

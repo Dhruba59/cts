@@ -51,8 +51,7 @@ const ListHeader = ({ setQueryData }: any) => {
       ...value,
       codeType: value?.codeType?.value
     }
-    //delete params.date;
-    //console.log(params);
+
     setQueryData(params);
   }
 
@@ -77,7 +76,7 @@ const ListHeader = ({ setQueryData }: any) => {
             />
           </div>
           <hr />
-          {isChecked && <AdvanceSearchForm  frequencyDropDown={frequencyDropDown?.data} register={register} Controller={Controller} control={control} reset={reset}/>}
+          {/* {isChecked && <AdvanceSearchForm  frequencyDropDown={frequencyDropDown?.data} register={register} Controller={Controller} control={control} reset={reset}/>} */}
         </section>
       </form>
     </div>

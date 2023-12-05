@@ -10,6 +10,7 @@ import { DropDownItem, SelectOptionType } from "@/model/drop-down-list";
 import { DEFAULT_PAGE_SIZE } from "@/constants/common";
 import { useQuery } from "react-query";
 import { MainContainer } from "@/components/style-container";
+import { useGetStudyCompounds } from "@/hooks/rq-hooks/study-compound-hooks";
 
 const StudyCompoundList = () => {
 
@@ -19,10 +20,7 @@ const StudyCompoundList = () => {
     //{ id: "indicationName", desc: false }
   ]);
 
-  const { data: studyCompoundData } = useQuery({
-    queryFn: getStudyCompounds,
-    queryKey: ['sort', queryData],
-  });
+  const { data: studyCompoundData } = useGetStudyCompounds(queryData)
 
   const setCurrentPageNumber = (page: number) => {
     setQueryData((data) => {
