@@ -15,7 +15,7 @@ const ListHeader = ({ setQueryData }: any) => {
   //const {data: codeTypeDropDown} = useGetIndicationCodeTypes();
 
   const defaultValues: StudyCompoundQuery = {
-    studyCompoundNameId: 0,
+    studyCompoundId: 0,
     studyCompoundName: '',
     description: '',
     active: undefined   
