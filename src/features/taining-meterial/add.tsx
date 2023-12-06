@@ -11,6 +11,7 @@ import Textarea from "@/components/ui/textarea";
 import { useAddIndication, useEditIndication, useGetIndicationById, useGetIndicationCodeTypes } from "@/hooks/rq-hooks/indication-hooks";
 import { DropDownItem, SelectOptionType } from "@/model/drop-down-list";
 import { Indication, IndicationQuery } from "@/model/indication";
+import { AddTrainingMeterialProps } from "@/model/training-meterial";
 import { getIndicationById, getIndicationCodeTypes } from "@/service/indication-service";
 import { convertTypeToSelectOption } from "@/utils/helpers";
 import React, { useEffect, useState } from "react";
@@ -19,10 +20,8 @@ import { useQuery } from "react-query";
 import { toast } from "react-toastify";
 import { number } from "yup";
 
-type AddIndicationProps = {
-  id?: string
-}
-const AddIndication = ({ id }: AddIndicationProps) => {
+
+const AddTrainingMeterial = ({ id }: AddTrainingMeterialProps) => {
 
   const defaultValues = {
     indicationId: 0,
@@ -184,4 +183,4 @@ const AddIndication = ({ id }: AddIndicationProps) => {
   );
 };
 
-export default AddIndication;
+export default AddTrainingMeterial;

@@ -39,14 +39,13 @@ const ListHeader = ({ setQueryData }: any) => {
       ...value,
       codeType: value?.codeType?.value
     }
-    //delete params.date;
-    //console.log(params);
+
     setQueryData(params);
   }
 
   return (
     <div>
-      <Breadcrumbs title="Indication" subTitle="Indication List" />
+      <Breadcrumbs title="Training Meterial" subTitle="Training Meterial List" />
       <form className="" onSubmit={handleSubmit(onSubmit)}>
         <div className="md:hidden">
           <SearchForm  isAdvancedOpen={isChecked} codeTypeDropDown={codeTypeDropDown?.data} register={register} Controller={Controller} control={control}  reset={reset}/>

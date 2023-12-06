@@ -12,7 +12,7 @@ import { useQuery } from "react-query";
 import { MainContainer } from "@/components/style-container";
 import { useGetIndications } from "@/hooks/rq-hooks/indication-hooks";
 
-const IndicationList = () => {
+const TrainingMeterialList = () => {
 
   const [queryData, setQueryData] = useState<IndicationQuery>();
   const [pageSize, setPageSize] = useState<number>(DEFAULT_PAGE_SIZE);
@@ -22,13 +22,6 @@ const IndicationList = () => {
 
   const { data: studyData, error, isLoading, refetch: refetchIndications 
   } = useGetIndications(queryData);
-  
-  //console.log(studyData);
-
-  // const { data: studyData } = useQuery({
-  //   queryFn: getIndications,
-  //   queryKey: ['sort', queryData],
-  // });
 
   const setCurrentPageNumber = (page: number) => {
     setQueryData((data) => {
@@ -80,4 +73,4 @@ const IndicationList = () => {
   );
 };
 
-export default IndicationList;
+export default TrainingMeterialList;
