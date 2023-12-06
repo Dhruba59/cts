@@ -13,6 +13,7 @@ export interface Site {
     sponsorId?: number;
     active?: boolean;
     frequencyTypeId?: number;
+    regionGroup?: string;
     primaryContactPhone?: string;
     primaryContactName?: string;
     primaryContactEmail?: string;

@@ -27,7 +27,7 @@ const Select = <
         let tempValue = value.map(val => val.toString());
         return options.filter((option: any) => tempValue.includes(option.value));
       } else if (!Array.isArray(value)) {
-        console.log(value, options);
+        //console.log(value, options);
         return options.filter((option: any) => option.value === value?.toString())
       }
     })
