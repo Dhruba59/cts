@@ -16,7 +16,7 @@ import { AddSiteProps, Site, SiteQuery } from "@/model/site";
 import { getSiteById, getFrequencyTypes } from "@/service/site-service";
 import { convertTypeToSelectOption } from "@/utils/helpers";
 import React, { useEffect, useState } from "react";
-import { Controller, useForm } from "react-hook-form";
+import { Controller, useForm, useWatch } from "react-hook-form";
 import { useQuery } from "react-query";
 import { toast } from "react-toastify";
 import { number } from "yup";
@@ -36,6 +36,7 @@ const AddIndication = ({ id }: AddSiteProps) => {
     siteCode: '',
     sponsorId: 0,
     frequencyTypeId: 0,
+    regionGroup: '',
     primaryContactPhone: '',
     primaryContactName: '',
     primaryContactEmail: '',
@@ -61,8 +62,13 @@ const AddIndication = ({ id }: AddSiteProps) => {
   const { mutate: EditSite, isLoading: isEditSiteLoading } = useEditSite();
   const { data: frequencyTypesDropdown, error, isLoading, refetch } = useGetFrequencyTypes();
   const [frequencyTypes, setFrequencyTypes] = useState<SelectOptionType[]>([]);
+  const [regionGroup, setRegionGroup] = useState<any[]>([]);
   const { data: siteData } = useGetSiteById(id)
 
+  const frequencyTypeIdField = useWatch({
+    control,
+    name: 'frequencyTypeId'
+  });
 
   const handleCancel = () => {
     if (!id) {
@@ -71,12 +77,26 @@ const AddIndication = ({ id }: AddSiteProps) => {
     }
   }
 
+  useEffect(() => {
+    fillupRegionGroupField(frequencyTypeIdField);
+  }, [frequencyTypeIdField])
+
+  const fillupRegionGroupField = (data: any) => {
+    let country = isNaN(data) ?  data.value : data.toString();
+
+    const region = regionGroup
+      .find(({ countryId }) => countryId === country);
+
+    setValue('regionGroup', region?.regionGroup)
+  }
+
   const onSubmit = (payload: any) => {
     payload = {
       ...payload,
-      codeType: payload?.frequencyTypeId?.value ?? payload?.frequencyTypeId
+      frequencyTypeId: payload?.frequencyTypeId?.value ?? payload?.frequencyTypeId
     }
 
+ 
     if (id) {
       payload = { ...payload };
       EditSite(payload, {
@@ -108,11 +128,11 @@ const AddIndication = ({ id }: AddSiteProps) => {
 
   useEffect(() => {
     setFrequencyTypes(convertTypeToSelectOption(frequencyTypesDropdown?.data?.countries));
-  }, [frequencyTypesDropdown, siteData])
+    setRegionGroup(frequencyTypesDropdown?.data?.regionGroups);
+  }, [frequencyTypesDropdown])
 
 
   useEffect(() => {
-    //console.log(indicationData);
     if (siteData) {
       reset({
         ...siteData?.data
@@ -168,6 +188,13 @@ const AddIndication = ({ id }: AddSiteProps) => {
               {errors.frequencyTypeId && (
                 <span className="text-red-500 -mt-10">{errors.frequencyTypeId.message as string}</span>
               )}
+            </div>
+            <div>
+              <Input
+                label="Region Group"
+                disabled
+                {...register("regionGroup")}
+              />
             </div>
             <div>
               <Input
@@ -312,3 +339,5 @@ const AddIndication = ({ id }: AddSiteProps) => {
 };
 
 export default AddIndication;
+
+
