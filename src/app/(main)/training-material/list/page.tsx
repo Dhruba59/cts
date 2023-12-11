@@ -1,12 +1,12 @@
 "use client";
 import { useSearchParams } from "next/navigation";
-import TrainingMeterialList from "@/features/taining-meterial/list";
+import TrainingMatarialList from "@/features/taining-material/list";
 
-export default function IndicationPage() {
+export default function TrainingMatarialListPage() {
   const searchParams = useSearchParams();
   const currentTab = searchParams.get("tab");
 
   return (
-      <TrainingMeterialList></TrainingMeterialList>
+      <TrainingMatarialList></TrainingMatarialList>
   );
 }

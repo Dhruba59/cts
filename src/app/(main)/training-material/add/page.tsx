@@ -1,10 +1,10 @@
 
 import AddIndication from "@/features/indication/add";
-import AddTrainingMeterial from "@/features/taining-meterial/add";
+import AddTrainingMaterial from "@/features/taining-material/add";
 import React from "react";
 
-export default function AddTrainingMeterialPage() {
+export default function AddTrainingMaterialPage() {
   return (
-      <AddTrainingMeterial />
+      <AddTrainingMaterial />
   );
 }

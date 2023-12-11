@@ -12,7 +12,7 @@ import { useEffect, useState } from "react";
 
 interface SearchFormProps {
   isAdvancedOpen: boolean;
-  codeTypeDropDown: any;
+  studyProtocolDropDown: any;
   register: any;
   Controller: any;
   control: any;
@@ -20,42 +20,42 @@ interface SearchFormProps {
 }
 export function SearchForm({
   isAdvancedOpen,
-  codeTypeDropDown,
+  studyProtocolDropDown,
   register,
   Controller,
   control,
   reset
 }: SearchFormProps) {
 
-  const [codeTypeOptions, setCodeTypeOptions] = useState<SelectOptionType[]>([]);
+  const [studyProtocolOptions, setStudyProtocolOptions] = useState<SelectOptionType[]>([]);
 
   useEffect(() => {
 
-    setCodeTypeOptions(convertTypeToSelectOption(codeTypeDropDown?.codeTypes));
+    setStudyProtocolOptions(convertTypeToSelectOption(studyProtocolDropDown?.studyProtocols));
 
-  }, [codeTypeDropDown])
+  }, [studyProtocolDropDown])
 
   return (
     <div className="flex items-end gap-3 md:gap-6 p-4 md:p-0">
       <div className="grid lg:flex lg:items-center gap-2 flex-1 md:flex-none">
         <Label label="Study Protocol: " className="hidden lg:block" />
-        <div className="w-32">
+        <div className="">
           <Controller
             control={control}
-            name="codeType"
+            name="trainingName"
             isClearable
             render={({ field: { onChange, onBlur, value } }: any) =>
-              <Select onChange={onChange} options={codeTypeOptions} value={value} />}
+              <Select onChange={onChange} options={studyProtocolOptions} value={value} />}
           />
         </div>
       </div>
       <div className="grid lg:flex lg:items-center gap-2 flex-1 md:flex-none">
         <Label label="File Name: " className="hidden lg:block" />
         <Input
-          name="code"
-          placeholder="Enter indication code"
+          name="fileName"
+          placeholder="Enter file name"
           className="md:w-48"
-          {...register("code")}
+          {...register("fileName")}
         />
       </div>
 
@@ -84,21 +84,19 @@ export function AdvanceSearchForm({ register, Controller, control, reset }: any)
       <div>
         <Input
           label="File Path"
-          placeholder="Enter PI name"
-          {...register("piname", {
-            required: "PI name is required!"
-          })}
+          placeholder="Enter  file path"
+          {...register("filePath")}
         />
 
       </div>
       <div className="flex flex-row items-center">
         <Controller
-          name="Partial Date Allowed"
+          name="preScreen"
           control={control}
           render={({ field: { onChange, onBlur, value } }: any) =>
             <Checkbox className="" onChange={onChange} value={value} checked={value} />}
         />
-        <Label label="Partial Date Allowed" />
+        <Label label="Pre Screen" />
       </div>
     </div>
     <div className="flex justify-center gap-4 mt-8 md:mt-14">

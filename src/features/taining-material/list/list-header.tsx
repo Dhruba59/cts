@@ -7,20 +7,27 @@ import { SearchForm, AdvanceSearchForm } from "./search-form";
 import { DropDownItem, SelectOptionType } from "@/model/drop-down-list";
 import { Controller, useForm } from "react-hook-form";
 import { IndicationQuery } from "@/model/indication";
-import { useGetIndicationCodeTypes } from "@/hooks/rq-hooks/indication-hooks";
+import { useGetStudyProtocols } from "@/hooks/rq-hooks/training-material-hooks";
+import { TrainingMaterialQuery } from "@/model/training-material";
 
 
 const ListHeader = ({ setQueryData }: any) => {
   const [isChecked, setIsChecked] = useState(false);
 
-  const {data: codeTypeDropDown} = useGetIndicationCodeTypes();
+  const {data: studyProtocolDropDown} = useGetStudyProtocols();
 
-  const defaultValues: IndicationQuery = {
-    code: '',
-    indicationName: '',
-    codeType: '',
-    description: '',
-    isRequireDetails: undefined   
+  console.log(studyProtocolDropDown);
+
+  const defaultValues: TrainingMaterialQuery = {
+    trainingId: 0,
+    trainingName: '',
+    passMarks: 0,
+    displayOrder: 0,
+    materialId: 0,
+    fileName: '',
+    filePath: '',
+    preScreen: undefined,
+    active: undefined
   }
   const {
     register,
@@ -29,7 +36,7 @@ const ListHeader = ({ setQueryData }: any) => {
     setValue,
     formState: { errors },
     reset,
-  } = useForm<IndicationQuery>({
+  } = useForm<TrainingMaterialQuery>({
     defaultValues: defaultValues
   });
 
@@ -37,7 +44,7 @@ const ListHeader = ({ setQueryData }: any) => {
     //console.log(value);
     const params = {
       ...value,
-      codeType: value?.codeType?.value
+      trainingName: value?.trainingName?.value
     }
 
     setQueryData(params);
@@ -48,13 +55,13 @@ const ListHeader = ({ setQueryData }: any) => {
       <Breadcrumbs title="Training Meterial" subTitle="Training Meterial List" />
       <form className="" onSubmit={handleSubmit(onSubmit)}>
         <div className="md:hidden">
-          <SearchForm  isAdvancedOpen={isChecked} codeTypeDropDown={codeTypeDropDown?.data} register={register} Controller={Controller} control={control}  reset={reset}/>
+          <SearchForm  isAdvancedOpen={isChecked} studyProtocolDropDown={studyProtocolDropDown?.data} register={register} Controller={Controller} control={control}  reset={reset}/>
         </div>
         <section className="hidden md:block wrapper">
           <div className="flex flex-row items-center justify-between px-3 py-3">
             <h4 className=" text-neutral-black">Search Indication</h4>
             <div className="">
-              <SearchForm isAdvancedOpen={isChecked}  codeTypeDropDown={codeTypeDropDown?.data}  register={register} Controller={Controller} control={control} reset={reset}/>
+              <SearchForm isAdvancedOpen={isChecked}  studyProtocolDropDown={studyProtocolDropDown?.data}  register={register} Controller={Controller} control={control} reset={reset}/>
             </div>
             <Toggle
               prefixLabel="More: "

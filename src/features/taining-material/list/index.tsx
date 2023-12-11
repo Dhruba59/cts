@@ -10,18 +10,19 @@ import { DropDownItem, SelectOptionType } from "@/model/drop-down-list";
 import { DEFAULT_PAGE_SIZE } from "@/constants/common";
 import { useQuery } from "react-query";
 import { MainContainer } from "@/components/style-container";
-import { useGetIndications } from "@/hooks/rq-hooks/indication-hooks";
+import { useGetTrainingMaterials } from "@/hooks/rq-hooks/training-material-hooks";
+import { TrainingMaterialQuery } from "@/model/training-material";
 
-const TrainingMeterialList = () => {
+const TrainingMaterialList = () => {
 
-  const [queryData, setQueryData] = useState<IndicationQuery>();
+  const [queryData, setQueryData] = useState<TrainingMaterialQuery>();
   const [pageSize, setPageSize] = useState<number>(DEFAULT_PAGE_SIZE);
   const [sorting, setSorting] = useState<SortingState>([
     //{ id: "indicationName", desc: false }
   ]);
 
-  const { data: studyData, error, isLoading, refetch: refetchIndications 
-  } = useGetIndications(queryData);
+  const { data: trainingMaterialData, error, isLoading, refetch: refetchIndications 
+  } = useGetTrainingMaterials(queryData);
 
   const setCurrentPageNumber = (page: number) => {
     setQueryData((data) => {
@@ -60,11 +61,11 @@ const TrainingMeterialList = () => {
   return (
     <MainContainer>
       <ListHeader setQueryData={setQueryData} />
-      <ListTable data={studyData?.data?.items} sorting={sorting} setSorting={setSorting} />
+      <ListTable data={trainingMaterialData?.data?.items} sorting={sorting} setSorting={setSorting} />
       <Pagination
-        currentPage={studyData?.data?.pageNumber}
+        currentPage={trainingMaterialData?.data?.pageNumber}
         setCurrentPage={setCurrentPageNumber}
-        lastPage={studyData?.data?.totalPages}
+        lastPage={trainingMaterialData?.data?.totalPages}
         pageSize={pageSize}
         setPageSize={setPageSize}
         maxLength={7}
@@ -73,4 +74,4 @@ const TrainingMeterialList = () => {
   );
 };
 
-export default TrainingMeterialList;
+export default TrainingMaterialList;
