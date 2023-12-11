@@ -36,10 +36,10 @@ export function SearchForm({
   }, [studyProtocolDropDown])
 
   return (
-    <div className="flex items-end gap-3 md:gap-6 p-4 md:p-0">
+    <div className="flex items-end gap-2 md:gap-3 p-4 md:p-0">
       <div className="grid lg:flex lg:items-center gap-2 flex-1 md:flex-none">
-        <Label label="Study Protocol: " className="hidden lg:block" />
-        <div className="">
+        <Label label="Training Name: " className="hidden lg:block" />
+        <div className="md:w-36 lg:44">
           <Controller
             control={control}
             name="trainingName"
@@ -54,12 +54,12 @@ export function SearchForm({
         <Input
           name="fileName"
           placeholder="Enter file name"
-          className="md:w-48"
+          className="md:w-36 lg:w-44"
           {...register("fileName")}
         />
       </div>
 
-      <div className={`flex gap-3 ${isAdvancedOpen ? 'hidden' : 'block'}`}>
+      <div className={`flex gap-2 ${isAdvancedOpen ? 'hidden' : 'block'}`}>
         <Button type="submit" className="!h-10 mb-[1px]">
           Search
         </Button>

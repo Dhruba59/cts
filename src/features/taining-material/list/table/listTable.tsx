@@ -61,7 +61,7 @@ export function ListTable({ data, sorting, setSorting, refetchIndications }: any
   return (
     <div className="sm:wrapper">
       <h4 className="hidden md:block font-semibold py-4 px-6 text-dark-900">
-        List of Indication
+        List of Training Material
       </h4>
       <div className="hidden sm:block">
         <SimpleTable data={data} columns={columns} sorting={sorting} setSorting={setSorting} />
@@ -70,8 +70,8 @@ export function ListTable({ data, sorting, setSorting, refetchIndications }: any
         <ExpandableTable
           data={data}
           columns={columns}
-          tableTitle=" List of Indication"
-          listTitleKey="indication_name"
+          tableTitle=" List of Training Material"
+          listTitleKey="trainingName"
         />
       </div>
       <Modal

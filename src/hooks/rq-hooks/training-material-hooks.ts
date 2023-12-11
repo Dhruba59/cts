@@ -13,7 +13,7 @@ export const useGetTrainingMaterials = (queryData : any) => useQuery({
 })
 export const useGetTrainingMaterialById = (id :any) => useQuery({
   queryFn: getTrainingMaterialById,
-  queryKey: ['TrainingMaterialId', { TrainingMaterialId: id }],
+  queryKey: ['TrainingMaterialId', { TrainingId: id }],
   enabled: !!id
 })
 
