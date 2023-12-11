@@ -24,6 +24,7 @@ export function SimpleTable<TData, TValue>({
   data,
   sorting,
   setSorting,
+  isLoading,
   ...props
 }: DataTableProps<TData, TValue>) {
 
@@ -40,10 +41,17 @@ export function SimpleTable<TData, TValue>({
     manualSorting: true,
   });
 
-  if(data === undefined) {
+  if(isLoading) {
     return (
       <div className="w-full h-full p-10 flex justify-center items-center">
-          <Spinner size="large"/>
+        <Spinner size="large"/>
+      </div>)
+  }
+
+  if(data === undefined || data.length === 0) {
+    return (
+      <div className="w-full h-full p-10 flex justify-center items-center">
+          <div>No data found</div>
       </div>)
   }
 

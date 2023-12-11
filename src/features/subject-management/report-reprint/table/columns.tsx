@@ -16,89 +16,100 @@ export type List = {
   zip: number;
   height: number;
   weight: number;
-  expired_date: string;
+  dateEntered: string;
 };
 
-export const LIST_DATA: List[] = [
-  {
-    user_name: "Steven",
-    protocol: "PS ANX",
-    subject_id: "psx-1234",
-    first_init: "D",
-    second_init: "L",
-    third_init: "F",
-    dob: formateTableDate("05-11-1980"),
-    national_id: 112233,
-    id_type: "Social Security(US)",
-    sex: "M",
-    zip: 14893,
-    height: 170.5,
-    weight: 77,
-    expired_date: formateTableDate("12-12-2022"),
-  },
-  {
-    user_name: "Rogers",
-    protocol: "PS ANX",
-    subject_id: "psx-1234",
-    first_init: "D",
-    second_init: "L",
-    third_init: "F",
-    dob: formateTableDate("05-11-1980"),
-    national_id: 112233,
-    id_type: "Social Security(US)",
-    sex: "M",
-    zip: 14893,
-    height: 170.5,
-    weight: 77,
-    expired_date: formateTableDate("12-12-2022"),
-  },
-];
+// export const LIST_DATA: List[] = [
+//   {
+//     user_name: "Steven",
+//     protocol: "PS ANX",
+//     subject_id: "psx-1234",
+//     first_init: "D",
+//     second_init: "L",
+//     third_init: "F",
+//     dob: formateTableDate("05-11-1980"),
+//     national_id: 112233,
+//     id_type: "Social Security(US)",
+//     sex: "M",
+//     zip: 14893,
+//     height: 170.5,
+//     weight: 77,
+//     expired_date: formateTableDate("12-12-2022"),
+//   },
+//   {
+//     user_name: "Rogers",
+//     protocol: "PS ANX",
+//     subject_id: "psx-1234",
+//     first_init: "D",
+//     second_init: "L",
+//     third_init: "F",
+//     dob: formateTableDate("05-11-1980"),
+//     national_id: 112233,
+//     id_type: "Social Security(US)",
+//     sex: "M",
+//     zip: 14893,
+//     height: 170.5,
+//     weight: 77,
+//     expired_date: formateTableDate("12-12-2022"),
+//   },
+// ];
+
+export const getColumns = (): ColumnDef<List>[] => { 
+  return([
+
+  ]);
+}
 
 export const LIST_COLUMN: ColumnDef<List>[] = [
-  {
-    header: "User Name",
-    accessorKey: "user_name",
-  },
+  // {
+  //   header: "User Name",
+  //   accessorKey: "user_name",
+  // },
   {
     header: "Protocol",
-    accessorKey: "protocol",
+    accessorKey: "protocolNumber",
   },
   {
     header: "Subject ID",
-    accessorKey: "subject_id",
+    accessorKey: "subjectID",
   },
   {
     header: "1st Init",
-    accessorKey: "first_init",
+    accessorKey: "firstInit",
   },
   {
     header: "2nd Init",
-    accessorKey: "second_init",
+    accessorKey: "middleInit",
   },
   {
     header: "3rd Init",
-    accessorKey: "third_init",
+    accessorKey: "lastInit",
   },
 
   {
     header: "DOB",
     accessorKey: "dob",
+    cell: ({ row }) => {
+      return (
+        <div>{formateTableDate(row.original.dob)}</div>
+      );
+    },
   },
   {
     header: "National ID",
-    accessorKey: "national_id",
+    accessorKey: "nationalId",
   },
   {
     header: "ID Type",
-    accessorKey: "id_type",
+    accessorKey: "idType",
   },
   {
     header: "Sex",
-    accessorKey: "sex",
+    accessorKey: "gender",
   },
   {
     header: "Zip",
-    accessorKey: "zip",
+    accessorKey: "zipCode"
   },
   {
     header: "Height",
@@ -110,7 +121,12 @@ export const LIST_COLUMN: ColumnDef<List>[] = [
   },
   {
     header: "Expired Date",
-    accessorKey: "expired_date",
+    accessorKey: "dateEntered",
+    cell: ({ row }) => {
+      return (
+        <div>{formateTableDate(row.original.dateEntered)}</div>
+      );
+    },
   },
   {
     id: "actions",

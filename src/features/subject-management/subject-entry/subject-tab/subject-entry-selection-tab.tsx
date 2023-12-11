@@ -1,10 +1,19 @@
 "use client";
 import { cn } from "@/libs/utils";
-import React, { useState } from "react";
+import React, { Dispatch, SetStateAction, useState } from "react";
 import AddSubjectForm from "./add-subject-form";
 import SearchSubjectForm from "./search-subject-form";
+import { FormProps, UseFormReturn } from "react-hook-form";
+import { DropDownItem } from "@/model/drop-down-list";
+import { SearchLastSubjectsParams } from "@/model/subject";
 
-const SubjectEntrySelectionTab = () => {
+interface SelectionTabProps {
+  protocolId: string | undefined;
+  dropdowns: { [key: string]: DropDownItem[] };
+  setQueryParams: Dispatch<SetStateAction<SearchLastSubjectsParams>>;
+}
+
+const SubjectEntrySelectionTab = ({ protocolId, dropdowns, setQueryParams }: SelectionTabProps) => {
   const [currentTab, setCurrentTab] = useState<"add" | "last">("add");
   return (
     <div>
@@ -30,7 +39,7 @@ const SubjectEntrySelectionTab = () => {
         </button>
       </div>
       <div className="my-6">
-        {currentTab === "add" ? <AddSubjectForm /> : <SearchSubjectForm />}
+        {currentTab === "add" ? <AddSubjectForm dropdowns={dropdowns} protocolId={protocolId} /> : <SearchSubjectForm setQueryParams={setQueryParams} protocolId={protocolId} />}
       </div>
     </div>
   );

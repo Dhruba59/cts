@@ -1,15 +1,21 @@
 import SimpleTable from "@/components/table/simpleTable";
-import { useMemo, useState } from "react";
-import { LIST_COLUMN, LIST_DATA } from "./columns";
+import { Dispatch, SetStateAction, useMemo, useState } from "react";
+import { LIST_COLUMN } from "./columns";
 import Pagination from "@/components/pagination";
 import ExpandableTable from "@/components/table/expandableTable";
+import { SortingState } from "@tanstack/react-table";
 
-const ListTable = () => {
+
+export interface ListTableProps {
+  data: any;
+  sorting?: SortingState;
+  setSorting?: Dispatch<SetStateAction<SortingState>>;
+  isLoadingTableData?: boolean;
+}
+
+const ListTable = ({ data, sorting, setSorting, isLoadingTableData }: ListTableProps) => {
   const columns = useMemo(() => LIST_COLUMN, []);
-  const data = useMemo(() => LIST_DATA, []);
-
-  const [currentPage, setCurrentPage] = useState(1);
-  const totalPages = 4;
+  // const data = useMemo(() => LIST_DATA, []);
 
   return (
     <div className="sm:wrapper">
@@ -17,7 +23,7 @@ const ListTable = () => {
         List of Subjects for Re-Print
       </h4>
       <div className="hidden sm:block">
-        <SimpleTable data={data} columns={columns} />
+        <SimpleTable data={data} columns={columns} isLoading={isLoadingTableData}/>
       </div>
       <div className="block sm:hidden">
         <ExpandableTable
@@ -25,16 +31,6 @@ const ListTable = () => {
           columns={columns}
           tableTitle=" List of Subjects for Re-Print"
           listTitleKey="sponsor_subject_id"
-        />
-      </div>
-      <div className="my-8 flex items-center justify-center md:justify-normal md:pl-14">
-        <Pagination
-          currentPage={currentPage}
-          lastPage={totalPages}
-          maxLength={7}
-          setCurrentPage={setCurrentPage}
-          pageSize={5}
-          setPageSize={() => {}}
         />
       </div>
     </div>

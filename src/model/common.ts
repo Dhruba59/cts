@@ -25,5 +25,6 @@ export interface DataTableProps<TData, TValue>
   data: any;
   sorting?: SortingState;
   setSorting?: Dispatch<SetStateAction<SortingState>>
+  isLoading?: boolean;
 }
 
