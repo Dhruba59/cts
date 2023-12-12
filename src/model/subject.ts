@@ -51,3 +51,29 @@ export interface UserMatchType {
     userId: number;
     matchTypeName: number;
 }
+
+export interface Protocol {
+    isPreScreen: boolean,
+    protocolNumber: string;
+    studyId: number;
+    trainingIncomplete: boolean;
+  }
+
+  export interface SearchLastSubjectsParams {
+    UserId?: string;
+    StudyId: string;
+    SponsorSubjectId?: string;
+    FirstInitial?: string;
+    MiddleInitial?: string;
+    LastInitial?: string;
+    DateOfBirth?: string;
+    FromDate?: string;
+    ToDate?: string;
+  }
+  
+  export interface LastReprintSubjectsParams extends SearchLastSubjectsParams{
+    PageNumber?: number;
+    PageSize?: number;
+    OrderBy?: string;
+    UserName?: string;
+  }
