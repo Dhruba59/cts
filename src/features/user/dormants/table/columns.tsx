@@ -42,7 +42,7 @@ return ([
     accessorKey: "userName",
     cell: ({ row }) => {
       return (
-        <div className="">{row.original.userName}</div>
+        <div className="min-w-[50px]">{row.original.userName}</div>
       );
     }
   },
@@ -51,7 +51,7 @@ return ([
     accessorKey: "email",
     cell: ({ row }) => {
       return (
-        <div className="">{row.original.email}</div>
+        <div className="min-w-[100px]">{row.original.email}</div>
       );
     }
   },
@@ -59,21 +59,21 @@ return ([
     header: "First Name",
     accessorKey: "firstName",
     cell: ({ row }) => {
-      return <div className="">{row.original.firstName}</div>;
+      return <div className="min-w-[100px]">{row.original.firstName}</div>;
     }
   },
-  {
-    header: "Middle Name",
-    accessorKey: "middleName",
-    cell: ({ row }) => {
-      return <div className="">{row.original.middleName}</div>;
-    }
-  },
+  // {
+  //   header: "Middle Name",
+  //   accessorKey: "middleName",
+  //   cell: ({ row }) => {
+  //     return <div className="">{row.original.middleName}</div>;
+  //   }
+  // },
   {
     header: "Last Name",
     accessorKey: "lastName",
     cell: ({ row }) => {
-      return <div className="">{row.original.lastName}</div>;
+      return <div className="min-w-[100px]">{row.original.lastName}</div>;
     }
   },
   {

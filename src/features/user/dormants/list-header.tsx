@@ -39,7 +39,7 @@ const ListHeader = ({ setQueryData }: any) => {
   const onSubmit = (value: any) => {
     const params = {
       ...value,
-      codeType: value?.codeType?.value
+      inactiveMonth: value?.inactiveMonth?.value
     }
 
     setQueryData(params);
