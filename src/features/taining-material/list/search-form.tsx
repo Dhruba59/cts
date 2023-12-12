@@ -39,7 +39,7 @@ export function SearchForm({
     <div className="flex items-end gap-2 md:gap-3 p-4 md:p-0">
       <div className="grid lg:flex lg:items-center gap-2 flex-1 md:flex-none">
         <Label label="Training Name: " className="hidden lg:block" />
-        <div className="md:w-36 lg:44">
+        <div className="md:w-40 xl:48">
           <Controller
             control={control}
             name="trainingName"
@@ -54,7 +54,7 @@ export function SearchForm({
         <Input
           name="fileName"
           placeholder="Enter file name"
-          className="md:w-36 lg:w-44"
+          className="md:w-40 xl:48"
           {...register("fileName")}
         />
       </div>

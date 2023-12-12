@@ -25,6 +25,8 @@ import { number } from "yup";
 
 const AddTrainingMaterial = ({ id }: AddTrainingMaterialProps) => {
 
+  //console.log(`ID: ${id}`);
+
   const defaultValues: TrainingMaterialQuery = {
     trainingId: 0,
     trainingName: '',
@@ -54,6 +56,8 @@ const AddTrainingMaterial = ({ id }: AddTrainingMaterialProps) => {
   const [studyProtocols, setStudyProtocols] = useState<SelectOptionType[]>([]);
   const { data: trainingMaterialData, error: trainingMaterialDataError, isLoading: isTrainingMaterialDataLoading, refetch: refetchTrainingMaterialData
   } = useGetTrainingMaterialById(id);
+
+
 
   const handleCancel = () => {
     if (!id) {
@@ -155,8 +159,8 @@ const AddTrainingMaterial = ({ id }: AddTrainingMaterialProps) => {
               <Input
                 label="Display Order"
                 placeholder="Enter display order"
-                {...register("passMarks", {
-                  required: "Pass Mark is required!"
+                {...register("displayOrder", {
+                  required: "Display order is required!"
                 })}
               />
               {errors.passMarks && (

@@ -52,6 +52,8 @@ const AddIndication = ({ id }: AddIndicationProps) => {
   const { data: indicationData, error: indicationDataError, isLoading: isIndicationDataLoading, refetch: refetchIndicationData 
   } = useGetIndicationById(id);
 
+  //console.log(`ID: ${id}`);
+
   const handleCancel = () => {
     if(!id) {
       reset();

@@ -58,14 +58,14 @@ const ListHeader = ({ setQueryData }: any) => {
           <SearchForm isAdvancedOpen={isChecked} studyProtocolDropDown={studyProtocolDropDown?.data} register={register} Controller={Controller} control={control} reset={reset} />
         </div>
         <section className="hidden md:block wrapper">
-          <div className="flex flex-row items-center justify-between px-3 py-3">
-            <div className=" flex-none w-20">
+          <div className="flex flex-row items-center justify-between gap-1 px-2 py-2">
+            <div className="flex-none md:w-24 xl:w-32">
               <h4 className=" text-neutral-black">Search Training Meterial</h4>
             </div>
-            <div className="">
+            <div className="md:flex-none">
               <SearchForm isAdvancedOpen={isChecked} studyProtocolDropDown={studyProtocolDropDown?.data} register={register} Controller={Controller} control={control} reset={reset} />
             </div>
-            <div className="flex-none w-22">
+            <div className="flex-none w-22  hidden lg:block">
               <Toggle
                 prefixLabel="More: "
                 className="hidden lg:block"
