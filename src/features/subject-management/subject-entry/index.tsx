@@ -41,7 +41,7 @@ const SubjectEntryForm = () => {
 
   const { data: subjectList, isLoading: isSubjectLoading } = useQuery({
     queryFn: searchLastSubjects,
-    queryKey: ['lastSubjects', queryParams]
+    queryKey: ['subjectEntry', queryParams]
   });
   
   const { data: protocolList } = useQuery( {
@@ -68,10 +68,10 @@ const SubjectEntryForm = () => {
     setProtocolOptions(getProtocolsDropdown(protocolList?.data?.protocols));
   }, [protocolList]);
 
-  useEffect(() => {
-    if(protocolOptions?.[0])
-      setSelectedProtocol(protocolOptions[0]);
-  }, [protocolOptions]);
+  // useEffect(() => {
+  //   if(protocolOptions?.[0])
+  //     setSelectedProtocol(protocolOptions[0]);
+  // }, [protocolOptions]);
 
   return (
     <main>

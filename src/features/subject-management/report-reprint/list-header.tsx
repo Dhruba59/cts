@@ -11,9 +11,22 @@ interface ListHeaderProps {
   setQueryData: Dispatch<SetStateAction<any | undefined>>;
 }
 
+const initialValue = {
+  protocol: '',
+  subjectId: '',
+  fromDate: {
+    startDate: null,
+    endDate: null
+  },
+  toDate: {
+    startDate: null,
+    endDate: null
+  },
+}
+
 const ListHeader = ({ setQueryData }: ListHeaderProps) => {
   const [isChecked, setIsChecked] = useState(false);
-  const form = useForm<any>();
+  const form = useForm<any>({ defaultValues: initialValue });
   const { handleSubmit } = form;
 
   const onSubmit = (values: any) => {
@@ -23,7 +36,7 @@ const ListHeader = ({ setQueryData }: ListHeaderProps) => {
       SponsorSubjectId: values.subjectId,
       FromDate: values.fromDate?.startDate,
       ToDate: values.toDate?.startDate
-    }
+    } 
     setQueryData((data: ReprintMatchReportsType) => ({...data, ...params}));
   }
 
