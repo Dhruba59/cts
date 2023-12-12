@@ -12,6 +12,25 @@ interface SearchSubjectFormProps {
   setQueryParams: Dispatch<SetStateAction<SearchLastSubjectsParams>>;
 }
 
+const initialValue = {
+  sponsorSubjectID: '',
+  FirstInitial: '',
+  MiddleInitial: '',
+  LastInitial: '',
+  DateOfBirth: {
+    startDate: null,
+    endDate: null
+  },
+  FromDate: {
+    startDate: null,
+    endDate: null
+  },
+  ToDate: {
+    startDate: null,
+    endDate: null
+  } 
+}
+
 const SearchSubjectForm = ({ setQueryParams, protocolId }: SearchSubjectFormProps) => {
 
   const {
@@ -20,7 +39,9 @@ const SearchSubjectForm = ({ setQueryParams, protocolId }: SearchSubjectFormProp
     control,
     formState: { errors },
     reset,
-  } = useForm();
+  } = useForm({
+    defaultValues: initialValue
+  });
 
   const onSubmit = (values: any) => {
     
@@ -45,7 +66,7 @@ const SearchSubjectForm = ({ setQueryParams, protocolId }: SearchSubjectFormProp
         <div className="grid grid-cols-3 gap-6">
           <Input placeholder="-" {...register('FirstInitial')} disabled={!protocolId} />
           <Input placeholder="-" {...register('MiddleInitial')} disabled={!protocolId} />
-          <Input placeholder="-" {...register('MiddleInitial')} disabled={!protocolId} />
+          <Input placeholder="-" {...register('LastInitial')} disabled={!protocolId} />
         </div>
       </div>
       <Controller
@@ -83,7 +104,7 @@ const SearchSubjectForm = ({ setQueryParams, protocolId }: SearchSubjectFormProp
         name='ToDate'
         render={({ field: { onChange, onBlur, value } }: any) => (
           <Datepicker
-            label="From Date"
+            label="To Date"
             onChange={onChange}
             value={value}
             asSingle

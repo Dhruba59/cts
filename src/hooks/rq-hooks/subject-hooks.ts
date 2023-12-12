@@ -12,3 +12,7 @@ export const useCheckDetailRequirement = () => useMutation({
 export const useValidateSponsorSubjectId = () => useMutation({
   mutationFn: validateSponsorSubjectId,
 })
+
+export const useIsDetailsRequired = () => useMutation({
+  mutationFn: checkDetailRequirement,
+})
