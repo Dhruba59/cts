@@ -11,10 +11,29 @@ interface ListHeaderProps {
   setQueryData: Dispatch<SetStateAction<LastReprintSubjectsParams | undefined>>;
 }
 
+const initialValue = {
+  user: '',
+  protocol: '',
+  firstInitial: '',
+  middleInitial: '',
+  lastInitial: '',
+  subjectId: '',
+  fromDate: {
+    startDate: null,
+    endDate: null
+  },
+  toDate: {
+    startDate: null,
+    endDate: null
+  }
+}
+
 const ListHeader = ({ setQueryData }: ListHeaderProps) => {
   const [isChecked, setIsChecked] = useState(false);
 
-  const form = useForm<any>();
+  const form = useForm<any>({
+    defaultValues: initialValue
+  });
   const { handleSubmit } = form;
 
   const onSubmit = (values: any) => {

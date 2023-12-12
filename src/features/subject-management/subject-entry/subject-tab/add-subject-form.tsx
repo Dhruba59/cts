@@ -3,7 +3,7 @@ import Datepicker from "@/components/ui/datepicker";
 import Input from "@/components/ui/input";
 import Label from "@/components/ui/label";
 import Select from "@/components/ui/select";
-import { useAddSubjectMutation, useValidateSponsorSubjectId } from "@/hooks/rq-hooks/subject-hooks";
+import { useAddSubjectMutation, useIsDetailsRequired, useValidateSponsorSubjectId } from "@/hooks/rq-hooks/subject-hooks";
 import { DropDownItem, SelectOptionType } from "@/model/drop-down-list";
 import { checkDetailRequirement } from "@/service/subject-service";
 import { convertTypeToSelectOption } from "@/utils/helpers";
@@ -19,10 +19,12 @@ interface AddSubjectFormProps {
 const AddSubjectForm = ({ dropdowns, protocolId }: AddSubjectFormProps) => {
   const [heightUnitOptions, setHeightUnitOptions] = useState<SelectOptionType[]>();
   const [weightUnitOptions, setWeightUnitOptions] = useState<SelectOptionType[]>();
+  const [isDetailsRequired, setIsDetailsRequired] = useState<boolean>(false);
   const [idOptions, setIdOptions] = useState<SelectOptionType[]>();
   const [genderOptions, setGenderOptions] = useState<SelectOptionType[]>();
   const { mutate: addSubject, isLoading: isSubjectAddLoading } = useAddSubjectMutation();
   const { mutate: validateSponsor } = useValidateSponsorSubjectId();
+  const { mutate: validateDetailRequirement } = useIsDetailsRequired();
 
   const {
     register,
@@ -76,14 +78,14 @@ const AddSubjectForm = ({ dropdowns, protocolId }: AddSubjectFormProps) => {
         setError('sponsorSubjectID', error?.response.data.details);
       }
     });
-  }
+  };
 
   const handleReset = () => {
-    const currentPasswordValue = getValues('zip');
+    const zip = getValues('zip');
     reset();
-    reset({dateOfBirth: null})
-    setValue('zip', currentPasswordValue);
-  }
+    reset({ dateOfBirth: { startDate: null, endDate: null } })
+    setValue('zip', zip);
+  };
 
   useEffect(() => {
     setValue('zip', dropdowns?.zipCode);
@@ -91,7 +93,18 @@ const AddSubjectForm = ({ dropdowns, protocolId }: AddSubjectFormProps) => {
     setHeightUnitOptions(convertTypeToSelectOption(dropdowns?.heightUnits));
     setIdOptions(convertTypeToSelectOption(dropdowns?.idTypes));
     setGenderOptions(convertTypeToSelectOption(dropdowns?.genders));
-  }, [dropdowns])
+  }, [dropdowns]);
+
+  useEffect(() => {
+    console.log('protocolid', protocolId);
+    if (protocolId) {
+      validateDetailRequirement({ StudyId: protocolId }, {
+        onSuccess: (data) => {
+          setIsDetailsRequired(data?.data);
+        }
+      });
+    }
+  }, [protocolId]);
 
   return (
     <form className="grid grid-cols-1 sm:grid-cols-2 gap-x-12 gap-y-6" onSubmit={handleSubmit(onSubmit)}>
@@ -295,44 +308,52 @@ const AddSubjectForm = ({ dropdowns, protocolId }: AddSubjectFormProps) => {
         </div>
       </div>
 
-      <div>
 
-        <div className="grid grid-cols-2 gap-x-6">
-          <div>
-            <Label label="weight" className="inline-block mb-2" />
-            <Input type="number" placeholder="Enter weight" {...register('Weight', { required: 'Weight is required.' })} disabled={!protocolId} />
-            {errors.Weight && (
-              <span className="text-red-500 -mt-10">{errors.Weight.message as string}</span>
-            )}
-          </div>
-
-          {/* <Select placeholder="kg" /> */}
-          <div>
-            <Label label="Weight Unit" className="inline-block mb-2" />
-            <Controller
-              control={control}
-              name='weightUnit'
-              rules={{
-                required: 'Weight Unit is required!',
-              }}
-              render={({ field: { onChange, onBlur, value } }: any) => (
-                <Select
-                  // wrapperClassName="grow" 
-                  placeholder="Weight"
-                  onChange={onChange}
-                  options={weightUnitOptions}
-                  value={value}
-                  isDisabled={!protocolId}
-                />
-              )}
-            />
-            {errors.weightUnit && (
-              <span className="text-red-500 -mt-10">{errors.weightUnit.message as string}</span>
-            )}
-          </div>
-
+      <div className="grid grid-cols-2 gap-x-6">
+        <div>
+          <Label label="weight" className="inline-block mb-2" />
+          <Input type="number" placeholder="Enter weight" {...register('Weight', { required: 'Weight is required.' })} disabled={!protocolId} />
+          {errors.Weight && (
+            <span className="text-red-500 -mt-10">{errors.Weight.message as string}</span>
+          )}
         </div>
+
+        {/* <Select placeholder="kg" /> */}
+        <div>
+          <Label label="Weight Unit" className="inline-block mb-2" />
+          <Controller
+            control={control}
+            name='weightUnit'
+            rules={{
+              required: 'Weight Unit is required!',
+            }}
+            render={({ field: { onChange, onBlur, value } }: any) => (
+              <Select
+                // wrapperClassName="grow" 
+                placeholder="Weight"
+                onChange={onChange}
+                options={weightUnitOptions}
+                value={value}
+                isDisabled={!protocolId}
+              />
+            )}
+          />
+          {errors.weightUnit && (
+            <span className="text-red-500 -mt-10">{errors.weightUnit.message as string}</span>
+          )}
+        </div>
+
       </div>
+
+      {isDetailsRequired &&
+        <div>
+          <Label label="Details" className="inline-block mb-2" />
+          <Input type="textarea" placeholder="Enter Detail" {...register('indicationDetails', { required: "Detail is required." })} disabled={!protocolId} />
+          {errors.detail && (
+            <span className="text-red-500 -mt-10">{errors.detail.message as string}</span>
+          )}
+        </div>
+      }
 
       <div className="flex items-center justify-center mt-10 gap-4 col-span-full">
         <Button className="px-8" type="submit" loading={isSubjectAddLoading} disabled={isSubjectAddLoading}>Submit</Button>

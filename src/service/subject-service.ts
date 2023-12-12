@@ -17,7 +17,7 @@ interface NewSubjectPayload {
 }
 
 interface DetailRequirementPayload {
-  StudyId: number;
+  StudyId: string;
 }
 
 interface ValidateSponsorSubjectPayload {
@@ -81,5 +81,3 @@ export const getUsersDropdownList = ({queryKey}: any) => {
   const [key, params ] = queryKey as any;
   return request({ url: `${API_ROUTE_CONSTANT.SUBJECT}/get-user-dropdown`, method: "get", params });
 };
-
-
