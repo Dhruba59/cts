@@ -9,7 +9,7 @@ export const getTrainingMaterialById = ({queryKey}: any) => {
 }
 
 export const getStudyProtocols = () => {
-  return request({url: 'TrainingMaterial/GetStudyProtocolDropdown', method: 'GET'});
+  return request({url: 'TrainingMaterial/study-protocol-dropdown', method: 'GET'});
 }
 
 export const getTrainingMaterials = ({queryKey}: any) => {
