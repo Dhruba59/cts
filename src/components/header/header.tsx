@@ -102,7 +102,7 @@ const Header = () => {
         />
         <span>
           {/* @ts-ignore */}
-          <h5 className="text-sm dark:text-white">{session?.user?.lastName}</h5>
+          <h5 className="text-sm dark:text-white">{session?.user?.lastName}</h5>       
           <p className="text-xs font-normal text-gray-500 dark:text-gray-200">
            {userRole}
           </p>

@@ -1,12 +1,13 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 
 import Modal from "@/components/modal";
 import Input from "@/components/ui/input";
 import Textarea from "@/components/ui/textarea";
 import { useHelpMutation } from "@/hooks/rq-hooks/help-hooks";
+import { useSession } from "next-auth/react";
 
 interface HelpModalProps {
   open: boolean;
@@ -14,15 +15,30 @@ interface HelpModalProps {
 }
 
 const HelpModal = ({ open, setOpen }: HelpModalProps) => {
+  const { data: session } = useSession();
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [email, setEmail] = useState<any>(session?.user?.email);
   const { mutate } = useHelpMutation();
 
   const {
     handleSubmit,
     formState: { errors },
     reset,
-    register
+    register,
+    control,
+    setValue
   } = useForm();
+
+  // const emailField = useWatch({
+  //   control,
+  //   name: 'email'
+  // });
+
+  useEffect(() => {
+    if(email){
+      setValue('email', email);
+    }   
+  }, [])
 
   const onSubmit = async (data: any) => {
     setIsLoading(true);
@@ -58,17 +74,18 @@ const HelpModal = ({ open, setOpen }: HelpModalProps) => {
         privacyPolicyLink: true,
       }}
     >
-      <div className="text-black text-base px-6 py-2">
+      <div className="text-black text-base px-1 md:px-3 lg:px-6 py-2">
         <p>
           If you need any help regarding our services, please contact our
           Customer Service team at any time. They will attempt to resolve your
           concerns fairly and in a timely manner.
         </p>
-        <form className="space-y-6 mt-10 mb-6 px-8">
+        <form className="space-y-6 mt-10 mb-6 mx-1 md:px-3 lg:px-6">
           <Input
-            wrapperClassName="grow flex items-center justify-between [&>*:first-child]:mb-0 [&>*:first-child]:w-20"
+            wrapperClassName="[&>*:first-child]:mb-0 [&>*:first-child]:w-20"
             label="Email:"
             required
+            disabled={email === '' ? false : true}
             {...register("email", {
               required: "Email is required",
               pattern: {
@@ -84,7 +101,7 @@ const HelpModal = ({ open, setOpen }: HelpModalProps) => {
           )}
 
           <Input
-            wrapperClassName="grow flex items-center justify-between [&>*:first-child]:mb-0 [&>*:first-child]:w-20"
+            wrapperClassName="[&>*:first-child]:mb-0 [&>*:first-child]:w-20"
             label="Subject:"
             required
             {...register("subject", {
@@ -102,8 +119,9 @@ const HelpModal = ({ open, setOpen }: HelpModalProps) => {
           )}
 
           <Textarea
-            wrapperClassName="grow flex items-center justify-between [&>*:first-child]:mb-0 [&>*:first-child]:w-20 [&>*:first-child]:ml-3"
+            wrapperClassName="[&>*:first-child]:mb-0 [&>*:first-child]:w-20"
             label="Query:"
+            required
             {...register("query", {
               required: "Query is required",
               pattern: {
@@ -124,3 +142,5 @@ const HelpModal = ({ open, setOpen }: HelpModalProps) => {
 };
 
 export default HelpModal;
+
+
