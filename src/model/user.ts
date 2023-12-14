@@ -46,6 +46,10 @@ export interface UserListColumnsProps {
   export interface DeleteUserPayload {
     id: number;
   }
+
+  export interface DeleteDormantUserPayload {
+    userIds: number[];
+  }
   
   export interface AddUserProps {
     id?: string
@@ -53,5 +57,8 @@ export interface UserListColumnsProps {
 
 
   export interface DormantUserListColumnsProps  {
-    onDelete: (id: any) => void
+    onDelete: (id: any) => void,
+    pageSize: number,
+    onRowSelectionChange: any, 
+    onAllRowsSelectionChange: any
   }

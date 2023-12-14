@@ -130,7 +130,7 @@ const Modal = ({
           onClick={(e) => e.stopPropagation()}
         >
           {renderModalHeader()}
-          <div className="p-4 md:p-6">{children}</div>
+          <div className="p-2 md:p-4 lg:p-6">{children}</div>
           {renderModalFooter()}
         </main>
       </div>

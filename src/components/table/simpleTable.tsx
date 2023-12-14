@@ -3,7 +3,11 @@ import {
   flexRender,
   getCoreRowModel,
   getSortedRowModel,
-  useReactTable
+  useReactTable,
+  Column,
+  ColumnDef,
+  getFilteredRowModel,
+  getPaginationRowModel,
 } from "@tanstack/react-table";
 import {
   Table,
@@ -18,10 +22,12 @@ import ArrowLongUp from "../icons/arrow-long-up";
 import ArrowLongDown from "../icons/arrow-long-down";
 import { DataTableProps } from "@/model/common";
 import Spinner from "../ui/spinner";
+import { useState } from "react";
 
 export function SimpleTable<TData, TValue>({
   columns,
   data,
+  totalPages = -1,
   sorting,
   setSorting,
   isLoading,
@@ -29,29 +35,40 @@ export function SimpleTable<TData, TValue>({
 }: DataTableProps<TData, TValue>) {
 
 
+  const [rowSelection, setRowSelection] = useState({})
+  const [globalFilter, setGlobalFilter] = useState('')
+
   const table = useReactTable({
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
     state: {
-      sorting
+      sorting,
+      rowSelection
     },
     onSortingChange: setSorting,
     manualSorting: true,
+    manualPagination: true,
+    autoResetPageIndex: false,
+    pageCount: totalPages,
+    enableRowSelection: true,
+    onRowSelectionChange: setRowSelection,
+    getFilteredRowModel: getFilteredRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
   });
 
-  if(isLoading) {
+  if (isLoading) {
     return (
       <div className="w-full h-full p-10 flex justify-center items-center">
-        <Spinner size="large"/>
+        <Spinner size="large" />
       </div>)
   }
 
-  if(data === undefined || data.length === 0) {
+  if (data === undefined || data.length === 0) {
     return (
       <div className="w-full h-full p-10 flex justify-center items-center">
-          <div>No data found</div>
+        <div>No data found</div>
       </div>)
   }
 
@@ -82,8 +99,8 @@ export function SimpleTable<TData, TValue>({
                       header.getContext()
                     )}
                     {{
-                      asc: <ArrowLongUp/>,
-                      desc: <ArrowLongDown/>
+                      asc: <ArrowLongUp />,
+                      desc: <ArrowLongDown />
                     }[header.column.getIsSorted() as string] ?? ''}
 
                     {index > 0 && (

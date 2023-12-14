@@ -59,7 +59,7 @@ const DormantUserList = () => {
   return (
     <MainContainer>
       <ListHeader setQueryData={setQueryData} />
-      <ListTable data={dormantUserData?.data?.items} sorting={sorting} setSorting={setSorting} />
+      <ListTable data={dormantUserData?.data?.items} pageSize={pageSize} totalPages={dormantUserData?.data?.totalPages} sorting={sorting} setSorting={setSorting} />
       <Pagination
         currentPage={dormantUserData?.data?.pageNumber}
         setCurrentPage={setCurrentPageNumber}

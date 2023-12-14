@@ -54,7 +54,7 @@ const Pagination = ({
             setCurrentPage(1);
           }}
         >
-          {[10, 20, 30, 40, 50, 100].map((ps) => (
+          {[10, 20, 50, 100, 200, 500].map((ps) => (
             <option key={ps} value={ps}>
               Show {ps}
             </option>

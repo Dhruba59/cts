@@ -2,7 +2,7 @@
 import ExpandableTable from "@/components/table/expandableTable";
 import SimpleTable from "@/components/table/simpleTable";
 import { DataTableProps } from "@/model/common";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { DormantUserListColumns } from "./columns";
 import { useGetStudyDelete } from "@/hooks/rq-hooks/study-hooks";
 import { toast } from "react-toastify";
@@ -11,10 +11,12 @@ import Modal from "@/components/modal";
 import { useForm } from "react-hook-form";
 import { number } from 'yup';
 import { MODAL_TYPE_ENUM } from "@/model/enum";
-import { useDeleteUser } from "@/hooks/rq-hooks/user-hooks";
+import { useDeleteDormantUsers, useDeleteUser } from "@/hooks/rq-hooks/user-hooks";
+import { useTableRowsSelection } from "@/hooks/table-rows-selection-hooks";
+import { UserQuery } from "@/model/user";
 
 
-export function ListTable({ data, sorting, setSorting, refetchUsers }: any) {
+export function ListTable({ data, pageSize, totalPages, sorting, setSorting, refetchUsers }: any) {
 
   const {
     handleSubmit,
@@ -22,23 +24,24 @@ export function ListTable({ data, sorting, setSorting, refetchUsers }: any) {
     reset,
     register
   } = useForm();
-  
+
   const [open, setOpen] = useState<boolean>(false);
   const [id, setId] = useState<number>(0);
-  const { mutate: deleteUser } = useDeleteUser();
+  const [dormantUsers, setDormantUsers] = useState<number[]>([]);
+  const { mutate: deleteDormantUsers } = useDeleteDormantUsers();
 
   const onDeleteConfirm = () => {
-     deleteUser({id} , {
+    deleteDormantUsers({ dormantUsers }, {
       onSuccess: (data) => {
         setId(0);
         setOpen(false);
-        toast.success(data?.data.details ,{position:"top-center"});
+        toast.success(data?.data.details, { position: "top-center" });
         refetchUsers();
       },
       onError: (error: any) => {
         setId(0);
         setOpen(false);
-        toast.error(error?.response?.data.title ,{position:"top-center"});
+        toast.error(error?.response?.data.title, { position: "top-center" });
         refetchUsers();
       }
     });
@@ -49,14 +52,23 @@ export function ListTable({ data, sorting, setSorting, refetchUsers }: any) {
     console.log('onDelete Cancel')
     setId(0);
     setOpen(false);
- }
- 
+  }
+
   const onDelete = (id: number) => {
     setId(id);
     setOpen(true);
   }
 
-  const columns = useMemo(() => DormantUserListColumns({ onDelete }), []);
+  const { selectedRows, onRowSelectionChange, onAllRowsSelectionChange
+  } = useTableRowsSelection<UserQuery>();
+
+  const columns = useMemo(() => DormantUserListColumns({
+    onDelete, pageSize, onRowSelectionChange, onAllRowsSelectionChange
+  }), []);
+
+  useEffect(() => {
+    console.log(selectedRows);
+  }, [selectedRows])
 
   return (
     <div className="sm:wrapper">
@@ -64,7 +76,7 @@ export function ListTable({ data, sorting, setSorting, refetchUsers }: any) {
         List of Dormant User
       </h4>
       <div className="hidden sm:block">
-        <SimpleTable data={data} columns={columns} sorting={sorting} setSorting={setSorting} />
+        <SimpleTable data={data} columns={columns} totalPages={totalPages} sorting={sorting} setSorting={setSorting} />
       </div>
       <div className="block sm:hidden">
         <ExpandableTable

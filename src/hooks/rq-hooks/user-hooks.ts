@@ -1,6 +1,6 @@
 
 import { getUsers, getUserById, 
-  getDormantUsers, addUser, editUser, deleteUser 
+  getDormantUsers, addUser, editUser, deleteUser, deleteDormantUsers 
 } from "@/service/user-service";
 import { UseQueryOptions, useMutation, useQuery } from "react-query";
 
@@ -33,4 +33,9 @@ export const useGetDormantUsers = (queryData : any) => useQuery({
 
 export const useDeleteUser = () => useMutation({
   mutationFn: deleteUser
+})
+
+
+export const useDeleteDormantUsers = () => useMutation({
+  mutationFn: deleteDormantUsers
 })
