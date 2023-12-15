@@ -28,7 +28,7 @@ const initialValue = {
   ToDate: {
     startDate: null,
     endDate: null
-  } 
+  }
 }
 
 const SearchSubjectForm = ({ setQueryParams, protocolId }: SearchSubjectFormProps) => {
@@ -55,12 +55,13 @@ const SearchSubjectForm = ({ setQueryParams, protocolId }: SearchSubjectFormProp
       FromDate: values.FromDate?.startDate,
       ToDate: values.ToDate?.startDate
     }
+    //console.log(params);
     setQueryParams(params);
   }
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="grid grid-cols-1 sm:grid-cols-2 gap-x-12 gap-y-6">
-      <Input label="Sponsor Subject ID" placeholder="Enter subject ID" {...register('sponsorSubjectID')} disabled={!protocolId}/>
+      <Input label="Sponsor Subject ID" placeholder="Enter subject ID" {...register('sponsorSubjectID')} disabled={!protocolId} />
       <div>
         <Label label="Subject Initials" className="inline-block mb-2" />
         <div className="grid grid-cols-3 gap-6">

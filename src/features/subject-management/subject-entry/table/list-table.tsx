@@ -9,7 +9,7 @@ const ListTable = ({ data, isLoading }: any) => {
   // const data = useMemo(() => LIST_DATA, []);
 
   const [currentPage, setCurrentPage] = useState(1);
-console.log(data);
+//console.log(data);
   return (
     <div className="sm:wrapper">
       <h4 className="hidden md:block font-semibold py-4 px-6 text-dark-900">

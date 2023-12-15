@@ -34,7 +34,9 @@ const SubjectEntryForm = () => {
   const [selectedProtocol, setSelectedProtocol] = useState<SelectOptionType>();
   const [selectedStudy, setSelectedStudy] = useState<SelectOptionType>();
   const [queryParams, setQueryParams] = useState<SearchLastSubjectsParams>(null!);
-  
+  const [currentTab, setCurrentTab] = useState<"add" | "last">("add");
+  const [isPreScreen, setIsPreScreen] = useState<boolean>(false);
+
   const { data: studyTypeData } = useQuery('studyType', {
     queryFn: getStudyType,
   });
@@ -43,8 +45,8 @@ const SubjectEntryForm = () => {
     queryFn: searchLastSubjects,
     queryKey: ['subjectEntry', queryParams]
   });
-  
-  const { data: protocolList } = useQuery( {
+
+  const { data: protocolList } = useQuery({
     queryFn: getProtocolsByStudyId,
     queryKey: ['protocolList', { StudyType: selectedStudy?.value }],
     enabled: !!selectedStudy
@@ -55,14 +57,18 @@ const SubjectEntryForm = () => {
   });
 
   useEffect(() => {
+    console.log(subjectList)
+  }, [subjectList]);
+
+  useEffect(() => {
     setStudyTypeOptions(convertTypeToSelectOption(studyTypeData?.data?.studyTypes));
   }, [studyTypeData]);
 
   useEffect(() => {
-    if(studyTypeOptions?.[0])
+    if (studyTypeOptions?.[0])
       setSelectedStudy(studyTypeOptions[0]);
   }, [studyTypeOptions]);
-  
+
 
   useEffect(() => {
     setProtocolOptions(getProtocolsDropdown(protocolList?.data?.protocols));
@@ -72,6 +78,16 @@ const SubjectEntryForm = () => {
   //   if(protocolOptions?.[0])
   //     setSelectedProtocol(protocolOptions[0]);
   // }, [protocolOptions]);
+
+  useEffect(() => {
+
+    const prescreen = protocolList?.data?.protocols
+      .find(({ studyId }: any) => studyId.toString() === selectedProtocol?.value)
+      .isPreScreen;
+    setIsPreScreen(prescreen);
+
+  }, [selectedProtocol]);
+
 
   return (
     <main>
@@ -87,13 +103,14 @@ const SubjectEntryForm = () => {
                 className="text-sm md:text-base mr-2 md:font-medium w-32"
               />
               <Select
-                wrapperClassName="w-full" 
+                wrapperClassName="w-full"
                 onChange={(option) => {
                   if (option) {
                     setSelectedStudy(option);
-                }}}
+                  }
+                }}
                 value={selectedStudy}
-                options={studyTypeOptions} 
+                options={studyTypeOptions}
               />
             </div>
             <div className="flex gap-2 md:items-center flex-col md:flex-row md:col-span-2 w-full">
@@ -102,20 +119,26 @@ const SubjectEntryForm = () => {
                 className="text-sm md:text-base mr-2 md:font-medium w-44"
               />
               <Select
-                wrapperClassName="w-full" 
+                wrapperClassName="w-full"
                 onChange={(option) => {
                   if (option) {
                     setSelectedProtocol(option);
-                }}}
+                  }
+                }}
                 value={selectedProtocol}
                 options={protocolOptions}
               />
             </div>
           </div>
-          <SubjectEntrySelectionTab protocolId={selectedProtocol?.value} setQueryParams={setQueryParams} dropdowns={dropdowns?.data || []} />
+          <SubjectEntrySelectionTab currentTab={currentTab} setCurrentTab={setCurrentTab} isPreScreen={isPreScreen} protocolId={selectedProtocol?.value} setQueryParams={setQueryParams} dropdowns={dropdowns?.data || []} />
         </div>
       </div>
-      <ListTable data={subjectList?.data} isLoading={isSubjectLoading}/>
+      {
+        currentTab === "last" && (
+          <ListTable data={subjectList?.data} isLoading={isSubjectLoading} />
+        )
+      }
+
     </main>
   );
 };

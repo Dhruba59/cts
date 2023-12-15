@@ -39,7 +39,7 @@ const AddSubjectForm = ({ dropdowns, protocolId }: AddSubjectFormProps) => {
   } = useForm();
 
   const onSubmit = async (values: any) => {
-    console.log(values);
+    //console.log(values);
     const validationPayload = {
       studyId: protocolId ?? '-1',
       sponsorSubjectId: values.sponsorSubjectID
@@ -96,7 +96,7 @@ const AddSubjectForm = ({ dropdowns, protocolId }: AddSubjectFormProps) => {
   }, [dropdowns]);
 
   useEffect(() => {
-    console.log('protocolid', protocolId);
+    //console.log('protocolid', protocolId);
     if (protocolId) {
       validateDetailRequirement({ StudyId: protocolId }, {
         onSuccess: (data) => {

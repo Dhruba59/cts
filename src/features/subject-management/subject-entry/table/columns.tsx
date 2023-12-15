@@ -1,6 +1,7 @@
 import { ColumnDef } from "@tanstack/react-table";
 import PrintSubjectModal from "./print-subject-modal";
 import { formateTableDate } from "@/utils/helpers";
+import LastSubjectContactModal from "./last-subject-contact-modal";
 
 export type List = {
   // user_name: string;
@@ -41,9 +42,32 @@ export type List = {
   active: true
 };
 
+export interface LastSubject {
+  userId?: number,
+  subjectID?: 0,
+  sponsorSubjectID?: string,
+  isPartialDate?: boolean,
+  dob?: string,
+  gender?: string,
+  social?: string,
+  firstInit?: string,
+  secondInit?: string,
+  thirdInit?: string,
+  nationalTypeID?: number,
+  screenedDate?: string,
+  zipcode?: string,
+  height?: number,
+  weight?: number,
+  dateEntered?: string,
+  siteStudyID?: number,
+  protocolNumber?: string,
+  indicationDetail?: string,
+  userName?: string,
+  active?: boolean
+}
 export const getColumns = (): ColumnDef<List>[] => {
 
-  return(
+  return (
     [
       // {
       //   header: "User Name",
@@ -69,7 +93,7 @@ export const getColumns = (): ColumnDef<List>[] => {
         header: "3rd Init",
         accessorKey: "thirdInit",
       },
-    
+
       {
         header: "DOB",
         accessorKey: "dob",
@@ -98,10 +122,10 @@ export const getColumns = (): ColumnDef<List>[] => {
         header: "Weight",
         accessorKey: "weight",
       },
-      // {
-      //   header: "Expired Date",
-      //   accessorKey: "expired_date",
-      // },
+      {
+        header: "Date Entered",
+        accessorKey: "dateEntered",
+      },
       {
         id: "actions",
         header: "Action",
@@ -155,30 +179,30 @@ export const getColumns = (): ColumnDef<List>[] => {
 //   },
 // ];
 
-export const LIST_COLUMN: ColumnDef<List>[] = [
-  {
-    header: "User Name",
-    accessorKey: "user_name",
-  },
+export const LIST_COLUMN: ColumnDef<LastSubject>[] = [
+  // {
+  //   header: "User Name",
+  //   accessorKey: "user_name",
+  // },
   {
     header: "Protocol",
-    accessorKey: "protocol",
+    accessorKey: "protocolNumber",
   },
   {
     header: "Subject ID",
-    accessorKey: "subject_id",
+    accessorKey: "sponsorSubjectID",
   },
   {
     header: "1st Init",
-    accessorKey: "first_init",
+    accessorKey: "firstInit",
   },
   {
     header: "2nd Init",
-    accessorKey: "second_init",
+    accessorKey: "secondInit",
   },
   {
     header: "3rd Init",
-    accessorKey: "third_init",
+    accessorKey: "thirdInit",
   },
 
   {
@@ -191,15 +215,15 @@ export const LIST_COLUMN: ColumnDef<List>[] = [
   },
   {
     header: "ID Type",
-    accessorKey: "id_type",
+    accessorKey: "nationalTypeID",
   },
   {
     header: "Sex",
-    accessorKey: "sex",
+    accessorKey: "gender",
   },
   {
     header: "Zip",
-    accessorKey: "zip",
+    accessorKey: "zipcode",
   },
   {
     header: "Height",
@@ -210,8 +234,8 @@ export const LIST_COLUMN: ColumnDef<List>[] = [
     accessorKey: "weight",
   },
   {
-    header: "Expired Date",
-    accessorKey: "expired_date",
+    header: "Date Entered",
+    accessorKey: "dateEntered",
   },
   {
     id: "actions",
@@ -220,7 +244,7 @@ export const LIST_COLUMN: ColumnDef<List>[] = [
     cell: ({ row }) => {
       return (
         <div className="flex items-center gap-6">
-          <PrintSubjectModal />
+          <LastSubjectContactModal protocolNo={row.original.protocolNumber} sponsorSubjectId={row.original.sponsorSubjectID}/>
         </div>
       );
     },

@@ -1,3 +1,4 @@
+import Edit from "@/components/icons/edit";
 import Print from "@/components/icons/print";
 import Modal from "@/components/modal";
 import Datepicker from "@/components/ui/datepicker";
@@ -7,7 +8,7 @@ import Select from "@/components/ui/select";
 import { DropDownItem, SelectOptionType } from "@/model/drop-down-list";
 import React, { useState } from "react";
 
-const PrintSubjectModal = ({ protocolNo, sponsorSubjectId }: any) => {
+const LastSubjectContactModal = ({ protocolNo, sponsorSubjectId }: any) => {
   let visitTypeOptions: any = [
     { value: "blues", label: "Blues" },
     { value: "rock", label: "Rock" },
@@ -19,7 +20,7 @@ const PrintSubjectModal = ({ protocolNo, sponsorSubjectId }: any) => {
   const [visitType, setVisitType] = useState<string>('')
   return (
     <Modal
-      triggerProp={<Print />}
+      triggerProp={<Edit />}
       title="Select Visit Type and Submit"
       renderFooter={{ onSave: () => { }, submitButtonName: "Submit" }}
     >
@@ -70,4 +71,4 @@ const PrintSubjectModal = ({ protocolNo, sponsorSubjectId }: any) => {
   );
 };
 
-export default PrintSubjectModal;
+export default LastSubjectContactModal;
