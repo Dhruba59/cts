@@ -62,9 +62,6 @@ const HelpModal = ({ open, setOpen }: HelpModalProps) => {
       open={open}
       onClose={() => setOpen(false)}
       title="Submit Query"
-      // triggerProp={
-      //   <div className="text-secondary text-sm cursor-pointer">Help</div>
-      // }
       isLoading={isLoading}
       containerClassName="!w-[624px]"
       renderFooter={{

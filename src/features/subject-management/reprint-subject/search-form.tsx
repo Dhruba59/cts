@@ -162,7 +162,7 @@ const AdvanceSearchForm = ({ form }: AdvanceSearchFormProps) => {
           name='fromDate'
           render={({ field: { onChange, onBlur, value } }: any) => (
             <Datepicker
-              label="from Date"
+              label="From Date"
               value={value}
               onChange={onChange}
               placeholder="Select Date"

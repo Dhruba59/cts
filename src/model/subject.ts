@@ -61,7 +61,7 @@ export interface Protocol {
 
   export interface SearchLastSubjectsParams {
     UserId?: string;
-    StudyId: string;
+    StudyId?: string;
     SponsorSubjectId?: string;
     FirstInitial?: string;
     MiddleInitial?: string;
@@ -71,9 +71,16 @@ export interface Protocol {
     ToDate?: string;
   }
   
-  export interface LastReprintSubjectsParams extends SearchLastSubjectsParams{
-    PageNumber?: number;
-    PageSize?: number;
-    OrderBy?: string;
+  export interface LastReprintSubjectsParams extends Query{
+    UserId?: string;
+    StudyId?: string;
     UserName?: string;
+    ProtocolNumber?: string;
+    SponsorSubjectId?: string;
+    FirstInitial?: string;
+    MiddleInitial?: string;
+    LastInitial?: string;
+    DateOfBirth?: string;
+    FromDate?: string;
+    ToDate?: string;
   }

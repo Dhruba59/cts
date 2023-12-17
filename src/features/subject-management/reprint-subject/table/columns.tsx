@@ -5,7 +5,7 @@ import { ColumnDef } from "@tanstack/react-table";
 
 export type List = {
   sponsorSubjectId: number;
-  visitType: string;
+  visitTypeName: string;
   dateEntered: string;
   protocolNumber: string;
 };
@@ -50,10 +50,10 @@ export const getColumns = (): ColumnDef<List>[] => {
       },
       {
         header: "Visit Type",
-        accessorKey: "visitType",
+        accessorKey: "visitTypeName",
         cell: ({ row }) => {
           return (
-            <div className=" min-w-[200px]">{row.original.visitType ?? '-'}</div>
+            <div className=" min-w-[200px]">{row.original.visitTypeName ?? '-'}</div>
           );
         },
       },
