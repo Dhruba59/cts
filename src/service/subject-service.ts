@@ -81,3 +81,9 @@ export const getUsersDropdownList = ({queryKey}: any) => {
   const [key, params ] = queryKey as any;
   return request({ url: `${API_ROUTE_CONSTANT.SUBJECT}/get-user-dropdown`, method: "get", params });
 };
+
+
+// non pre-screen
+export const getVisitTypes = () => {
+  return request({ url: `${API_ROUTE_CONSTANT.SUBJECT}/visit-types`, method: "get" });
+}

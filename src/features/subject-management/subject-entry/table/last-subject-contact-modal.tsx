@@ -5,24 +5,78 @@ import Datepicker from "@/components/ui/datepicker";
 import Input from "@/components/ui/input";
 import Label from "@/components/ui/label";
 import Select from "@/components/ui/select";
+import { useGetVisitTypes } from "@/hooks/rq-hooks/subject-hooks";
 import { DropDownItem, SelectOptionType } from "@/model/drop-down-list";
-import React, { useState } from "react";
+import { convertTypeToSelectOption } from "@/utils/helpers";
+
+import React, { useEffect, useState } from "react";
+import { Controller, useForm } from "react-hook-form";
 
 const LastSubjectContactModal = ({ protocolNo, sponsorSubjectId }: any) => {
-  let visitTypeOptions: any = [
-    { value: "blues", label: "Blues" },
-    { value: "rock", label: "Rock" },
-    { value: "jazz", label: "Jazz" },
-    { value: "orchestra", label: "Orchestra" },
-    { value: "orchestra", label: "Orchestra" },
-    { value: "orchestra", label: "Orchestra" },
-  ];
-  const [visitType, setVisitType] = useState<string>('')
+
+  const {
+    register,
+    handleSubmit,
+    control,
+    setValue,
+    setError,
+    clearErrors,
+    formState: { errors },
+    reset,
+    getValues
+  } = useForm();
+
+  const [visitType, setVisitType] = useState<SelectOptionType>();
+  let currentDate = new Date().toJSON().slice(0, 10); // "2022-06-17"
+  const [visitTypeOptions, setVisitTypeOptions] = useState<SelectOptionType[]>([]);
+  const [lastSubjectEntryDate, setLastSubjectEntryDate] = useState<string>(currentDate);
+  const { data: visitTypes, error, isLoading: visitLoading, refetch } = useGetVisitTypes();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [open, setOpen] = useState<boolean>(false);
+
+  useEffect(() => {
+    setVisitTypeOptions(convertTypeToSelectOption(visitTypes?.data as any));
+  }, [visitTypes]);
+
+
+
+  const onHandelReset = async () => {
+    setIsLoading(true);
+    setOpen(false);
+    setLastSubjectEntryDate(currentDate);
+    reset();
+  }
+  const onSubmit = async (data: any) => {
+    setIsLoading(true);
+    setOpen(false);
+    setLastSubjectEntryDate(currentDate);
+    reset();
+
+    // mutate(data, {
+    //   onSuccess: ({ data }: any) => {
+    //     reset();
+    //     setOpen(false);
+    //     toast.success(data?.message, { position: "top-center" });
+    //   },
+    //   onError: (err: any) => {
+    //     toast.warn(err?.response.data?.title, { position: "top-center" });
+    //   },
+    //   onSettled: () => {
+    //     setIsLoading(false);
+    //   }
+    // });
+  };
   return (
     <Modal
       triggerProp={<Edit />}
       title="Select Visit Type and Submit"
-      renderFooter={{ onSave: () => { }, submitButtonName: "Submit" }}
+      renderFooter={{
+        onSave: handleSubmit(onSubmit),
+        submitButtonName: "Submit",
+        cancelButtonName: "Cancel",
+      }}
+      open={open}
+      onClose={() => onHandelReset}
     >
       <form className="space-y-6 h-80">
         <div className="flex items-center justify-center gap-2">
@@ -45,26 +99,50 @@ const LastSubjectContactModal = ({ protocolNo, sponsorSubjectId }: any) => {
         </div>
         <div className="flex items-center justify-center gap-2">
           <Label className="w-40 text-right" label="Visit Type:" />
-          <Select className="w-[200px] md:w-[280px]"
-            onChange={(option) => {
-              if (option) {
-                setVisitType(option);
-              }
-            }}
-            value={visitType}
-            options={visitTypeOptions}
-          />
+          <div className="flex flex-col gap-2">
+            <Controller
+              control={control}
+              name='visitType'
+              rules={{
+                required: 'Visit Type is required!',
+              }}
+              render={({ field: { onChange, onBlur, value } }: any) => (
+                <Select
+                  wrapperClassName="w-[200px] md:w-[280px]"
+                  onChange={onChange}
+                  options={visitTypeOptions}
+                  value={value}
+                />
+              )}
+            />
+            <div>
+              {errors.visitType && (
+                <span className="text-red-500 -mt-10">{errors.visitType.message as string}</span>
+              )}
+            </div>
+          </div>
         </div>
         <div className="flex items-center justify-center gap-2">
           <Label className="w-40 text-right" label="Last Subject Entry Date:" />
-          <Input
-            type="text"
-            placeholder="Start Date"
-            className="w-[200px] md:w-[280px]"
-            onChange={(e) => console.log(e.target.value)}
-            onFocus={(e) => (e.target.type = "date")}
-            onBlur={(e) => (e.target.type = "text")}
-          />
+          <div className="flex flex-col gap-2">
+            <Input
+              {...register('lastSubjectEntryDate', { required: "Last Subject Entry Date is required." })}
+              name="lastSubjectEntryDate"
+              type="text"
+              placeholder="Start Date"
+              className="w-[200px] md:w-[280px]"
+              onChange={(e) => setLastSubjectEntryDate(e.target.value)}
+              onFocus={(e) => (e.target.type = "date")}
+              onBlur={(e) => (e.target.type = "text")}
+              value={lastSubjectEntryDate}
+
+            />
+            <div>
+              {errors.lastSubjectEntryDate && (
+                <span className="text-red-500 -mt-10">{errors.lastSubjectEntryDate.message as string}</span>
+              )}
+            </div>
+          </div>
         </div>
       </form>
     </Modal>

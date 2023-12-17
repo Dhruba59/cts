@@ -55,7 +55,6 @@ const SearchSubjectForm = ({ setQueryParams, protocolId }: SearchSubjectFormProp
       FromDate: values.FromDate?.startDate,
       ToDate: values.ToDate?.startDate
     }
-    //console.log(params);
     setQueryParams(params);
   }
 

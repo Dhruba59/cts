@@ -56,9 +56,6 @@ const SubjectEntryForm = () => {
     queryFn: getSubjectDropdowns,
   });
 
-  useEffect(() => {
-    console.log(subjectList)
-  }, [subjectList]);
 
   useEffect(() => {
     setStudyTypeOptions(convertTypeToSelectOption(studyTypeData?.data?.studyTypes));
@@ -85,6 +82,23 @@ const SubjectEntryForm = () => {
       .find(({ studyId }: any) => studyId.toString() === selectedProtocol?.value)
       .isPreScreen;
     setIsPreScreen(prescreen);
+
+    // set query param
+    const params: SearchLastSubjectsParams = {
+      StudyId: selectedProtocol?.value,
+      // SponsorSubjectId: values.sponsorSubjectID,
+      // DateOfBirth: values?.DateOfBirth?.startDate,
+      // FirstInitial: values.FirstInitial,
+      // MiddleInitial: values.MiddleInitial,
+      // LastInitial: values.LastInitial,
+      // FromDate: values.FromDate?.startDate,
+      // ToDate: values.ToDate?.startDate
+    }
+
+    console.log(prescreen);
+    if (!prescreen) {
+      setQueryParams(params);
+    }
 
   }, [selectedProtocol]);
 
