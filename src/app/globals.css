@@ -35,6 +35,9 @@
   }
 }
 
+.body-overflow-hidden {
+  overflow: hidden;
+}
 
 /* Drag and Drop */
 

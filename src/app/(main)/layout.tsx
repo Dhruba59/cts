@@ -12,9 +12,9 @@ export default function RootLayout({
 
   return (
     <SidebarContextProvider>
-      <main className="dark:text-white dark:bg-[#24303f]">
+      <main className="h-screen dark:text-white dark:bg-[#24303f]">
         <Header />
-        <div className="flex">
+        <div className="flex h-auto">
           <Sidebar />
           <div className="w-full mx-auto mt-16">{children}</div>
         </div>
