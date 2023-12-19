@@ -64,7 +64,7 @@ const TrainingList = () => {
     <MainContainer>
       <ListHeader setQueryData={setQueryData} />
       {/* training video */}
-      <div className="container">
+      <div className="">
         <p>Training Video</p>
       </div>
 
