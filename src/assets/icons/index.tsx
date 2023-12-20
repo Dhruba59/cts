@@ -189,12 +189,12 @@ export const LeftArrowIcon = ({ width = "16", height = "16", fill = 'none', ...r
       <path d="M32 55.9C18.8 55.9 8.1 45.2 8.1 32S18.8 8.1 32 8.1 55.9 18.8 55.9 32 45.2 55.9 32 55.9zm0-45.2c-11.7 0-21.3 9.6-21.3 21.3S20.3 53.3 32 53.3 53.3 43.7 53.3 32 43.7 10.7 32 10.7z"></path>
       <path d="M32.5 45.7 18.8 32l13.7-13.7 1.8 1.9L22.6 32l11.7 11.8-1.8 1.9"></path>
       <path d="M20.7 30.6h24v2.8h-24z"></path>
-      </g>
-    </svg>
-  );
+    </g>
+  </svg>
+);
 
 export const StudyInformationIcon = ({ width = "20", height = "20", fill = 'none', ...rest }: SVGAttributes<SVGElement>) => (
-  <svg width={width} height={height} viewBox="0 0 24 24" role="img" xmlns="http://www.w3.org/2000/svg" aria-labelledby="bookOpenedIconTitle" stroke="currentColor" stroke-width="1" stroke-linecap="square" stroke-linejoin="miter" fill={fill} color="currentColor" {...rest }>
+  <svg width={width} height={height} viewBox="0 0 24 24" role="img" xmlns="http://www.w3.org/2000/svg" aria-labelledby="bookOpenedIconTitle" stroke="currentColor" stroke-width="1" stroke-linecap="square" stroke-linejoin="miter" fill={fill} color="currentColor" {...rest}>
     <g id="SVGRepo_bgCarrier" stroke-width="0" />
     <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round" />
     <g id="SVGRepo_iconCarrier"> <title id="bookOpenedIconTitle">Book</title> <path d="M12 6s-2-2-4-2-5 2-5 2v14s3-2 5-2 4 2 4 2c1.333-1.333 2.667-2 4-2 1.333 0 3 .667 5 2V6c-2-1.333-3.667-2-5-2-1.333 0-2.667.667-4 2z" /> <path stroke-linecap="round" d="M12 6v14" /> </g>
@@ -202,7 +202,7 @@ export const StudyInformationIcon = ({ width = "20", height = "20", fill = 'none
 );
 
 export const StudyCompoundIcon = ({ width = "20", height = "20", fill = 'none', ...rest }: SVGAttributes<SVGElement>) => (
-  <svg width={width} height={height} viewBox="0 0 1024 1024" className="icon" version="1.1" xmlns="http://www.w3.org/2000/svg" fill="none"  {...rest }><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><path d="M512 960c-92.8 0-160-200-160-448S419.2 64 512 64s160 200 160 448-67.2 448-160 448z m0-32c65.6 0 128-185.6 128-416S577.6 96 512 96s-128 185.6-128 416 62.4 416 128 416z" fill="currentColor"></path><path d="M124.8 736c-48-80 92.8-238.4 307.2-363.2S852.8 208 899.2 288 806.4 526.4 592 651.2 171.2 816 124.8 736z m27.2-16c33.6 57.6 225.6 17.6 424-97.6S905.6 361.6 872 304 646.4 286.4 448 401.6 118.4 662.4 152 720z" fill="currentColor"></path><path d="M899.2 736c-46.4 80-254.4 38.4-467.2-84.8S76.8 368 124.8 288s254.4-38.4 467.2 84.8S947.2 656 899.2 736z m-27.2-16c33.6-57.6-97.6-203.2-296-318.4S184 246.4 152 304 249.6 507.2 448 622.4s392 155.2 424 97.6z" fill="currentColor"></path><path d="M512 592c-44.8 0-80-35.2-80-80s35.2-80 80-80 80 35.2 80 80-35.2 80-80 80zM272 312c-27.2 0-48-20.8-48-48s20.8-48 48-48 48 20.8 48 48-20.8 48-48 48zM416 880c-27.2 0-48-20.8-48-48s20.8-48 48-48 48 20.8 48 48-20.8 48-48 48z m448-432c-27.2 0-48-20.8-48-48s20.8-48 48-48 48 20.8 48 48-20.8 48-48 48z" fill="currentColor"></path></g></svg>
+  <svg width={width} height={height} viewBox="0 0 1024 1024" className="icon" version="1.1" xmlns="http://www.w3.org/2000/svg" fill="none"  {...rest}><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><path d="M512 960c-92.8 0-160-200-160-448S419.2 64 512 64s160 200 160 448-67.2 448-160 448z m0-32c65.6 0 128-185.6 128-416S577.6 96 512 96s-128 185.6-128 416 62.4 416 128 416z" fill="currentColor"></path><path d="M124.8 736c-48-80 92.8-238.4 307.2-363.2S852.8 208 899.2 288 806.4 526.4 592 651.2 171.2 816 124.8 736z m27.2-16c33.6 57.6 225.6 17.6 424-97.6S905.6 361.6 872 304 646.4 286.4 448 401.6 118.4 662.4 152 720z" fill="currentColor"></path><path d="M899.2 736c-46.4 80-254.4 38.4-467.2-84.8S76.8 368 124.8 288s254.4-38.4 467.2 84.8S947.2 656 899.2 736z m-27.2-16c33.6-57.6-97.6-203.2-296-318.4S184 246.4 152 304 249.6 507.2 448 622.4s392 155.2 424 97.6z" fill="currentColor"></path><path d="M512 592c-44.8 0-80-35.2-80-80s35.2-80 80-80 80 35.2 80 80-35.2 80-80 80zM272 312c-27.2 0-48-20.8-48-48s20.8-48 48-48 48 20.8 48 48-20.8 48-48 48zM416 880c-27.2 0-48-20.8-48-48s20.8-48 48-48 48 20.8 48 48-20.8 48-48 48z m448-432c-27.2 0-48-20.8-48-48s20.8-48 48-48 48 20.8 48 48-20.8 48-48 48z" fill="currentColor"></path></g></svg>
 );
 
 export const UserIcon = ({ width = "20", height = "20", fill = 'none', ...rest }: SVGAttributes<SVGElement>) => (
@@ -215,7 +215,7 @@ export const IdIcon = ({ width = "20", height = "20", fill = 'none', ...rest }: 
 );
 
 export const SiteIcon = ({ width = "20", height = "20", fill = 'none', ...rest }: SVGAttributes<SVGElement>) => (
-  <svg width={width} height={height} viewBox="0 0 1024 1024" className="icon" version="1.1" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="1.2" {...rest}><g id="SVGRepo_bgCarrier" stroke-width="1.20"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><path stroke-width='1.08' d="M498.069 786.871s303.32-237.507 303.32-409.31-135.8-311.076-303.32-311.076-303.32 139.273-303.32 311.076 303.32 409.31 303.32 409.31z m0-682.312c146.614 0 265.466 121.438 265.466 271.239S498.834 741.519 498.834 741.519 232.603 525.598 232.603 375.798s118.852-271.239 265.466-271.239z m0 416.907c52.349 0 94.788-42.438 94.788-94.788v-37.915c0-52.349-42.438-94.788-94.788-94.788s-94.788 42.438-94.788 94.788v37.915c0 52.349 42.438 94.788 94.788 94.788z m-56.873-132.703c0-31.411 25.462-56.873 56.873-56.873s56.873 25.462 56.873 56.873v37.915c0 31.411-25.462 56.873-56.873 56.873s-56.873-25.462-56.873-56.873v-37.915z m246.448 417.066l-113.745 0.415v-0.415H232.663s-39.1 0-37.915-37.915c1.185-37.915 37.915-37.915 37.915-37.915h56.873s18.366-0.593 18.958-18.958c0.593-18.366-18.958-18.958-18.958-18.958h-56.873s-75.83-1.185-75.83 75.83 75.83 75.83 75.83 75.83h132.703v0.882h322.278s39.1 0 37.915 37.621c-1.185 37.621-37.915 37.621-37.915 37.621h-151.66s-18.958 0.298-18.958 18.664c0 18.364 18.958 18.958 18.958 18.958h151.66s75.83 1.175 75.83-75.242-75.83-76.418-75.83-76.418z" fill="currentColor"></path></g></svg>  
+  <svg width={width} height={height} viewBox="0 0 1024 1024" className="icon" version="1.1" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="1.2" {...rest}><g id="SVGRepo_bgCarrier" stroke-width="1.20"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><path stroke-width='1.08' d="M498.069 786.871s303.32-237.507 303.32-409.31-135.8-311.076-303.32-311.076-303.32 139.273-303.32 311.076 303.32 409.31 303.32 409.31z m0-682.312c146.614 0 265.466 121.438 265.466 271.239S498.834 741.519 498.834 741.519 232.603 525.598 232.603 375.798s118.852-271.239 265.466-271.239z m0 416.907c52.349 0 94.788-42.438 94.788-94.788v-37.915c0-52.349-42.438-94.788-94.788-94.788s-94.788 42.438-94.788 94.788v37.915c0 52.349 42.438 94.788 94.788 94.788z m-56.873-132.703c0-31.411 25.462-56.873 56.873-56.873s56.873 25.462 56.873 56.873v37.915c0 31.411-25.462 56.873-56.873 56.873s-56.873-25.462-56.873-56.873v-37.915z m246.448 417.066l-113.745 0.415v-0.415H232.663s-39.1 0-37.915-37.915c1.185-37.915 37.915-37.915 37.915-37.915h56.873s18.366-0.593 18.958-18.958c0.593-18.366-18.958-18.958-18.958-18.958h-56.873s-75.83-1.185-75.83 75.83 75.83 75.83 75.83 75.83h132.703v0.882h322.278s39.1 0 37.915 37.621c-1.185 37.621-37.915 37.621-37.915 37.621h-151.66s-18.958 0.298-18.958 18.664c0 18.364 18.958 18.958 18.958 18.958h151.66s75.83 1.175 75.83-75.242-75.83-76.418-75.83-76.418z" fill="currentColor"></path></g></svg>
 );
 
 export const IndicationIcon = ({ width = "18", height = "20", fill = 'none', ...rest }: SVGAttributes<SVGElement>) => (
@@ -230,7 +230,7 @@ export const ChangeRequestIcon = ({ width = "18", height = "20", fill = 'none', 
 );
 
 export const SubjectManagementIcon = ({ width = "20", height = "20", fill = 'none', ...rest }: SVGAttributes<SVGElement>) => (
-<svg width={width} height={height} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" {...rest}><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M7 8H17M7 12H17M9 16H15M4 12V20H20V4H4V7" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>  
+  <svg width={width} height={height} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" {...rest}><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M7 8H17M7 12H17M9 16H15M4 12V20H20V4H4V7" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
 );
 
 export const DashboardIcon = ({ width = "20", height = "20", fill = 'none', ...rest }: SVGAttributes<SVGElement>) => (
@@ -239,7 +239,7 @@ export const DashboardIcon = ({ width = "20", height = "20", fill = 'none', ...r
 
 export const DeleteOutlined = ({ width = "16", height = "16", fill = 'none', ...rest }: SVGAttributes<SVGElement>) => (
   <svg
-    width={width} 
+    width={width}
     height={height}
     viewBox="0 0 16 16"
     fill={fill}
@@ -262,7 +262,34 @@ export const ErrorIcon = ({ width = "26", height = "26", fill = 'none', ...rest 
 );
 
 export const SuccessIcon = ({ width = "26", height = "26", fill = 'none', ...rest }: SVGAttributes<SVGElement>) => (
-  <svg width={width} height={height} version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="#000000" {...rest}><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <circle fill="ffffff" cx="256" cy="256" r="245.801"></circle> <path fill="#00f03c" d="M200.924,372.271c-6.525,0-13.051-2.49-18.03-7.468l-74.454-74.454 c-9.957-9.957-9.957-26.102,0-36.059c9.959-9.957,26.102-9.957,36.059,0l56.425,56.423L358.32,153.316 c9.959-9.957,26.102-9.957,36.059,0c9.957,9.957,9.957,26.102,0,36.059L218.953,364.802 C213.975,369.781,207.451,372.271,200.924,372.271z"></path> <g> <path fill="#000000" d="M256,512c-68.381,0-132.667-26.628-181.019-74.98C26.628,388.667,0,324.38,0,256 S26.628,123.333,74.981,74.98C123.333,26.628,187.619,0,256,0s132.667,26.628,181.019,74.98C485.372,123.333,512,187.62,512,256 s-26.628,132.667-74.981,181.02C388.667,485.372,324.381,512,256,512z M256,20.398C126.089,20.398,20.398,126.089,20.398,256 S126.089,491.602,256,491.602S491.602,385.911,491.602,256S385.911,20.398,256,20.398z"></path> <path fill="#000000" d="M200.924,382.47c-9.534,0-18.498-3.713-25.241-10.454l-74.455-74.454 c-13.918-13.919-13.918-36.566,0-50.484s36.565-13.918,50.483,0l49.213,49.211l150.184-150.184 c13.918-13.918,36.565-13.918,50.483,0s13.918,36.565,0.001,50.484L226.166,372.015C219.423,378.758,210.459,382.47,200.924,382.47 z M126.47,257.027c-3.919,0-7.836,1.491-10.818,4.473c-5.964,5.964-5.964,15.67,0.001,21.636l74.454,74.454 c2.889,2.889,6.731,4.482,10.817,4.482c4.086,0,7.928-1.592,10.818-4.482l175.425-175.426c5.966-5.966,5.966-15.671,0-21.636 c-5.964-5.965-15.67-5.965-21.637,0L208.136,317.926c-3.984,3.983-10.44,3.983-14.425,0l-56.424-56.424 C134.306,258.519,130.388,257.027,126.47,257.027z"></path> <path fill="#000000" d="M256,476.303c-5.632,0-10.199-4.566-10.199-10.199s4.567-10.199,10.199-10.199 c91.512,0,171.176-61.849,193.731-150.406c1.389-5.459,6.936-8.758,12.4-7.366c5.46,1.39,8.757,6.943,7.367,12.401 C444.64,408.136,356.847,476.303,256,476.303z"></path> <path fill="#000000" d="M465.914,275.378c-0.149,0-0.298-0.003-0.448-0.009c-5.628-0.243-9.993-5.003-9.749-10.63 c0.124-2.883,0.188-5.823,0.188-8.739c0-5.633,4.567-10.199,10.199-10.199c5.632,0,10.199,4.566,10.199,10.199 c0,3.208-0.069,6.444-0.207,9.619C475.859,271.097,471.344,275.378,465.914,275.378z"></path> </g> </g></svg>
+  <svg width={width} height={height} version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 512 512" fill="#000000" {...rest}><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <circle fill="ffffff" cx="256" cy="256" r="245.801"></circle> <path fill="#00f03c" d="M200.924,372.271c-6.525,0-13.051-2.49-18.03-7.468l-74.454-74.454 c-9.957-9.957-9.957-26.102,0-36.059c9.959-9.957,26.102-9.957,36.059,0l56.425,56.423L358.32,153.316 c9.959-9.957,26.102-9.957,36.059,0c9.957,9.957,9.957,26.102,0,36.059L218.953,364.802 C213.975,369.781,207.451,372.271,200.924,372.271z"></path> <g> <path fill="#000000" d="M256,512c-68.381,0-132.667-26.628-181.019-74.98C26.628,388.667,0,324.38,0,256 S26.628,123.333,74.981,74.98C123.333,26.628,187.619,0,256,0s132.667,26.628,181.019,74.98C485.372,123.333,512,187.62,512,256 s-26.628,132.667-74.981,181.02C388.667,485.372,324.381,512,256,512z M256,20.398C126.089,20.398,20.398,126.089,20.398,256 S126.089,491.602,256,491.602S491.602,385.911,491.602,256S385.911,20.398,256,20.398z"></path> <path fill="#000000" d="M200.924,382.47c-9.534,0-18.498-3.713-25.241-10.454l-74.455-74.454 c-13.918-13.919-13.918-36.566,0-50.484s36.565-13.918,50.483,0l49.213,49.211l150.184-150.184 c13.918-13.918,36.565-13.918,50.483,0s13.918,36.565,0.001,50.484L226.166,372.015C219.423,378.758,210.459,382.47,200.924,382.47 z M126.47,257.027c-3.919,0-7.836,1.491-10.818,4.473c-5.964,5.964-5.964,15.67,0.001,21.636l74.454,74.454 c2.889,2.889,6.731,4.482,10.817,4.482c4.086,0,7.928-1.592,10.818-4.482l175.425-175.426c5.966-5.966,5.966-15.671,0-21.636 c-5.964-5.965-15.67-5.965-21.637,0L208.136,317.926c-3.984,3.983-10.44,3.983-14.425,0l-56.424-56.424 C134.306,258.519,130.388,257.027,126.47,257.027z"></path> <path fill="#000000" d="M256,476.303c-5.632,0-10.199-4.566-10.199-10.199s4.567-10.199,10.199-10.199 c91.512,0,171.176-61.849,193.731-150.406c1.389-5.459,6.936-8.758,12.4-7.366c5.46,1.39,8.757,6.943,7.367,12.401 C444.64,408.136,356.847,476.303,256,476.303z"></path> <path fill="#000000" d="M465.914,275.378c-0.149,0-0.298-0.003-0.448-0.009c-5.628-0.243-9.993-5.003-9.749-10.63 c0.124-2.883,0.188-5.823,0.188-8.739c0-5.633,4.567-10.199,10.199-10.199c5.632,0,10.199,4.566,10.199,10.199 c0,3.208-0.069,6.444-0.207,9.619C475.859,271.097,471.344,275.378,465.914,275.378z"></path> </g> </g></svg>
 );
+
+export const DownloadCertificateIcon = ({ width = "26", height = "26", fill = 'none', ...rest }: SVGAttributes<SVGElement>) => (
+  <svg
+    width={width} height={height}
+    viewBox="0 0 24 24"
+    fill="#1890FF"
+    {...rest}
+  >
+    <path fill="none" d="M0 0h24v24H0z" />
+    <path d="M13 12h3l-4 4-4-4h3V8h2v4zm2-8H5v16h14V8h-4V4zM3 2.992C3 2.444 3.447 2 3.999 2H16l5 5v13.993A1 1 0 0120.007 22H3.993A1 1 0 013 21.008V2.992z" />
+  </svg>
+);
+
+export const QuizIcon = ({ width = "26", height = "26", fill = 'none', ...rest }: SVGAttributes<SVGElement>) => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="#1890FF"
+    width={width} 
+    height={height}
+    {...rest}
+  >
+    <path d="M8 12h8v2H8v-2m2 8H6V4h7v5h5v3.1l2-2V8l-6-6H6a2 2 0 00-2 2v16a2 2 0 002 2h4v-2m-2-2h4.1l.9-.9V16H8v2m12.2-5c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1 2.1 2.1z" />
+  </svg>
+);
+
+
 
 

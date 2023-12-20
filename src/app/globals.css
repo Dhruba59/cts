@@ -39,6 +39,19 @@
   overflow: hidden;
 }
 
+.player-wrapper {
+  width: auto; 
+  height: auto; 
+}
+.react-player {
+  padding-top: 0.25%; 
+  position: relative; 
+}
+
+.react-player > div {
+  position: absolute; 
+}
+
 /* Drag and Drop */
 
 .dnd-item {
