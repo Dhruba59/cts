@@ -10,10 +10,10 @@ export const useGetUserTrainings = () => useQuery({
   queryFn: getUserTrainings,
   queryKey: ['user-training'],
 })
-export const useGetQuizByTrainingId = (id :any) => useQuery({
+export const useGetQuizByTrainingId = (trainigId :any) => useQuery({
   queryFn: getQuizByTrainingId,
-  queryKey: ['TrainingId', { TrainingId: id }],
-  enabled: !!id
+  queryKey: ['trainigId', { TrainingId: trainigId }],
+  enabled: !!trainigId
 })
 
 export const useAddTrainingMaterial = () => useMutation({

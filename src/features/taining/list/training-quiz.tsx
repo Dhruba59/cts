@@ -75,12 +75,17 @@ const TrainingQuiz = ({ trainigId }: any) => {
     }));
 
 
+  useEffect(() => {
+    setActiveQuestion(0);
+  }, [trainigId]);
 
   useEffect(() => {
-    console.log(quizQuestionList?.data);
+    //console.log(quizQuestionList?.data);
     setQuestions(quizQuestionList?.data);
     setTotalQuestion(quizQuestionList?.data?.length);
     setGivenAnswers(createObjectList(quizQuestionList?.data?.length));
+
+    setActiveQuestion(0);
 
     setQuestion(quizQuestionList?.data[0]?.question);
     setAnswers(quizQuestionList?.data[0]?.answers);
@@ -88,10 +93,11 @@ const TrainingQuiz = ({ trainigId }: any) => {
   }, [quizQuestionList]);
 
   useEffect(() => {
-    console.log(quizQuestionList?.data);
-    setQuestion(questions[activeQuestion]?.question);
-    setAnswers(questions[activeQuestion]?.answers);
-
+    if (activeQuestion === 0 && questions?.length) {
+      //console.log(quizQuestionList?.data);
+      setQuestion(questions[activeQuestion]?.question);
+      setAnswers(questions[activeQuestion]?.answers);
+    }
   }, [activeQuestion]);
 
   const onClickNext = () => {
