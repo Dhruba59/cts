@@ -12,7 +12,7 @@ import { json } from "stream/consumers";
 import { DownloadCertificateIcon, QuizIcon } from "@/assets/icons";
 
 
-const TrainingList = ({ item, setVideoUrl, setLoadQuiz }: any) => {
+const TrainingList = ({ item, selected, setSelected, setVideoUrl, setLoadQuiz }: any) => {
 
   useEffect(() => {
     //setVideoUrl(item[0]?.filePath);
@@ -22,19 +22,19 @@ const TrainingList = ({ item, setVideoUrl, setLoadQuiz }: any) => {
 
   return (
     <div key={item.trainingId}
-      className="flex items-center justify-between gap-1 p-1 text-center border rounded border-red-600 shadow-red-500/50 shadow-inner leading-tight">
+      className= {`flex items-center justify-between gap-1 p-1 text-center border rounded ${selected === item.trainingId ? 'bg-red-100 border-red-700 shadow-red-300/50' : 'border-red-500 shadow-red-300/50'} shadow-inner leading-tight`}>
       <button
-        className="text-center px-2 py-1 border rounded-sm  text-white border-blue-500 bg-blue-500 shadow-blue-500/50 shadow-inner leading-tight"
+        className= {`text-center px-2 py-1 border rounded-sm  text-black bg-red-200 ${selected === item.trainingId ? 'border-red-700 shadow-red-300/50' : 'border-red-500 shadow-red-300/50'} shadow-inner leading-tight`}
         type="button"
-        onClick={() => { setVideoUrl(item.filePath); setLoadQuiz(false)}}
+        onClick={() => { setVideoUrl(item.filePath); setLoadQuiz(false); setSelected(item.trainingId)}}
       >
         {item.trainingName}
       </button>
       {
-        item.hasQuizAccess ? <QuizIcon className="cursor-pointer" onClick={() => { setLoadQuiz(true) }} /> : ""
+        item.hasQuizAccess ? <QuizIcon className="cursor-pointer" onClick={() => { setLoadQuiz(true); setSelected(item.trainingId) }} /> : ""
       }
       {
-        item.canDownloadCertificate ? <DownloadCertificateIcon className="cursor-pointer" onClick={() => { alert('downloading..')}} /> : ""
+        item.canDownloadCertificate ? <DownloadCertificateIcon className="cursor-pointer" onClick={() => { alert('downloading..'); setSelected(item.trainingId)}} /> : ""
       }
     </div>
   );

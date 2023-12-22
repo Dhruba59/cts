@@ -9,12 +9,15 @@ import { IndicationQuery } from "@/model/indication";
 import { useGetStudyProtocols } from "@/hooks/rq-hooks/training-material-hooks";
 import { TrainingMaterialQuery } from "@/model/training-material";
 import { json } from "stream/consumers";
-import { DownloadCertificateIcon, QuizIcon } from "@/assets/icons";
+import { CheckmarkDoneOutlineIcon, DownloadCertificateIcon, QuizIcon } from "@/assets/icons";
 import ReactPlayer from "react-player";
+import LeftArrowIcon from "@/components/icons/leftArrowIcon";
+import RightArrowIcon from "@/components/icons/rightArrowIcon";
+import Button from "@/components/ui/button";
 
 
 const TrainingQuiz = ({ videoUrl }: any) => {
-  const questions: any = [
+  const quizQuestions: any = [
     {
       id: 1, question: 'Initials and Date of Birth entered in CTSdatabase are derived from:', answers: [
         'A photo ID',
@@ -22,7 +25,7 @@ const TrainingQuiz = ({ videoUrl }: any) => {
         'Previous study records',
         'Any of the above'
       ],
-      correctAnswer: 'A photo ID'
+      answerGiven: ''
     },
     {
       id: 2, question: 'If the subject has no last 4 of SSN, Passport, or National ID, you should enter:', answers: [
@@ -31,7 +34,7 @@ const TrainingQuiz = ({ videoUrl }: any) => {
         '0000',
         'X0X0'
       ],
-      correctAnswer: '1234'
+      answerGiven: ''
     },
     {
       id: 3, question: 'If an entry is made in error (e.g. incorrect date of birth)', answers: [
@@ -40,31 +43,45 @@ const TrainingQuiz = ({ videoUrl }: any) => {
         'Submit a change request',
         'Any of the above'
       ],
-      correctAnswer: 'Any of the above'
+      answerGiven: ''
     }
   ]
+
+  const [questions, setQuestion] = useState<any>(quizQuestions)
   const [totalQuestion, setTotalQuestion] = useState(questions.length - 1)
-  const [activeQuestion, setActiveQuestion] = useState(0)
+  const [activeQuestion, setActiveQuestion] = useState<number>(0)
   const [selectedAnswer, setSelectedAnswer] = useState<any>()
   const [showResult, setShowResult] = useState(false)
-  const [selectedAnswerIndex, setSelectedAnswerIndex] = useState<number>(0)
+  const [selectedAnswerIndex, setSelectedAnswerIndex] = useState<number| undefined>()
   const [result, setResult] = useState({
     score: 0,
     correctAnswers: 0,
     wrongAnswers: 0,
   })
 
-  const { question, answers, correctAnswer } = questions[activeQuestion]
+  interface Answer {
+    questionIndex?: number;
+    answerIndex?: number;
+  }
+  
+  const createObjectList = (size: number): Answer[] =>
+    Array.from({ length: size }, (_, index) => ({
+      questionIndex: index,
+      answerIndex: undefined,
+    }));
+  
+  const [givenAnswers, setGivenAnswers] = useState<Answer[]>(createObjectList(questions.length));
+  const { question, answers } = questions[activeQuestion]
 
   const onClickNext = () => {
-    setSelectedAnswerIndex(null)
+    setSelectedAnswerIndex(undefined)
     setResult((prev) =>
       selectedAnswer
         ? {
-            ...prev,
-            score: prev.score + 5,
-            correctAnswers: prev.correctAnswers + 1,
-          }
+          ...prev,
+          score: prev.score + 5,
+          correctAnswers: prev.correctAnswers + 1,
+        }
         : { ...prev, wrongAnswers: prev.wrongAnswers + 1 }
     )
     if (activeQuestion !== questions.length - 1) {
@@ -80,10 +97,10 @@ const TrainingQuiz = ({ videoUrl }: any) => {
     setResult((prev) =>
       selectedAnswer
         ? {
-            ...prev,
-            score: prev.score + 5,
-            correctAnswers: prev.correctAnswers + 1,
-          }
+          ...prev,
+          score: prev.score + 5,
+          correctAnswers: prev.correctAnswers + 1,
+        }
         : { ...prev, wrongAnswers: prev.wrongAnswers + 1 }
     )
     if (activeQuestion !== questions.length - 1) {
@@ -94,43 +111,63 @@ const TrainingQuiz = ({ videoUrl }: any) => {
     }
   }
 
-  const onAnswerSelected = ({answer, index}: any) => {
-    setSelectedAnswerIndex(index)
-    if (answer === correctAnswer) {
-      setSelectedAnswer(true)
-    } else {
-      setSelectedAnswer(false)
-    }
+  const onAnswerSelected = ({ answer, index }: any) => {
+
+    setSelectedAnswer(index);
+
+    setGivenAnswers((prev) =>{
+      const updatedObjects = [...prev];
+      updatedObjects[activeQuestion] = { ...updatedObjects[activeQuestion], answerIndex: index };
+      return updatedObjects;
+    })
+
   }
 
   const addLeadingZero = (number: any) => (number > 9 ? number : `0${number}`)
 
   return (
-    <div className="quiz-container">
+    <div className="ml-4 mb-4 mr-auto">
       {!showResult ? (
-        <div>
+        <div className="">
           <div>
-            <span className="active-question-no">{addLeadingZero(activeQuestion + 1)}</span>
-            <span className="total-question">/{addLeadingZero(questions.length)}</span>
+            <span className="font-bold text-2xl">Quiz </span>
+            <span className="text-red-700">{addLeadingZero(activeQuestion + 1)}</span>
+            <span className="text-red-300">/{addLeadingZero(questions.length)}</span>
           </div>
           <h3>{question}</h3>
           <ul>
-            {answers.map((answer: any, index: any) => (
+            {answers.map((answer: any, index: number) => (
               <li
-                onClick={() => onAnswerSelected({answer, index})}
+                onClick={() => onAnswerSelected({ answer, index})}
                 key={answer}
-                className={`${selectedAnswerIndex === index ? 'border-blue-500' : null}`}>
+                className={` border border-blue-300 rounded p-2 my-2 cursor-pointer ${index === givenAnswers[activeQuestion].answerIndex  ? 'border-red-700 bg-red-200' : null}`}>
                 {answer}
               </li>
             ))}
           </ul>
-          <div className="flex items-center justify-center gap-2">
-            <button onClick={onClickPrevious} hidden={selectedAnswerIndex === 0}>
-              {'Previous'}
-            </button>
-            <button onClick={onClickNext} disabled={selectedAnswerIndex === questions.length}>
-              {activeQuestion === questions.length - 1 ? 'Finish' : 'Next'}
-            </button>
+          <div className="flex items-center justify-center">
+            <Button variant="secondary" size="small" className={`mx-1 outline-primary ${activeQuestion === 0 ? 'hidden' : ''}`} onClick={onClickPrevious}>
+              {
+                <div className="flex items-center gap-2">
+                  <LeftArrowIcon fill="white" className="mt-1 text-white" />
+                  <span>Previous</span>
+                </div>
+              }
+            </Button>
+            <Button variant="secondary" size="small" className="mx-1 outline-primary" onClick={onClickNext}>
+              {activeQuestion === questions.length - 1 ?
+
+                <div className="flex items-center gap-2">
+                  <span>Finish</span>
+                  <CheckmarkDoneOutlineIcon fill="white"  className="mt-1 text-white" />
+                </div>
+                :
+                <div className="flex items-center gap-2">
+                  <span>Next</span>
+                  <RightArrowIcon fill={'white'} className="mt-1 text-white" />
+                </div>
+              }
+            </Button>
           </div>
         </div>
       ) : (
