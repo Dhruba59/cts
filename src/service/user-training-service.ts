@@ -3,19 +3,17 @@ import { TrainingMaterial
 import { request } from "./axios-config";
 
 
-export const getTrainingMaterialById = ({queryKey}: any) => {
-  const [key, params ] = queryKey as any;
-  return request({url: 'TrainingMaterial/GetById', method: 'GET', params});
-}
-
-export const getStudyProtocols = () => {
-  return request({url: 'TrainingMaterial/study-protocol-dropdown', method: 'GET'});
-}
 
 export const getUserTrainings = () => {
   //const [key, params ] = queryKey as any;
   return request({url: 'UserTraining/trainings', method: 'GET'});
 }
+
+export const getQuizByTrainingId = ({queryKey}: any) => {
+  const [key, params ] = queryKey as any;
+  return request({url: 'Quiz/quiz-by-training-id', method: 'GET', params});
+}
+
 
 export const addTrainingMaterial = (data: TrainingMaterial) => {
   return request({url: 'TrainingMaterial', method: 'POST', data});

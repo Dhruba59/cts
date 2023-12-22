@@ -12,6 +12,7 @@ import TrainingQuiz from './training-quiz';
 
 const UserTrainings = () => {
 
+  const [trainingId, setTrainingId] = useState<number>();
   const [selected, setSelected] = useState<number>();
   const [userTrainings, setUserTrainings] = useState<any>([]);
   const [videoUrl, setVideoUrl] = useState<string>('http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4');
@@ -38,7 +39,7 @@ const UserTrainings = () => {
       <div className="wrapper -mt-2 flex items-start justify-center">
         {
           !loadQuiz ? <TrainingVideo videoUrl={videoUrl} />
-            : <TrainingQuiz videoUrl={videoUrl} />
+            : <TrainingQuiz trainigId={selected} />
         }
 
 

@@ -14,9 +14,10 @@ import ReactPlayer from "react-player";
 import LeftArrowIcon from "@/components/icons/leftArrowIcon";
 import RightArrowIcon from "@/components/icons/rightArrowIcon";
 import Button from "@/components/ui/button";
+import { useGetQuizByTrainingId } from "@/hooks/rq-hooks/user-training-hooks";
 
 
-const TrainingQuiz = ({ videoUrl }: any) => {
+const TrainingQuiz = ({ trainigId }: any) => {
   const quizQuestions: any = [
     {
       id: 1, question: 'Initials and Date of Birth entered in CTSdatabase are derived from:', answers: [
@@ -46,35 +47,55 @@ const TrainingQuiz = ({ videoUrl }: any) => {
       answerGiven: ''
     }
   ]
+  const { data: quizQuestionList, error, isLoading, refetch: refetchQuestions
+  } = useGetQuizByTrainingId(trainigId as number);
 
-  const [questions, setQuestion] = useState<any>(quizQuestions)
-  const [totalQuestion, setTotalQuestion] = useState(questions.length - 1)
+  const [questions, setQuestions] = useState<any>([])
+  const [question, setQuestion] = useState<any>()
+  const [answers, setAnswers] = useState<any>([])
+  const [totalQuestion, setTotalQuestion] = useState(0)
   const [activeQuestion, setActiveQuestion] = useState<number>(0)
   const [selectedAnswer, setSelectedAnswer] = useState<any>()
   const [showResult, setShowResult] = useState(false)
-  const [selectedAnswerIndex, setSelectedAnswerIndex] = useState<number| undefined>()
   const [result, setResult] = useState({
     score: 0,
     correctAnswers: 0,
     wrongAnswers: 0,
   })
-
+  const [givenAnswers, setGivenAnswers] = useState<Answer[]>([]);
   interface Answer {
     questionIndex?: number;
     answerIndex?: number;
   }
-  
+
   const createObjectList = (size: number): Answer[] =>
     Array.from({ length: size }, (_, index) => ({
       questionIndex: index,
       answerIndex: undefined,
     }));
-  
-  const [givenAnswers, setGivenAnswers] = useState<Answer[]>(createObjectList(questions.length));
-  const { question, answers } = questions[activeQuestion]
+
+
+
+  useEffect(() => {
+    console.log(quizQuestionList?.data);
+    setQuestions(quizQuestionList?.data);
+    setTotalQuestion(quizQuestionList?.data?.length);
+    setGivenAnswers(createObjectList(quizQuestionList?.data?.length));
+
+    setQuestion(quizQuestionList?.data[0]?.question);
+    setAnswers(quizQuestionList?.data[0]?.answers);
+
+  }, [quizQuestionList]);
+
+  useEffect(() => {
+    console.log(quizQuestionList?.data);
+    setQuestion(questions[activeQuestion]?.question);
+    setAnswers(questions[activeQuestion]?.answers);
+
+  }, [activeQuestion]);
 
   const onClickNext = () => {
-    setSelectedAnswerIndex(undefined)
+
     setResult((prev) =>
       selectedAnswer
         ? {
@@ -85,7 +106,9 @@ const TrainingQuiz = ({ videoUrl }: any) => {
         : { ...prev, wrongAnswers: prev.wrongAnswers + 1 }
     )
     if (activeQuestion !== questions.length - 1) {
+
       setActiveQuestion((prev) => prev + 1)
+
     } else {
       setActiveQuestion(0)
       setShowResult(true)
@@ -93,29 +116,18 @@ const TrainingQuiz = ({ videoUrl }: any) => {
   }
 
   const onClickPrevious = () => {
-    setSelectedAnswerIndex(0)
-    setResult((prev) =>
-      selectedAnswer
-        ? {
-          ...prev,
-          score: prev.score + 5,
-          correctAnswers: prev.correctAnswers + 1,
-        }
-        : { ...prev, wrongAnswers: prev.wrongAnswers + 1 }
-    )
-    if (activeQuestion !== questions.length - 1) {
+    if (activeQuestion !== 0) {
       setActiveQuestion((prev) => prev - 1)
     } else {
       setActiveQuestion(0)
-      setShowResult(true)
     }
   }
 
-  const onAnswerSelected = ({ answer, index }: any) => {
+  const onAnswerSelected = ({ index }: any) => {
 
     setSelectedAnswer(index);
 
-    setGivenAnswers((prev) =>{
+    setGivenAnswers((prev) => {
       const updatedObjects = [...prev];
       updatedObjects[activeQuestion] = { ...updatedObjects[activeQuestion], answerIndex: index };
       return updatedObjects;
@@ -123,6 +135,9 @@ const TrainingQuiz = ({ videoUrl }: any) => {
 
   }
 
+  const generateRandomId = () => {
+    return Math.random().toString(36).substr(2, 9);
+  };
   const addLeadingZero = (number: any) => (number > 9 ? number : `0${number}`)
 
   return (
@@ -132,16 +147,17 @@ const TrainingQuiz = ({ videoUrl }: any) => {
           <div>
             <span className="font-bold text-2xl">Quiz </span>
             <span className="text-red-700">{addLeadingZero(activeQuestion + 1)}</span>
-            <span className="text-red-300">/{addLeadingZero(questions.length)}</span>
+            <span className="text-red-300">/{addLeadingZero(questions?.length)}</span>
           </div>
           <h3>{question}</h3>
           <ul>
-            {answers.map((answer: any, index: number) => (
+            {answers?.map((obj: any, index: number) => (
+
               <li
-                onClick={() => onAnswerSelected({ answer, index})}
-                key={answer}
-                className={` border border-blue-300 rounded p-2 my-2 cursor-pointer ${index === givenAnswers[activeQuestion].answerIndex  ? 'border-red-700 bg-red-200' : null}`}>
-                {answer}
+                onClick={() => onAnswerSelected({ index })}
+                key={index}
+                className={` border border-blue-300 rounded p-2 my-2 cursor-pointer ${index === givenAnswers[activeQuestion]?.answerIndex ? 'border-red-700 bg-red-200' : null}`}>
+                {obj.answer}
               </li>
             ))}
           </ul>
@@ -155,11 +171,11 @@ const TrainingQuiz = ({ videoUrl }: any) => {
               }
             </Button>
             <Button variant="secondary" size="small" className="mx-1 outline-primary" onClick={onClickNext}>
-              {activeQuestion === questions.length - 1 ?
+              {activeQuestion === questions?.length - 1 ?
 
                 <div className="flex items-center gap-2">
                   <span>Finish</span>
-                  <CheckmarkDoneOutlineIcon fill="white"  className="mt-1 text-white" />
+                  <CheckmarkDoneOutlineIcon fill="white" className="mt-1 text-white" />
                 </div>
                 :
                 <div className="flex items-center gap-2">
