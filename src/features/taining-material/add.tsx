@@ -120,10 +120,10 @@ const AddTrainingMaterial = ({ id }: AddTrainingMaterialProps) => {
 
   return (
     <div className="w-full">
-      <Breadcrumbs title="TrainingMaterial" subTitle="Add TrainingMaterial" />
+      <Breadcrumbs title="Training Material" subTitle="Add Training Material" />
       <section className="wrapper">
         <h4 className=" text-neutral-black px-6 py-4">
-          TrainingMaterial Information
+          Training Material Information
         </h4>
         <hr />
         <form onSubmit={handleSubmit(onSubmit)} className="px-6 py-8 space-y-6">

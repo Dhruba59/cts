@@ -1,8 +1,7 @@
-import { MainContainer } from "@/components/style-container";
-import StudyListFeature from "@/features/study/list-of-study";
+import UserTraining from "@/features/taining/list";
 
-export default function TrainingPage() {
+export default function UserTrainingPage() {
   return (
-     <p>Training Page</p>
+     <UserTraining></UserTraining>
   );
 }

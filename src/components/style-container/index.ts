@@ -1,7 +1,7 @@
 import tw from "tailwind-styled-components"
 
 export const MainContainer = tw.div`
-flex flex-col mx-4 h-full
+flex flex-col mx-4 my-2 h-full 
 `
 
 export const MainContainer2 = tw.div`
