@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+body {
+  background: #F3F2F1
+}
+
 @layer base {
   h1 {
     @apply text-[38px] font-medium leading-[46px];
