@@ -77,6 +77,7 @@ const TrainingQuiz = ({ trainigId }: any) => {
 
   useEffect(() => {
     setActiveQuestion(0);
+    setShowResult(false);
   }, [trainigId]);
 
   useEffect(() => {
@@ -85,6 +86,7 @@ const TrainingQuiz = ({ trainigId }: any) => {
     setTotalQuestion(quizQuestionList?.data?.length);
     setGivenAnswers(createObjectList(quizQuestionList?.data?.length));
 
+    setShowResult(false);
     setActiveQuestion(0);
 
     setQuestion(quizQuestionList?.data[0]?.question);
@@ -93,8 +95,7 @@ const TrainingQuiz = ({ trainigId }: any) => {
   }, [quizQuestionList]);
 
   useEffect(() => {
-    if (activeQuestion === 0 && questions?.length) {
-      //console.log(quizQuestionList?.data);
+    if (activeQuestion !== 0 && questions?.length) {
       setQuestion(questions[activeQuestion]?.question);
       setAnswers(questions[activeQuestion]?.answers);
     }
@@ -196,7 +197,7 @@ const TrainingQuiz = ({ trainigId }: any) => {
         <div className="result">
           <h3>Result</h3>
           <p>
-            Total Question: <span>{questions.length}</span>
+            Total Question: <span>{questions?.length}</span>
           </p>
           <p>
             Total Score:<span> {result.score}</span>
