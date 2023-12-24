@@ -214,7 +214,7 @@ export default function Dashboard() {
 
   return (
     <MainContainer>
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-4 2xl:gap-7.5">
+      <div className=" mx-1 my-2 grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-4 2xl:gap-7.5">
         <CardDataStats
           title="Total views"
           total="$3.456K"
@@ -240,92 +240,101 @@ export default function Dashboard() {
           levelDown
         ></CardDataStats>
       </div>
-      <div className="wrapper mx-1 p-2 grid grid-cols-1 md:grid-cols-2  gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2  gap-4">
 
-
-        <LineChart
-          width={480}
-          height={300}
-          data={line_chart_data}
-          margin={{
-            top: 5,
-            right: 30,
-            left: 20,
-            bottom: 5
-          }}
-        >
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="name" />
-          <YAxis />
-          <Tooltip />
-          <Legend />
-          <Line
-            type="monotone"
-            dataKey="pv"
-            stroke="#8884d8"
-            activeDot={{ r: 8 }}
-          />
-          <Line type="monotone" dataKey="uv" stroke="#82ca9d" />
-        </LineChart>
-
-        <BarChart
-          width={480}
-          height={300}
-          data={bar_chart_data}
-          margin={{
-            top: 5,
-            right: 30,
-            left: 20,
-            bottom: 5,
-          }}
-        >
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="name" />
-          <YAxis />
-          <Tooltip />
-          <Legend />
-          <Bar dataKey="pv" fill="#8884d8" activeBar={<Rectangle fill="pink" stroke="blue" />} />
-          <Bar dataKey="uv" fill="#82ca9d" activeBar={<Rectangle fill="gold" stroke="purple" />} />
-        </BarChart>
-        
-        <AreaChart
-          width={480}
-          height={400}
-          data={area_chart_data}
-          margin={{
-            top: 10,
-            right: 30,
-            left: 0,
-            bottom: 0,
-          }}
-        >
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="name" />
-          <YAxis />
-          <Tooltip />
-          <Area type="monotone" dataKey="uv" stackId="1" stroke="#8884d8" fill="#8884d8" />
-          <Area type="monotone" dataKey="pv" stackId="1" stroke="#82ca9d" fill="#82ca9d" />
-          <Area type="monotone" dataKey="amt" stackId="1" stroke="#ffc658" fill="#ffc658" />
-        </AreaChart>
-
-        <PieChart width={480} height={480}>
-          <Pie
-            data={pi_chart_data}
-            cx="200"
-            cy="200"
-            labelLine={false}
-            label={renderCustomizedLabel}
-            outerRadius={200}
-            fill="#8884d8"
-            dataKey="value"
+        <div className="wrapper mx-1 p-2 flex items-center justify-center border border-red-100">
+          <BarChart
+            width={480}
+            height={300}
+            data={bar_chart_data}
+            margin={{
+              top: 5,
+              right: 30,
+              left: 20,
+              bottom: 5,
+            }}
           >
-            {data.map((entry, index) => (
-              <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-            ))}
-          </Pie>
-        </PieChart>
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey="name" />
+            <YAxis />
+            <Tooltip />
+            <Legend />
+            <Bar dataKey="pv" fill="#8884d8" activeBar={<Rectangle fill="pink" stroke="blue" />} />
+            <Bar dataKey="uv" fill="#82ca9d" activeBar={<Rectangle fill="gold" stroke="purple" />} />
+          </BarChart>
+        </div>
 
-       
+        <div className="wrapper mx-1 p-2 flex items-center justify-center border border-red-100">
+          <AreaChart
+            width={480}
+            height={300}
+            data={area_chart_data}
+            margin={{
+              top: 10,
+              right: 30,
+              left: 0,
+              bottom: 0,
+            }}
+          >
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey="name" />
+            <YAxis />
+            <Tooltip />
+            <Area type="monotone" dataKey="uv" stackId="1" stroke="#8884d8" fill="#8884d8" />
+            <Area type="monotone" dataKey="pv" stackId="1" stroke="#82ca9d" fill="#82ca9d" />
+            <Area type="monotone" dataKey="amt" stackId="1" stroke="#ffc658" fill="#ffc658" />
+          </AreaChart>
+        </div>
+
+        <div className="wrapper mx-1 p-2 flex items-center justify-center border border-red-100">
+          <LineChart
+            width={480}
+            height={300}
+            data={line_chart_data}
+            margin={{
+              top: 5,
+              right: 30,
+              left: 20,
+              bottom: 5
+            }}
+          >
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey="name" />
+            <YAxis />
+            <Tooltip />
+            <Legend />
+            <Line
+              type="monotone"
+              dataKey="pv"
+              stroke="#8884d8"
+              activeDot={{ r: 8 }}
+            />
+            <Line type="monotone" dataKey="uv" stroke="#82ca9d" />
+          </LineChart>
+        </div>
+
+
+        <div className="wrapper mx-1 p-2 flex items-center justify-center border border-red-100">
+          <PieChart width={400} height={240}>
+            <Pie
+              data={pi_chart_data}
+              cx="50%"
+              cy="50%"
+              labelLine={false}
+              label={renderCustomizedLabel}
+              outerRadius={120}
+              fill="#8884d8"
+              dataKey="value"
+            >
+              {data.map((entry, index) => (
+                <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+              ))}
+            </Pie>
+          </PieChart>
+        </div>
+
+
+
       </div>
     </MainContainer>
   );
