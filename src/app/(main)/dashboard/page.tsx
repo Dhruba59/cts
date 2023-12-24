@@ -242,7 +242,7 @@ export default function Dashboard() {
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2  gap-4">
 
-        <div className="wrapper mx-1 p-2 flex items-center justify-center border border-red-100">
+        <div className="wrapper mb-0 mx-1 p-2 flex items-center justify-center border border-red-100">
           <BarChart
             width={480}
             height={300}
@@ -264,7 +264,7 @@ export default function Dashboard() {
           </BarChart>
         </div>
 
-        <div className="wrapper mx-1 p-2 flex items-center justify-center border border-red-100">
+        <div className="wrapper mb-0 mx-1 p-2 flex items-center justify-center border border-red-100">
           <AreaChart
             width={480}
             height={300}
@@ -286,7 +286,7 @@ export default function Dashboard() {
           </AreaChart>
         </div>
 
-        <div className="wrapper mx-1 p-2 flex items-center justify-center border border-red-100">
+        <div className="wrapper mb-0 mx-1 p-2 flex items-center justify-center border border-red-100">
           <LineChart
             width={480}
             height={300}
@@ -314,7 +314,7 @@ export default function Dashboard() {
         </div>
 
 
-        <div className="wrapper mx-1 p-2 flex items-center justify-center border border-red-100">
+        <div className="wrapper mb-0 mx-1 p-2 flex items-center justify-center border border-red-100">
           <PieChart width={400} height={240}>
             <Pie
               data={pi_chart_data}

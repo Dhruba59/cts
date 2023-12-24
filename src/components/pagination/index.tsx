@@ -23,7 +23,7 @@ const Pagination = ({
   const pageNumbers = getPaginationItems(currentPage, lastPage, maxLength);
 
   return (
-    <div className="flex items-center justify-center">
+    <div className=" flex items-center justify-center">
       <nav aria-label="pagination" >
         <PageLink
           disabled={currentPage === 1}
