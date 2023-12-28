@@ -1,5 +1,5 @@
 
-import { getUserTrainings, getQuizByTrainingId 
+import { getUserTrainings, getQuizByTrainingId, addQuizAnswer 
 } from "@/service/user-training-service";
 import { UseQueryOptions, useMutation, useQuery } from "react-query";
 
@@ -16,7 +16,7 @@ export const useGetQuizByTrainingId = (trainigId :any) => useQuery({
   enabled: !!trainigId
 })
 
-export const useAddTrainingMaterial = () => useMutation({
-  //mutationFn: addTrainingMaterial,
+export const useAddQuizAnswer = () => useMutation({
+  mutationFn: addQuizAnswer,
 })
 

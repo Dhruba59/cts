@@ -27,7 +27,7 @@ const UserTrainings = () => {
   }, [tainingData])
 
   return (
-    <MainContainer>
+    <main>
       <div className="wrapper mt-1">
         <Breadcrumbs title="Training List" subTitle="Training List" />
         <div className=" flex-wrap flex items-center justify-start gap-1 m-1">
@@ -36,7 +36,7 @@ const UserTrainings = () => {
           ))}
         </div>
       </div>
-      <div className="wrapper -mt-2 flex items-start justify-center">
+      <div className="wrapper -mt-2 flex items-center justify-center">
         {
           !loadQuiz ? <TrainingVideo videoUrl={videoUrl} />
             : <TrainingQuiz trainigId={selected} />
@@ -44,7 +44,7 @@ const UserTrainings = () => {
 
 
       </div>
-    </MainContainer>
+    </main>
   );
 };
 
