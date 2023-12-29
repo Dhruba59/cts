@@ -1,8 +1,9 @@
 import Header from "@/components/header";
 import Sidebar from "@/components/sidebar";
-import { SidebarContextProvider } from "@/context/sidebar-context";
+import { SidebarContextProvider, useSidebarContext } from "@/context/sidebar-context";
 import Footer from "@/components/footer";
 import AuthManager from "@/components/auth/auth-manager";
+import MainBody from "@/components/main/main-body";
 
 export default function RootLayout({
   children
@@ -14,9 +15,9 @@ export default function RootLayout({
     <SidebarContextProvider>
       <main className="h-screen dark:text-white dark:bg-[#24303f]">
         <Header />
-        <div className="flex h-auto">
+        <div className="flex h-auto max-md:">
           <Sidebar />
-          <div className="w-full mx-auto mt-16 mb-12">{children}</div>
+          <MainBody>{children}</MainBody>
         </div>
         <Footer />
       </main>
