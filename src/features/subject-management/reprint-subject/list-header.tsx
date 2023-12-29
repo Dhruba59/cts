@@ -86,7 +86,7 @@ const ListHeader = ({ setQueryData }: ListHeaderProps) => {
     <div className="sm:wrapper">
     <form onSubmit={handleSubmit(onSubmit)}>
       <Breadcrumbs title="Study Information" subTitle="Study List" />
-      <div className="flex flex-row items-center justify-between gap-2 md:px-6 py-3">
+      <div className="flex flex-row items-center justify-between gap-2 px-0 sm:px-6 py-3">
         <h4 className="hidden lg:block text-neutral-black">
           Search Study
         </h4>

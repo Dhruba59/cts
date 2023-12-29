@@ -1,4 +1,4 @@
-import { addNewSubject, checkDetailRequirement, getVisitTypes, validateSponsorSubjectId } from "@/service/subject-service";
+import { addNewSubject, checkDetailRequirement, getVisitTypes, updateVisitInfo, validateSponsorSubjectId, verifySocialCode } from "@/service/subject-service";
 import { useMutation, useQuery } from "react-query";
 
 export const useAddSubjectMutation = () => useMutation({
@@ -15,6 +15,14 @@ export const useValidateSponsorSubjectId = () => useMutation({
 
 export const useIsDetailsRequired = () => useMutation({
   mutationFn: checkDetailRequirement,
+})
+
+export const useVerifySocialCode = () => useMutation({
+  mutationFn: verifySocialCode,
+})
+
+export const useUpdateVisitInfo = () => useMutation({
+  mutationFn: updateVisitInfo,
 })
 
 export const useGetVisitTypes = () => useQuery({
