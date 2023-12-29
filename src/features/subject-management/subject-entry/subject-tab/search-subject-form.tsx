@@ -64,9 +64,9 @@ const SearchSubjectForm = ({ setQueryParams, protocolId }: SearchSubjectFormProp
       <div>
         <Label label="Subject Initials" className="inline-block mb-2" />
         <div className="grid grid-cols-3 gap-6">
-          <Input placeholder="-" {...register('FirstInitial')} disabled={!protocolId} />
-          <Input placeholder="-" {...register('MiddleInitial')} disabled={!protocolId} />
-          <Input placeholder="-" {...register('LastInitial')} disabled={!protocolId} />
+          <Input placeholder="F" {...register('FirstInitial')} disabled={!protocolId} />
+          <Input placeholder="M" {...register('MiddleInitial')} disabled={!protocolId} />
+          <Input placeholder="L" {...register('LastInitial')} disabled={!protocolId} />
         </div>
       </div>
       <Controller

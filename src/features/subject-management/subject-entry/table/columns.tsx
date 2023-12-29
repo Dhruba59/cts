@@ -179,74 +179,78 @@ export const getColumns = (): ColumnDef<List>[] => {
 //   },
 // ];
 
-export const LIST_COLUMN: ColumnDef<LastSubject>[] = [
-  // {
-  //   header: "User Name",
-  //   accessorKey: "user_name",
-  // },
-  {
-    header: "Protocol",
-    accessorKey: "protocolNumber",
-  },
-  {
-    header: "Subject ID",
-    accessorKey: "sponsorSubjectID",
-  },
-  {
-    header: "1st Init",
-    accessorKey: "firstInit",
-  },
-  {
-    header: "2nd Init",
-    accessorKey: "secondInit",
-  },
-  {
-    header: "3rd Init",
-    accessorKey: "thirdInit",
-  },
-
-  {
-    header: "DOB",
-    accessorKey: "dob",
-  },
-  {
-    header: "National ID",
-    accessorKey: "national_id",
-  },
-  {
-    header: "ID Type",
-    accessorKey: "nationalTypeID",
-  },
-  {
-    header: "Sex",
-    accessorKey: "gender",
-  },
-  {
-    header: "Zip",
-    accessorKey: "zipcode",
-  },
-  {
-    header: "Height",
-    accessorKey: "height",
-  },
-  {
-    header: "Weight",
-    accessorKey: "weight",
-  },
-  {
-    header: "Date Entered",
-    accessorKey: "dateEntered",
-  },
-  {
-    id: "actions",
-    header: "Action",
-    size: 80,
-    cell: ({ row }) => {
-      return (
-        <div className="flex items-center gap-6">
-          <LastSubjectContactModal protocolNo={row.original.protocolNumber} sponsorSubjectId={row.original.sponsorSubjectID}/>
-        </div>
-      );
+export const getListColumn = (studyId: number) => {
+  return ([
+    // {
+    //   header: "User Name",
+    //   accessorKey: "user_name",
+    // },
+    {
+      header: "Protocol",
+      accessorKey: "protocolNumber",
     },
-  },
-];
+    {
+      header: "Subject ID",
+      accessorKey: "sponsorSubjectID",
+    },
+    {
+      header: "1st Init",
+      accessorKey: "firstInit",
+    },
+    {
+      header: "2nd Init",
+      accessorKey: "secondInit",
+    },
+    {
+      header: "3rd Init",
+      accessorKey: "thirdInit",
+    },
+  
+    {
+      header: "DOB",
+      accessorKey: "dob",
+    },
+    {
+      header: "National ID",
+      accessorKey: "national_id",
+    },
+    {
+      header: "ID Type",
+      accessorKey: "nationalTypeID",
+    },
+    {
+      header: "Sex",
+      accessorKey: "gender",
+    },
+    {
+      header: "Zip",
+      accessorKey: "zipcode",
+    },
+    {
+      header: "Height",
+      accessorKey: "height",
+    },
+    {
+      header: "Weight",
+      accessorKey: "weight",
+    },
+    {
+      header: "Date Entered",
+      accessorKey: "dateEntered",
+    },
+    {
+      id: "actions",
+      header: "Action",
+      size: 80,
+      cell: ({ row }: any) => {
+        return (
+          <div className="flex items-center gap-6">
+            <LastSubjectContactModal data={row.original} studyId={studyId}/>
+          </div>
+        );
+      },
+    },
+  ]
+
+  );
+}

@@ -3,20 +3,22 @@ import Datepicker from "@/components/ui/datepicker";
 import Input from "@/components/ui/input";
 import Label from "@/components/ui/label";
 import Select from "@/components/ui/select";
-import { useAddSubjectMutation, useIsDetailsRequired, useValidateSponsorSubjectId } from "@/hooks/rq-hooks/subject-hooks";
+import { useAddSubjectMutation, useIsDetailsRequired, useValidateSponsorSubjectId, useVerifySocialCode } from "@/hooks/rq-hooks/subject-hooks";
 import { DropDownItem, SelectOptionType } from "@/model/drop-down-list";
 import { checkDetailRequirement } from "@/service/subject-service";
 import { convertTypeToSelectOption } from "@/utils/helpers";
-import React, { useEffect, useState } from "react";
+import { watch } from "fs";
+import React, { RefObject, useEffect, useRef, useState } from "react";
 import { Controller, UseFormReturn, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 
 interface AddSubjectFormProps {
   dropdowns: { [key: string]: DropDownItem[] | any };
   protocolId: string | undefined;
+  subjectIdFormat: string;
 }
 
-const AddSubjectForm = ({ dropdowns, protocolId }: AddSubjectFormProps) => {
+const AddSubjectForm = ({ dropdowns, protocolId, subjectIdFormat }: AddSubjectFormProps) => {
   const [heightUnitOptions, setHeightUnitOptions] = useState<SelectOptionType[]>();
   const [weightUnitOptions, setWeightUnitOptions] = useState<SelectOptionType[]>();
   const [isDetailsRequired, setIsDetailsRequired] = useState<boolean>(false);
@@ -25,6 +27,7 @@ const AddSubjectForm = ({ dropdowns, protocolId }: AddSubjectFormProps) => {
   const { mutate: addSubject, isLoading: isSubjectAddLoading } = useAddSubjectMutation();
   const { mutate: validateSponsor } = useValidateSponsorSubjectId();
   const { mutate: validateDetailRequirement } = useIsDetailsRequired();
+  const { mutate: verifySocialCode } = useVerifySocialCode();
 
   const {
     register,
@@ -32,6 +35,7 @@ const AddSubjectForm = ({ dropdowns, protocolId }: AddSubjectFormProps) => {
     control,
     setValue,
     setError,
+    watch,
     clearErrors,
     formState: { errors },
     reset,
@@ -43,41 +47,59 @@ const AddSubjectForm = ({ dropdowns, protocolId }: AddSubjectFormProps) => {
     const validationPayload = {
       studyId: protocolId ?? '-1',
       sponsorSubjectId: values.sponsorSubjectID
-
     }
 
-    validateSponsor(validationPayload, {
+    const payload = {
+      SocialCode: values.partialID
+    }
+    verifySocialCode(payload, {
       onSuccess: (data) => {
-        if (data.data.isValid) {
-          clearErrors('sponsorSubjectID');
-          delete values.zip;
-          const payload = {
-            ...values,
-            dateOfBirth: new Date(values.dateOfBirth.startDate),
-            idType: values.idType.value,
-            gender: values.gender.value,
-            heightUnit: values.heightUnit.value,
-            weightUnit: values.weightUnit.value,
-            studyId: protocolId
-          }
-          addSubject(payload, {
+        if(data.data.isValid === true) {
+          clearErrors('partialID');
+          validateSponsor(validationPayload, {
             onSuccess: (data) => {
-              toast.success(data.data.details);
-              reset();
+              if (data.data.isValid) {
+                clearErrors('sponsorSubjectID');
+                delete values.zip;
+                const payload = {
+                  ...values,
+                  dateOfBirth: new Date(values.dateOfBirth.startDate),
+                  idType: values.idType.value,
+                  gender: values.gender.value,
+                  heightUnit: values.heightUnit.value,
+                  weightUnit: values.weightUnit.value,
+                  studyId: protocolId
+                }
+                addSubject(payload, {
+                  onSuccess: (data) => {
+                    toast.success(data.data.details);
+                    reset();
+                  },
+                  onError: (error: any) => {
+                    toast.error(error.response.data.details);
+                  }
+                })
+              }
+              else {
+                setError('sponsorSubjectID',  { type: 'custom', message: data.data.message });
+              }
             },
             onError: (error: any) => {
-              toast.error(error.response.data.details);
+              setError('sponsorSubjectID', { type: 'required', message: error?.response.data.details });
             }
-          })
+          });
         }
-        else {
-          setError('sponsorSubjectID', data.data.message);
+        else if(data.data.isValid === false) {
+          setError('partialID', { type: 'custom', message: data.data.message });
+          toast.error(data.data.message);
         }
       },
       onError: (error: any) => {
-        setError('sponsorSubjectID', error?.response.data.details);
+        toast.error(error.response.data.details);
+        console.log(error.response.data.title)
+        setError('partialID', { type: 'custom', message: error.response.data.title } );
       }
-    });
+    })
   };
 
   const handleReset = () => {
@@ -86,6 +108,36 @@ const AddSubjectForm = ({ dropdowns, protocolId }: AddSubjectFormProps) => {
     reset({ dateOfBirth: { startDate: null, endDate: null } })
     setValue('zip', zip);
   };
+
+  const handleWeightUnit = (option: any) => {
+    setValue('weightUnit', option);
+    if(option.label.includes('cm')) {
+      setValue('weightUnit', weightUnitOptions?.[0])
+    } else {
+      setValue('weightUnit', weightUnitOptions?.[1])
+    } 
+  }
+
+  // const validateId = () => {
+  //   const payload = {
+  //     SocialCode: getValues('partialID')
+  //   }
+  //   verifySocialCode(payload, {
+  //     onSuccess: (data) => {
+  //       if(data.data.isValid === false) {
+  //         console.log(data.data.message);
+  //         setError('partialID', data.data.message);
+  //         toast.error(data.data.message);
+  //       }
+  //     },
+  //     onError: (error: any) => {
+  //       toast.error(error.response.data.details);
+  //       console.log(error.response.data.title)
+  //       setError('partialID', error.response.data.title);
+  //       toast.error(error.response.data.title);
+  //     }
+  //   })
+  // }
 
   useEffect(() => {
     setValue('zip', dropdowns?.zipCode);
@@ -106,10 +158,25 @@ const AddSubjectForm = ({ dropdowns, protocolId }: AddSubjectFormProps) => {
     }
   }, [protocolId]);
 
+  // useEffect(() => {
+  //   function handleClickOutside(event: MouseEvent) {
+  //     //@ts-ignore
+  //     if (wrapperRef.current && !wrapperRef.current.contains(event.target as any)) {
+  //       // alert("You clicked outside of me!");
+  //       validateId();
+  //     }
+  //   }
+  //   document.addEventListener("mousedown", handleClickOutside);
+  //   return () => {
+  //     // Unbind the event listener on clean up
+  //     document.removeEventListener("mousedown", handleClickOutside);
+  //   };
+  // }, [wrapperRef])
+
   return (
     <form className="grid grid-cols-1 sm:grid-cols-2 gap-x-12 gap-y-6" onSubmit={handleSubmit(onSubmit)}>
       <div>
-        <Input label="Sponsor Subject ID" placeholder="Enter subject ID" {...register('sponsorSubjectID', { required: "Sponsor id required." })} disabled={!protocolId} />
+        <Input label="Sponsor Subject ID" placeholder={subjectIdFormat} {...register('sponsorSubjectID', { required: "Sponsor id required." })} disabled={!protocolId} />
         {errors.sponsorSubjectID && (
           <span className="text-red-500 -mt-10">{errors.sponsorSubjectID.message as string}</span>
         )}
@@ -187,14 +254,6 @@ const AddSubjectForm = ({ dropdowns, protocolId }: AddSubjectFormProps) => {
         )}
       </div>
 
-      {/* <Datepicker
-        label="Date of Birth"
-        value={{ startDate: null, endDate: null }}
-        onChange={() => {}}
-        asSingle
-        placeholder="Select Date"
-        useRange={false}
-      /> */}
       <div className="w-full">
 
         <div className="flex gap-x-6">
@@ -202,21 +261,21 @@ const AddSubjectForm = ({ dropdowns, protocolId }: AddSubjectFormProps) => {
             <Label label="Last 4 SSN/National ID" className="inline-block mb-2" />
             <Input
               {...register('partialID', {
-                required: "required", pattern: {
+                required: "Id required", pattern: {
                   value: /^\d{4}$/,
                   message: 'Only four digits'
                 }
               })}
               type="number"
+              // onKeyUp={validateId}
               disabled={!protocolId} />
             {errors.partialID && (
               <span className="text-red-500 -mt-10">{errors.partialID.message as string}</span>
             )}
           </div>
 
-          {/* <Select placeholder="Select ID Type" wrapperClassName="col-span-2" /> */}
           <div className="w-full">
-            <Label label="Last 4 SSN/National ID" className="inline-block mb-2" />
+            <Label label="ID Type" className="inline-block mb-2" />
             <Controller
               control={control}
               name='idType'
@@ -291,8 +350,10 @@ const AddSubjectForm = ({ dropdowns, protocolId }: AddSubjectFormProps) => {
               render={({ field: { onChange, onBlur, value } }: any) => (
                 <Select
                   // wrapperClassName="grow" 
-                  placeholder='Height'
-                  onChange={onChange}
+                  onChange={(option) => {
+                    onChange(option);
+                    handleWeightUnit(option);
+                  }}
                   options={heightUnitOptions}
                   value={value}
                   isDisabled={!protocolId}
@@ -318,7 +379,6 @@ const AddSubjectForm = ({ dropdowns, protocolId }: AddSubjectFormProps) => {
           )}
         </div>
 
-        {/* <Select placeholder="kg" /> */}
         <div>
           <Label label="Weight Unit" className="inline-block mb-2" />
           <Controller
@@ -330,11 +390,11 @@ const AddSubjectForm = ({ dropdowns, protocolId }: AddSubjectFormProps) => {
             render={({ field: { onChange, onBlur, value } }: any) => (
               <Select
                 // wrapperClassName="grow" 
-                placeholder="Weight"
                 onChange={onChange}
                 options={weightUnitOptions}
                 value={value}
-                isDisabled={!protocolId}
+                // isDisabled={!protocolId}
+                isDisabled={true}
               />
             )}
           />

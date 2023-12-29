@@ -69,8 +69,7 @@ const SearchForm = ({ isAdvancedOpen, form }: SearchFormProps) => {
     setUserParams((data) => ({
       ...data,
       SearchParameter: val
-    }))
-    // return userOptions;
+    }));
   }
 
   useEffect(() => {
@@ -83,11 +82,10 @@ const SearchForm = ({ isAdvancedOpen, form }: SearchFormProps) => {
   }, [userList]);
 
   return (
-    <div className="flex items-end gap-3 md:gap-6 p-4 md:p-0">
+    <div className="flex items-end gap-3 md:gap-6 py-4 md:py-0">
       {isSysAdmin &&
         <div className="grid lg:flex lg:items-center gap-2 flex-1 md:flex-none">
           <Label label="User: " className="hidden lg:block" />
-          {/* <Select className="md:w-48" /> */}
           <Controller
             control={control}
             name='user'
@@ -109,15 +107,13 @@ const SearchForm = ({ isAdvancedOpen, form }: SearchFormProps) => {
 
       <div className="grid lg:flex lg:items-center gap-2 flex-1 md:flex-none">
         <Label label="Protocol: " className="hidden lg:block" />
-        {/* <Select className="md:w-48" /> */}
-
         <div className="flex">
           <Controller
             control={control}
             name='protocol'
-            rules={{
-              required: "Protocol is required!",
-            }}
+            // rules={{
+            //   required: "Protocol is required!",
+            // }}
             render={({ field: { onChange, onBlur, value } }: any) => (
               <Select
                 onChange={(option) => {
@@ -131,9 +127,9 @@ const SearchForm = ({ isAdvancedOpen, form }: SearchFormProps) => {
                 className="md:w-48" />
             )}
           />
-          {errors.protocol && (
+          {/* {errors.protocol && (
             <span className="text-red-500 mt-2 ml-1"><ErrorIcon /></span>
-          )}
+          )} */}
         </div>
 
       </div>
@@ -171,14 +167,6 @@ const AdvanceSearchForm = ({ form }: AdvanceSearchFormProps) => {
             />
           )}
         />
-        {/* <Datepicker
-          label="Date of Birth"
-          value={{ startDate: null, endDate: null }}
-          onChange={() => { }}
-          placeholder="Select Date"
-          useRange={false}
-          asSingle
-        /> */}
         <Controller
           control={control}
           name='toDate'

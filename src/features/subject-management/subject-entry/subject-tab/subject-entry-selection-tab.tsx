@@ -16,10 +16,11 @@ interface SelectionTabProps {
   isPreScreen?: boolean;
   protocolId: string | undefined;
   dropdowns: { [key: string]: DropDownItem[] };
+  subjectEntryFormat: string;
   setQueryParams: Dispatch<SetStateAction<SearchLastSubjectsParams>>;
 }
 
-const SubjectEntrySelectionTab = ({currentTab, setCurrentTab, isPreScreen, protocolId, dropdowns, setQueryParams }
+const SubjectEntrySelectionTab = ({currentTab, setCurrentTab, isPreScreen, subjectEntryFormat, protocolId, dropdowns, setQueryParams }
   : SelectionTabProps) => {
 
   useEffect(() => {
@@ -41,7 +42,7 @@ const SubjectEntrySelectionTab = ({currentTab, setCurrentTab, isPreScreen, proto
         >
           Add New <br /> Subject
         </button>
-        {!isPreScreen && isPreScreen !== undefined && (
+        {!isPreScreen  && (
           <button
             className={cn("subject-entry", {
               "subject-entry-active": currentTab === "last",
@@ -54,7 +55,7 @@ const SubjectEntrySelectionTab = ({currentTab, setCurrentTab, isPreScreen, proto
         )}
       </div>
       <div className="my-6">
-        {currentTab === "add" ? <AddSubjectForm dropdowns={dropdowns} protocolId={protocolId} />
+        {currentTab === "add" ? <AddSubjectForm dropdowns={dropdowns} protocolId={protocolId} subjectIdFormat={subjectEntryFormat} />
           : <SearchSubjectForm setQueryParams={setQueryParams} protocolId={protocolId} />
         }
       </div>

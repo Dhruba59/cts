@@ -5,25 +5,21 @@ import Datepicker from "@/components/ui/datepicker";
 import Input from "@/components/ui/input";
 import Label from "@/components/ui/label";
 import Select from "@/components/ui/select";
-import { useGetVisitTypes } from "@/hooks/rq-hooks/subject-hooks";
+import { useGetVisitTypes, useUpdateVisitInfo } from "@/hooks/rq-hooks/subject-hooks";
 import { DropDownItem, SelectOptionType } from "@/model/drop-down-list";
 import { convertTypeToSelectOption } from "@/utils/helpers";
 
 import React, { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 
-const LastSubjectContactModal = ({ protocolNo, sponsorSubjectId }: any) => {
-
+const LastSubjectContactModal = ({ data, studyId }: any) => {
   const {
     register,
     handleSubmit,
     control,
-    setValue,
-    setError,
-    clearErrors,
     formState: { errors },
     reset,
-    getValues
   } = useForm();
 
   const [visitType, setVisitType] = useState<SelectOptionType>();
@@ -33,12 +29,11 @@ const LastSubjectContactModal = ({ protocolNo, sponsorSubjectId }: any) => {
   const { data: visitTypes, error, isLoading: visitLoading, refetch } = useGetVisitTypes();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [open, setOpen] = useState<boolean>(false);
+  const { mutate: updateVisitInfo, isLoading:isUpdatingVisitInfo} = useUpdateVisitInfo();
 
   useEffect(() => {
     setVisitTypeOptions(convertTypeToSelectOption(visitTypes?.data as any));
   }, [visitTypes]);
-
-
 
   const onHandelReset = async () => {
     setIsLoading(true);
@@ -46,11 +41,32 @@ const LastSubjectContactModal = ({ protocolNo, sponsorSubjectId }: any) => {
     setLastSubjectEntryDate(currentDate);
     reset();
   }
-  const onSubmit = async (data: any) => {
-    setIsLoading(true);
-    setOpen(false);
-    setLastSubjectEntryDate(currentDate);
-    reset();
+
+  const onSubmit = async (values: any) => {
+    console.log(values);
+    const payload = {
+      studyId: studyId,
+      protocolNumber: data.protocolNumber,
+      sponsorSubjectId: data.sponsorSubjectID,
+      subjectId: data.subjectID,
+      nationalTypeId: data.nationalTypeID,
+      visitTypeId: values.visitType.value,
+      lastSubjectEntryDate: values.lastSubjectEntryDate
+    };
+    updateVisitInfo(payload, {
+      onSuccess: (data) => {
+        toast.success(data.data.details);
+        setOpen(false);
+      },
+      onError: (error: any) => {
+        toast.error(error.response.data.detail);
+      }
+    })
+    // setIsLoading(true);
+    // setOpen(false);
+    // setLastSubjectEntryDate(currentDate);
+    // reset();
+    
 
     // mutate(data, {
     //   onSuccess: ({ data }: any) => {
@@ -76,7 +92,8 @@ const LastSubjectContactModal = ({ protocolNo, sponsorSubjectId }: any) => {
         cancelButtonName: "Cancel",
       }}
       open={open}
-      onClose={() => onHandelReset}
+      setOpen={setOpen}
+      onClose={() => onHandelReset()}
     >
       <form className="space-y-6 h-80">
         <div className="flex items-center justify-center gap-2">
@@ -84,7 +101,7 @@ const LastSubjectContactModal = ({ protocolNo, sponsorSubjectId }: any) => {
           <Input
             placeholder="Enter protocol no."
             className="w-[200px] md:w-[280px]"
-            value={protocolNo}
+            value={data.protocolNumber}
             disabled
           />
         </div>
@@ -93,7 +110,7 @@ const LastSubjectContactModal = ({ protocolNo, sponsorSubjectId }: any) => {
           <Input
             placeholder="Enter subject id"
             className="w-[200px] md:w-[280px]"
-            value={sponsorSubjectId}
+            value={data.sponsorSubjectID}
             disabled
           />
         </div>

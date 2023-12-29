@@ -1,6 +1,6 @@
 "use client";
 import { cn } from "@/libs/utils";
-import React, { ReactNode, useEffect, useState } from "react";
+import React, { Dispatch, ReactNode, SetStateAction, useEffect, useState } from "react";
 import Button from "../ui/button";
 import { CloseIcon, ErrorIcon, SuccessIcon, WarningIcon } from "@/assets/icons";
 import Link from "next/link";
@@ -8,6 +8,7 @@ import { MODAL_TYPE_ENUM } from "@/model/enum";
 
 interface Props {
   open?: boolean;
+  setOpen?: Dispatch<SetStateAction<boolean>>;
   onClose?: () => void;
   title?: string;
   children: React.ReactNode;
@@ -26,6 +27,7 @@ interface Props {
 
 const Modal = ({
   open,
+  setOpen,
   onClose,
   title,
   triggerProp,
@@ -59,6 +61,11 @@ const Modal = ({
       case MODAL_TYPE_ENUM.SUCCESS: return <SuccessIcon/> ;
       default: return <></>;
     }
+  }
+
+  const handleTrigger = () => {
+    setOpen?.(true);
+    setVisible(true);
   }
 
   const renderModalHeader = () => {
@@ -113,7 +120,7 @@ const Modal = ({
 
   return (
     <>
-      {triggerProp && <div onClick={() => setVisible(true)}>{triggerProp}</div>}
+      {triggerProp && <div onClick={handleTrigger}>{triggerProp}</div>}
       <div
         className={`fixed inset-0 flex items-center justify-center transition-colors duration-200 ease-in z-[100] ${
           visible ? "bg-black/50" : "invisible"

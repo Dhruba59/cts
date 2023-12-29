@@ -25,6 +25,19 @@ interface ValidateSponsorSubjectPayload {
   sponsorSubjectId: string;
 }
 
+interface VerifySocialCode {
+  SocialCode: string;
+}
+
+interface UpdateVisitInfo {
+  studyId: number;
+  protocolNumber: string;
+  sponsorSubjectId: string;
+  subjectId: number;
+  nationalTypeId: number;
+  visitTypeId: number;
+  lastSubjectEntryDate: string;
+}
 
 
 export const getStudyType = () => {
@@ -60,6 +73,14 @@ export const checkDetailRequirement = (data: DetailRequirementPayload) => {
 
 export const validateSponsorSubjectId = (data: ValidateSponsorSubjectPayload) => {
   return request({ url: `${API_ROUTE_CONSTANT.SUBJECT}/validate-sponsor-subject-id`, method: "post", data });
+};
+
+export const verifySocialCode = (data: VerifySocialCode) => {
+  return request({ url: `${API_ROUTE_CONSTANT.SUBJECT}/verify-social-code`, method: "post", data });
+};
+
+export const updateVisitInfo = (data: UpdateVisitInfo) => {
+  return request({ url: `${API_ROUTE_CONSTANT.SUBJECT}/update-visit-info`, method: "post", data });
 };
 
 export const searchLastSubjects = ({queryKey}: any) => {

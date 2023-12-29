@@ -1,11 +1,11 @@
 import { useMemo, useState } from "react";
-import { LIST_COLUMN } from "./columns";
+import { getListColumn } from "./columns";
 import Pagination from "@/components/pagination";
 import ExpandableTable from "@/components/table/expandableTable";
 import SimpleTable from "@/components/table/simpleTable";
 
-const ListTable = ({ data, isLoading }: any) => {
-  const columns = useMemo(() => LIST_COLUMN, []);
+const ListTable = ({ data, isLoading, protocolId }: any) => {
+  const columns = useMemo(() => getListColumn(protocolId), [protocolId]);
   // const data = useMemo(() => LIST_DATA, []);
 
   const [currentPage, setCurrentPage] = useState(1);

@@ -32,20 +32,20 @@ const SearchForm = ({ isAdvancedOpen, form }: SearchFormProps) => {
 
 
   return (
-    <div className="flex items-end gap-3 md:gap-6 p-4 md:p-0">
+    <div className="flex items-end gap-3 md:gap-6 py-4 md:py-0">
       <div className="grid lg:flex lg:items-center gap-2 flex-1 md:flex-none">
         <Label label="Protocol: " className="hidden lg:block" />
         <Controller
           control={control}
           name='protocol'
           render={({ field: { onChange, onBlur, value } }: any) => (
-            <Select className="md:w-48" onChange={onChange} value={value} options={protocolOptions} />
+            <Select className="xl:w-48" onChange={onChange} value={value} options={protocolOptions} />
           )}
         />
       </div>
       <div className="grid lg:flex lg:items-center gap-2 flex-1">
         <Label label="Subject ID: " className="hidden lg:block" />
-        <Input placeholder="Enter subject id" className="md:w-48" {...register('subjectId')} />
+        <Input placeholder="Enter subject id" className="xl:w-48" {...register('subjectId')} />
       </div>
       <Button className={`mb-[1px] w-fit ${isAdvancedOpen ? 'hidden' : 'block'}`} type="submit">Search</Button>
     </div>

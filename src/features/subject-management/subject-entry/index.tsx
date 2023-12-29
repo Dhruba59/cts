@@ -36,6 +36,7 @@ const SubjectEntryForm = () => {
   const [queryParams, setQueryParams] = useState<SearchLastSubjectsParams>(null!);
   const [currentTab, setCurrentTab] = useState<"add" | "last">("add");
   const [isPreScreen, setIsPreScreen] = useState<boolean>(false);
+  const [subjectEntryFormat, setSubjectEntryFormat] = useState<string>('');
 
   const { data: studyTypeData } = useQuery('studyType', {
     queryFn: getStudyType,
@@ -56,6 +57,12 @@ const SubjectEntryForm = () => {
     queryFn: getSubjectDropdowns,
   });
 
+  const getSubjectIdFormatFromProtocol = (id: string) => {
+    const protocol = protocolList?.data?.protocols.find((item: any) => item.studyId.toString() === id)
+    if(protocol) {
+      return protocol.subjectIdEntryFormat;
+    }
+  }
 
   useEffect(() => {
     setStudyTypeOptions(convertTypeToSelectOption(studyTypeData?.data?.studyTypes));
@@ -79,8 +86,8 @@ const SubjectEntryForm = () => {
   useEffect(() => {
 
     const prescreen = protocolList?.data?.protocols
-      .find(({ studyId }: any) => studyId.toString() === selectedProtocol?.value)
-      .isPreScreen;
+      ?.find(({ studyId }: any) => studyId.toString() === selectedProtocol?.value)
+      ?.isPreScreen;
     setIsPreScreen(prescreen);
 
     // set query param
@@ -95,14 +102,19 @@ const SubjectEntryForm = () => {
       // ToDate: values.ToDate?.startDate
     }
 
-    console.log(prescreen);
     if (!prescreen) {
       setQueryParams(params);
     }
 
   }, [selectedProtocol]);
 
+  useEffect(() => {
+    if(selectedProtocol){
+      setSubjectEntryFormat(getSubjectIdFormatFromProtocol(selectedProtocol?.value));
+    };
+  }, [selectedProtocol]);
 
+  console.log(protocolOptions);
   return (
     <main>
       <Breadcrumbs title="Subject Management" subTitle="Entry Study Subject" />
@@ -121,6 +133,7 @@ const SubjectEntryForm = () => {
                 onChange={(option) => {
                   if (option) {
                     setSelectedStudy(option);
+                    setSelectedProtocol(null!);
                   }
                 }}
                 value={selectedStudy}
@@ -144,12 +157,12 @@ const SubjectEntryForm = () => {
               />
             </div>
           </div>
-          <SubjectEntrySelectionTab currentTab={currentTab} setCurrentTab={setCurrentTab} isPreScreen={isPreScreen} protocolId={selectedProtocol?.value} setQueryParams={setQueryParams} dropdowns={dropdowns?.data || []} />
+          <SubjectEntrySelectionTab currentTab={currentTab} setCurrentTab={setCurrentTab} isPreScreen={isPreScreen} subjectEntryFormat={subjectEntryFormat} protocolId={selectedProtocol?.value} setQueryParams={setQueryParams} dropdowns={dropdowns?.data || []} />
         </div>
       </div>
       {
         currentTab === "last" && (
-          <ListTable data={subjectList?.data} isLoading={isSubjectLoading} />
+          <ListTable data={subjectList?.data} isLoading={isSubjectLoading} protocolId={selectedProtocol?.value}/>
         )
       }
 
