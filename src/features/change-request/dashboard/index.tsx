@@ -65,7 +65,7 @@ const IndicationList = () => {
   }, [sorting]);
 
   return (
-    <main>
+    <MainContainer>
       <ListHeader setQueryData={setQueryData} />
       <ListTable data={studyData?.data?.items} sorting={sorting} setSorting={setSorting} />
       <Pagination
@@ -76,7 +76,7 @@ const IndicationList = () => {
         setPageSize={setPageSize}
         maxLength={7}
       />
-    </main>
+    </MainContainer>
   );
 };
 

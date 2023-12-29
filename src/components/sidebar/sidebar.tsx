@@ -8,9 +8,10 @@ import { useSession } from "next-auth/react";
 import { createNestedMenusItems } from "@/utils/helpers";
 
 const Sidebar: React.FC = ({}) => {
-  const { isSidebarOpen, setIsSidebarOpen } = useSidebarContext();
+  const { isSidebarOpen, setIsSidebarOpen, isSidebarMinimize, setIsSidebarMinimize 
+  } = useSidebarContext();
   const [menuItems, setMenuItems] = useState<any>();
-  const [isSidebarMinimize, setIsSidebarMinimize] = useState<boolean>(false);
+  //const [isSidebarMinimize, setIsSidebarMinimize] = useState<boolean>(false);
   const { items, setItems } = useMenuItemsContext();
   const { data: session, status } = useSession();
 
