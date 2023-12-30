@@ -59,7 +59,7 @@ const StudyCompoundList = () => {
   }, [sorting]);
 
   return (
-    <MainContainer>
+    <main>
       <ListHeader setQueryData={setQueryData} />
       <ListTable data={studyCompoundData?.data?.items} sorting={sorting} setSorting={setSorting} />
       <Pagination
@@ -70,7 +70,7 @@ const StudyCompoundList = () => {
         setPageSize={setPageSize}
         maxLength={7}
       />
-    </MainContainer>
+    </main>
   );
 };
 

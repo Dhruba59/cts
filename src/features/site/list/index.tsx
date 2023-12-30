@@ -63,7 +63,7 @@ const SiteList = () => {
   }, [sorting]);
 
   return (
-    <MainContainer>
+    <main>
       <ListHeader setQueryData={setQueryData} />
       <ListTable data={siteData?.data?.items} sorting={sorting} setSorting={setSorting} />
       <Pagination
@@ -74,7 +74,7 @@ const SiteList = () => {
         setPageSize={setPageSize}
         maxLength={7}
       />
-    </MainContainer>
+    </main>
   );
 };
 

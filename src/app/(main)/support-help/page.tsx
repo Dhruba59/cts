@@ -10,7 +10,7 @@ export default function SupporHelp() {
   const [alertText, setAlertText] = useState<string>('* This email should be the same one you used during the user creation process.');
 
   return (
-    <MainContainer>
+    <main>
       <section className="border rounded-lg h-full my-2 md:my-4 lg:my-6">
         <div className="m-1 md:m-2 lg:m-4">
           <h5 className="mt-10 mb-4">Do you need any help ?</h5>
@@ -31,7 +31,7 @@ export default function SupporHelp() {
         </div>
         <HelpModal open={isHelpModalOpen} setOpen={setIsHelpModalOpen} />
       </section>
-    </MainContainer>
+    </main>
 
   );
 }
