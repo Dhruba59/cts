@@ -63,7 +63,7 @@ const NationalIdTypeList = () => {
   }, [sorting]);
 
   return (
-    <MainContainer>
+    <main>
       <ListHeader setQueryData={setQueryData} />
       <ListTable data={nationalIdTypeData?.data?.items} sorting={sorting} setSorting={setSorting} refetchNationalIdType={refetchNationalIdType}/>
       <Pagination
@@ -74,7 +74,7 @@ const NationalIdTypeList = () => {
         setPageSize={setPageSize}
         maxLength={7}
       />
-    </MainContainer>
+    </main>
   );
 };
 

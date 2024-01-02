@@ -1,6 +1,5 @@
 'use client'
 
-import { MainContainer } from "@/components/style-container";
 import AddIndication from "@/features/indication/add";
 import { useParams } from "next/navigation";
 

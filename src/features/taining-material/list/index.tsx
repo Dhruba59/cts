@@ -59,7 +59,7 @@ const TrainingMaterialList = () => {
   }, [sorting]);
 
   return (
-    <MainContainer>
+    <main>
       <ListHeader setQueryData={setQueryData} />
       <ListTable data={trainingMaterialData?.data?.items} sorting={sorting} setSorting={setSorting} />
       <Pagination
@@ -70,7 +70,7 @@ const TrainingMaterialList = () => {
         setPageSize={setPageSize}
         maxLength={7}
       />
-    </MainContainer>
+    </main>
   );
 };
 

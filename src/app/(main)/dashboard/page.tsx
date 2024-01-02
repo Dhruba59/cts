@@ -214,7 +214,7 @@ export default function Dashboard() {
 
   return (
     <main>
-      <div className=" mx-3 my-2 grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-4 2xl:gap-7.5">
+      <div className=" ml-4  mr-3 my-3 grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-4 2xl:gap-7.5">
         <CardDataStats
           title="Total views"
           total="$3.456K"
@@ -240,7 +240,7 @@ export default function Dashboard() {
           levelDown
         ></CardDataStats>
       </div>
-      <div className="mx-3 grid grid-cols-1 md:grid-cols-2  gap-4">
+      <div className="ml-4  mr-3 grid grid-cols-1 md:grid-cols-2  gap-4">
 
         <div className="wrapper mb-0 mx-1 p-2 flex items-center justify-center border border-red-100">
           <BarChart

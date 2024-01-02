@@ -39,7 +39,7 @@ export interface ChangeRequestReprintQuery extends Query {
   siteId?: number;
   siteStudyId?: number;
   subjectId?: string;
-  sirstInit?: string;
+  firstInit?: string;
   middleInit?: string;
   lastInit?: string;
   dateOfBirth?: string;

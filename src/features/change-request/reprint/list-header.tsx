@@ -14,14 +14,14 @@ import { ChangeRequestReprintQuery } from "@/model/change-request";
 const ListHeader = ({ setQueryData }: any) => {
   const [isChecked, setIsChecked] = useState(false);
 
-  const {data: codeTypeDropDown} = useGetIndicationCodeTypes();
+  const { data: codeTypeDropDown } = useGetIndicationCodeTypes();
 
   const defaultValues: ChangeRequestReprintQuery = {
     regionGroup: 0,
     siteId: 0,
     siteStudyId: 0,
     subjectId: '',
-    sirstInit: '',
+    firstInit: '',
     middleInit: '',
     lastInit: '',
     dateOfBirth: '',
@@ -48,18 +48,19 @@ const ListHeader = ({ setQueryData }: any) => {
   }
 
   return (
-    <div>
-      <Breadcrumbs title="Change Request & Reprint" subTitle="Change Request & Reprint List" />
+    <div className="sm:wrapper">
       <form className="" onSubmit={handleSubmit(onSubmit)}>
+        <Breadcrumbs title="Change Request & Reprint" subTitle="Change Request & Reprint List" />
         <div className="md:hidden">
-          <SearchForm  isAdvancedOpen={isChecked} codeTypeDropDown={codeTypeDropDown?.data} register={register} Controller={Controller} control={control}  reset={reset}/>
+          <SearchForm isAdvancedOpen={isChecked} codeTypeDropDown={codeTypeDropDown?.data} register={register} Controller={Controller} control={control} reset={reset} />
         </div>
-        <section className="hidden md:block wrapper">
-          <div className="flex flex-row items-center justify-between px-3 py-3">
-            <h4 className=" text-neutral-black">Search for Request & Reprint</h4>
-            <div className="">
-              <SearchForm isAdvancedOpen={isChecked}  codeTypeDropDown={codeTypeDropDown?.data}  register={register} Controller={Controller} control={control} reset={reset}/>
-            </div>
+
+        <div className="flex flex-row items-center justify-between md:px-2 lg:px-3 py-3 gap-1">
+          <h4 className=" text-neutral-black">Search for Request & Reprint</h4>
+          <div className="">
+            <SearchForm isAdvancedOpen={isChecked} codeTypeDropDown={codeTypeDropDown?.data} register={register} Controller={Controller} control={control} reset={reset} />
+          </div>
+          <div className="ml-4">
             <Toggle
               prefixLabel="More: "
               className="hidden lg:block"
@@ -67,9 +68,10 @@ const ListHeader = ({ setQueryData }: any) => {
               setIsChecked={setIsChecked}
             />
           </div>
-          <hr />
-          {isChecked && <AdvanceSearchForm  register={register} Controller={Controller} control={control} reset={reset}/>}
-        </section>
+        </div>
+        <hr />
+        {isChecked && <AdvanceSearchForm codeTypeDropDown={codeTypeDropDown?.data} register={register} Controller={Controller} control={control} reset={reset} />}
+
       </form>
     </div>
   );
