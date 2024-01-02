@@ -16,7 +16,7 @@ import { convertTypeToSelectOption } from "@/utils/helpers";
 import React, { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import Tab from "../user-tab";
-import { useAddUser, useGetUserById, useGetUserDropdowns } from "@/hooks/rq-hooks/user-hooks";
+import { useAddUser, useEditUser, useGetUserById, useGetUserDropdowns } from "@/hooks/rq-hooks/user-hooks";
 import DragNDrop from "@/components/dnd";
 import { DndDataItem, DndDataType } from "@/types/common";
 import SiteUserSettings from "./site-user-settings";
@@ -25,6 +25,7 @@ import { User } from "@/model/user";
 import { toast } from "react-toastify";
 import SysAdminUserSettings from "./sys-admin-user-settings";
 import SponsorUserSettings from "./sponsor-user-settings";
+import { useRouter } from "next/navigation";
 
 interface AddUserProps {
   id?: string;
@@ -169,11 +170,13 @@ const AddUser = ({ id }: AddUserProps) => {
   const { data: dropdowns, isLoading: isDropdownDataLoading } = useGetUserDropdowns();
   const { data: userData, isLoading: isUserDataLoading } = useGetUserById({ UserId: id! });
   const { mutate: addUser, isLoading: isCreatingUser } = useAddUser();
+  const { mutate: editUser, isLoading: isEditingUser } = useEditUser();
 
   const [siteUserDndData, setSiteUserDndData] = useState<DndDataType[]>(initialSiteUserDndValue);
   const [trainingDndData, setTrainingDndData] = useState<DndDataType[]>(initialTrainingDndValue);
   const [sponsorDndData, setSponsorDndData] = useState<DndDataType[]>(initialSponsorDndValue);
   const [adminDndData, setAdminDndData] = useState<AdminDndData>(initialAdminDndValue);
+  const router = useRouter();
 
   const form = useForm();
   const {
@@ -221,6 +224,8 @@ const AddUser = ({ id }: AddUserProps) => {
       else if (user.userTypeId == USER_TYPE_ENUM.SYS_ADMIN) {
         const adminMatchTypes = searchByIds(dropdowns?.data?.matchTypes, user?.matchTypeIds);
         const adminNotificationSites = searchByIds(dropdowns?.data?.sites, user?.notificationSiteIds);
+        setValue('notificationSites', adminNotificationSites);
+        setValue('matchTypes', adminMatchTypes);
         setAdminDndData({
           matchTypes: [{
             title: 'Match Type',
@@ -276,19 +281,33 @@ const AddUser = ({ id }: AddUserProps) => {
 
   const onSubmit = (values: any) => {
     const payload = constructPayload(values, selectedUserType);
-    addUser(payload, {
-      onSuccess: (data) => {
-        toast.success(data?.data.details);
-        reset();
-        setSiteUserDndData(initialSiteUserDndValue);
-        setTrainingDndData(initialTrainingDndValue);
-        setSponsorDndData(initialSponsorDndValue);
-        setAdminDndData(initialAdminDndValue);
-      },
-      onError: (error: any) => {
-        toast.error(error.response.data.detail);
-      }
-    });
+    
+    if(id) {
+      editUser({ userId: id, ...payload}, {
+        onSuccess: (data) => {
+          toast.success(data?.data.details);
+          router.push('user/list');
+        },
+        onError: (error: any) => {
+          toast.error(error.response.data.detail);
+        }
+      });
+    }
+    else {
+      addUser(payload, {
+        onSuccess: (data) => {
+          toast.success(data?.data.details);
+          reset();
+          setSiteUserDndData(initialSiteUserDndValue);
+          setTrainingDndData(initialTrainingDndValue);
+          setSponsorDndData(initialSponsorDndValue);
+          setAdminDndData(initialAdminDndValue);
+        },
+        onError: (error: any) => {
+          toast.error(error.response.data.detail);
+        }
+      });
+    }
   };
 
   const getTabItems = (userType: USER_TYPE_ENUM) => {
@@ -471,7 +490,7 @@ const AddUser = ({ id }: AddUserProps) => {
                 label="Middle Name"
                 placeholder="Middle Name"
                 {...register("middleName", {
-                  required: "Middle name is required!"
+                  // required: "Middle name is required!"
                 })}
               />
               {errors.middleName && (
@@ -495,7 +514,7 @@ const AddUser = ({ id }: AddUserProps) => {
                 label="Title"
                 placeholder="Enter Title"
                 {...register("title", {
-                  required: "Title is required!"
+                  // required: "Title is required!"
                 })}
               />
               {errors.title && (

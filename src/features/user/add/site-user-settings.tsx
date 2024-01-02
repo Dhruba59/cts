@@ -40,8 +40,6 @@ const SiteUserSettings = ({ form, sites, dndData, initialProtocolsIds, setDndDat
 
   useEffect(() => {
     // setSiteDndItem(siteDetail?.data.protocols);
-    console.log('site', initialProtocolsIds);
-    console.log('site', siteDetail?.data?.protocols)
 
     if (siteDetail) {
       const items = siteDetail?.data?.protocols.map((item: any) => {
@@ -54,6 +52,7 @@ const SiteUserSettings = ({ form, sites, dndData, initialProtocolsIds, setDndDat
       if (initialProtocolsIds) {
         selectedItems = searchByIds(items, initialProtocolsIds);
         setSelectedProtocols(selectedItems);
+        setValue('protocols', selectedItems);
       }
       const dndItems = [{
         title: 'Protocols',

@@ -30,15 +30,17 @@ const SponsorUserSettings = ({ form, sponsorId, dndData, setDndData, initialProt
       let selectedItems: DndDataItem[] = [];
       if(initialProtocolsIds) {
         selectedItems = searchByIds(protocols?.data?.sponsors, initialProtocolsIds);
+        setValue('protocols', selectedItems);
       }
-      setDndData([{
+      const data = [{
         title: 'Protocols',
         items: protocols?.data?.sponsors
       },
       {
         title: 'Selected',
         items: selectedItems
-      }]);
+      }];
+      setDndData(filterDndData(data));
     }
   }, [protocols, initialProtocolsIds]);
 

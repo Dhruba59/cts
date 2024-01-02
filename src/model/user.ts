@@ -2,6 +2,7 @@ import { number } from "yup";
 import { Query } from "./query";
 
 export interface User {
+    userId?: string;
     userTypeId?: number;
     siteId?: number;
     userName?: string;
