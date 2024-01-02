@@ -12,7 +12,7 @@ import { json } from "stream/consumers";
 import { DownloadCertificateIcon, QuizIcon } from "@/assets/icons";
 
 
-const TrainingList = ({ item, selected, setSelected, setVideoUrl, setLoadQuiz }: any) => {
+const TrainingList = ({ item, selected, setSelected, setVideoUrl, setLoadQuiz, setShowResult, diableQuizes }: any) => {
 
   useEffect(() => {
     //setVideoUrl(item[0]?.filePath);
@@ -31,7 +31,12 @@ const TrainingList = ({ item, selected, setSelected, setVideoUrl, setLoadQuiz }:
         {item.trainingName}
       </button>
       {
-        item.hasQuizAccess ? <QuizIcon className="cursor-pointer" onClick={() => { setLoadQuiz(true); setSelected(item.trainingId) }} /> : ""
+        item.hasQuizAccess && !diableQuizes?.includes(item.trainingId) ? <QuizIcon className="cursor-pointer" onClick={() => 
+          { 
+            setLoadQuiz(true); 
+            setSelected(item.trainingId);
+            setShowResult(false); 
+          }} /> : ""
       }
       {
         item.canDownloadCertificate ? <DownloadCertificateIcon className="cursor-pointer" onClick={() => { alert('downloading..'); setSelected(item.trainingId)}} /> : ""

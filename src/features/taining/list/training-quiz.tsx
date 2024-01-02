@@ -25,7 +25,7 @@ interface Answer {
   givenAnswers?: number[]
 }
 
-const TrainingQuiz = ({ trainigId }: any) => {
+const TrainingQuiz = ({ trainigId, setDiableQuizes, showResult, setShowResult, refetchTrainings }: any) => {
   const quizQuestions: any = [
     {
       id: 1, question: 'Initials and Date of Birth entered in CTSdatabase are derived from:', answers: [
@@ -63,14 +63,12 @@ const TrainingQuiz = ({ trainigId }: any) => {
   const [questions, setQuestions] = useState<any>([])
   const [question, setQuestion] = useState<any>()
   const [answers, setAnswers] = useState<any>([])
-  const [totalQuestion, setTotalQuestion] = useState(0)
+  const [totalQuestion, setTotalQuestion] = useState<number>(0)
   const [activeQuestion, setActiveQuestion] = useState<number>(0)
   const [selectedAnswer, setSelectedAnswer] = useState<any>()
-  const [showResult, setShowResult] = useState(false)
   const [result, setResult] = useState({
     score: 0,
-    correctAnswers: 0,
-    wrongAnswers: 0,
+    details: "",
   })
 
   const [givenAnswers, setGivenAnswers] = useState<Answer[]>([]);
@@ -90,9 +88,12 @@ const TrainingQuiz = ({ trainigId }: any) => {
         ? {
           ...prev,
           score: prev.score + 5,
-          correctAnswers: prev.correctAnswers + 1,
+          //correctAnswers: prev.correctAnswers + 1,
         }
-        : { ...prev, wrongAnswers: prev.wrongAnswers + 1 }
+        : {
+          ...prev,
+          //wrongAnswers: prev.wrongAnswers + 1 
+        }
     )
     if (activeQuestion !== questions.length - 1) {
 
@@ -120,11 +121,30 @@ const TrainingQuiz = ({ trainigId }: any) => {
     AddQuizAnswer(quizAns, {
       onSuccess: ({ data }: any) => {
         //reset();
+        //console.log(data);
+        setResult((prev) => {
+          return {
+            ...prev,
+            score: data.totalMarksObtain,
+            details: `${data.message} ${data.details}`
+          }
+        })
         toast.success(data.message, { position: "top-center" });
+        if (data.message === "3rd Failed Attempt!") {
+          setDiableQuizes((prev: any) => {
+            return [
+              ...prev,
+              trainigId
+            ]
+          })
+        }
+
+        setShowResult(true);
         //refetch();
       },
       onError: (err: any) => {
         toast.warn(err?.response?.data?.title, { position: "top-center" });
+        setShowResult(true);
       }
     })
   }
@@ -191,8 +211,8 @@ const TrainingQuiz = ({ trainigId }: any) => {
         <div className="">
           <div>
             <span className="font-bold text-2xl">Quiz </span>
-            <span className="text-red-700">{addLeadingZero(activeQuestion + 1)}</span>
-            <span className="text-red-300">/{addLeadingZero(questions?.length)}</span>
+            <span className="text-red-700">{totalQuestion === 0 ? activeQuestion : activeQuestion + 1}</span>
+            <span className="text-red-300">/{totalQuestion}</span>
           </div>
           <h3>{question}</h3>
           <ul className="mr-4">
@@ -241,10 +261,7 @@ const TrainingQuiz = ({ trainigId }: any) => {
             Total Score:<span> {result.score}</span>
           </p>
           <p>
-            Correct Answers:<span> {result.correctAnswers}</span>
-          </p>
-          <p>
-            Wrong Answers:<span> {result.wrongAnswers}</span>
+            Details:<span> {result.details}</span>
           </p>
         </div>
       )}
