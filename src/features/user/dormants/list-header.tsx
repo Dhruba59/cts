@@ -12,19 +12,19 @@ const ListHeader = ({ setQueryData }: any) => {
   const [isChecked, setIsChecked] = useState(false);
 
 
-  const defaultValues: UserQuery = {
-    userId: 0,
-    linkId: 0,
-    userName: '',
-    firstName: '',
-    middleName: '',
-    lastName: '',
-    email: '',
-    active: undefined,
-    lastLoginTime: '',
-    inactiveOver: '',
-    inactiveMonth: null
-  }
+  // const defaultValues: UserQuery = {
+  //   // userId: 0,
+  //   // linkId: 0,
+  //   userName: '',
+  //   firstName: '',
+  //   middleName: '',
+  //   lastName: '',
+  //   email: '',
+  //   active: undefined,
+  //   lastLoginTime: '',
+  //   inactiveOver: '',
+  //   inactiveMonth: null
+  // }
   const {
     register,
     handleSubmit,
@@ -33,7 +33,7 @@ const ListHeader = ({ setQueryData }: any) => {
     formState: { errors },
     reset,
   } = useForm<UserQuery>({
-    defaultValues: defaultValues
+    // defaultValues: defaultValues
   });
 
   const onSubmit = (value: any) => {

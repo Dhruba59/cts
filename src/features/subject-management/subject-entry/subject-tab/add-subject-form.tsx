@@ -35,7 +35,6 @@ const AddSubjectForm = ({ dropdowns, protocolId, subjectIdFormat }: AddSubjectFo
     control,
     setValue,
     setError,
-    watch,
     clearErrors,
     formState: { errors },
     reset,

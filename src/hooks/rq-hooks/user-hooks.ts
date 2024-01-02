@@ -1,20 +1,55 @@
 
 import { getUsers, getUserById, 
-  getDormantUsers, addUser, editUser, deleteUser, deleteDormantUsers 
+  getDormantUsers, addUser, editUser, deleteUser, deleteDormantUsers, getUserDropdown, getSiteDetailWithProtocol, getTrainingsByProtocol, getProtocolBySponsor 
 } from "@/service/user-service";
 import { UseQueryOptions, useMutation, useQuery } from "react-query";
 
+interface SiteDetailWithProtocolQueryParams {
+  SiteId: string | undefined;
+}
 
+interface getTraingingByProtocolParams {
+  ProtocolIds: string | undefined;
+}
 
+interface getProtocolBySponsorParams {
+  SponsorId : string | undefined;
+}
+
+interface GetUserByIdParams {
+  UserId: string;
+}
 
 export const useGetUsers = (queryData : any) => useQuery({
   queryFn: getUsers,
-  queryKey: ['sort', queryData],
+  queryKey: ['users', queryData],
 })
-export const useGetUserById = (id :any) => useQuery({
+export const useGetUserById = (params: GetUserByIdParams) => useQuery({
   queryFn: getUserById,
-  queryKey: ['TrainingId', { TrainingId: id }],
-  enabled: !!id
+  queryKey: ['userId', params],
+  enabled: !!params.UserId
+});
+
+export const useGetUserDropdowns = () => useQuery({
+  queryFn: getUserDropdown,
+})
+
+export const useGetSiteDetailWithProtocol = (params: SiteDetailWithProtocolQueryParams) => useQuery({
+  queryKey: ['siteDetailWithProtocol', params],
+  queryFn: getSiteDetailWithProtocol,
+  enabled: !!params.SiteId
+}); 
+
+export const useGetTrainingsByProtocol = (params: getTraingingByProtocolParams) => useQuery({
+  queryKey: ['getTraingingsByProtocol', params],
+  queryFn: getTrainingsByProtocol,
+  enabled: !!params.ProtocolIds
+})
+
+export const useGetProtocolsBySponsor = (params: getProtocolBySponsorParams) => useQuery({
+  queryKey: ['getProtocolsBySponsor', params],
+  queryFn: getProtocolBySponsor,
+  enabled: !!params.SponsorId
 })
 
 export const useAddUser = () => useMutation({

@@ -6,22 +6,21 @@ import Pagination from "@/components/pagination";
 import { getIndicationCodeTypes, getIndications } from "@/service/indication-service";
 import { SortingState } from "@tanstack/react-table";
 
-import { DropDownItem, SelectOptionType } from "@/model/drop-down-list";
 import { DEFAULT_PAGE_SIZE } from "@/constants/common";
-import { useQuery } from "react-query";
 import { MainContainer } from "@/components/style-container";
-import { useGetIndications } from "@/hooks/rq-hooks/indication-hooks";
+import { useGetUsers } from "@/hooks/rq-hooks/user-hooks";
 
-const IndicationList = () => {
+const UserList = () => {
 
   const [queryData, setQueryData] = useState<IndicationQuery>();
   const [pageSize, setPageSize] = useState<number>(DEFAULT_PAGE_SIZE);
   const [sorting, setSorting] = useState<SortingState>([
     //{ id: "indicationName", desc: false }
   ]);
+  const { data: usersData, error, isLoading: isLoadingUsers, refetch: refetchUsers
+  } = useGetUsers(queryData);
 
-  const { data: studyData, error, isLoading, refetch: refetchIndications 
-  } = useGetIndications(queryData);
+
   
   //console.log(studyData);
 
@@ -67,11 +66,11 @@ const IndicationList = () => {
   return (
     <MainContainer>
       <ListHeader setQueryData={setQueryData} />
-      <ListTable data={studyData?.data?.items} sorting={sorting} setSorting={setSorting} />
+      <ListTable data={usersData?.data?.items} sorting={sorting} setSorting={setSorting} />
       <Pagination
-        currentPage={studyData?.data?.pageNumber}
+        currentPage={usersData?.data?.pageNumber}
         setCurrentPage={setCurrentPageNumber}
-        lastPage={studyData?.data?.totalPages}
+        lastPage={usersData?.data?.totalPages}
         pageSize={pageSize}
         setPageSize={setPageSize}
         maxLength={7}
@@ -80,4 +79,4 @@ const IndicationList = () => {
   );
 };
 
-export default IndicationList;
+export default UserList;
