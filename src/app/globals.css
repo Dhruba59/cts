@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 body {
-  background: #F3F2F1
+  background: #F3F2F1;
 }
 
 @layer base {
@@ -29,7 +29,7 @@ body {
     @apply h-[calc(100vh_-_127px)];
   }
   .wrapper {
-    @apply bg-white m-0 md:mx-6 md:mt-4 md:mb-4 border rounded-lg;
+    @apply bg-white m-0 md:ml-4 md:mr-3 md:mt-4 md:mb-4 border rounded-lg;
   }
   .subject-entry {
     @apply px-8 py-3.5 h-20 text-center bg-white border-2 text-primary border-primary rounded-sm leading-tight;
@@ -88,7 +88,7 @@ input[type="number"] {
 
 ::-webkit-scrollbar {
   width: 6px;
-  background-color: #f1f1f1;
+  background-color: #202124;
 }
 /* Thumb */
 ::-webkit-scrollbar-thumb {

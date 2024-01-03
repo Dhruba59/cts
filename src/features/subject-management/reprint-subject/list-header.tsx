@@ -49,7 +49,7 @@ const ListHeader = ({ setQueryData }: ListHeaderProps) => {
       ToDate: values.toDate?.startDate,
     }
     console.log(params);
-    setQueryData((data) => ({ 
+    setQueryData((data) => ({
       ...data as LastReprintSubjectsParams,
       ...params
     }));
@@ -84,26 +84,26 @@ const ListHeader = ({ setQueryData }: ListHeaderProps) => {
     //   </section>
     // </div>
     <div className="sm:wrapper">
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <Breadcrumbs title="Study Information" subTitle="Study List" />
-      <div className="flex flex-row items-center justify-between gap-2 px-0 sm:px-6 py-3">
-        <h4 className="hidden lg:block text-neutral-black">
-          Search Study
-        </h4>
-        <div className="">
-          <SearchForm isAdvancedOpen={isChecked} form={form}/>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <Breadcrumbs title="Study Information" subTitle="Study List" />
+        <div className="flex flex-row items-center justify-between gap-2 px-0 sm:px-6 py-3">
+          <h4 className="hidden lg:block text-neutral-black">
+            Search Study
+          </h4>
+          <div className="">
+            <SearchForm isAdvancedOpen={isChecked} form={form} />
+          </div>
+          <Toggle
+            prefixLabel="More: "
+            className="hidden lg:block"
+            isChecked={isChecked}
+            setIsChecked={setIsChecked}
+          />
         </div>
-        <Toggle
-          prefixLabel="More: "
-          className="hidden lg:block"
-          isChecked={isChecked}
-          setIsChecked={setIsChecked}
-        />
-      </div>
-      <hr className="" />
-      {isChecked && <AdvanceSearchForm form={form}/>}
-    </form>
-  </div>
+        <hr className="" />
+        {isChecked && <AdvanceSearchForm form={form} />}
+      </form>
+    </div>
   );
 };
 

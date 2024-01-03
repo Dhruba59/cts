@@ -14,6 +14,9 @@ export const getQuizByTrainingId = ({queryKey}: any) => {
   return request({url: 'Quiz/quiz-by-training-id', method: 'GET', params});
 }
 
+export const addQuizAnswer = (data: any) => {
+  return request({url: 'Quiz/answer-quiz', method: 'POST', data});
+}
 
 export const addTrainingMaterial = (data: TrainingMaterial) => {
   return request({url: 'TrainingMaterial', method: 'POST', data});

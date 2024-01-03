@@ -121,6 +121,9 @@ export const convertTypeToSelectOption = (data: DropDownItem[]): SelectOptionTyp
   }))
 );
 
-export const formateTableDate = (date: string) => {
+export const formateTableDate = (date?: string) => {
+  if(!date){
+    return '-';
+  }
   return dayjs(date).format("YYYY-MMM-DD");
 };

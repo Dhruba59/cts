@@ -143,7 +143,7 @@ const AdvanceSearchForm = ({ form }: AdvanceSearchFormProps) => {
   const { control, register, reset } = form;
   return (
     <div className="hidden lg:block p-6 space-y-6">
-      <div className="grid grid-col-1 md:grid-cols-3 gap-x-16">
+      <div className="grid grid-col-1 md:grid-cols-3 lg:grid-cols-4 gap-x-16">
         <div>
           <Label label="Subject Initials" className="inline-block mb-2" />
           <div className="grid grid-cols-3 gap-x-8">

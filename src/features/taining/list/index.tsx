@@ -17,7 +17,9 @@ const UserTrainings = () => {
   const [userTrainings, setUserTrainings] = useState<any>([]);
   const [videoUrl, setVideoUrl] = useState<string>('http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4');
   const [loadQuiz, setLoadQuiz] = useState<boolean>(false);
-  const { data: tainingData, error, isLoading, refetch: refetchIndications
+  const [diableQuizes, setDiableQuizes] = useState([]);
+  const [showResult, setShowResult] = useState(false)
+  const { data: tainingData, error, isLoading, refetch: refetchTrainings
   } = useGetUserTrainings();
 
   useEffect(() => {
@@ -27,24 +29,22 @@ const UserTrainings = () => {
   }, [tainingData])
 
   return (
-    <MainContainer>
+    <main>
       <div className="wrapper mt-1">
         <Breadcrumbs title="Training List" subTitle="Training List" />
         <div className=" flex-wrap flex items-center justify-start gap-1 m-1">
           {userTrainings?.map((item: any) => (
-            <TrainingList key={item.trainingId} item={item} selected={selected} setSelected={setSelected} setVideoUrl={setVideoUrl} setLoadQuiz={setLoadQuiz}/>
+            <TrainingList key={item.trainingId} item={item} selected={selected} setSelected={setSelected} setVideoUrl={setVideoUrl} setLoadQuiz={setLoadQuiz} setShowResult={setShowResult} diableQuizes={diableQuizes}/>
           ))}
         </div>
       </div>
-      <div className="wrapper -mt-2 flex items-start justify-center">
+      <div className="wrapper -mt-2 flex items-center justify-center">
         {
           !loadQuiz ? <TrainingVideo videoUrl={videoUrl} />
-            : <TrainingQuiz trainigId={selected} />
+            : <TrainingQuiz trainigId={selected} setDiableQuizes={setDiableQuizes} showResult={showResult} setShowResult={setShowResult}  refetchTrainings={refetchTrainings}/>
         }
-
-
       </div>
-    </MainContainer>
+    </main>
   );
 };
 

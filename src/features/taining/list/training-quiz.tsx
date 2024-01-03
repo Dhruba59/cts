@@ -14,10 +14,18 @@ import ReactPlayer from "react-player";
 import LeftArrowIcon from "@/components/icons/leftArrowIcon";
 import RightArrowIcon from "@/components/icons/rightArrowIcon";
 import Button from "@/components/ui/button";
-import { useGetQuizByTrainingId } from "@/hooks/rq-hooks/user-training-hooks";
+import { useAddQuizAnswer, useGetQuizByTrainingId } from "@/hooks/rq-hooks/user-training-hooks";
+import { toast } from "react-toastify";
 
 
-const TrainingQuiz = ({ trainigId }: any) => {
+interface Answer {
+  questionIndex?: number;
+  questionId?: number;
+  answerIndexes?: number[];
+  givenAnswers?: number[]
+}
+
+const TrainingQuiz = ({ trainigId, setDiableQuizes, showResult, setShowResult, refetchTrainings }: any) => {
   const quizQuestions: any = [
     {
       id: 1, question: 'Initials and Date of Birth entered in CTSdatabase are derived from:', answers: [
@@ -47,33 +55,129 @@ const TrainingQuiz = ({ trainigId }: any) => {
       answerGiven: ''
     }
   ]
+
+  const { mutate: AddQuizAnswer, isLoading: savingQuizAnser } = useAddQuizAnswer();
   const { data: quizQuestionList, error, isLoading, refetch: refetchQuestions
   } = useGetQuizByTrainingId(trainigId as number);
 
   const [questions, setQuestions] = useState<any>([])
   const [question, setQuestion] = useState<any>()
   const [answers, setAnswers] = useState<any>([])
-  const [totalQuestion, setTotalQuestion] = useState(0)
+  const [totalQuestion, setTotalQuestion] = useState<number>(0)
   const [activeQuestion, setActiveQuestion] = useState<number>(0)
   const [selectedAnswer, setSelectedAnswer] = useState<any>()
-  const [showResult, setShowResult] = useState(false)
   const [result, setResult] = useState({
     score: 0,
-    correctAnswers: 0,
-    wrongAnswers: 0,
+    details: "",
   })
+
   const [givenAnswers, setGivenAnswers] = useState<Answer[]>([]);
-  interface Answer {
-    questionIndex?: number;
-    answerIndex?: number;
-  }
 
   const createObjectList = (size: number): Answer[] =>
     Array.from({ length: size }, (_, index) => ({
       questionIndex: index,
-      answerIndex: undefined,
+      questionId: undefined,
+      answerIndexes: [],
+      givenAnswers: []
     }));
 
+  const onClickNext = () => {
+
+    setResult((prev) =>
+      selectedAnswer
+        ? {
+          ...prev,
+          score: prev.score + 5,
+          //correctAnswers: prev.correctAnswers + 1,
+        }
+        : {
+          ...prev,
+          //wrongAnswers: prev.wrongAnswers + 1 
+        }
+    )
+    if (activeQuestion !== questions.length - 1) {
+
+      setActiveQuestion((prev) => prev + 1)
+
+    } else {
+      setActiveQuestion(0)
+      setShowResult(true)
+    }
+  }
+
+  const onClickSubmit = () => {
+    const newList = givenAnswers.map(item => ({
+      questionId: item.questionId,
+      givenAnswers: item.givenAnswers
+    }));
+
+    let quizAns = {
+      trainingId: trainigId,
+      givenQuizAnswers: newList
+    }
+    console.log('quizAns', quizAns);
+
+    //AddQuizAnswer
+    AddQuizAnswer(quizAns, {
+      onSuccess: ({ data }: any) => {
+        //reset();
+        //console.log(data);
+        setResult((prev) => {
+          return {
+            ...prev,
+            score: data.totalMarksObtain,
+            details: `${data.message} ${data.details}`
+          }
+        })
+        toast.success(data.message, { position: "top-center" });
+        if (data.message === "3rd Failed Attempt!") {
+          setDiableQuizes((prev: any) => {
+            return [
+              ...prev,
+              trainigId
+            ]
+          })
+        }
+
+        setShowResult(true);
+        //refetch();
+      },
+      onError: (err: any) => {
+        toast.warn(err?.response?.data?.title, { position: "top-center" });
+        setShowResult(true);
+      }
+    })
+  }
+
+  const onClickPrevious = () => {
+    if (activeQuestion !== 0) {
+      setActiveQuestion((prev) => prev - 1)
+    } else {
+      setActiveQuestion(0)
+    }
+  }
+
+  const onAnswerSelected = (index: any, answerId: any) => {
+
+    setSelectedAnswer(index);
+
+    setGivenAnswers((prev) => {
+      const updatedObjects = [...prev];
+      updatedObjects[activeQuestion] = {
+        ...updatedObjects[activeQuestion],
+        questionId: questions[activeQuestion]?.questionId,
+        answerIndexes: [index],
+        givenAnswers: [answerId]
+      };
+      return updatedObjects;
+    })
+
+  }
+
+  const generateRandomId = () => {
+    return Math.random().toString(36).substr(2, 9);
+  };
+  const addLeadingZero = (number: any) => (number > 9 ? number : `0${number}`)
 
   useEffect(() => {
     setActiveQuestion(0);
@@ -101,69 +205,22 @@ const TrainingQuiz = ({ trainigId }: any) => {
     }
   }, [activeQuestion]);
 
-  const onClickNext = () => {
-
-    setResult((prev) =>
-      selectedAnswer
-        ? {
-          ...prev,
-          score: prev.score + 5,
-          correctAnswers: prev.correctAnswers + 1,
-        }
-        : { ...prev, wrongAnswers: prev.wrongAnswers + 1 }
-    )
-    if (activeQuestion !== questions.length - 1) {
-
-      setActiveQuestion((prev) => prev + 1)
-
-    } else {
-      setActiveQuestion(0)
-      setShowResult(true)
-    }
-  }
-
-  const onClickPrevious = () => {
-    if (activeQuestion !== 0) {
-      setActiveQuestion((prev) => prev - 1)
-    } else {
-      setActiveQuestion(0)
-    }
-  }
-
-  const onAnswerSelected = ({ index }: any) => {
-
-    setSelectedAnswer(index);
-
-    setGivenAnswers((prev) => {
-      const updatedObjects = [...prev];
-      updatedObjects[activeQuestion] = { ...updatedObjects[activeQuestion], answerIndex: index };
-      return updatedObjects;
-    })
-
-  }
-
-  const generateRandomId = () => {
-    return Math.random().toString(36).substr(2, 9);
-  };
-  const addLeadingZero = (number: any) => (number > 9 ? number : `0${number}`)
-
   return (
-    <div className="ml-4 mb-4 mr-auto">
+    <div className="w-full ml-4 mb-4 mr-auto">
       {!showResult ? (
         <div className="">
           <div>
             <span className="font-bold text-2xl">Quiz </span>
-            <span className="text-red-700">{addLeadingZero(activeQuestion + 1)}</span>
-            <span className="text-red-300">/{addLeadingZero(questions?.length)}</span>
+            <span className="text-red-700">{totalQuestion === 0 ? activeQuestion : activeQuestion + 1}</span>
+            <span className="text-red-300">/{totalQuestion}</span>
           </div>
           <h3>{question}</h3>
-          <ul>
+          <ul className="mr-4">
             {answers?.map((obj: any, index: number) => (
-
               <li
-                onClick={() => onAnswerSelected({ index })}
+                onClick={() => onAnswerSelected(index, obj.answerId)}
                 key={index}
-                className={` border border-blue-300 rounded p-2 my-2 cursor-pointer ${index === givenAnswers[activeQuestion]?.answerIndex ? 'border-red-700 bg-red-200' : null}`}>
+                className={`w-full border border-blue-300 rounded p-2 my-2 cursor-pointer ${givenAnswers[activeQuestion]?.answerIndexes?.includes(index) ? 'border-red-700 bg-red-200' : null}`}>
                 {obj.answer}
               </li>
             ))}
@@ -177,20 +234,21 @@ const TrainingQuiz = ({ trainigId }: any) => {
                 </div>
               }
             </Button>
-            <Button variant="secondary" size="small" className="mx-1 outline-primary" onClick={onClickNext}>
-              {activeQuestion === questions?.length - 1 ?
-
-                <div className="flex items-center gap-2">
-                  <span>Finish</span>
-                  <CheckmarkDoneOutlineIcon fill="white" className="mt-1 text-white" />
-                </div>
-                :
+            {activeQuestion !== questions?.length - 1 ?
+              <Button variant="secondary" size="small" className="mx-1 outline-primary" onClick={onClickNext}>
                 <div className="flex items-center gap-2">
                   <span>Next</span>
                   <RightArrowIcon fill={'white'} className="mt-1 text-white" />
                 </div>
-              }
-            </Button>
+              </Button>
+              :
+              <Button variant="secondary" size="small" className="mx-1 outline-primary" onClick={onClickSubmit}>
+                <div className="flex items-center gap-2">
+                  <span>Finish</span>
+                  <CheckmarkDoneOutlineIcon fill="white" className="mt-1 text-white" />
+                </div>
+              </Button>
+            }
           </div>
         </div>
       ) : (
@@ -203,10 +261,7 @@ const TrainingQuiz = ({ trainigId }: any) => {
             Total Score:<span> {result.score}</span>
           </p>
           <p>
-            Correct Answers:<span> {result.correctAnswers}</span>
-          </p>
-          <p>
-            Wrong Answers:<span> {result.wrongAnswers}</span>
+            Details:<span> {result.details}</span>
           </p>
         </div>
       )}

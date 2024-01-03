@@ -55,7 +55,7 @@ const StudyListFeature = () => {
   }, [sorting]);
 
   return (
-    <MainContainer>
+    <main>
       <ListHeader setQueryData={setQueryData} />
       <ListTable data={studyData?.data?.items} sorting={sorting} setSorting={setSorting} />
       <Pagination
@@ -66,7 +66,7 @@ const StudyListFeature = () => {
         setPageSize={setPageSize}
         maxLength={7}
       />
-    </MainContainer>
+    </main>
   )
 }
 

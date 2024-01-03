@@ -64,7 +64,7 @@ const UserList = () => {
   }, [sorting]);
 
   return (
-    <MainContainer>
+    <main>
       <ListHeader setQueryData={setQueryData} />
       <ListTable data={usersData?.data?.items} sorting={sorting} setSorting={setSorting} />
       <Pagination
@@ -75,7 +75,7 @@ const UserList = () => {
         setPageSize={setPageSize}
         maxLength={7}
       />
-    </MainContainer>
+    </main>
   );
 };
 

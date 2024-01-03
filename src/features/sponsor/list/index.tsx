@@ -57,7 +57,7 @@ const SponsorList = () => {
   }, [sorting]);
 
   return (
-    <MainContainer>
+    <main>
       <ListHeader setQueryData={setQueryData} />
       <ListTable data={sponsorData?.data?.items} sorting={sorting} setSorting={setSorting} />
       <Pagination
@@ -68,7 +68,7 @@ const SponsorList = () => {
         setPageSize={setPageSize}
         maxLength={7}
       />
-    </MainContainer>
+    </main>
   );
 };
 
