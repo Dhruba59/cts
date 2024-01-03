@@ -2,34 +2,44 @@ import { number } from "yup";
 import { Query } from "./query";
 
 export interface User {
-    userId?: number;
-    linkId?: number;
+    userId?: string;
+    userTypeId?: number;
+    siteId?: number;
     userName?: string;
     firstName?: string;
     middleName?: string;
     lastName?: string;
     address1?: string;
     address2?: string;
-    address3?: string;
+    // address3?: string;
     zip?: string;
     city?: string;
-    password?: string;
-    active?: string;
+    // password?: string;
+    // active?: string;
     title?: string;
     state?: string;
-    sponsor?: string;
+    sponsorId?: string;
     email?: string;
     systemLogin?: string;
-    isPasswordChanged?: number;
-    matchType?: number;
-    lastChangeDate?: string;
-    wrongPasswordEntry?: number;
-    accountStatus?: string;
-    status?: string;
+    protocolIds?: string;
+    sponsorProtocols?: string;
+    suppressMatchTypeId?: number;
+    matchTypeIds?: string;
+    notificationSiteIds?: string;
+    trainings?: {
+      trainingId: number;
+      siteStudyId: number;
+    }
+    // isPasswordChanged?: number;
+    // matchType?: number;
+    // lastChangeDate?: string;
+    // wrongPasswordEntry?: number;
+    // accountStatus?: string;
+    // status?: string;
 
     //additional for dormant user 
-    lastLoginTime?: string;
-    inactiveOver?: string;
+    // lastLoginTime?: string;
+    // inactiveOver?: string;
 }
 
 export interface UserQuery extends User, Query {

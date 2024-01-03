@@ -11,61 +11,63 @@ import { DeleteOutlined } from "@/assets/icons";
 type IndicationListColumnsProps = {
   onDelete: (id: any) => void
 }
-export const IndicationListColumns = ({ onDelete }: IndicationListColumnsProps): ColumnDef<IndicationQuery>[] => {
-return ([
+export const getColumns = ({ onDelete }: IndicationListColumnsProps): ColumnDef<any>[] => {
+  return ([
+    {
+      header: "First Name",
+      accessorKey: "firstName",
+    },
+    {
+      header: "Middle Name",
+      accessorKey: "middleName"
+    },
+    {
+      header: "Last Name",
+      accessorKey: "lastName"
+    },
+    {
+      header: "System Login",
+      accessorKey: "systemLogin"
+    },
+    {
+      header: "User Type",
+      accessorKey: "userType",
+    },
+    {
+      header: "Sponsor",
+      accessorKey: "sponsor",
+    },
+    {
+      header: "Email",
+      accessorKey: "email",
+    },
+    {
+      header: "Match Type",
+      accessorKey: "matchType",
+    },
 
-  {
-    header: "Indication Name",
-    accessorKey: "indicationName",
-    cell: ({ row }) => {
-      return (
-        <div className="min-w-[100px]">{row.original.indicationName}</div>
-      );
+    {
+      header: "Assigend Site",
+      accessorKey: "assignedSite",
+    },
+
+    {
+      header: "Assigned Protocols",
+      accessorKey: "assignedProtocolCount",
+    },
+    {
+      id: "actions",
+      header: "Action",
+      size: 140,
+      cell: ({ row }) => {
+        return (
+          <div className="flex items-center gap-6">
+            {/* <View /> */}
+            <Link href={`/user/${row.original.userId}/edit`}><Edit /></Link>
+            {/* <DeleteOutlined className="cursor-pointer" onClick={() => onDelete(row.original.indicationId)}/> */}
+          </div>
+        );
+      }
     }
-  },
-  {
-    header: "Code",
-    accessorKey: "code"
-  },
-  {
-    header: "Code Type",
-    accessorKey: "codeType",
-    cell: ({ row }) => {
-      return <div className=" min-w-[100px]">{row.original.codeType}</div>;
-    }
-  },
-  {
-    header: "Description",
-    accessorKey: "description"
-  },
-  {
-    header: "Require Details",
-    accessorKey: "isRequireDetails",
-    cell: ({ row }) => {
-      return (
-        <div className="min-w-[50px] text-center">
-          {row.original.isRequireDetails === null ||
-          row.original.isRequireDetails === false ? (
-            <Cross />
-          ) : (
-            <Check />
-          )}
-        </div>
-      );
-    }
-  },
-  {
-    id: "actions",
-    header: "Action",
-    size: 140,
-    cell: ({ row }) => {
-      return (
-        <div className="flex items-center gap-6">
-          {/* <View /> */}
-          <Link href={`/indication/${row.original.indicationId}/edit`}><Edit/></Link>
-          <DeleteOutlined className="cursor-pointer" onClick={() => onDelete(row.original.indicationId)}/>
-        </div>
-      );
-    }
-  }
-])};
+  ])
+};

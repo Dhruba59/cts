@@ -1,61 +1,50 @@
 import Button from "@/components/ui/button";
-import Checkbox from "@/components/ui/checkbox";
 import Input from "@/components/ui/input";
 import Label from "@/components/ui/label";
 import Select from "@/components/ui/select";
-import Textarea from "@/components/ui/textarea";
-import { DropDownItem, SelectOptionType } from "@/model/drop-down-list";
-import { CodeType } from "@/model/indication";
-import { getIndicationCodeTypes } from "@/service/indication-service";
-import { convertTypeToSelectOption } from "@/utils/helpers";
-import { useEffect, useState } from "react";
+import { SelectOptionType } from "@/model/drop-down-list";
+import { Controller, UseFormReturn } from "react-hook-form";
 
 interface SearchFormProps {
   isAdvancedOpen: boolean;
-  codeTypeDropDown: any;
-  register: any;
-  Controller: any;
-  control: any;
-  reset: any;
+  form: UseFormReturn;
 }
+
+interface AdvanceSearchFormProps {
+  form: UseFormReturn;
+  userTypeOptions: SelectOptionType[];
+  sponsorOptions: SelectOptionType[];
+  siteOptions: SelectOptionType[];
+  suprressMatchTypeOptions: SelectOptionType[];
+}
+
 export function SearchForm({
   isAdvancedOpen,
-  codeTypeDropDown,
-  register,
-  Controller,
-  control,
-  reset
+  form
 }: SearchFormProps) {
-
-  const [codeTypeOptions, setCodeTypeOptions] = useState<SelectOptionType[]>([]);
-
-  //console.log(codeTypeDropDown);
-  useEffect(() => {
-
-    setCodeTypeOptions(convertTypeToSelectOption(codeTypeDropDown?.codeTypes));
-
-  }, [codeTypeDropDown])
-
+  const { register, control, reset } = form;
   return (
     <div className="flex items-end gap-3 md:gap-6 p-4 md:p-0">
       <div className="grid lg:flex lg:items-center gap-2 flex-1 md:flex-none">
-        <Label label="Code: " className="hidden lg:block" />
+        <Label label="Email: " className="hidden lg:block" />
         <Input
-          name="code"
-          placeholder="Enter indication code"
-          className="md:w-48"
-          {...register("code")}
+          placeholder="Enter Email"
+          {...register("email", {
+            pattern: {
+              value: /\S+@\S+\.\S+/,
+              message: "Invalid email!"
+            }
+          })}
         />
       </div>
       <div className="grid lg:flex lg:items-center gap-2 flex-1 md:flex-none">
-        <Label label="Code Type: " className="hidden lg:block" />
+        <Label label="System Login: " className="hidden lg:block" />
         <div className="w-32">
-          <Controller
-            control={control}
-            name="codeType"
-            isClearable
-            render={({ field: { onChange, onBlur, value } }: any) =>
-              <Select onChange={onChange} options={codeTypeOptions}  value={value}/>}
+          <Input
+            placeholder="Enter system login"
+            {...register("systemLogin", {
+              // required: "System login is required!"
+            })}
           />
         </div>
       </div>
@@ -71,50 +60,141 @@ export function SearchForm({
   );
 }
 
-export function AdvanceSearchForm({ register, Controller, control, reset }: any) {
-  const defaultValues = {
-
-    codeType: { value: "", label: "Select " },
-
-  };
-  
+export function AdvanceSearchForm({ form, userTypeOptions, sponsorOptions, siteOptions, suprressMatchTypeOptions }: AdvanceSearchFormProps) {
+  const { register, control, reset } = form;
   return (
-    <div className="hidden lg:block p-6 pt-2 space-y-4">
-      <div className="flex flex-row items-center gap-5">
-        <Input
-          name="indicationName"
-          label="Indication name"
-          placeholder="Enter Indication name"
-          className="md:w-72"
-          {...register("indicationName")}
-        />
-        <Input
-          name="description"
-          label="Description"
-          placeholder="Enter description"
-          wrapperClassName="md:w-full"
-          {...register("description")}
-        />
-      </div>
-
-      <div className="flex flex-grow justify-between">
-        <div className="flex flex-row items-center -mt-6">
-          <Controller
-            name="isRequireDetails"
-            control={control}
-            render={({ field: { onChange, onBlur, value } }: any) =>
-              <Checkbox className="" onChange={onChange} />}
+    <div className="hidden lg:block p-4 space-y-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 lg:gap-6">
+        <div>
+          <Input
+            label="First Name"
+            placeholder="Enter First name"
+            {...register("firstName")}
           />
-          <Label label="Require Details" className="-mt-1" />
         </div>
-        <div className="flex gap-3">
-          <Button type="submit" className="!h-10 mb-[1px]">
-            Search
-          </Button>
-          <Button type="submit" variant="outline" onClick={() => reset()}>
-            Reset
-          </Button>
+        <div>
+          <Input
+            label="Middle Name"
+            placeholder="Middle Name"
+            {...register("middleName")}
+          />
         </div>
+        <div>
+          <Input
+            label="Last Name"
+            placeholder="Enter last name"
+            {...register("lastName")}
+          />
+        </div>
+        <div>
+          <Input
+            label="Title"
+            placeholder="Enter Title"
+            {...register("title")}
+          />
+        </div>
+        <div>
+          <Controller
+            control={control}
+            name='userType'
+            rules={{
+              // required: 'User type is required!',
+            }}
+            render={({ field: { onChange, onBlur, value } }: any) => (
+              <Select
+                onChange={onChange}
+                label="User type"
+                options={userTypeOptions}
+                value={value} />
+            )}
+          />
+        </div>
+        <div>
+          <Controller
+            control={control}
+            name='sponsor'
+            rules={{
+              // required: 'Sponsor is required!',
+            }}
+            render={({ field: { onChange, onBlur, value } }: any) => (
+              <Select
+                onChange={onChange}
+                label="Sponsor"
+                options={sponsorOptions}
+                value={value} />
+            )}
+          />
+        </div>
+        <div>
+          <Input
+            label="City"
+            placeholder="Enter City"
+            {...register("city")}
+          />
+        </div>
+        <div>
+          <Input
+            label="State"
+            placeholder="Enter State"
+            {...register("state")}
+          />
+        </div>
+        <div>
+          <Input
+            label="Zip Code"
+            placeholder="Enter zip code"
+            {...register("zip")}
+          />
+        </div>
+        <div>
+        <Controller
+            control={control}
+            name='SuppressMatchType'
+            rules={{
+              // required: 'SuppressMatchType is required!',
+            }}
+            render={({ field: { onChange, onBlur, value } }: any) => (
+              <Select
+                onChange={onChange}
+                label="Suppress Match Type"
+                options={suprressMatchTypeOptions}
+                value={value} />
+            )}
+          />
+        </div>
+        <div>
+        <Controller
+            control={control}
+            name='Site'
+            rules={{
+              // required: 'Site is required!',
+            }}
+            render={({ field: { onChange, onBlur, value } }: any) => (
+              <Select
+                onChange={onChange}
+                label="Site"
+                options={siteOptions}
+                value={value} />
+            )}
+          />
+        </div>
+        
+        {/* <div className="flex flex-col items-start justify-between py-1 pb-4">
+              <Label label="Is User Active" />
+              <Controller
+                name="isUserActive"
+                control={control}
+                render={({ field: { onChange, onBlur, value } }: any) =>
+                  <Checkbox className="" onChange={onChange} value={value} checked={value} />}
+              />
+            </div> */}
+
+      </div>
+      <div className="flex items-center justify-end gap-4 !mt-10">
+        <Button className="" type="submit">Advance Search</Button>
+        <Button className="px-8" variant="outline" onClick={() => reset()}>
+          reset
+        </Button>
       </div>
     </div>
   );

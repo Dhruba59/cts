@@ -5,12 +5,31 @@ import { request } from "./axios-config";
 
 export const getUserById = ({queryKey}: any) => {
   const [key, params ] = queryKey as any;
-  return request({url: 'User/GetById', method: 'GET', params});
+  return request({url: 'User/get-by-id', method: 'GET', params});
+}
+
+export const getUserDropdown = () => {
+  return request({url: 'User/dropdowns', method: 'GET'});
+}
+
+export const getSiteDetailWithProtocol = ({queryKey}: any) => {
+  const [key, params ] = queryKey as any;
+  return request({url: 'User/site-detail-with-protocols', method: 'GET', params});
+}
+
+export const getTrainingsByProtocol = ({queryKey}: any) => {
+  const [key, params ] = queryKey as any;
+  return request({url: 'User//get-trainings-by-protocols', method: 'GET', params});
+}
+
+export const getProtocolBySponsor = ({queryKey}: any) => {
+  const [key, params ] = queryKey as any;
+  return request({url: 'User/get-protocols-by-sponsor', method: 'GET', params});
 }
 
 export const getUsers = ({queryKey}: any) => {
   const [key, params ] = queryKey as any;
-  return request({url: 'User/Get', method: 'GET', params});
+  return request({url: 'User/get', method: 'GET', params});
 }
 
 export const addUser = (data: User) => {
