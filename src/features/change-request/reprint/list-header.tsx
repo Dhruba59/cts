@@ -52,13 +52,13 @@ const ListHeader = ({ setQueryData }: any) => {
       <form className="" onSubmit={handleSubmit(onSubmit)}>
         <Breadcrumbs title="Change Request & Reprint" subTitle="Change Request & Reprint List" />
         <div className="md:hidden">
-          <SearchForm isAdvancedOpen={isChecked} codeTypeDropDown={codeTypeDropDown?.data} register={register} Controller={Controller} control={control} reset={reset} />
+          <SearchForm isAdvancedOpen={isChecked}  register={register} Controller={Controller} control={control} reset={reset} />
         </div>
 
         <div className="flex flex-row items-center justify-between md:px-2 lg:px-3 py-3 gap-1">
           <h4 className=" text-neutral-black">Search for Request & Reprint</h4>
           <div className="">
-            <SearchForm isAdvancedOpen={isChecked} codeTypeDropDown={codeTypeDropDown?.data} register={register} Controller={Controller} control={control} reset={reset} />
+            <SearchForm isAdvancedOpen={isChecked} register={register} Controller={Controller} control={control} reset={reset} />
           </div>
           <div className="ml-4">
             <Toggle
@@ -70,7 +70,7 @@ const ListHeader = ({ setQueryData }: any) => {
           </div>
         </div>
         <hr />
-        {isChecked && <AdvanceSearchForm codeTypeDropDown={codeTypeDropDown?.data} register={register} Controller={Controller} control={control} reset={reset} />}
+        {isChecked && <AdvanceSearchForm dropDownList={codeTypeDropDown?.data} register={register} Controller={Controller} control={control} reset={reset} />}
 
       </form>
     </div>
