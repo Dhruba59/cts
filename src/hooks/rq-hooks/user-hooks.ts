@@ -1,6 +1,6 @@
 
 import { getUsers, getUserById, 
-  getDormantUsers, addUser, editUser, deleteUser, deleteDormantUsers, getUserDropdown, getSiteDetailWithProtocol, getTrainingsByProtocol, getProtocolBySponsor 
+  getDormantUsers, addUser, editUser, deleteUser, deleteDormantUsers, getUserDropdown, getSiteDetailWithProtocol, getTrainingsByProtocol, getProtocolBySponsor, validateUserName 
 } from "@/service/user-service";
 import { UseQueryOptions, useMutation, useQuery } from "react-query";
 
@@ -60,6 +60,11 @@ export const useAddUser = () => useMutation({
 export const useEditUser = () => useMutation({
   mutationFn: editUser,
 })
+
+export const useValidateUserName = () => useMutation({
+  mutationFn: validateUserName,
+})
+
 
 export const useGetDormantUsers = (queryData : any) => useQuery({
   queryFn: getDormantUsers,

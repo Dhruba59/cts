@@ -1,5 +1,6 @@
 import { number } from "yup";
 import { Query } from "./query";
+import { CompletedTraining } from "@/features/user/add/training/training";
 
 export interface User {
     userId?: string;
@@ -18,6 +19,7 @@ export interface User {
     // active?: string;
     title?: string;
     state?: string;
+    active?: boolean;
     sponsorId?: string;
     email?: string;
     systemLogin?: string;
@@ -26,6 +28,7 @@ export interface User {
     suppressMatchTypeId?: number;
     matchTypeIds?: string;
     notificationSiteIds?: string;
+    completedTrainingStatus?: CompletedTrainingEditableStatus[];
     trainings?: {
       trainingId: number;
       siteStudyId: number;
@@ -41,6 +44,14 @@ export interface User {
     // lastLoginTime?: string;
     // inactiveOver?: string;
 }
+
+export interface CompletedTrainingEditableStatus {
+  dateOfOverridden: string;
+  overridden: boolean;
+  userTrainingId: number;
+}
+
+
 
 export interface UserQuery extends User, Query {
     
@@ -65,6 +76,10 @@ export interface UserListColumnsProps {
     id?: string
   }
 
+  export interface ValidateUsernamePayload {
+    username: string,
+    userId?: number;
+  }
 
   export interface DormantUserListColumnsProps  {
     onDelete: (id: any) => void,

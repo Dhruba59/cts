@@ -16,12 +16,12 @@ import { convertTypeToSelectOption } from "@/utils/helpers";
 import React, { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import Tab from "../user-tab";
-import { useAddUser, useEditUser, useGetUserById, useGetUserDropdowns } from "@/hooks/rq-hooks/user-hooks";
+import { useAddUser, useEditUser, useGetUserById, useGetUserDropdowns, useValidateUserName } from "@/hooks/rq-hooks/user-hooks";
 import DragNDrop from "@/components/dnd";
 import { DndDataItem, DndDataType } from "@/types/common";
 import SiteUserSettings from "./site-user-settings";
-import Training from "./training";
-import { User } from "@/model/user";
+import Training, { CompletedTraining } from "./training/training";
+import { CompletedTrainingEditableStatus, User } from "@/model/user";
 import { toast } from "react-toastify";
 import SysAdminUserSettings from "./sys-admin-user-settings";
 import SponsorUserSettings from "./sponsor-user-settings";
@@ -121,6 +121,7 @@ const constructPayload = (values: any, userType: USER_TYPE_ENUM) => {
     zip: values.zip,
     userTypeId: values.userType?.value,
     sponsorId: values.sponsor.value,
+    active: values?.active
     // matchType: values.suppressMatchType.value,
     // linkId: values.siteName.value,
     // protocols: values.protocol.value.toString(),
@@ -167,10 +168,12 @@ const AddUser = ({ id }: AddUserProps) => {
   const [initialSponsorProtocolIds, setInitialSponsorProtocolIds] = useState<string[]>();
   const [initialSiteProtocolIds, setInitialSiteProtocolIds] = useState<string[]>();
   const [siteUserSiteId, setSiteUserSiteId] = useState<string>();
+  const [completedTrainings, setCompletedTrainings] = useState<CompletedTraining[]>([]);
   const { data: dropdowns, isLoading: isDropdownDataLoading } = useGetUserDropdowns();
   const { data: userData, isLoading: isUserDataLoading } = useGetUserById({ UserId: id! });
   const { mutate: addUser, isLoading: isCreatingUser } = useAddUser();
   const { mutate: editUser, isLoading: isEditingUser } = useEditUser();
+  const { mutate: validateUsername } = useValidateUserName();
 
   const [siteUserDndData, setSiteUserDndData] = useState<DndDataType[]>(initialSiteUserDndValue);
   const [trainingDndData, setTrainingDndData] = useState<DndDataType[]>(initialTrainingDndValue);
@@ -183,15 +186,18 @@ const AddUser = ({ id }: AddUserProps) => {
     register,
     handleSubmit,
     control,
+    getValues,
     setValue,
     formState: { errors },
     reset,
+    watch,
+    setError,
     resetField,
   } = form;
 
   useEffect(() => {
     const user = userData?.data;
-
+    setCompletedTrainings(userData?.data?.completedTrainings);
     if (userData) {
       const values = {
         firstName: user.firstName,
@@ -211,7 +217,6 @@ const AddUser = ({ id }: AddUserProps) => {
         suppressMatchType: user.suppressMatchTypeId,
         siteId: user.siteId,
         site: user.siteId
-
       }
       reset(values);
       setSelectedUserType(user?.userTypeId.toString());
@@ -280,10 +285,15 @@ const AddUser = ({ id }: AddUserProps) => {
   }, [userData])
 
   const onSubmit = (values: any) => {
-    const payload = constructPayload(values, selectedUserType);
-    
-    if(id) {
-      editUser({ userId: id, ...payload}, {
+    let payload = constructPayload(values, selectedUserType);
+
+    if (id) {
+      payload.completedTrainingStatus = completedTrainings.map((item: CompletedTraining) => ({
+        userTrainingId: item.userTrainingId,
+        dateOfOverridden: item.dateOfOverridden,
+        overridden: item.overridden
+      }));
+      editUser({ userId: id, ...payload }, {
         onSuccess: (data) => {
           toast.success(data?.data.details);
           router.push('user/list');
@@ -329,7 +339,13 @@ const AddUser = ({ id }: AddUserProps) => {
               title: 'Site User Settings'
             },
             {
-              content: <Training form={form} dndData={trainingDndData} setDndData={setTrainingDndData} protocols={selectedProtocols} />,
+              content: <Training 
+                form={form} 
+                dndData={trainingDndData} 
+                setDndData={setTrainingDndData} 
+                protocols={selectedProtocols} 
+                completedTrainings={userData?.data.completedTrainings}
+                setCompletedTrainings={setCompletedTrainings}/>,
               title: 'Training'
             }
           ]
@@ -426,13 +442,48 @@ const AddUser = ({ id }: AddUserProps) => {
             title: 'Site User Settings'
           },
           {
-            content: <Training form={form} dndData={trainingDndData} setDndData={setTrainingDndData} protocols={selectedProtocols} />,
+            content: <Training 
+              form={form} 
+              dndData={trainingDndData} 
+              setDndData={setTrainingDndData} 
+              protocols={selectedProtocols} 
+              completedTrainings={userData?.data.completedTrainings}
+              setCompletedTrainings={setCompletedTrainings} />,
             title: 'Training'
           }
         ]
       );
     }
   }
+
+  const handleSystemLoginName = (e: any) => {
+    const firstName = getValues('firstName');
+    const lastName = getValues('lastName');
+    if(firstName && lastName && firstName !== '' && lastName !=='') {
+      setValue('systemLogin', firstName[0]+lastName);
+    }
+  };
+
+  // const handleSystemLoginChange = (e: any) => {
+  //   console.log(e.target.value);
+  // }
+
+  const watchSystemLogin = watch('systemLogin');
+  useEffect(() => {
+    console.log(watchSystemLogin);
+    validateUsername({
+      username: watchSystemLogin,
+    }, {
+      onSuccess: (data) => {
+        if(data.data.type === 1) {
+          setError('systemLogin', { type: 'custom', message: data.data.message });
+        }
+        else {
+          setError('systemLogin', { type: 'error', message: data.data.message });
+        }
+      }
+    })
+  }, [watchSystemLogin])
 
   useEffect(() => {
     if (dropdowns) {
@@ -480,6 +531,7 @@ const AddUser = ({ id }: AddUserProps) => {
                 {...register("firstName", {
                   required: "First name is required!"
                 })}
+                onBlur={handleSystemLoginName}
               />
               {errors.firstName && (
                 <span className="text-red-500 -mt-10">{errors.firstName.message as string}</span>
@@ -504,6 +556,7 @@ const AddUser = ({ id }: AddUserProps) => {
                 {...register("lastName", {
                   required: "Last name is required!"
                 })}
+                onBlur={handleSystemLoginName}
               />
               {errors.lastName && (
                 <span className="text-red-500 -mt-10">{errors.lastName.message as string}</span>
@@ -585,12 +638,14 @@ const AddUser = ({ id }: AddUserProps) => {
               <Input
                 label="System Login"
                 placeholder="Enter system login"
+                disabled={!!id}
                 {...register("systemLogin", {
                   required: "System login is required!"
                 })}
+                // onChange={handleSystemLoginChange}
               />
               {errors.systemLogin && (
-                <span className="text-red-500 -mt-10">{errors.systemLogin.message as string}</span>
+                <span className={`${errors.systemLogin.type === 'custom'? 'text-green-500' : 'text-red-500'} -mt-10`}>{errors.systemLogin.message as string}</span>
               )}
             </div>
             <div>
@@ -629,15 +684,18 @@ const AddUser = ({ id }: AddUserProps) => {
                 <span className="text-red-500 -mt-10">{errors.zip.message as string}</span>
               )}
             </div>
-            {/* <div className="flex flex-col items-start justify-between py-1 pb-4">
-              <Label label="Is User Active" />
-              <Controller
-                name="isUserActive"
-                control={control}
-                render={({ field: { onChange, onBlur, value } }: any) =>
-                  <Checkbox className="" onChange={onChange} value={value} checked={value} />}
-              />
-            </div> */}
+            {id &&
+              <div className="flex flex-col items-start justify-between py-1 pb-4">
+                <Label label="Is User Active" />
+                <Controller
+                  name="active"
+                  control={control}
+                  render={({ field: { onChange, onBlur, value } }: any) =>
+                    <Checkbox className="" onChange={onChange} value={value} checked={value} />}
+                />
+              </div>
+            }
+
             <div className="col-span-full grid grid-cols-1 gap-6 md:grid-cols-2">
               <Textarea label="Address one" placeholder="Enter description here"  {...register("address1")} />
               <Textarea label="Address two" placeholder="Enter description here"  {...register("address2")} />
