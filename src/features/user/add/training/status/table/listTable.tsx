@@ -1,7 +1,7 @@
 "use client";
 import ExpandableTable from "@/components/table/expandableTable";
 import SimpleTable from "@/components/table/simpleTable";
-import { ChangeEvent, useMemo, useState } from "react";
+import { ChangeEvent, useCallback, useMemo, useState } from "react";
 import { getColumns } from "./columns";
 import Datepicker, { DateValueType } from "react-tailwindcss-datepicker";
 import { useEditUser } from "@/hooks/rq-hooks/user-hooks";
@@ -15,33 +15,27 @@ export const searchTrainingIndexById = (data: CompletedTraining[], id: number) =
 }
 
 
-export function ListTable({ data, sorting, setSorting, refetchIndications, form, setCompletedTrainings }: any) {
-  const { mutate: editUser, isLoading: isEditingUser } = useEditUser();
-  const { id } = useParams();
-
-  const [overridenDate, setOverridenDate] = useState<DateValueType>(null);
-
+export function ListTable({ data, form, setCompletedTrainings }: any) {
   const onDownload = () => {};
 
-  const onOverridenDateChange = (value: DateValueType, id: number) => {
+  const onOverridenDateChange = useCallback((value: DateValueType, id: number) => {
     const index = searchTrainingIndexById(data, id);
 
     if(index !== -1){ 
-      
-      let newData = [...data];
+      let newData = JSON.parse(JSON.stringify(data));
       newData[index] = {
         ...data[index],
         dateOfOverridden: value?.startDate?.toLocaleString()
       };
       setCompletedTrainings(newData);
     }
-  }
+  }, [data, setCompletedTrainings]); 
  
 
-  const onOverrideCheckboxChange = (e: ChangeEvent<HTMLInputElement>, id: number) => {
+  const onOverrideCheckboxChange = useCallback((e: ChangeEvent<HTMLInputElement>, id: number) => {
     const index = searchTrainingIndexById(data, id);
     if(index !== -1){ 
-      let newData = [...data];
+      let newData = JSON.parse(JSON.stringify(data));
       newData[index] = {
         ...data[index],
         overridden: e.target.checked
@@ -69,9 +63,9 @@ export function ListTable({ data, sorting, setSorting, refetchIndications, form,
     //   }
     // });
 
-  }
+  }, [ data, setCompletedTrainings]) 
 
-  const columns: any = getColumns({ onDownload, onOverridenDateChange, onOverrideCheckboxChange, form });
+  const columns: any = useMemo(() => getColumns({ onDownload, onOverridenDateChange, onOverrideCheckboxChange, form }),[ onOverridenDateChange, onOverrideCheckboxChange, form]);
 
   return (
     <div className="sm:wrapper">
@@ -79,7 +73,7 @@ export function ListTable({ data, sorting, setSorting, refetchIndications, form,
         Status
       </h4>
       <div className="hidden sm:block">
-        <SimpleTable data={data} columns={columns} />
+        <SimpleTable data={data} columns={columns} containerClassName='min-h-[650px]' />
       </div>
       <div className="block sm:hidden">
         <ExpandableTable

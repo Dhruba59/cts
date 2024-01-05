@@ -31,7 +31,7 @@ const Select = <
         return options.filter((option: any) => option.value === value?.toString())
       }
     })
-  }, [value]);
+  }, [value, options]);
 
   return (
     <div className={wrapperClassName}>

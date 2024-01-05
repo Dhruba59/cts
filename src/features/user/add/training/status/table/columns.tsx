@@ -26,7 +26,7 @@ export const getColumns = ({ onDownload, onOverrideCheckboxChange, onOverridenDa
   const { register, control, formState: { errors } } = form;
 
 
-  
+
   return ([
     {
       header: "Protocol",
@@ -53,32 +53,30 @@ export const getColumns = ({ onDownload, onOverrideCheckboxChange, onOverridenDa
           endDate: row.original.dateOfOverridden
         }
         return (
-          <div className="relative">
-            <div>
-              <Controller
-                control={control}
-                name={`overriddenDate${row.original.userTrainingId}`}
-                rules={{
-                  // required: "Date is required!",
-                }}
-                render={({ field: { onChange, onBlur, value } }: any) => (
-                  <Datepicker
-                    inputClassName='w-[120px]'
-                    onChange={(date) => {
-                      onChange(date);
-                      onOverridenDateChange(date, row.original.userTrainingId)
-                    }}
-                    value={value ?? date}
-                    useRange={false}
-                    asSingle
-                    popoverDirection="down"
-                  />
-                )}
-              />
-              {errors.overridenDate && (
-                <span className="text-red-500 -mt-10">{errors.overridenDate.message as string}</span>
+          <div className="">
+            <Controller
+              control={control}
+              name={`overriddenDate${row.original.userTrainingId}`}
+              rules={{
+                // required: "Date is required!",
+              }}
+              render={({ field: { onChange, onBlur, value } }: any) => (
+                <Datepicker
+                  inputClassName=''
+                  onChange={(date) => {
+                    onChange(date);
+                    onOverridenDateChange(date, row.original.userTrainingId);
+                  }}
+                  value={value ?? date}
+                  useRange={false}
+                  asSingle
+                  popoverDirection="down"
+                />
               )}
-            </div>
+            />
+            {errors.overridenDate && (
+              <span className="text-red-500 -mt-10">{errors.overridenDate.message as string}</span>
+            )}
           </div>
         );
       }
@@ -93,7 +91,10 @@ export const getColumns = ({ onDownload, onOverrideCheckboxChange, onOverridenDa
               name="isOverridden"
               control={control}
               render={({ field: { onChange, onBlur, value } }: any) => (
-                <Checkbox onChange={onChange} value={value} />
+                <Checkbox onChange={(e) => {
+                  onChange(e);
+                  onOverrideCheckboxChange(e, row.original.userTrainingId);
+                }} value={value} />
               )}
             />
           </div>
@@ -109,7 +110,9 @@ export const getColumns = ({ onDownload, onOverrideCheckboxChange, onOverridenDa
       accessorKey: "certificate",
       cell: ({ row }) => {
         return (
-          <div className="cursor-pointer text-blue-500">{row.original.isCertificateAvailable ? 'Download' : 'Not available'}</div>
+          <div>
+            {row.original.isCertificateAvailable ? <div className="cursor-pointer text-blue-500">Download</div> : <div>Not available</div>}
+          </div>
         );
       }
     },
