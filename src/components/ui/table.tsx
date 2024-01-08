@@ -5,7 +5,7 @@ const Table: React.FC<React.HTMLAttributes<HTMLTableElement>> = ({
   ...props
 }) => {
   return (
-    <div className="relative w-full overflow-auto">
+    <div className="relative w-full">
       <table
         className={cn("w-full text-sm text-black/80", className)}
         {...props}

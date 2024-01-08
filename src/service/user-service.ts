@@ -1,4 +1,4 @@
-import { DeleteDormantUserPayload, DeleteUserPayload, User, UserQuery 
+import { DeleteDormantUserPayload, DeleteUserPayload, User, UserQuery, ValidateUsernamePayload 
 } from "@/model/user";
 import { request } from "./axios-config";
 
@@ -39,6 +39,10 @@ export const addUser = (data: User) => {
 export const editUser = (data: User) => {
   return request({url: 'User', method: 'PUT', data});
 } 
+
+export const validateUserName = (data: ValidateUsernamePayload) => {
+  return request({url: 'User/validate-username', method: 'POST', data});
+}
 
 export const deleteUser = (data: DeleteUserPayload) => {
   return request({url: 'User', method: 'DELETE', data});

@@ -31,6 +31,7 @@ export function SimpleTable<TData, TValue>({
   sorting,
   setSorting,
   isLoading,
+  containerClassName,
   ...props
 }: DataTableProps<TData, TValue>) {
 
@@ -73,7 +74,7 @@ export function SimpleTable<TData, TValue>({
   }
 
   return (
-    <div {...props}>
+    <div {...props} className={`overflow-auto ${containerClassName}`}>
       <Table>
         <TableHeader>
           {table?.getHeaderGroups()?.map((headerGroup) => (

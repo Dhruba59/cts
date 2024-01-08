@@ -16,12 +16,12 @@ import { convertTypeToSelectOption } from "@/utils/helpers";
 import React, { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import Tab from "../user-tab";
-import { useAddUser, useEditUser, useGetUserById, useGetUserDropdowns } from "@/hooks/rq-hooks/user-hooks";
+import { useAddUser, useEditUser, useGetUserById, useGetUserDropdowns, useValidateUserName } from "@/hooks/rq-hooks/user-hooks";
 import DragNDrop from "@/components/dnd";
 import { DndDataItem, DndDataType } from "@/types/common";
 import SiteUserSettings from "./site-user-settings";
-import Training from "./training";
-import { User } from "@/model/user";
+import Training, { CompletedTraining, filterDndData } from "./training/training";
+import { CompletedTrainingEditableStatus, User } from "@/model/user";
 import { toast } from "react-toastify";
 import SysAdminUserSettings from "./sys-admin-user-settings";
 import SponsorUserSettings from "./sponsor-user-settings";
@@ -105,13 +105,12 @@ enum USER_TYPE_ENUM {
   BOTH_USER_TYPE = '-1'
 }
 
-const constructPayload = (values: any, userType: USER_TYPE_ENUM) => {
+const constructPayload = (values: any, userType: USER_TYPE_ENUM, isUpdate: boolean = false) => {
   // const siteStudyId = values.sites.map((item: DropDownItem) => item.value);
   let payload: User = {
     firstName: values.firstName,
     middleName: values.middleName,
     lastName: values.lastName,
-    systemLogin: values.systemLogin,
     email: values.email,
     title: values.title,
     address1: values.address1,
@@ -119,8 +118,10 @@ const constructPayload = (values: any, userType: USER_TYPE_ENUM) => {
     city: values.city,
     state: values.state,
     zip: values.zip,
-    userTypeId: values.userType?.value,
-    sponsorId: values.sponsor.value,
+    userTypeId: values.userType?.value ?? values.userType,
+    sponsorId: values.sponsor.value ?? values.sponsor,
+    
+    systemLogin: values.systemLogin
     // matchType: values.suppressMatchType.value,
     // linkId: values.siteName.value,
     // protocols: values.protocol.value.toString(),
@@ -131,28 +132,45 @@ const constructPayload = (values: any, userType: USER_TYPE_ENUM) => {
     //   siteStudyId: siteStudyId
     // }
   }
+
+  if (isUpdate) {
+    delete payload.systemLogin;
+    payload.active = values?.isActive;
+  }
   switch (userType) {
-    case USER_TYPE_ENUM.SITE_USER || USER_TYPE_ENUM.SR_USER_ONLY:
-      // payload.protocolIds = values?.protocols?.map((item: DndDataItem) => item.value).join(',');
-      payload.siteId = values?.site?.value;
-      payload.suppressMatchTypeId = values?.suppressMatchType?.value;
+    case USER_TYPE_ENUM.SITE_USER:
+      payload.protocolIds = values?.protocols?.map((item: DndDataItem) => item.value).join(',');
+      payload.siteId = values?.site?.value ?? values?.site ?? undefined;
+      payload.suppressMatchTypeId = values?.suppressMatchType?.value ?? values?.suppressMatchType ?? undefined;
       payload.trainings = values?.training?.map((item: any) => ({
-        trainingId: item?.protocolId, protocolId: item?.protocolId
+        trainingId: item?.value, protocolId: item?.protocolId
       }));
+      break;
+    case USER_TYPE_ENUM.SR_USER_ONLY:
+      payload.protocolIds = values?.protocols?.map((item: DndDataItem) => item.value).join(',');
+      payload.siteId = values?.site?.value ?? values?.site ?? undefined;
+      payload.suppressMatchTypeId = values?.suppressMatchType?.value ?? values?.suppressMatchType ?? undefined;
+      payload.trainings = values?.training?.map((item: any) => ({
+        trainingId: item?.value, protocolId: item?.protocolId
+      }));
+      break;
     case USER_TYPE_ENUM.SYS_ADMIN:
       payload.matchTypeIds = values?.matchTypes?.map((item: DndDataItem) => item.value).join(',');
       payload.notificationSiteIds = values?.notificationSites?.map((item: DndDataItem) => item.value).join(',');
+      break;
     case USER_TYPE_ENUM.SPONSOR:
       payload.sponsorProtocols = values?.protocols?.map((item: DndDataItem) => item.value).join(',');
+      break;
     case USER_TYPE_ENUM.BOTH_USER_TYPE:
       payload.protocolIds = values?.protocols?.map((item: DndDataItem) => item.value).join(',');
-      payload.siteId = values?.site?.value;
-      payload.suppressMatchTypeId = values?.suppressMatchType?.value;
+      payload.siteId = values?.site?.value ?? values?.site ?? undefined;
+      payload.suppressMatchTypeId = values?.suppressMatchType?.value  ?? values?.suppressMatchType ?? undefined;
       payload.trainings = values?.training?.map((item: any) => ({
         trainingId: item?.protocolId, protocolId: item?.protocolId
       }));
       payload.matchTypeIds = values?.matchTypes?.map((item: DndDataItem) => item.value).join(',');
       payload.notificationSiteIds = values?.notificationSites?.map((item: DndDataItem) => item.value).join(',');
+      break;
   }
 
   return payload;
@@ -167,10 +185,12 @@ const AddUser = ({ id }: AddUserProps) => {
   const [initialSponsorProtocolIds, setInitialSponsorProtocolIds] = useState<string[]>();
   const [initialSiteProtocolIds, setInitialSiteProtocolIds] = useState<string[]>();
   const [siteUserSiteId, setSiteUserSiteId] = useState<string>();
+  const [completedTrainings, setCompletedTrainings] = useState<CompletedTraining[]>([]);
   const { data: dropdowns, isLoading: isDropdownDataLoading } = useGetUserDropdowns();
   const { data: userData, isLoading: isUserDataLoading } = useGetUserById({ UserId: id! });
   const { mutate: addUser, isLoading: isCreatingUser } = useAddUser();
   const { mutate: editUser, isLoading: isEditingUser } = useEditUser();
+  const { mutate: validateUsername } = useValidateUserName();
 
   const [siteUserDndData, setSiteUserDndData] = useState<DndDataType[]>(initialSiteUserDndValue);
   const [trainingDndData, setTrainingDndData] = useState<DndDataType[]>(initialTrainingDndValue);
@@ -183,15 +203,18 @@ const AddUser = ({ id }: AddUserProps) => {
     register,
     handleSubmit,
     control,
+    getValues,
     setValue,
     formState: { errors },
     reset,
+    watch,
+    setError,
     resetField,
   } = form;
 
   useEffect(() => {
     const user = userData?.data;
-
+    setCompletedTrainings(userData?.data?.completedTrainings);
     if (userData) {
       const values = {
         firstName: user.firstName,
@@ -210,15 +233,19 @@ const AddUser = ({ id }: AddUserProps) => {
         sponsor: user.sponsorId,
         suppressMatchType: user.suppressMatchTypeId,
         siteId: user.siteId,
-        site: user.siteId
-
+        site: user.siteId,
+        isActive: user.active
       }
       reset(values);
       setSelectedUserType(user?.userTypeId.toString());
-      if (user.userTypeId == USER_TYPE_ENUM.SITE_USER || user.userTypeId === USER_TYPE_ENUM.BOTH_USER_TYPE) {
+      if (user.userTypeId == USER_TYPE_ENUM.SITE_USER) {
         // setSiteUserDndData();
         setInitialSiteProtocolIds(user?.protocolIds?.map((id: number) => id.toString()));
         setSiteUserSiteId(user?.siteId);
+        const trainings = user?.trainings?.map((item: any) => ({
+          value: item?.trainingId, protocolId: item?.protocolId, text: item.trainingName,
+        }));
+        setValue('training', trainings);
         // setTrainingDndData();
       }
       else if (user.userTypeId == USER_TYPE_ENUM.SYS_ADMIN) {
@@ -226,25 +253,28 @@ const AddUser = ({ id }: AddUserProps) => {
         const adminNotificationSites = searchByIds(dropdowns?.data?.sites, user?.notificationSiteIds);
         setValue('notificationSites', adminNotificationSites);
         setValue('matchTypes', adminMatchTypes);
+      
         setAdminDndData({
-          matchTypes: [{
+          matchTypes: filterDndData([{
             title: 'Match Type',
             items: dropdowns?.data?.matchTypes
           },
           {
             title: 'selected',
             items: adminMatchTypes
-          }],
-          sites: [{
+          }]),
+          sites: filterDndData([{
             title: 'Site',
             items: dropdowns?.data?.sites
           },
           {
             title: 'selected',
             items: adminNotificationSites
-          }]
+          }])
         });
+        
       }
+      
       else if (user.userTypeId == USER_TYPE_ENUM.SPONSOR) {
         setSelectedSponsorId(user?.sponsorId);
         setInitialSponsorProtocolIds(user?.protocolIds?.map((id: number) => id.toString()));
@@ -258,35 +288,43 @@ const AddUser = ({ id }: AddUserProps) => {
         const adminMatchTypes = searchByIds(dropdowns?.data?.matchTypes, user?.matchTypeIds);
         const adminNotificationSites = searchByIds(dropdowns?.data?.sites, user?.notificationSiteIds);
         setAdminDndData({
-          matchTypes: [{
+          matchTypes: filterDndData([{
             title: 'Match Type',
             items: dropdowns?.data?.matchTypes
           },
           {
             title: 'selected',
             items: adminMatchTypes
-          }],
-          sites: [{
+          }]),
+          sites: filterDndData([{
             title: 'Site',
             items: dropdowns?.data?.sites
           },
           {
             title: 'selected',
             items: adminNotificationSites
-          }]
+          }])
         });
       }
     }
   }, [userData])
 
+  
+
   const onSubmit = (values: any) => {
-    const payload = constructPayload(values, selectedUserType);
-    
-    if(id) {
-      editUser({ userId: id, ...payload}, {
+    let payload = constructPayload(values, selectedUserType, !!id);
+    if (id) {
+      if ((selectedUserType == USER_TYPE_ENUM.SITE_USER)) {
+        payload.completedTrainingStatus = completedTrainings?.map((item: CompletedTraining) => ({
+          userTrainingId: item.userTrainingId,
+          dateOfOverridden: item.dateOfOverridden,
+          overridden: item.overridden
+        }));
+      }
+      editUser({ userId: id, ...payload }, {
         onSuccess: (data) => {
           toast.success(data?.data.details);
-          router.push('user/list');
+          router.push('/user/list');
         },
         onError: (error: any) => {
           toast.error(error.response.data.detail);
@@ -329,7 +367,14 @@ const AddUser = ({ id }: AddUserProps) => {
               title: 'Site User Settings'
             },
             {
-              content: <Training form={form} dndData={trainingDndData} setDndData={setTrainingDndData} protocols={selectedProtocols} />,
+              content: <Training
+                form={form}
+                dndData={trainingDndData}
+                setDndData={setTrainingDndData}
+                protocols={selectedProtocols}
+                prevTrainings={userData?.data.trainings}
+                completedTrainings={userData?.data.completedTrainings}
+                setCompletedTrainings={setCompletedTrainings} />,
               title: 'Training'
             }
           ]
@@ -426,7 +471,14 @@ const AddUser = ({ id }: AddUserProps) => {
             title: 'Site User Settings'
           },
           {
-            content: <Training form={form} dndData={trainingDndData} setDndData={setTrainingDndData} protocols={selectedProtocols} />,
+            content: <Training
+              form={form}
+              dndData={trainingDndData}
+              setDndData={setTrainingDndData}
+              protocols={selectedProtocols}
+              prevTrainings={userData?.data.trainings}
+              completedTrainings={userData?.data.completedTrainings}
+              setCompletedTrainings={setCompletedTrainings} />,
             title: 'Training'
           }
         ]
@@ -434,12 +486,43 @@ const AddUser = ({ id }: AddUserProps) => {
     }
   }
 
+  const handleSystemLoginName = (e: any) => {
+    if(id) return;
+    const firstName = getValues('firstName');
+    const lastName = getValues('lastName');
+    if (firstName && lastName && firstName !== '' && lastName !== '') {
+      setValue('systemLogin', firstName[0] + lastName);
+    }
+  };
+
+  // const handleSystemLoginChange = (e: any) => {
+  //   console.log(e.target.value);
+  // }
+
+  const watchSystemLogin = watch('systemLogin');
+  useEffect(() => {
+    if (!id) {
+      validateUsername({
+        username: watchSystemLogin,
+      }, {
+        onSuccess: (data) => {
+          if (data.data.type === 1) {
+            setError('systemLogin', { type: 'custom', message: data.data.message });
+          }
+          else {
+            setError('systemLogin', { type: 'error', message: data.data.message });
+          }
+        }
+      });
+    }
+  }, [watchSystemLogin])
+
   useEffect(() => {
     if (dropdowns) {
       setUserTypeOptions(convertTypeToSelectOption(dropdowns?.data?.userTypes));
       setSponsorOptions(convertTypeToSelectOption(dropdowns?.data?.sponsors));
 
-      if (!id) {
+      if (!id) {  
         setAdminDndData({
           matchTypes: [{
             title: 'Match Type',
@@ -480,6 +563,7 @@ const AddUser = ({ id }: AddUserProps) => {
                 {...register("firstName", {
                   required: "First name is required!"
                 })}
+                onBlur={handleSystemLoginName}
               />
               {errors.firstName && (
                 <span className="text-red-500 -mt-10">{errors.firstName.message as string}</span>
@@ -504,6 +588,7 @@ const AddUser = ({ id }: AddUserProps) => {
                 {...register("lastName", {
                   required: "Last name is required!"
                 })}
+                onBlur={handleSystemLoginName}
               />
               {errors.lastName && (
                 <span className="text-red-500 -mt-10">{errors.lastName.message as string}</span>
@@ -585,12 +670,14 @@ const AddUser = ({ id }: AddUserProps) => {
               <Input
                 label="System Login"
                 placeholder="Enter system login"
+                disabled={!!id}
                 {...register("systemLogin", {
-                  required: "System login is required!"
+                  // required: "System login is required!"
                 })}
+              // onChange={handleSystemLoginChange}
               />
               {errors.systemLogin && (
-                <span className="text-red-500 -mt-10">{errors.systemLogin.message as string}</span>
+                <span className={`${errors.systemLogin.type === 'custom' ? 'text-green-500' : 'text-red-500'} -mt-10`}>{errors.systemLogin.message as string}</span>
               )}
             </div>
             <div>
@@ -629,15 +716,18 @@ const AddUser = ({ id }: AddUserProps) => {
                 <span className="text-red-500 -mt-10">{errors.zip.message as string}</span>
               )}
             </div>
-            {/* <div className="flex flex-col items-start justify-between py-1 pb-4">
+            {/* {id && */}
+            <div className="flex flex-col items-start justify-between py-1 pb-4">
               <Label label="Is User Active" />
               <Controller
-                name="isUserActive"
+                name="isActive"
                 control={control}
                 render={({ field: { onChange, onBlur, value } }: any) =>
-                  <Checkbox className="" onChange={onChange} value={value} checked={value} />}
+                  <Checkbox onChange={onChange} checked={value} disabled={!id} />}
               />
-            </div> */}
+            </div>
+            {/* } */}
+
             <div className="col-span-full grid grid-cols-1 gap-6 md:grid-cols-2">
               <Textarea label="Address one" placeholder="Enter description here"  {...register("address1")} />
               <Textarea label="Address two" placeholder="Enter description here"  {...register("address2")} />

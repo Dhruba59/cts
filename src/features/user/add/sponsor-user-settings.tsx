@@ -4,7 +4,7 @@ import { DndDataItem, DndDataType } from '@/types/common';
 import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { UseFormReturn } from 'react-hook-form';
 import { searchByIds } from '.';
-import { filterDndData } from './training';
+import { filterDndData } from './training/training';
 
 interface SponsorUserSettingsProps {
   form: UseFormReturn;

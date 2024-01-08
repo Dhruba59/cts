@@ -27,7 +27,7 @@ export const getColumns = ({ onDelete }: IndicationListColumnsProps): ColumnDef<
     },
     {
       header: "System Login",
-      accessorKey: "systemLogin"
+      accessorKey: "userName"
     },
     {
       header: "User Type",
