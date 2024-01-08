@@ -42,7 +42,12 @@ export const getColumns = ({ onDownload, onOverrideCheckboxChange, onOverridenDa
     },
     {
       header: "Completion Date",
-      accessorKey: "completionDate"
+      accessorKey: "completionDate",
+      cell: ({ row }) => {
+        return(
+          <div>{new Date(row.original.completionDate).toLocaleDateString()}</div>
+        )
+      }
     },
     {
       header: "Date Of Overridden",
