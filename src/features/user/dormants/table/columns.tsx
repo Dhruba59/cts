@@ -78,32 +78,26 @@ export const DormantUserListColumns = ({
     {
       header: "Active",
       accessorKey: "active",
-      cell: ({ row }) => {
-        return (
-          <div className="min-w-[50px] text-center">
-            {/* {row.original.active === null ||
-              row.original.active === 'N' ? (
-              <Cross />
-            ) : (
-              <Check />
-            )} */}
-          </div>
-        );
-      }
+      // cell: ({ row }) => {
+      //   return (
+      //     <div className="min-w-[50px] text-center">
+      //       {/* {row.original.active === null ||
+      //         row.original.active === 'N' ? (
+      //         <Cross />
+      //       ) : (
+      //         <Check />
+      //       )} */}
+      //     </div>
+      //   );
+      // }
     },
     {
       header: "Last Login",
       accessorKey: "lastLoginTime",
-      cell: ({ row }) => {
-        // return <div className="">{row.original.lastLoginTime}</div>;
-      }
     },
     {
       header: "Inactive Over",
       accessorKey: "inactiveOver",
-      cell: ({ row }) => {
-        // return <div className="">{row.original.inactiveOver}</div>;
-      }
     },
     {
       id: "actions",
@@ -112,6 +106,7 @@ export const DormantUserListColumns = ({
       cell: ({ row }) => {
         return (
           <div className="flex items-center gap-6">
+            <Link href={`/user/${row.original.userId}/edit`}><Edit /></Link>
             {/* <View /> */}
             {/* <Link href={`/user/${row.original.userId}/edit`}><Edit /></Link> */}
             {/* <DeleteOutlined className="cursor-pointer" onClick={() => onDelete(row.original.userId)} /> */}

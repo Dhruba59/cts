@@ -118,8 +118,8 @@ const constructPayload = (values: any, userType: USER_TYPE_ENUM, isUpdate: boole
     city: values.city,
     state: values.state,
     zip: values.zip,
-    userTypeId: values.userType?.value,
-    sponsorId: values.sponsor.value,
+    userTypeId: values.userType?.value ?? values.userType,
+    sponsorId: values.sponsor.value ?? values.sponsor,
     
     systemLogin: values.systemLogin
     // matchType: values.suppressMatchType.value,
@@ -233,7 +233,8 @@ const AddUser = ({ id }: AddUserProps) => {
         sponsor: user.sponsorId,
         suppressMatchType: user.suppressMatchTypeId,
         siteId: user.siteId,
-        site: user.siteId
+        site: user.siteId,
+        isActive: user.active
       }
       reset(values);
       setSelectedUserType(user?.userTypeId.toString());
@@ -323,7 +324,7 @@ const AddUser = ({ id }: AddUserProps) => {
       editUser({ userId: id, ...payload }, {
         onSuccess: (data) => {
           toast.success(data?.data.details);
-          router.push('user/list');
+          router.push('/user/list');
         },
         onError: (error: any) => {
           toast.error(error.response.data.detail);
