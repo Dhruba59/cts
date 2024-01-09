@@ -14,6 +14,7 @@ import { CompletedTraining } from "../../training";
 import Button from "@/components/ui/button";
 import { Controller, UseFormReturn } from "react-hook-form";
 import { searchTrainingIndexById } from "./listTable";
+import { formatDate } from "@/utils/helpers";
 
 type StatusListColumnsProps = {
   onDownload: (id: any) => void;
@@ -45,7 +46,7 @@ export const getColumns = ({ onDownload, onOverrideCheckboxChange, onOverridenDa
       accessorKey: "completionDate",
       cell: ({ row }) => {
         return(
-          <div>{new Date(row.original.completionDate).toLocaleDateString()}</div>
+          <div>{formatDate(row.original.completionDate)}</div>
         )
       }
     },

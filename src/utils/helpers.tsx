@@ -127,3 +127,17 @@ export const formateTableDate = (date?: string) => {
   }
   return dayjs(date).format("YYYY-MMM-DD");
 };
+
+export const formatDate = (date: string | Date) => {
+  const dateOptions = { day: '2-digit' as '2-digit' };
+  const monthOptions = { month: 'short' as 'short'};
+  const yearOptions = { year: 'numeric' as 'numeric'};
+
+  const inputDate = new Date(date);
+
+  const day = new Intl.DateTimeFormat('en-US', dateOptions).format(inputDate);
+  const month = new Intl.DateTimeFormat('en-US', monthOptions).format(inputDate);
+  const year = new Intl.DateTimeFormat('en-US', yearOptions).format(inputDate);
+
+  return `${day}-${month}-${year}`;
+};
