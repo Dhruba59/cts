@@ -120,17 +120,7 @@ const constructPayload = (values: any, userType: USER_TYPE_ENUM, isUpdate: boole
     zip: values.zip,
     userTypeId: values.userType?.value ?? values.userType,
     sponsorId: values.sponsor.value ?? values.sponsor,
-    
     systemLogin: values.systemLogin
-    // matchType: values.suppressMatchType.value,
-    // linkId: values.siteName.value,
-    // protocols: values.protocol.value.toString(),
-    // sponsorProtocols: '',
-    // matchTypes: '',
-    // trainings: {
-    //   trainingId: trainingId,
-    //   siteStudyId: siteStudyId
-    // }
   }
 
   if (isUpdate) {
@@ -692,6 +682,21 @@ const AddUser = ({ id }: AddUserProps) => {
                 <span className="text-red-500 -mt-10">{errors.city.message as string}</span>
               )}
             </div>
+            <Textarea label="Address one" placeholder="Enter description here"  {...register("address1")} className="min-h-10 h-10 rounded-sm" />
+            <Textarea label="Address two" placeholder="Enter description here"  {...register("address2")} className="min-h-10 h-10 rounded-sm"/>
+            <div className="flex flex-col items-start justify-between py-1 pb-4">
+              <Label label="Is User Active" />
+              <Controller
+                name="isActive"
+                control={control}
+                render={({ field: { onChange, onBlur, value } }: any) =>
+                  <Checkbox onChange={onChange} checked={value} disabled={!id} />}
+              />
+            </div>
+            {/* <div className="col-span-full grid grid-cols-1 gap-6 md:grid-cols-2">
+              <Textarea label="Address one" placeholder="Enter description here"  {...register("address1")} />
+              <Textarea label="Address two" placeholder="Enter description here"  {...register("address2")} />
+            </div> */}
             <div>
               <Input
                 label="State"
@@ -717,22 +722,11 @@ const AddUser = ({ id }: AddUserProps) => {
               )}
             </div>
             {/* {id && */}
-            <div className="flex flex-col items-start justify-between py-1 pb-4">
-              <Label label="Is User Active" />
-              <Controller
-                name="isActive"
-                control={control}
-                render={({ field: { onChange, onBlur, value } }: any) =>
-                  <Checkbox onChange={onChange} checked={value} disabled={!id} />}
-              />
-            </div>
-            {/* } */}
 
-            <div className="col-span-full grid grid-cols-1 gap-6 md:grid-cols-2">
+            {/* <div className="col-span-full grid grid-cols-1 gap-6 md:grid-cols-2">
               <Textarea label="Address one" placeholder="Enter description here"  {...register("address1")} />
               <Textarea label="Address two" placeholder="Enter description here"  {...register("address2")} />
-            </div>
-
+            </div> */}
           </div>
         </section>
 
