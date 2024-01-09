@@ -684,15 +684,6 @@ const AddUser = ({ id }: AddUserProps) => {
             </div>
             <Textarea label="Address one" placeholder="Enter description here"  {...register("address1")} className="min-h-10 h-10 rounded-sm" />
             <Textarea label="Address two" placeholder="Enter description here"  {...register("address2")} className="min-h-10 h-10 rounded-sm"/>
-            <div className="flex flex-col items-start justify-between py-1 pb-4">
-              <Label label="Is User Active" />
-              <Controller
-                name="isActive"
-                control={control}
-                render={({ field: { onChange, onBlur, value } }: any) =>
-                  <Checkbox onChange={onChange} checked={value} disabled={!id} />}
-              />
-            </div>
             {/* <div className="col-span-full grid grid-cols-1 gap-6 md:grid-cols-2">
               <Textarea label="Address one" placeholder="Enter description here"  {...register("address1")} />
               <Textarea label="Address two" placeholder="Enter description here"  {...register("address2")} />
@@ -720,6 +711,15 @@ const AddUser = ({ id }: AddUserProps) => {
               {errors.zip && (
                 <span className="text-red-500 -mt-10">{errors.zip.message as string}</span>
               )}
+            </div>
+            <div className="flex flex-col items-start justify-between py-1 pb-4">
+              <Label label="Is User Active" />
+              <Controller
+                name="isActive"
+                control={control}
+                render={({ field: { onChange, onBlur, value } }: any) =>
+                  <Checkbox onChange={onChange} checked={id ? value : true} disabled={!id} />}
+              />
             </div>
             {/* {id && */}
 
