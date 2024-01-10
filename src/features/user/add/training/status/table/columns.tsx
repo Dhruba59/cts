@@ -113,12 +113,14 @@ export const getColumns = ({ onDownload, onUpdateTraining, form }: StatusListCol
               control={control}
               render={({ field: { onChange, onBlur, value } }: any) => (
                 <Checkbox
+                  className="disabled:cursor-not-allowed"
                   onChange={(e) => {
                     onChange(e);
                     onUpdateTraining(row, e.target.checked);
                     // onOverrideCheckboxChange(e, row.original.userTrainingId);
                   }}
                   checked={value ?? row.original.overridden}
+                  disabled={row.original.status === 'Completed'}
                 />
               )}
             />
