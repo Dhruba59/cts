@@ -87,3 +87,10 @@ export interface UserListColumnsProps {
     onRowSelectionChange: any, 
     onAllRowsSelectionChange: any
   }
+
+  export interface ChangeTrainingStatusPayload {
+    userTrainingId: number,
+    override: boolean,
+    restart?: boolean,
+    dateOfOverride: string
+  }

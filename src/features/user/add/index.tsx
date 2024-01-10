@@ -177,7 +177,7 @@ const AddUser = ({ id }: AddUserProps) => {
   const [siteUserSiteId, setSiteUserSiteId] = useState<string>();
   const [completedTrainings, setCompletedTrainings] = useState<CompletedTraining[]>([]);
   const { data: dropdowns, isLoading: isDropdownDataLoading } = useGetUserDropdowns();
-  const { data: userData, isLoading: isUserDataLoading } = useGetUserById({ UserId: id! });
+  const { data: userData, isLoading: isUserDataLoading, refetch: refetchUser } = useGetUserById({ UserId: id! });
   const { mutate: addUser, isLoading: isCreatingUser } = useAddUser();
   const { mutate: editUser, isLoading: isEditingUser } = useEditUser();
   const { mutate: validateUsername } = useValidateUserName();
@@ -364,7 +364,8 @@ const AddUser = ({ id }: AddUserProps) => {
                 protocols={selectedProtocols}
                 prevTrainings={userData?.data.trainings}
                 completedTrainings={userData?.data.completedTrainings}
-                setCompletedTrainings={setCompletedTrainings} />,
+                setCompletedTrainings={setCompletedTrainings}
+                refetchUser={refetchUser} />,
               title: 'Training'
             }
           ]
@@ -468,7 +469,8 @@ const AddUser = ({ id }: AddUserProps) => {
               protocols={selectedProtocols}
               prevTrainings={userData?.data.trainings}
               completedTrainings={userData?.data.completedTrainings}
-              setCompletedTrainings={setCompletedTrainings} />,
+              setCompletedTrainings={setCompletedTrainings}
+              refetchUser={refetchUser} />,
             title: 'Training'
           }
         ]
