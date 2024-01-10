@@ -28,7 +28,7 @@ interface Training {
   protocolId: number
 }
 
-interface SiteUserSettingsProps {
+interface TrainingProps {
   form: UseFormReturn;
   protocols: DndDataItem[];
   dndData: DndDataType[];
@@ -36,6 +36,7 @@ interface SiteUserSettingsProps {
   completedTrainings: CompletedTraining[];
   prevTrainings: Training[];
   setCompletedTrainings: Dispatch<SetStateAction<CompletedTraining[]>>;
+  refetchUser: () => void;
 }
 
 const initialDndItem = [{
@@ -59,7 +60,7 @@ export function filterDndData(data: DndDataType[]) {
   return data;
 }
 
-const Training = ({ form, protocols, dndData, setDndData, completedTrainings, setCompletedTrainings, prevTrainings }: SiteUserSettingsProps) => {
+const Training = ({ form, protocols, dndData, setDndData, completedTrainings, setCompletedTrainings, prevTrainings, refetchUser }: TrainingProps) => {
   const { register, control, setValue, resetField, formState: { errors } } = form;
   const [protocolOptions, setProtocolOptions] = useState<SelectOptionType[]>();
   const [suppressOptions, setSuppressOptions] = useState<SelectOptionType[]>();
@@ -143,7 +144,7 @@ const Training = ({ form, protocols, dndData, setDndData, completedTrainings, se
           renderTraining() ?? 'No Trainings'
         }
       </div>
-      {id && <ListTable form={form} data={completedTrainings} setCompletedTrainings={setCompletedTrainings} />}
+      {id && <ListTable form={form} data={completedTrainings} setCompletedTrainings={setCompletedTrainings} refetchUser={refetchUser}/>}
 
       {/* <div>
         <Controller

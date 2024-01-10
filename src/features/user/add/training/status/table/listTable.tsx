@@ -4,19 +4,56 @@ import SimpleTable from "@/components/table/simpleTable";
 import { ChangeEvent, useCallback, useMemo, useState } from "react";
 import { getColumns } from "./columns";
 import Datepicker, { DateValueType } from "react-tailwindcss-datepicker";
-import { useEditUser } from "@/hooks/rq-hooks/user-hooks";
+import { useChangeTrainingStatus, useEditUser } from "@/hooks/rq-hooks/user-hooks";
 import { toast } from "react-toastify";
 import { useParams } from "next/navigation";
 import { CompletedTraining } from "../../training";
 import { searchByIds } from "../../..";
+import { ChangeTrainingStatusPayload } from "@/model/user";
+import { set, useForm } from "react-hook-form";
 
 export const searchTrainingIndexById = (data: CompletedTraining[], id: number) => {
   return data?.findIndex((item: CompletedTraining) => item.userTrainingId == id);
 }
 
 
-export function ListTable({ data, form, setCompletedTrainings }: any) {
+export function ListTable({ data, setCompletedTrainings, refetchUser }: any) {
+
+  const form = useForm();
+  const { getValues, setError, setValue, clearErrors, reset } = form;
+  const { mutate: updateTraining } = useChangeTrainingStatus();
   const onDownload = () => {};
+
+  const onUpdateTraining = (row: any, checked: boolean) => {
+    console.log(getValues(`overriddenDate${row.original.userTrainingId}`));
+    if(getValues(`overriddenDate${row.original.userTrainingId}`) === undefined && checked) {
+        setError(`overriddenDate${row.original.userTrainingId}`, { type: 'error', message: 'Select Date!'});
+        setValue(`isOverridden${row.original.userTrainingId}`, false);
+        return;
+    }
+    let payload: ChangeTrainingStatusPayload = {
+      dateOfOverride: getValues(`overriddenDate${row.original.userTrainingId}`)?.startDate,
+      override: false,
+      restart: true,
+      userTrainingId: row.original.userTrainingId
+    }
+    if(checked) {
+      payload.override = true,
+      payload.restart = false
+    } else if(!checked) {
+      setValue(`overriddenDate${row.original.userTrainingId}`, null);
+    }
+    updateTraining(payload, {
+      onSuccess: (data) => {
+        toast.success(data.data.message);
+        refetchUser();
+        clearErrors();
+      },
+      onError: (err: any) => {
+        toast.error(err.response.data.detail);
+      }
+    });
+  }
 
   const onOverridenDateChange = useCallback((value: DateValueType, id: number) => {
     const index = searchTrainingIndexById(data, id);
@@ -65,7 +102,9 @@ export function ListTable({ data, form, setCompletedTrainings }: any) {
 
   }, [ data, setCompletedTrainings]) 
 
-  const columns: any = useMemo(() => getColumns({ onDownload, onOverridenDateChange, onOverrideCheckboxChange, form }),[ onOverridenDateChange, onOverrideCheckboxChange, form]);
+  // const columns: any = useMemo(() => getColumns({ onDownload, onOverridenDateChange, onOverrideCheckboxChange, form }),[ onOverridenDateChange, onOverrideCheckboxChange, form]);
+
+  const columns: any = getColumns({ onDownload, onUpdateTraining, form });
 
   return (
     <div className="sm:wrapper">

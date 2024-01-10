@@ -15,18 +15,33 @@ import Button from "@/components/ui/button";
 import { Controller, UseFormReturn } from "react-hook-form";
 import { searchTrainingIndexById } from "./listTable";
 import { formatDate } from "@/utils/helpers";
+import { ChangeTrainingStatusPayload } from "@/model/user";
 
 type StatusListColumnsProps = {
   onDownload: (id: any) => void;
-  onOverridenDateChange: (date: DateValueType, id: number) => void;
-  onOverrideCheckboxChange: (value: ChangeEvent<HTMLInputElement>, id: number) => void;
+  onUpdateTraining: (row: any, checked: boolean) => void;
+  // onOverridenDateChange: (date: DateValueType, id: number) => void;
+  // onOverrideCheckboxChange: (value: ChangeEvent<HTMLInputElement>, id: number) => void;
   form: UseFormReturn;
 }
 
-export const getColumns = ({ onDownload, onOverrideCheckboxChange, onOverridenDateChange, form }: StatusListColumnsProps): ColumnDef<CompletedTraining>[] => {
-  const { register, control, formState: { errors } } = form;
+export const getColumns = ({ onDownload, onUpdateTraining, form }: StatusListColumnsProps): ColumnDef<CompletedTraining>[] => {
+  const { register, control, getValues, formState: { errors } } = form;
 
+  // const onUpdate = (row: any, checked: boolean) => {
+  //   let payload: ChangeTrainingStatusPayload = {
+  //     dateOfOverride: getValues(`overriddenDate${row.original.userTrainingId}`),
+  //     override: false,
+  //     restart: true,
+  //     userTrainingId: row.original.userTrainingId
+  //   }
+  //   if(checked) {
+  //     payload.override = true,
+  //     payload.restart = false
+  //   }
 
+  //   onUpdateTraining(payload);
+  // }
 
   return ([
     {
@@ -45,7 +60,7 @@ export const getColumns = ({ onDownload, onOverrideCheckboxChange, onOverridenDa
       header: "Completion Date",
       accessorKey: "completionDate",
       cell: ({ row }) => {
-        return(
+        return (
           <div>{formatDate(row.original.completionDate)}</div>
         )
       }
@@ -71,7 +86,7 @@ export const getColumns = ({ onDownload, onOverrideCheckboxChange, onOverridenDa
                   inputClassName=''
                   onChange={(date) => {
                     onChange(date);
-                    onOverridenDateChange(date, row.original.userTrainingId);
+                    // onOverridenDateChange(date, row.original.userTrainingId);
                   }}
                   value={value ?? date}
                   useRange={false}
@@ -80,8 +95,8 @@ export const getColumns = ({ onDownload, onOverrideCheckboxChange, onOverridenDa
                 />
               )}
             />
-            {errors.overridenDate && (
-              <span className="text-red-500 -mt-10">{errors.overridenDate.message as string}</span>
+            {errors[`overriddenDate${row.original.userTrainingId}`] && (
+              <span className="text-red-500 -mt-10">{errors[`overriddenDate${row.original.userTrainingId}`]?.message as string}</span>
             )}
           </div>
         );
@@ -94,13 +109,17 @@ export const getColumns = ({ onDownload, onOverrideCheckboxChange, onOverridenDa
         return (
           <div className="">
             <Controller
-              name="isOverridden"
+              name={`isOverridden${row.original.userTrainingId}`}
               control={control}
               render={({ field: { onChange, onBlur, value } }: any) => (
-                <Checkbox onChange={(e) => {
-                  onChange(e);
-                  onOverrideCheckboxChange(e, row.original.userTrainingId);
-                }} value={value} />
+                <Checkbox
+                  onChange={(e) => {
+                    onChange(e);
+                    onUpdateTraining(row, e.target.checked);
+                    // onOverrideCheckboxChange(e, row.original.userTrainingId);
+                  }}
+                  checked={value ?? row.original.overridden}
+                />
               )}
             />
           </div>
