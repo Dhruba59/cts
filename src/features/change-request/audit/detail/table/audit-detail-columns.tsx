@@ -7,15 +7,15 @@ import { ColumnDef } from "@tanstack/react-table";
 import Cross from "@/components/icons/cross";
 import Link from "next/link";
 import { DeleteOutlined } from "@/assets/icons";
-import { ChangeRequestAuditModel } from "@/model/change-request";
+import { ChangeRequestAuditDetailModel, ChangeRequestAuditModel } from "@/model/change-request";
 import { formateTableDate } from "@/utils/helpers";
-import ChangeRequestAuditDetailModal from "../detail/table/change-request-audit-detail-modal";
+import ChangeRequestModal from "./change-request-audit-detail-modal";
 
-type ChangeRequestAuditListColumnsProps = {
+type ChangeRequestAuditDetailListColumnsProps = {
   onDelete: (id: any) => void
 }
-export const ChangeRequestAuditListColumns = ({ onDelete }: ChangeRequestAuditListColumnsProps)
-: ColumnDef<ChangeRequestAuditModel>[] => {
+export const ChangeRequestAuditDetailListColumns = ({ onDelete }: ChangeRequestAuditDetailListColumnsProps)
+: ColumnDef<ChangeRequestAuditDetailModel>[] => {
 return ([
 
   {
@@ -83,18 +83,6 @@ return ([
     accessorKey: "dateOfBirth",
     cell: ({ row }) => {
       return <div className=" min-w-[100px]">{formateTableDate(row.original.dateOfBirth)}</div>;
-    }
-  },
-  {
-    id: "actions",
-    header: "Action",
-    size: 140,
-    cell: ({ row }) => {
-      return (
-        <div className="flex items-center gap-6">
-           <ChangeRequestAuditDetailModal  subjectId={row.original.subjectId} regionGroupsId={row.original.regionGroupsId}/>
-        </div>
-      );
     }
   }
 ])};

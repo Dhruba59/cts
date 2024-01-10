@@ -1,29 +1,36 @@
-import { useEffect, useMemo, useState } from "react";
-import ListHeader from "./list-header";
-import ListTable from "./table/listTable";
-import { ChangeRequestAuditQuery} from "@/model/change-request";
-import Pagination from "@/components/pagination";
-import { getIndicationCodeTypes, getIndications } from "@/service/indication-service";
-import { SortingState } from "@tanstack/react-table";
-
+import View from "@/components/icons/view";
+import Print from "@/components/icons/print";
+import Modal from "@/components/modal";
+import Datepicker from "@/components/ui/datepicker";
+import Input from "@/components/ui/input";
+import Label from "@/components/ui/label";
+import Select from "@/components/ui/select";
 import { DropDownItem, SelectOptionType } from "@/model/drop-down-list";
+import React, { useEffect, useState } from "react";
+import { ChangeRequestAuditDetailQuery, ChangeRequestAuditQuery } from "@/model/change-request";
 import { DEFAULT_PAGE_SIZE } from "@/constants/common";
-import { useQuery } from "react-query";
-import { MainContainer } from "@/components/style-container";
-import { useGetIndications } from "@/hooks/rq-hooks/indication-hooks";
-import { useChangeRequestAudit } from "@/hooks/rq-hooks/change-request-hooks";
+import { SortingState } from "@tanstack/react-table";
+import Pagination from "@/components/pagination";
+import { useChangeRequestAuditDetail } from "@/hooks/rq-hooks/change-request-hooks";
+import AuditDetailListTable from "./audit-detail-list-table";
 
-const ChangeRequestAuditList = () => {
+const ChangeRequestAuditDetailModal = ({ subjectId, regionGroupsId }: any) => {
 
-  const [queryData, setQueryData] = useState<ChangeRequestAuditQuery>();
+  const [queryData, setQueryData] = useState<ChangeRequestAuditDetailQuery>({
+    subjectId: subjectId,
+    regionGroupsId: regionGroupsId
+  });
   const [pageSize, setPageSize] = useState<number>(DEFAULT_PAGE_SIZE);
   const [sorting, setSorting] = useState<SortingState>([
     //{ id: "indicationName", desc: false }
   ]);
 
   const { data: _data, error, isLoading, refetch: refetch
-  } = useChangeRequestAudit(queryData);
+  } = useChangeRequestAuditDetail(queryData);
   
+  useEffect(( )=> {
+    console.log(_data);
+  }, [_data])
   const setCurrentPageNumber = (page: number) => {
     setQueryData((data) => {
       if (data) {
@@ -59,9 +66,13 @@ const ChangeRequestAuditList = () => {
   }, [sorting]);
 
   return (
+    <Modal
+      triggerProp={<View />}
+      title="Changed Requests List"
+      // renderFooter={{ onSave: () => { }, submitButtonName: "Submit" }}
+    >
     <main>
-      <ListHeader setQueryData={setQueryData} />
-      <ListTable data={_data?.data?.items} sorting={sorting} setSorting={setSorting} />
+      <AuditDetailListTable data={_data?.data?.items} sorting={sorting} setSorting={setSorting} />
       <Pagination
         currentPage={_data?.data?.pageNumber}
         setCurrentPage={setCurrentPageNumber}
@@ -71,7 +82,8 @@ const ChangeRequestAuditList = () => {
         maxLength={7}
       />
     </main>
+    </Modal>
   );
 };
 
-export default ChangeRequestAuditList;
+export default ChangeRequestAuditDetailModal;

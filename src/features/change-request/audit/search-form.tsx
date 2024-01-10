@@ -9,10 +9,11 @@ import { CodeType } from "@/model/indication";
 import { getIndicationCodeTypes } from "@/service/indication-service";
 import { convertTypeToSelectOption } from "@/utils/helpers";
 import { useEffect, useState } from "react";
+import Datepicker from "@/components/ui/datepicker";
 
 interface SearchFormProps {
   isAdvancedOpen: boolean;
-  codeTypeDropDown: any;
+  requestTypeDropDown: any;
   register: any;
   Controller: any;
   control: any;
@@ -20,37 +21,43 @@ interface SearchFormProps {
 }
 export function SearchForm({
   isAdvancedOpen,
-  codeTypeDropDown,
+  requestTypeDropDown,
   register,
   Controller,
   control,
   reset
 }: SearchFormProps) {
 
-  const [codeTypeOptions, setCodeTypeOptions] = useState<SelectOptionType[]>([]);
+  const [requestTypeOptions, setRequestTypeOptions] = useState<SelectOptionType[]>([]);
 
   //console.log(codeTypeDropDown);
   useEffect(() => {
 
-    setCodeTypeOptions(convertTypeToSelectOption(codeTypeDropDown?.codeTypes));
+    setRequestTypeOptions(convertTypeToSelectOption(requestTypeDropDown));
 
-  }, [codeTypeDropDown])
+  }, [requestTypeDropDown])
 
   return (
-    <div className="flex items-end gap-3 md:gap-6 p-4 md:p-0">
-      <div className="grid lg:flex lg:items-center gap-2 flex-1 md:flex-none">
-        <Label label="Code Type: " className="hidden lg:block" />
-        <div className="w-32">
-          <Controller
-            control={control}
-            name="codeType"
-            isClearable
-            render={({ field: { onChange, onBlur, value } }: any) =>
-              <Select onChange={onChange} options={codeTypeOptions}  value={value}/>}
-          />
-        </div>
+    <div className="flex justify-start gap-2 md:gap-3">
+      <div className="flex lg:flex lg:items-center gap-2 flex-1 md:flex-none">
+        <Label label="Request For: " className="hidden xl:block" />
+        <Controller
+          control={control}
+          name='requestStatus'
+          render={({ field: { onChange, onBlur, value } }: any) => (
+            <Select className="md:w-32 xl:w-36" onChange={onChange} label="" options={requestTypeOptions} value={value} />
+          )}
+        />
       </div>
-      <div className={`flex gap-3 ${isAdvancedOpen ? 'hidden' : 'block'}`}>
+      <div className="grid lg:flex lg:items-center gap-2 flex-1 md:flex-none">
+        <Label label="Subject Name: " className="hidden lg:block" />
+        <Input
+          placeholder="Sponsor Subject ID"
+          className="md:w-32  xl:w-36"
+          {...register("sponsorSubjectId")}
+        />
+      </div>
+      <div className={`flex gap-1 ${isAdvancedOpen ? 'hidden' : 'block'}`}>
         <Button type="submit" className="!h-10 mb-[1px]">
           Search
         </Button>
@@ -68,36 +75,43 @@ export function AdvanceSearchForm({ register, Controller, control, reset }: any)
     codeType: { value: "", label: "Select " },
 
   };
-  
+
   return (
     <div className="hidden lg:block p-6 pt-2 space-y-4">
-      <div className="flex flex-row items-center gap-5">
-        <Input
-          name="indicationName"
-          label="Indication name"
-          placeholder="Enter Indication name"
-          className="md:w-72"
-          {...register("indicationName")}
+      <div className="grid grid-col-1 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-x-4 gap-y-2">
+        <Controller
+          control={control}
+          name='fromDate'
+          render={({ field: { onChange, onBlur, value } }: any) => (
+            <Datepicker
+              // containerClassName="md:w-36 xl:w-48"
+              label="From Date"
+              value={value}
+              onChange={onChange}
+              placeholder="Select Date"
+              useRange={false}
+              asSingle
+            />
+          )}
         />
-        <Input
-          name="description"
-          label="Description"
-          placeholder="Enter description"
-          wrapperClassName="md:w-full"
-          {...register("description")}
+        <Controller
+          control={control}
+          name='toDate'
+          render={({ field: { onChange, onBlur, value } }: any) => (
+            <Datepicker
+              // containerClassName="md:w-36 xl:w-48"
+              label="To Date"
+              value={value}
+              onChange={onChange}
+              placeholder="Select Date"
+              useRange={false}
+              asSingle
+            />
+          )}
         />
       </div>
 
-      <div className="flex flex-grow justify-between">
-        <div className="flex flex-row items-center -mt-6">
-          <Controller
-            name="isRequireDetails"
-            control={control}
-            render={({ field: { onChange, onBlur, value } }: any) =>
-              <Checkbox className="" onChange={onChange} />}
-          />
-          <Label label="Require Details" className="-mt-1" />
-        </div>
+      <div className="flex items-center justify-end gap-4 !mt-10">
         <div className="flex gap-3">
           <Button type="submit" className="!h-10 mb-[1px]">
             Search
