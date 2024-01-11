@@ -24,7 +24,9 @@ const ChangeRequestDashboardList = () => {
   const { data: _data, error, isLoading, refetch: refetchIndications 
   } = useChangeRequestDashboard(queryData);
   
-
+  useEffect(() => {
+    console.log(_data);
+  }, [_data])
   const setCurrentPageNumber = (page: number) => {
     setQueryData((data) => {
       if (data) {

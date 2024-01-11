@@ -7,15 +7,16 @@ import { ColumnDef } from "@tanstack/react-table";
 import Cross from "@/components/icons/cross";
 import Link from "next/link";
 import { DeleteOutlined } from "@/assets/icons";
-import { ChangeRequestAuditDetailModel, ChangeRequestAuditModel } from "@/model/change-request";
+import { ChangeRequestAuditDetailModel, ChangeRequestAuditModel, ChangeRequestReviewDetailModel } from "@/model/change-request";
 import { formateTableDate, formateTableDateTime } from "@/utils/helpers";
-import ChangeRequestModal from "./change-request-audit-detail-modal";
 
-type ChangeRequestAuditDetailListColumnsProps = {
-  onDelete: (id: any) => void
+
+type ChangeRequestReviewDetailListColumnsProps = {
+  // onAccept: (id: any) => void,
+  // onReject: (id: any) => void
 }
-export const ChangeRequestAuditDetailListColumns = ({ onDelete }: ChangeRequestAuditDetailListColumnsProps)
-: ColumnDef<ChangeRequestAuditDetailModel>[] => {
+export const ChangeRequestReviewDetailListColumns = ({ }: ChangeRequestReviewDetailListColumnsProps)
+: ColumnDef<ChangeRequestReviewDetailModel>[] => {
 return ([
   {
     header: "Modified Date",
@@ -88,7 +89,7 @@ return ([
     header: "Action",
     accessorKey: "ActionStatus",
     cell: ({ row }) => {
-      return <div className=" min-w-[100px]">{row.original.actionStatus}</div>;
+      return <div className=" min-w-[100px]">{row.original.DateEntered}</div>;
     }
   }
 ])};

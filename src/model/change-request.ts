@@ -110,6 +110,7 @@ export interface CodeType {
 
 
 
+
   export interface ChangeRequestDashboardQuery extends Query {
     userTypeId?: number | null;
     protocolNumber?: string;
@@ -118,7 +119,7 @@ export interface CodeType {
     toDate?: string | null;
   }
 
-  export interface ChangeRequestDashboardModel {
+  export interface ChangeRequestDashboardModel{
     requestId?: number,
     protocolNumber?: string,
     subjectId?: number,
@@ -150,4 +151,27 @@ export interface CodeType {
     indicationDetail?: string,
     deleteType?: number,
     isReqForLastSubjectEntry? : boolean,
+  }
+
+
+  export interface ChangeRequestReviewDetailQuery extends Query {
+    subjectId?: number;
+    regionGroupsId?: string;
+  }
+
+  export interface ChangeRequestReviewDetailModel {
+    subjectId?: number,
+    subjectInitial?: string,
+    isPartialDate?: boolean,
+    dateOfBirth?: string,
+    social?: string,
+    gender?: string,
+    sponsorSubjectId?: string,
+    modifyDate?: string,
+    actionStatus?: number,
+    nationalTypeId?: number,
+    nationalIDTypeName?: string,
+    height?: number,
+    weight?: number,
+    DateEntered?: string
   }
