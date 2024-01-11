@@ -57,3 +57,51 @@ export interface CodeType {
     searchField: string;
     searchValue: string;
   }
+
+
+  export interface ChangeRequestAuditQuery extends Query {
+    requestStatus?: string;
+    sponsorSubjectId?: string;
+    fromDate?: string;
+    toDate?: string;
+  }
+
+  export interface ChangeRequestAuditModel {
+    subjectId?: number,
+    nationalTypeId?: number,
+    siteName?: string,
+    studyName?: string,
+    protocolNumber?: string,
+    sponsorSubjectId?: string,
+    firstInit?: string,
+    secondInit?: string,
+    thirdInit?: string,
+    isPartialDate?: boolean,
+    dateOfBirth?: string,
+    approvedDate?: string,
+    approver?: string,
+    requestStatus?: string,
+    regionGroupsId?: number
+  }
+
+
+  export interface ChangeRequestAuditDetailQuery extends Query {
+    subjectId?: number;
+    regionGroupsId?: string;
+  }
+
+  export interface ChangeRequestAuditDetailModel {
+    subjectId?: number,
+    subjectInitial?: string,
+    isPartialDate?: boolean,
+    dateOfBirth?: string,
+    social?: string,
+    gender?: string,
+    sponsorSubjectId?: string,
+    modifyDate?: string,
+    actionStatus?: number,
+    nationalTypeId?: number,
+    nationalIDTypeName?: string,
+    height?: number,
+    weight?: number,
+  }

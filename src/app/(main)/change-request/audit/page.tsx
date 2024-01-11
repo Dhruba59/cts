@@ -11,14 +11,13 @@ import {
 } from "@/model/indication";
 import { ColumnDef } from "@tanstack/react-table";
 import { useSearchParams } from "next/navigation";
-import AddIndication from "@/features/indication/add";
-import IndicationList from "@/features/indication/list";
+import ChangeRequestAuditList from "@/features/change-request/audit";
 
-export default function IndicationPage() {
+export default function ChangeRequestAuditPage() {
   const searchParams = useSearchParams();
   const currentTab = searchParams.get("tab");
 
   return (
-      <IndicationList></IndicationList>
+      <ChangeRequestAuditList></ChangeRequestAuditList>
   );
 }

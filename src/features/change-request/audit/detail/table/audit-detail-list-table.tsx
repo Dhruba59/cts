@@ -3,7 +3,7 @@ import ExpandableTable from "@/components/table/expandableTable";
 import SimpleTable from "@/components/table/simpleTable";
 import { DataTableProps } from "@/model/common";
 import { useMemo, useState } from "react";
-import { ChangeRequestAuditListColumns } from "./columns";
+import { ChangeRequestAuditDetailListColumns } from "./audit-detail-columns";
 import { useGetStudyDelete } from "@/hooks/rq-hooks/study-hooks";
 import { toast } from "react-toastify";
 import { getColumns } from "@/features/study/list-of-study/list-table/columns";
@@ -14,7 +14,7 @@ import { number } from 'yup';
 import { MODAL_TYPE_ENUM } from "@/model/enum";
 
 
-export function ListTable({ data, sorting, setSorting, refetchIndications }: any) {
+export function AuditDetailListTable({ data, sorting, setSorting, refetchIndications }: any) {
 
   const {
     handleSubmit,
@@ -22,23 +22,23 @@ export function ListTable({ data, sorting, setSorting, refetchIndications }: any
     reset,
     register
   } = useForm();
-  
+
   const [open, setOpen] = useState<boolean>(false);
   const [id, setId] = useState<number>(0);
   const { mutate: deleteIndication } = useDeleteIndication();
 
   const onDeleteConfirm = () => {
-     deleteIndication({id} , {
+    deleteIndication({ id }, {
       onSuccess: (data) => {
         setId(0);
         setOpen(false);
-        toast.success(data?.data.details ,{position:"top-center"});
+        toast.success(data?.data.details, { position: "top-center" });
         refetchIndications();
       },
       onError: (error: any) => {
         setId(0);
         setOpen(false);
-        toast.error(error?.response?.data.title ,{position:"top-center"});
+        toast.error(error?.response?.data.title, { position: "top-center" });
         refetchIndications();
       }
     });
@@ -49,20 +49,17 @@ export function ListTable({ data, sorting, setSorting, refetchIndications }: any
     console.log('onDelete Cancel')
     setId(0);
     setOpen(false);
- }
- 
+  }
+
   const onDelete = (id: number) => {
     setId(id);
     setOpen(true);
   }
 
-  const columns = useMemo(() => ChangeRequestAuditListColumns({ onDelete }), []);
+  const columns = useMemo(() => ChangeRequestAuditDetailListColumns({ onDelete }), []);
 
   return (
-    <div className="sm:wrapper">
-      <h4 className="hidden md:block font-semibold py-4 px-6 text-dark-900">
-        List of Change Request Audit
-      </h4>
+    <div className="">
       <div className="hidden sm:block">
         <SimpleTable data={data} columns={columns} sorting={sorting} setSorting={setSorting} />
       </div>
@@ -74,24 +71,9 @@ export function ListTable({ data, sorting, setSorting, refetchIndications }: any
           listTitleKey="indication_name"
         />
       </div>
-      <Modal
-        type={MODAL_TYPE_ENUM.WARNING}
-        open={open}
-        onClose={() => onDeleteCancel()}
-        title="Confirmation!"
-        containerClassName="!w-[624px]"
-        renderFooter={{
-          onSave: onDeleteConfirm,
-          submitButtonName: "Confirm",
-          cancelButtonName: "Cancel"
-        }}
-      >
-        <div className="text-black text-base px-6 py-2">
-          <p>Do you want to delete?</p>
-        </div>
-      </Modal>
+
     </div>
   );
 };
 
-export default ListTable;
+export default AuditDetailListTable;

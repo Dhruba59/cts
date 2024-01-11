@@ -7,51 +7,82 @@ import { ColumnDef } from "@tanstack/react-table";
 import Cross from "@/components/icons/cross";
 import Link from "next/link";
 import { DeleteOutlined } from "@/assets/icons";
+import { ChangeRequestAuditModel } from "@/model/change-request";
+import { formateTableDate, formateTableDateTime } from "@/utils/helpers";
+import ChangeRequestAuditDetailModal from "../detail/table/change-request-audit-detail-modal";
 
-type IndicationListColumnsProps = {
+type ChangeRequestAuditListColumnsProps = {
   onDelete: (id: any) => void
 }
-export const IndicationListColumns = ({ onDelete }: IndicationListColumnsProps): ColumnDef<IndicationQuery>[] => {
+export const ChangeRequestAuditListColumns = ({ onDelete }: ChangeRequestAuditListColumnsProps)
+: ColumnDef<ChangeRequestAuditModel>[] => {
 return ([
 
   {
-    header: "Indication Name",
-    accessorKey: "indicationName",
+    header: "Modified Date",
+    accessorKey: "approvedDate",
     cell: ({ row }) => {
       return (
-        <div className="min-w-[100px]">{row.original.indicationName}</div>
+        <div className="min-w-[100px]">{formateTableDateTime(row.original.approvedDate)}</div>
       );
     }
   },
   {
-    header: "Code",
-    accessorKey: "code"
-  },
-  {
-    header: "Code Type",
-    accessorKey: "codeType",
+    header: "Approver",
+    accessorKey: "approver",
     cell: ({ row }) => {
-      return <div className=" min-w-[100px]">{row.original.codeType}</div>;
+      return (
+        <div className="min-w-[100px]">{row.original.approver}</div>
+      );
     }
   },
   {
-    header: "Description",
-    accessorKey: "description"
+    header: "Subject ID",
+    accessorKey: "subjectId",
+    cell: ({ row }) => {
+      return <div className=" min-w-[100px]">{row.original.subjectId}</div>;
+    }
   },
   {
-    header: "Require Details",
-    accessorKey: "isRequireDetails",
+    header: "Site",
+    accessorKey: "siteName",
     cell: ({ row }) => {
-      return (
-        <div className="min-w-[50px] text-center">
-          {row.original.isRequireDetails === null ||
-          row.original.isRequireDetails === false ? (
-            <Cross />
-          ) : (
-            <Check />
-          )}
-        </div>
-      );
+      return <div className=" min-w-[100px]">{row.original.siteName}</div>;
+    }
+  },
+  {
+    header: "Study",
+    accessorKey: "studyName",
+    cell: ({ row }) => {
+      return <div className=" min-w-[100px]">{row.original.studyName}</div>;
+    }
+  },
+  {
+    header: "Protocol",
+    accessorKey: "protocolNumber",
+    cell: ({ row }) => {
+      return <div className=" min-w-[100px]">{row.original.protocolNumber}</div>;
+    }
+  }, 
+  {
+    header: "Subject Name",
+    accessorKey: "sponsorSubjectId",
+    cell: ({ row }) => {
+      return <div className=" min-w-[100px]">{row.original.sponsorSubjectId}</div>;
+    }
+  },
+  {
+    header: "Subject Initials",
+    accessorKey: "firstInit",
+    cell: ({ row }) => {
+      return <div className=" min-w-[100px]">{`${row.original.firstInit}${row.original.secondInit}${row.original.thirdInit}`}</div>;
+    }
+  },
+  {
+    header: "DOB",
+    accessorKey: "dateOfBirth",
+    cell: ({ row }) => {
+      return <div className=" min-w-[100px]">{formateTableDate(row.original.dateOfBirth)}</div>;
     }
   },
   {
@@ -61,9 +92,7 @@ return ([
     cell: ({ row }) => {
       return (
         <div className="flex items-center gap-6">
-          {/* <View /> */}
-          <Link href={`/indication/${row.original.indicationId}/edit`}><Edit/></Link>
-          <DeleteOutlined className="cursor-pointer" onClick={() => onDelete(row.original.indicationId)}/>
+           <ChangeRequestAuditDetailModal  subjectId={row.original.subjectId} regionGroupsId={row.original.regionGroupsId}/>
         </div>
       );
     }

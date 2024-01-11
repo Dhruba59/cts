@@ -10,6 +10,11 @@ export const getChangeRequestDashboard = ({queryKey}: any) => {
   const [key, params ] = queryKey as any;
   return request({url: 'ChangeRequest/dashboard', method: 'GET', params});
 }
+
+export const getRequestTypeDropdown = () => {
+  //const [key, params ] = queryKey as any;
+  return request({url: 'ChangeRequest/request-type-dropdown', method: 'GET'});
+}
 export const getChangeRequestAudit = ({queryKey}: any) => {
   const [key, params ] = queryKey as any;
   return request({url: 'ChangeRequest/audit', method: 'GET', params});

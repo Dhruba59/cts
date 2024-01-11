@@ -6,21 +6,21 @@ import { useState } from "react";
 import { SearchForm, AdvanceSearchForm } from "./search-form";
 import { DropDownItem, SelectOptionType } from "@/model/drop-down-list";
 import { Controller, useForm } from "react-hook-form";
-import { IndicationQuery } from "@/model/indication";
+import { ChangeRequestAuditQuery } from "@/model/change-request";
 import { useGetIndicationCodeTypes } from "@/hooks/rq-hooks/indication-hooks";
+import { useRequestTypeDropdown } from "@/hooks/rq-hooks/change-request-hooks";
 
 
 const ListHeader = ({ setQueryData }: any) => {
   const [isChecked, setIsChecked] = useState(false);
 
-  const {data: codeTypeDropDown} = useGetIndicationCodeTypes();
+  const {data: requestTypeDropDown} = useRequestTypeDropdown();
 
-  const defaultValues: IndicationQuery = {
-    code: '',
-    indicationName: '',
-    codeType: '',
-    description: '',
-    isRequireDetails: undefined   
+  const defaultValues: ChangeRequestAuditQuery = {
+    requestStatus: '',
+    sponsorSubjectId: '',
+    fromDate: '',
+    toDate: ''
   }
   const {
     register,
@@ -29,33 +29,35 @@ const ListHeader = ({ setQueryData }: any) => {
     setValue,
     formState: { errors },
     reset,
-  } = useForm<IndicationQuery>({
+  } = useForm<ChangeRequestAuditQuery>({
     defaultValues: defaultValues
   });
 
   const onSubmit = (value: any) => {
     //console.log(value);
+
     const params = {
       ...value,
-      codeType: value?.codeType?.value
+      requestStatus: value?.requestStatus?.value,
+      fromDate:  value?.fromDate?.value ?? null,
+      toDate:  value?.toDate?.value ?? null,
     }
-    //delete params.date;
-    //console.log(params);
+    console.log(params);
     setQueryData(params);
   }
 
   return (
     <div>
-      <Breadcrumbs title="Indication" subTitle="Indication List" />
+      <Breadcrumbs title="Change Request Audit" subTitle="Change Request Audit List" />
       <form className="" onSubmit={handleSubmit(onSubmit)}>
         <div className="md:hidden">
-          <SearchForm  isAdvancedOpen={isChecked} codeTypeDropDown={codeTypeDropDown?.data} register={register} Controller={Controller} control={control}  reset={reset}/>
+          <SearchForm  isAdvancedOpen={isChecked} requestTypeDropDown={requestTypeDropDown?.data} register={register} Controller={Controller} control={control}  reset={reset}/>
         </div>
         <section className="hidden md:block wrapper">
-          <div className="flex flex-row items-center justify-between px-3 py-3">
-            <h4 className=" text-neutral-black">Search Indication</h4>
+          <div className="flex flex-row items-center justify-between px-2 py-3">
+            <h4 className=" text-neutral-black">Search Request Audit</h4>
             <div className="">
-              <SearchForm isAdvancedOpen={isChecked}  codeTypeDropDown={codeTypeDropDown?.data}  register={register} Controller={Controller} control={control} reset={reset}/>
+              <SearchForm isAdvancedOpen={isChecked}  requestTypeDropDown={requestTypeDropDown?.data}  register={register} Controller={Controller} control={control} reset={reset}/>
             </div>
             <Toggle
               prefixLabel="More: "
