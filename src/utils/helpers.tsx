@@ -125,9 +125,15 @@ export const formateTableDate = (date?: string) => {
   if(!date){
     return '-';
   }
-  return dayjs(date).format("YYYY-MMM-DD");
+  return dayjs(date).format("DD-MMM-YYYY");
 };
 
+export const formateTableDateTime = (date?: string) => {
+  if(!date){
+    return '-';
+  }
+  return dayjs(date).format("DD-MMM-YYYY HH:mm:ss A");
+};
 export const formatDate = (date: string | Date) => {
   const dateOptions = { day: '2-digit' as '2-digit' };
   const monthOptions = { month: 'short' as 'short'};

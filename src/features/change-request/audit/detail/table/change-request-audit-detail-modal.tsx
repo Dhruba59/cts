@@ -27,8 +27,8 @@ const ChangeRequestAuditDetailModal = ({ subjectId, regionGroupsId }: any) => {
 
   const { data: _data, error, isLoading, refetch: refetch
   } = useChangeRequestAuditDetail(queryData);
-  
-  useEffect(( )=> {
+
+  useEffect(() => {
     console.log(_data);
   }, [_data])
   const setCurrentPageNumber = (page: number) => {
@@ -68,20 +68,25 @@ const ChangeRequestAuditDetailModal = ({ subjectId, regionGroupsId }: any) => {
   return (
     <Modal
       triggerProp={<View />}
-      title="Changed Requests List"
-      // renderFooter={{ onSave: () => { }, submitButtonName: "Submit" }}
+      title="Changed Request Audit Detail List"
+      containerClassName="flex flex-1 flex-col mx-10 "
+      renderFooter={{
+        onSave: () => {},
+        cancelButtonName: "Close",
+        cancelButtonOnly: true,
+      }}
     >
-    <main>
-      <AuditDetailListTable data={_data?.data?.items} sorting={sorting} setSorting={setSorting} />
-      <Pagination
-        currentPage={_data?.data?.pageNumber}
-        setCurrentPage={setCurrentPageNumber}
-        lastPage={_data?.data?.totalPages}
-        pageSize={pageSize}
-        setPageSize={setPageSize}
-        maxLength={7}
-      />
-    </main>
+      <div className="flex flex-col gap-2">
+        <AuditDetailListTable data={_data?.data?.items} sorting={sorting} setSorting={setSorting} />
+        <Pagination
+          currentPage={_data?.data?.pageNumber}
+          setCurrentPage={setCurrentPageNumber}
+          lastPage={_data?.data?.totalPages}
+          pageSize={pageSize}
+          setPageSize={setPageSize}
+          maxLength={7}
+        />
+      </div>
     </Modal>
   );
 };

@@ -8,7 +8,7 @@ import Cross from "@/components/icons/cross";
 import Link from "next/link";
 import { DeleteOutlined } from "@/assets/icons";
 import { ChangeRequestAuditDetailModel, ChangeRequestAuditModel } from "@/model/change-request";
-import { formateTableDate } from "@/utils/helpers";
+import { formateTableDate, formateTableDateTime } from "@/utils/helpers";
 import ChangeRequestModal from "./change-request-audit-detail-modal";
 
 type ChangeRequestAuditDetailListColumnsProps = {
@@ -17,65 +17,22 @@ type ChangeRequestAuditDetailListColumnsProps = {
 export const ChangeRequestAuditDetailListColumns = ({ onDelete }: ChangeRequestAuditDetailListColumnsProps)
 : ColumnDef<ChangeRequestAuditDetailModel>[] => {
 return ([
-
   {
     header: "Modified Date",
-    accessorKey: "approvedDate",
+    accessorKey: "modifyDate",
     cell: ({ row }) => {
       return (
-        <div className="min-w-[100px]">{row.original.approvedDate}</div>
+        <div className="min-w-[100px]">{formateTableDateTime(row.original.modifyDate)}</div>
       );
     }
   },
   {
-    header: "Approver",
-    accessorKey: "approver",
+    header: "Subject Initial",
+    accessorKey: "subjectInitial",
     cell: ({ row }) => {
       return (
-        <div className="min-w-[100px]">{row.original.approver}</div>
+        <div className="min-w-[100px]">{row.original.subjectInitial}</div>
       );
-    }
-  },
-  {
-    header: "Subject ID",
-    accessorKey: "subjectId",
-    cell: ({ row }) => {
-      return <div className=" min-w-[100px]">{row.original.subjectId}</div>;
-    }
-  },
-  {
-    header: "Site",
-    accessorKey: "siteName",
-    cell: ({ row }) => {
-      return <div className=" min-w-[100px]">{row.original.siteName}</div>;
-    }
-  },
-  {
-    header: "Study",
-    accessorKey: "studyName",
-    cell: ({ row }) => {
-      return <div className=" min-w-[100px]">{row.original.studyName}</div>;
-    }
-  },
-  {
-    header: "Protocol",
-    accessorKey: "protocolNumber",
-    cell: ({ row }) => {
-      return <div className=" min-w-[100px]">{row.original.protocolNumber}</div>;
-    }
-  }, 
-  {
-    header: "Subject Name",
-    accessorKey: "sponsorSubjectId",
-    cell: ({ row }) => {
-      return <div className=" min-w-[100px]">{row.original.sponsorSubjectId}</div>;
-    }
-  },
-  {
-    header: "Subject Initials",
-    accessorKey: "firstInit",
-    cell: ({ row }) => {
-      return <div className=" min-w-[100px]">{`${row.original.firstInit}${row.original.secondInit}${row.original.thirdInit}`}</div>;
     }
   },
   {
@@ -83,6 +40,55 @@ return ([
     accessorKey: "dateOfBirth",
     cell: ({ row }) => {
       return <div className=" min-w-[100px]">{formateTableDate(row.original.dateOfBirth)}</div>;
+    }
+  },
+  {
+    header: "ID Type",
+    accessorKey: "nationalIDTypeName",
+    cell: ({ row }) => {
+      return <div className=" min-w-[100px]">{row.original.nationalIDTypeName}</div>;
+    }
+  },
+  {
+    header: "National ID",
+    accessorKey: "nationalTypeId",
+    cell: ({ row }) => {
+      return <div className=" min-w-[100px]">{row.original.nationalTypeId}</div>;
+    }
+  },
+  {
+    header: "Sex",
+    accessorKey: "gender",
+    cell: ({ row }) => {
+      return <div className=" min-w-[100px]">{row.original.gender}</div>;
+    }
+  },
+  {
+    header: "Subject ID",
+    accessorKey: "sponsorSubjectId",
+    cell: ({ row }) => {
+      return <div className=" min-w-[100px]">{row.original.sponsorSubjectId}</div>;
+    }
+  }, 
+  {
+    header: "Height",
+    accessorKey: "height",
+    cell: ({ row }) => {
+      return <div className=" min-w-[100px]">{row.original.height}</div>;
+    }
+  },
+  {
+    header: "Weight",
+    accessorKey: "weight",
+    cell: ({ row }) => {
+      return <div className=" min-w-[100px]">{row.original.weight}</div>;
+    }
+  },
+  {
+    header: "Action",
+    accessorKey: "ActionStatus",
+    cell: ({ row }) => {
+      return <div className=" min-w-[100px]">{row.original.ActionStatus}</div>;
     }
   }
 ])};

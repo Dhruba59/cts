@@ -59,10 +59,7 @@ export function AuditDetailListTable({ data, sorting, setSorting, refetchIndicat
   const columns = useMemo(() => ChangeRequestAuditDetailListColumns({ onDelete }), []);
 
   return (
-    <div className="sm:wrapper">
-      <h4 className="hidden md:block font-semibold py-4 px-6 text-dark-900">
-        Change Request Audit Detail List
-      </h4>
+    <div className="">
       <div className="hidden sm:block">
         <SimpleTable data={data} columns={columns} sorting={sorting} setSorting={setSorting} />
       </div>
@@ -74,22 +71,7 @@ export function AuditDetailListTable({ data, sorting, setSorting, refetchIndicat
           listTitleKey="indication_name"
         />
       </div>
-      <Modal
-        type={MODAL_TYPE_ENUM.WARNING}
-        open={open}
-        onClose={() => onDeleteCancel()}
-        title="Confirmation!"
-        containerClassName="!w-[624px]"
-        renderFooter={{
-          onSave: onDeleteConfirm,
-          submitButtonName: "Confirm",
-          cancelButtonName: "Cancel"
-        }}
-      >
-        <div className="text-black text-base px-6 py-2">
-          <p>Do you want to delete?</p>
-        </div>
-      </Modal>
+
     </div>
   );
 };

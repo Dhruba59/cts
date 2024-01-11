@@ -8,7 +8,7 @@ import Cross from "@/components/icons/cross";
 import Link from "next/link";
 import { DeleteOutlined } from "@/assets/icons";
 import { ChangeRequestAuditModel } from "@/model/change-request";
-import { formateTableDate } from "@/utils/helpers";
+import { formateTableDate, formateTableDateTime } from "@/utils/helpers";
 import ChangeRequestAuditDetailModal from "../detail/table/change-request-audit-detail-modal";
 
 type ChangeRequestAuditListColumnsProps = {
@@ -23,7 +23,7 @@ return ([
     accessorKey: "approvedDate",
     cell: ({ row }) => {
       return (
-        <div className="min-w-[100px]">{row.original.approvedDate}</div>
+        <div className="min-w-[100px]">{formateTableDateTime(row.original.approvedDate)}</div>
       );
     }
   },

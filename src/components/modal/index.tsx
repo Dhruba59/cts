@@ -22,6 +22,7 @@ interface Props {
     submitButtonName?: string;
     cancelButtonName?: string;
     privacyPolicyLink?: boolean;
+    cancelButtonOnly?: boolean;
   };
 }
 
@@ -87,6 +88,7 @@ const Modal = ({
 
   const renderModalFooter = () => {
     const isPrivacyOpen = renderFooter?.privacyPolicyLink;
+    const isCancelButtonOnly = renderFooter?.cancelButtonOnly;
     return renderFooter ? (
       <footer className={`flex ${isPrivacyOpen ? 'justify-between' : 'justify-end'} border-t p-2.5`}>
         {isPrivacyOpen && <div>
@@ -95,6 +97,7 @@ const Modal = ({
           </Link>
         </div>}
         <div className="flex justify-end gap-2.5">
+          {!isCancelButtonOnly &&           
           <Button
             className=""
             type="submit"
@@ -104,7 +107,8 @@ const Modal = ({
             disabled={isLoading}
           >
             {renderFooter?.submitButtonName ?? "Save"}
-          </Button>
+          </Button>}
+
           <Button
             className=" border-neutral-500 text-black/90"
             size="small"
