@@ -18,8 +18,10 @@ interface Props {
   isLoading?: boolean;
   type?: MODAL_TYPE_ENUM;
   renderFooter?: {
-    onSave: () => void;
+    onSave?: () => void;
+    onReject?: () => void;
     submitButtonName?: string;
+    rejectButtonName?: string;
     cancelButtonName?: string;
     privacyPolicyLink?: boolean;
     cancelButtonOnly?: boolean;
@@ -50,16 +52,19 @@ const Modal = ({
     renderFooter?.onSave?.();
     // handleModalClose();
   };
-
+  const handleModalReject = () => {
+    renderFooter?.onReject?.();
+    // handleModalClose();
+  };
   useEffect(() => {
     setVisible(open);
   }, [open]);
 
   const renderModalIcon = () => {
-    switch(type) {
-      case MODAL_TYPE_ENUM.WARNING: return <WarningIcon/> ;
-      case MODAL_TYPE_ENUM.ERROR: return <ErrorIcon/> ;
-      case MODAL_TYPE_ENUM.SUCCESS: return <SuccessIcon/> ;
+    switch (type) {
+      case MODAL_TYPE_ENUM.WARNING: return <WarningIcon />;
+      case MODAL_TYPE_ENUM.ERROR: return <ErrorIcon />;
+      case MODAL_TYPE_ENUM.SUCCESS: return <SuccessIcon />;
       default: return <></>;
     }
   }
@@ -74,9 +79,9 @@ const Modal = ({
       <header className="flex items-center justify-between md:px-6 px-4 py-4 border-b">
         <div className="flex gap-3">
           {renderModalIcon()}
-         <h5 className={cn("text-black/90", titleClassName)}>{title}</h5>
+          <h5 className={cn("text-black/90", titleClassName)}>{title}</h5>
         </div>
-        
+
         <CloseIcon onClick={handleModalClose} />
       </header>
     ) : (
@@ -89,6 +94,7 @@ const Modal = ({
   const renderModalFooter = () => {
     const isPrivacyOpen = renderFooter?.privacyPolicyLink;
     const isCancelButtonOnly = renderFooter?.cancelButtonOnly;
+    const isRejectButtonAvailable = renderFooter?.rejectButtonName;
     return renderFooter ? (
       <footer className={`flex ${isPrivacyOpen ? 'justify-between' : 'justify-end'} border-t p-2.5`}>
         {isPrivacyOpen && <div>
@@ -97,17 +103,37 @@ const Modal = ({
           </Link>
         </div>}
         <div className="flex justify-end gap-2.5">
-          {!isCancelButtonOnly &&           
-          <Button
-            className=""
-            type="submit"
-            size="small"
-            onClick={handleModalSave}
-            loading={isLoading}
-            disabled={isLoading}
-          >
-            {renderFooter?.submitButtonName ?? "Save"}
-          </Button>}
+          {!isCancelButtonOnly && (
+            <div className="flex flex-row gap-2">
+              <Button
+                className=""
+                type="submit"
+                size="small"
+                onClick={handleModalSave}
+                loading={isLoading}
+                disabled={isLoading}
+              >
+                {renderFooter?.submitButtonName ?? "Save"}
+              </Button>
+              {isRejectButtonAvailable &&
+                <Button
+                  className=""
+                  type="submit"
+                  size="small"
+                  onClick={handleModalReject}
+                  loading={isLoading}
+                  disabled={isLoading}
+                >
+                  {renderFooter?.rejectButtonName ?? "Reject"}
+                </Button>
+              }
+            </div>
+
+
+          )
+
+
+          }
 
           <Button
             className=" border-neutral-500 text-black/90"
@@ -126,15 +152,13 @@ const Modal = ({
     <>
       {triggerProp && <div onClick={handleTrigger}>{triggerProp}</div>}
       <div
-        className={`fixed inset-0 flex items-center justify-center transition-colors duration-200 ease-in z-[100] ${
-          visible ? "bg-black/50" : "invisible"
-        }`}
+        className={`fixed inset-0 flex items-center justify-center transition-colors duration-200 ease-in z-[100] ${visible ? "bg-black/50" : "invisible"
+          }`}
         onClick={handleModalClose}
       >
         <main
           className={cn(
-            `bg-white rounded-lg shadow transition-all duration-200 ease-in-out max-h-[80vh] overflow-y-auto w-[80vw] sm:w-[70vw] lg:w-[50vw] ${
-              visible ? "scale-100 opacity-100" : "scale-75 opacity-0"
+            `bg-white rounded-lg shadow transition-all duration-200 ease-in-out max-h-[80vh] overflow-y-auto w-[80vw] sm:w-[70vw] lg:w-[50vw] ${visible ? "scale-100 opacity-100" : "scale-75 opacity-0"
             }`,
             containerClassName
           )}

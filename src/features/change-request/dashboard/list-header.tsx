@@ -2,26 +2,27 @@
 import Breadcrumbs from "@/components/ui/breadcrumbs";
 import Toggle from "@/components/ui/toggle";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { SearchForm, AdvanceSearchForm } from "./search-form";
 import { DropDownItem, SelectOptionType } from "@/model/drop-down-list";
 import { Controller, useForm } from "react-hook-form";
-import { IndicationQuery } from "@/model/indication";
-import { useGetIndicationCodeTypes } from "@/hooks/rq-hooks/indication-hooks";
+import { ChangeRequestDashboardQuery } from "@/model/change-request";
+import { useDashboardDropdown } from "@/hooks/rq-hooks/change-request-hooks";
 
 
 const ListHeader = ({ setQueryData }: any) => {
   const [isChecked, setIsChecked] = useState(false);
 
-  const {data: codeTypeDropDown} = useGetIndicationCodeTypes();
+  const {data: _dropDown} = useDashboardDropdown();
 
-  const defaultValues: IndicationQuery = {
-    code: '',
-    indicationName: '',
-    codeType: '',
-    description: '',
-    isRequireDetails: undefined   
+  const defaultValues: ChangeRequestDashboardQuery = {
+    userTypeId: null,
+    protocolNumber: '',
+    requestStatus: '',
+    fromDate: null,
+    toDate: null   
   }
+
   const {
     register,
     handleSubmit,
@@ -29,7 +30,7 @@ const ListHeader = ({ setQueryData }: any) => {
     setValue,
     formState: { errors },
     reset,
-  } = useForm<IndicationQuery>({
+  } = useForm<ChangeRequestDashboardQuery>({
     defaultValues: defaultValues
   });
 
@@ -39,23 +40,25 @@ const ListHeader = ({ setQueryData }: any) => {
       ...value,
       codeType: value?.codeType?.value
     }
-    //delete params.date;
-    //console.log(params);
     setQueryData(params);
   }
 
+  useEffect(() => {
+    console.log({"_dropDown" : _dropDown});
+  }, [_dropDown])
+
   return (
     <div>
-      <Breadcrumbs title="Indication" subTitle="Indication List" />
+      <Breadcrumbs title="Change Request Dashboard" subTitle="Change Request Dashboard List" />
       <form className="" onSubmit={handleSubmit(onSubmit)}>
         <div className="md:hidden">
-          <SearchForm  isAdvancedOpen={isChecked} codeTypeDropDown={codeTypeDropDown?.data} register={register} Controller={Controller} control={control}  reset={reset}/>
+          <SearchForm  isAdvancedOpen={isChecked} dropDown={_dropDown?.data} register={register} Controller={Controller} control={control}  reset={reset}/>
         </div>
         <section className="hidden md:block wrapper">
           <div className="flex flex-row items-center justify-between px-3 py-3">
-            <h4 className=" text-neutral-black">Search Indication</h4>
+            <h4 className=" text-neutral-black">Search Change Request</h4>
             <div className="">
-              <SearchForm isAdvancedOpen={isChecked}  codeTypeDropDown={codeTypeDropDown?.data}  register={register} Controller={Controller} control={control} reset={reset}/>
+              <SearchForm isAdvancedOpen={isChecked}  dropDown={_dropDown?.data}  register={register} Controller={Controller} control={control} reset={reset}/>
             </div>
             <Toggle
               prefixLabel="More: "
@@ -65,7 +68,7 @@ const ListHeader = ({ setQueryData }: any) => {
             />
           </div>
           <hr />
-          {isChecked && <AdvanceSearchForm  register={register} Controller={Controller} control={control} reset={reset}/>}
+          {isChecked && <AdvanceSearchForm  dropDown={_dropDown?.data} register={register} Controller={Controller} control={control} reset={reset}/>}
         </section>
       </form>
     </div>

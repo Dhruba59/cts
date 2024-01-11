@@ -33,7 +33,7 @@ export function SearchForm({
   //console.log(codeTypeDropDown);
   useEffect(() => {
 
-    setRequestTypeOptions(convertTypeToSelectOption(requestTypeDropDown));
+    setRequestTypeOptions(requestTypeDropDown);
 
   }, [requestTypeDropDown])
 
