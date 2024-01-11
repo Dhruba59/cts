@@ -1,8 +1,16 @@
-import { addChangeRequest, deleteChangeRequest, editChangeRequest, getChangeRequestAudit, getChangeRequestAuditDetail, getChangeRequestBySubject, getChangeRequestDashboard, getChangeRequestReprint, getRequestTypeDropdown } from "@/service/change-request-service";
+import { addChangeRequest, deleteChangeRequest, editChangeRequest, getChangeRequestAudit, getChangeRequestAuditDetail, getChangeRequestBySubject, getChangeRequestDashboard, getChangeRequestReprint, getDashboardDropdown, getRequestTypeDropdown } from "@/service/change-request-service";
 import { UseQueryOptions, useMutation, useQuery } from "react-query";
 
 
+export const useRequestTypeDropdown = () => useQuery({
+  queryFn: getRequestTypeDropdown,
+  //queryKey: ['sort', queryData],
+})
 
+export const useDashboardDropdown = () => useQuery({
+  queryFn: getDashboardDropdown,
+  //queryKey: ['sort', queryData],
+})
 
 export const useChangeRequestReprint = (queryData : any) => useQuery({
   queryFn: getChangeRequestReprint,
@@ -12,11 +20,6 @@ export const useChangeRequestReprint = (queryData : any) => useQuery({
 export const useChangeRequestDashboard = (queryData : any) => useQuery({
   queryFn: getChangeRequestDashboard,
   queryKey: ['sort', queryData],
-})
-
-export const useRequestTypeDropdown = () => useQuery({
-  queryFn: getRequestTypeDropdown,
-  //queryKey: ['sort', queryData],
 })
 
 export const useChangeRequestAudit = (queryData : any) => useQuery({

@@ -12,7 +12,7 @@ import { useEffect, useState } from "react";
 
 interface SearchFormProps {
   isAdvancedOpen: boolean;
-  codeTypeDropDown: any;
+  dropDown: any;
   register: any;
   Controller: any;
   control: any;
@@ -20,7 +20,7 @@ interface SearchFormProps {
 }
 export function SearchForm({
   isAdvancedOpen,
-  codeTypeDropDown,
+  dropDown,
   register,
   Controller,
   control,

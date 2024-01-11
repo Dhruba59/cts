@@ -1,6 +1,7 @@
 
 import { ColumnDef } from "@tanstack/react-table";
 import { Query } from "./query";
+import { number } from 'yup';
 
 export interface ChangeRequestReprintModel {
   userName?: string,
@@ -104,4 +105,49 @@ export interface CodeType {
     nationalIDTypeName?: string,
     height?: number,
     weight?: number,
+    DateEntered?: string
+  }
+
+
+
+  export interface ChangeRequestDashboardQuery extends Query {
+    userTypeId?: number | null;
+    protocolNumber?: string;
+    requestStatus?: string;
+    fromDate?: string | null;
+    toDate?: string | null;
+  }
+
+  export interface ChangeRequestDashboardModel {
+    requestId?: number,
+    protocolNumber?: string,
+    subjectId?: number,
+    sponsorSubjectId?: string,
+    isPartialDate?: boolean,
+    dateOfBirth?: string,
+    gender?: string,
+    social?: string,
+    nationalTypeId?: number,
+    firstInit?: string,
+    secondInit?: string,
+    thirdInit?: string,
+    zipCode?: string,
+    height?: number,
+    weight?: number,
+    dateEntered?: string,
+    siteStudyId?: number,
+    requestedNote?: string,
+    requestedDate?: string,
+    approvedDate?: string,
+    approvedUserId?: number,
+    requestedUserName?: string,
+    requestedUserId?: number,
+    userTypeId?: number,
+    requestStatus?: string,
+    isEditDelete? : boolean,
+    lastSubjectEntryDate?: string,
+    visitTypeId?: number,
+    indicationDetail?: string,
+    deleteType?: number,
+    isReqForLastSubjectEntry? : boolean,
   }

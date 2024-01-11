@@ -10,25 +10,20 @@ import { DropDownItem, SelectOptionType } from "@/model/drop-down-list";
 import { DEFAULT_PAGE_SIZE } from "@/constants/common";
 import { useQuery } from "react-query";
 import { MainContainer } from "@/components/style-container";
-import { useGetIndications } from "@/hooks/rq-hooks/indication-hooks";
+import { useChangeRequestDashboard } from "@/hooks/rq-hooks/change-request-hooks";
+import { ChangeRequestDashboardQuery } from "@/model/change-request";
 
-const IndicationList = () => {
+const ChangeRequestDashboardList = () => {
 
-  const [queryData, setQueryData] = useState<IndicationQuery>();
+  const [queryData, setQueryData] = useState<ChangeRequestDashboardQuery>();
   const [pageSize, setPageSize] = useState<number>(DEFAULT_PAGE_SIZE);
   const [sorting, setSorting] = useState<SortingState>([
     //{ id: "indicationName", desc: false }
   ]);
 
-  const { data: studyData, error, isLoading, refetch: refetchIndications 
-  } = useGetIndications(queryData);
+  const { data: _data, error, isLoading, refetch: refetchIndications 
+  } = useChangeRequestDashboard(queryData);
   
-  //console.log(studyData);
-
-  // const { data: studyData } = useQuery({
-  //   queryFn: getIndications,
-  //   queryKey: ['sort', queryData],
-  // });
 
   const setCurrentPageNumber = (page: number) => {
     setQueryData((data) => {
@@ -67,11 +62,11 @@ const IndicationList = () => {
   return (
     <main>
       <ListHeader setQueryData={setQueryData} />
-      <ListTable data={studyData?.data?.items} sorting={sorting} setSorting={setSorting} />
+      <ListTable data={_data?.data?.items} sorting={sorting} setSorting={setSorting} />
       <Pagination
-        currentPage={studyData?.data?.pageNumber}
+        currentPage={_data?.data?.pageNumber}
         setCurrentPage={setCurrentPageNumber}
-        lastPage={studyData?.data?.totalPages}
+        lastPage={_data?.data?.totalPages}
         pageSize={pageSize}
         setPageSize={setPageSize}
         maxLength={7}
@@ -80,4 +75,4 @@ const IndicationList = () => {
   );
 };
 
-export default IndicationList;
+export default ChangeRequestDashboardList;

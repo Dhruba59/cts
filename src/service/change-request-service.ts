@@ -2,6 +2,16 @@
 import { request } from "./axios-config";
 
 
+export const getRequestTypeDropdown = () => {
+  //const [key, params ] = queryKey as any;
+  return request({url: 'ChangeRequest/request-type-dropdown', method: 'GET'});
+}
+
+export const getDashboardDropdown = () => {
+  //const [key, params ] = queryKey as any;
+  return request({url: 'ChangeRequest/dashboard-dropdowns', method: 'GET'});
+}
+
 export const getChangeRequestReprint = ({queryKey}: any) => {
   const [key, params ] = queryKey as any;
   return request({url: 'ChangeRequest/reprint', method: 'GET', params});
@@ -11,10 +21,7 @@ export const getChangeRequestDashboard = ({queryKey}: any) => {
   return request({url: 'ChangeRequest/dashboard', method: 'GET', params});
 }
 
-export const getRequestTypeDropdown = () => {
-  //const [key, params ] = queryKey as any;
-  return request({url: 'ChangeRequest/request-type-dropdown', method: 'GET'});
-}
+
 export const getChangeRequestAudit = ({queryKey}: any) => {
   const [key, params ] = queryKey as any;
   return request({url: 'ChangeRequest/audit', method: 'GET', params});

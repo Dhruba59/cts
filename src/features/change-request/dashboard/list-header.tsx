@@ -6,7 +6,7 @@ import { useState } from "react";
 import { SearchForm, AdvanceSearchForm } from "./search-form";
 import { DropDownItem, SelectOptionType } from "@/model/drop-down-list";
 import { Controller, useForm } from "react-hook-form";
-import { IndicationQuery } from "@/model/indication";
+import { ChangeRequestDashboardQuery } from "@/model/change-request";
 import { useGetIndicationCodeTypes } from "@/hooks/rq-hooks/indication-hooks";
 
 
@@ -15,13 +15,14 @@ const ListHeader = ({ setQueryData }: any) => {
 
   const {data: codeTypeDropDown} = useGetIndicationCodeTypes();
 
-  const defaultValues: IndicationQuery = {
-    code: '',
-    indicationName: '',
-    codeType: '',
-    description: '',
-    isRequireDetails: undefined   
+  const defaultValues: ChangeRequestDashboardQuery = {
+    userTypeId: null,
+    protocolNumber: '',
+    requestStatus: '',
+    fromDate: null,
+    toDate: null   
   }
+
   const {
     register,
     handleSubmit,
@@ -29,7 +30,7 @@ const ListHeader = ({ setQueryData }: any) => {
     setValue,
     formState: { errors },
     reset,
-  } = useForm<IndicationQuery>({
+  } = useForm<ChangeRequestDashboardQuery>({
     defaultValues: defaultValues
   });
 
@@ -39,8 +40,6 @@ const ListHeader = ({ setQueryData }: any) => {
       ...value,
       codeType: value?.codeType?.value
     }
-    //delete params.date;
-    //console.log(params);
     setQueryData(params);
   }
 
