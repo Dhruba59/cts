@@ -49,10 +49,15 @@ export const addChangeRequest = (data: any) => {
   return request({url: 'ChangeRequest', method: 'POST', data});
 }
 
-export const editChangeRequest = (data: any) => {
-  return request({url: 'ChangeRequest', method: 'PUT', data});
+export const acceptChangeRequest = (data: any) => {
+  return request({url: 'ChangeRequest/accept', method: 'PUT', data});
 } 
 
-export const deleteChangeRequest = (data: any) => {
-  return request({url: 'ChangeRequest', method: 'DELETE', data});
+export const rejectChangeRequest = (data: any) => {
+  return request({url: 'ChangeRequest/reject', method: 'DELETE', data});
+}
+
+export const viewChangeRequestDetail = ({queryKey}: any) => {
+  const [key, params ] = queryKey as any;
+  return request({url: 'ChangeRequest/view-detail', method: 'GET', params});
 }

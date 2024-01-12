@@ -14,7 +14,7 @@ import Pagination from "@/components/pagination";
 import { useChangeRequestAuditDetail } from "@/hooks/rq-hooks/change-request-hooks";
 import ChangeRequestDetailListTable from "./change-request-detail-list-table";
 
-const ChangeRequestReviewDetailModal = ({ subjectId, regionGroupsId, onAccept, onReject }: any) => {
+const ChangeRequestReviewDetailModal = ({ requestId, subjectId, regionGroupsId, onAccept, onReject }: any) => {
 
   const [queryData, setQueryData] = useState<ChangeRequestAuditDetailQuery>({
     subjectId: subjectId,
@@ -71,8 +71,8 @@ const ChangeRequestReviewDetailModal = ({ subjectId, regionGroupsId, onAccept, o
       title="Changed Request Detail"
       containerClassName="flex flex-1 flex-col mx-10 "
       renderFooter={{
-        onSave: () => { onAccept},
-        onReject: () => { onReject},
+        onSave: () => { onAccept(requestId)},
+        onReject: () => { onReject(requestId)},
         submitButtonName: "Approve",
         rejectButtonName: "Reject",
         cancelButtonName: "Close",

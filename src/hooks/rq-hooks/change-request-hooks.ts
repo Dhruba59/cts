@@ -1,4 +1,4 @@
-import { addChangeRequest, deleteChangeRequest, editChangeRequest, getChangeRequestAudit, getChangeRequestAuditDetail, getChangeRequestBySubject, getChangeRequestDashboard, getChangeRequestReprint, getDashboardDropdown, getRequestTypeDropdown } from "@/service/change-request-service";
+import { addChangeRequest, acceptChangeRequest, rejectChangeRequest, viewChangeRequestDetail, getChangeRequestAudit, getChangeRequestAuditDetail, getChangeRequestBySubject, getChangeRequestDashboard, getChangeRequestReprint, getDashboardDropdown, getRequestTypeDropdown } from "@/service/change-request-service";
 import { UseQueryOptions, useMutation, useQuery } from "react-query";
 
 
@@ -35,25 +35,22 @@ export const useChangeRequestBySubject = (queryData : any) => useQuery({
   queryFn: getChangeRequestBySubject,
   queryKey: ['sort', queryData],
 })
-// export const useGetIndicationById = (id :any) => useQuery({
-//   queryFn: getIndicationById,
-//   queryKey: ['indication', { indicationId: id }],
-//   enabled: !!id
-// })
 
 export const useChangeRequest = () => useMutation({
   mutationFn: addChangeRequest,
 })
 
 
-export const useEditChangeRequest = () => useMutation({
-  mutationFn: editChangeRequest,
+export const useAcceptChangeRequest = () => useMutation({
+  mutationFn: acceptChangeRequest,
 })
 
-// export const useGetIndicationCodeTypes = () => useQuery({
-//   queryFn: getIndicationCodeTypes,
-// })
+export const useRejectChangeRequest = () => useMutation({
+  mutationFn: rejectChangeRequest
+})
 
-export const useDeleteChangeRequest = () => useMutation({
-  mutationFn: deleteChangeRequest
+
+export const useViewChangeRequestDetail = (queryData : any) => useQuery({
+  queryFn: viewChangeRequestDetail,
+  queryKey: ['sort', queryData],
 })

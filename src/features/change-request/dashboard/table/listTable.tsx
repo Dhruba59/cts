@@ -12,6 +12,7 @@ import { useForm } from "react-hook-form";
 import { useDeleteIndication } from "@/hooks/rq-hooks/indication-hooks";
 import { number } from 'yup';
 import { MODAL_TYPE_ENUM } from "@/model/enum";
+import { useAcceptChangeRequest, useRejectChangeRequest } from "@/hooks/rq-hooks/change-request-hooks";
 
 
 export function ListTable({ data, sorting, setSorting, refetchIndications }: any) {
@@ -23,21 +24,23 @@ export function ListTable({ data, sorting, setSorting, refetchIndications }: any
     register
   } = useForm();
   
-  const [open, setOpen] = useState<boolean>(false);
-  const [id, setId] = useState<number>(0);
-  const { mutate: deleteIndication } = useDeleteIndication();
-
-  const onDeleteConfirm = () => {
-     deleteIndication({id} , {
+  const [openAccept, setOpenAccept] = useState<boolean>(false);
+  const [openReject, setOpenReject] = useState<boolean>(false);
+  const [requestId, setRequestId] = useState<number>(0);
+  const { mutate: acceptChangeRequest } = useAcceptChangeRequest();
+  const { mutate: rejectChangeRequest } = useRejectChangeRequest();
+  
+  const onRejectConfirm = () => {
+    rejectChangeRequest({requestId} , {
       onSuccess: (data) => {
-        setId(0);
-        setOpen(false);
+        setRequestId(0);
+        setOpenReject(false);
         toast.success(data?.data.details ,{position:"top-center"});
         refetchIndications();
       },
       onError: (error: any) => {
-        setId(0);
-        setOpen(false);
+        setRequestId(0);
+        setOpenReject(false);
         toast.error(error?.response?.data.title ,{position:"top-center"});
         refetchIndications();
       }
@@ -45,22 +48,41 @@ export function ListTable({ data, sorting, setSorting, refetchIndications }: any
 
   }
 
-  const onDeleteCancel = () => {
-    console.log('onDelete Cancel')
-    setId(0);
-    setOpen(false);
+  const onAcceptConfirm = () => {
+    acceptChangeRequest({requestId} , {
+      onSuccess: (data) => {
+        setRequestId(0);
+        setOpenAccept(false);
+        toast.success(data?.data.details ,{position:"top-center"});
+        refetchIndications();
+      },
+      onError: (error: any) => {
+        setRequestId(0);
+        setOpenAccept(false);
+        toast.error(error?.response?.data.title ,{position:"top-center"});
+        refetchIndications();
+      }
+    });
+
+  }
+
+  const onCancel = () => {
+    setRequestId(0);
+    setOpenAccept(false);
+    setOpenReject(false);
  }
  
  const onAccept = (id: number) => {
-  //setId(id);
-  //setOpen(true);
-  alert({ID: id})
+  setRequestId(0);
+  setOpenAccept(true);
+  console.log(`ID: ${id}`);
 }
 
 const onReject = (id: number) => {
- // setId(id);
-  //setOpen(true);
-  alert({ID: id})
+  setRequestId(0);
+  setOpenReject(true);
+  console.log(`ID: ${id}`);
+
 }
 
   const columns = useMemo(() => ChangeRequestDashboardListColumns({ onAccept, onReject }), []);
@@ -83,18 +105,34 @@ const onReject = (id: number) => {
       </div>
       <Modal
         type={MODAL_TYPE_ENUM.WARNING}
-        open={open}
-        onClose={() => onDeleteCancel()}
+        open={openReject}
+        onClose={() => onCancel()}
         title="Confirmation!"
         containerClassName="!w-[624px]"
         renderFooter={{
-          onSave: onDeleteConfirm,
+          onSave: onRejectConfirm,
           submitButtonName: "Confirm",
           cancelButtonName: "Cancel"
         }}
       >
         <div className="text-black text-base px-6 py-2">
-          <p>Do you want to delete?</p>
+          <p>Do you want to reject?</p>
+        </div>
+      </Modal>
+      <Modal
+        type={MODAL_TYPE_ENUM.WARNING}
+        open={openAccept}
+        onClose={() => onCancel()}
+        title="Confirmation!"
+        containerClassName="!w-[624px]"
+        renderFooter={{
+          onSave: onAcceptConfirm,
+          submitButtonName: "Confirm",
+          cancelButtonName: "Cancel"
+        }}
+      >
+        <div className="text-black text-base px-6 py-2">
+          <p>Do you want to accept?</p>
         </div>
       </Modal>
     </div>
