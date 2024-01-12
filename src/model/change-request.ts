@@ -57,3 +57,16 @@ export interface CodeType {
     searchField: string;
     searchValue: string;
   }
+
+  export interface SubjectDetailsParams {
+    SubjectId: string;
+    NationalTypeId?: string;
+  }
+
+  
+  export interface ChangeReqSubjectIdProps {
+    subjectId: string;
+    nationalIdType: string;
+  }
+
+  

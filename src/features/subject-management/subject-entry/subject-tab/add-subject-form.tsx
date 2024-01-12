@@ -3,12 +3,15 @@ import Datepicker from "@/components/ui/datepicker";
 import Input from "@/components/ui/input";
 import Label from "@/components/ui/label";
 import Select from "@/components/ui/select";
+import Textarea from "@/components/ui/textarea";
+import { useGetChangeReqSubjectDetails, useSaveChangeRequest } from "@/hooks/rq-hooks/change-request-hooks";
 import { useAddSubjectMutation, useIsDetailsRequired, useValidateSponsorSubjectId, useVerifySocialCode } from "@/hooks/rq-hooks/subject-hooks";
+import { ChangeReqSubjectIdProps } from "@/model/change-request";
 import { DropDownItem, SelectOptionType } from "@/model/drop-down-list";
 import { checkDetailRequirement } from "@/service/subject-service";
 import { convertTypeToSelectOption } from "@/utils/helpers";
 import { watch } from "fs";
-import React, { RefObject, useEffect, useRef, useState } from "react";
+import React, { Dispatch, RefObject, SetStateAction, useEffect, useRef, useState } from "react";
 import { Controller, UseFormReturn, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 
@@ -16,18 +19,34 @@ interface AddSubjectFormProps {
   dropdowns: { [key: string]: DropDownItem[] | any };
   protocolId: string | undefined;
   subjectIdFormat: string;
+  ids: ChangeReqSubjectIdProps | undefined;
+  setSelectedProtocol: Dispatch<SetStateAction<SelectOptionType | undefined>>;
+  studyType: SelectOptionType | undefined;
+  setStudyType: Dispatch<SetStateAction<SelectOptionType | undefined>>;
+  userId?: number | null;
+  setUserId?: Dispatch<SetStateAction<number | null>>
 }
 
-const AddSubjectForm = ({ dropdowns, protocolId, subjectIdFormat }: AddSubjectFormProps) => {
+const AddSubjectForm = ({ dropdowns, protocolId, subjectIdFormat, setSelectedProtocol, ids, studyType, setStudyType, userId, setUserId }: AddSubjectFormProps) => {
   const [heightUnitOptions, setHeightUnitOptions] = useState<SelectOptionType[]>();
   const [weightUnitOptions, setWeightUnitOptions] = useState<SelectOptionType[]>();
   const [isDetailsRequired, setIsDetailsRequired] = useState<boolean>(false);
   const [idOptions, setIdOptions] = useState<SelectOptionType[]>();
   const [genderOptions, setGenderOptions] = useState<SelectOptionType[]>();
+  const [visitTypeOptions, setVisitTypeOptions] = useState<SelectOptionType[]>();
   const { mutate: addSubject, isLoading: isSubjectAddLoading } = useAddSubjectMutation();
+  const { mutate: saveSubjectChangeRequest, isLoading: isLoadingChangeRequest } = useSaveChangeRequest();
   const { mutate: validateSponsor } = useValidateSponsorSubjectId();
   const { mutate: validateDetailRequirement } = useIsDetailsRequired();
   const { mutate: verifySocialCode } = useVerifySocialCode();
+
+  const { data: subjectData } = useGetChangeReqSubjectDetails({
+    SubjectId: ids?.subjectId ?? '',
+    NationalTypeId: ids?.nationalIdType ?? ''
+  });
+  const subjectDetail = subjectData?.data.subjectDetail;
+
+  console.log(ids);
 
   const {
     register,
@@ -53,21 +72,39 @@ const AddSubjectForm = ({ dropdowns, protocolId, subjectIdFormat }: AddSubjectFo
     }
     verifySocialCode(payload, {
       onSuccess: (data) => {
-        if(data.data.isValid === true) {
+        if (data.data.isValid === true) {
           clearErrors('partialID');
           validateSponsor(validationPayload, {
             onSuccess: (data) => {
               if (data.data.isValid) {
                 clearErrors('sponsorSubjectID');
                 delete values.zip;
-                const payload = {
+                let payload = {
                   ...values,
                   dateOfBirth: new Date(values.dateOfBirth.startDate),
-                  idType: values.idType.value,
-                  gender: values.gender.value,
-                  heightUnit: values.heightUnit.value,
-                  weightUnit: values.weightUnit.value,
+                  idType: values.idType.value ?? values.idType,
+                  gender: values.gender.value ?? values.gender,
+                  heightUnit: values.heightUnit.value ?? values.heightUnit,
+                  weightUnit: values.weightUnit.value ?? values.weightUnit,
                   studyId: protocolId
+                }
+                if (ids) {
+                  payload.subjectId = ids.subjectId;
+                  payload.lastSubjectEntryDate = new Date(values.lastSubjectEntryDate.startDate);
+                  payload.screenedDate = new Date(values.screenedDate.startDate);
+                  payload.requestNote = values.requestNote;
+                  payload.indicationDetail = values.indicationDetail;
+                  console.log(payload);
+                  saveSubjectChangeRequest(payload, {
+                    onSuccess: (data) => {
+                      toast.success(data.data.details);
+                      reset();
+                    },
+                    onError: (error: any) => {
+                      toast.error(error.response.data.detail);
+                    }
+                  });
+                  return;
                 }
                 addSubject(payload, {
                   onSuccess: (data) => {
@@ -80,7 +117,7 @@ const AddSubjectForm = ({ dropdowns, protocolId, subjectIdFormat }: AddSubjectFo
                 })
               }
               else {
-                setError('sponsorSubjectID',  { type: 'custom', message: data.data.message });
+                setError('sponsorSubjectID', { type: 'custom', message: data.data.message });
               }
             },
             onError: (error: any) => {
@@ -88,7 +125,7 @@ const AddSubjectForm = ({ dropdowns, protocolId, subjectIdFormat }: AddSubjectFo
             }
           });
         }
-        else if(data.data.isValid === false) {
+        else if (data.data.isValid === false) {
           setError('partialID', { type: 'custom', message: data.data.message });
           toast.error(data.data.message);
         }
@@ -96,7 +133,7 @@ const AddSubjectForm = ({ dropdowns, protocolId, subjectIdFormat }: AddSubjectFo
       onError: (error: any) => {
         toast.error(error.response.data.details);
         console.log(error.response.data.title)
-        setError('partialID', { type: 'custom', message: error.response.data.title } );
+        setError('partialID', { type: 'custom', message: error.response.data.title });
       }
     })
   };
@@ -110,11 +147,11 @@ const AddSubjectForm = ({ dropdowns, protocolId, subjectIdFormat }: AddSubjectFo
 
   const handleWeightUnit = (option: any) => {
     setValue('weightUnit', option);
-    if(option.label.includes('cm')) {
+    if (option.label.includes('cm')) {
       setValue('weightUnit', weightUnitOptions?.[0])
     } else {
       setValue('weightUnit', weightUnitOptions?.[1])
-    } 
+    }
   }
 
   // const validateId = () => {
@@ -172,10 +209,53 @@ const AddSubjectForm = ({ dropdowns, protocolId, subjectIdFormat }: AddSubjectFo
   //   };
   // }, [wrapperRef])
 
+  useEffect(() => {
+    if (subjectDetail) {
+      setVisitTypeOptions(convertTypeToSelectOption(subjectData?.data?.visitTypes));
+      setStudyType({
+        label: subjectDetail.studyType.text,
+        value: subjectDetail.studyType.value
+      });
+      const values = {
+        sponsorSubjectID: subjectDetail.sponsorSubjectId,
+        firstNameInitials: subjectDetail.firstInitial,
+        middleNameInitials: subjectDetail.middleInitial,
+        lastNameInitials: subjectDetail.lastInitial,
+        dateOfBirth: {
+          startDate: new Date(subjectDetail.dateOfBirth),
+          endDate: new Date(subjectDetail.dateOfBirth)
+        },
+        partialID: subjectDetail.nationalIdLastFourDigit,
+        idType: subjectDetail.idType,
+        gender: subjectDetail.gender,
+        zip: subjectDetail.zipCode,
+        height: subjectDetail.height,
+        heightUnit: subjectDetail.heightUnit,
+        Weight: subjectDetail.weight,
+        weightUnit: subjectDetail.weightUnit,
+        visitType: subjectDetail.visitType,
+        lastSubjectEntryDate: {
+          startDate: new Date(subjectDetail.lastEntryDate),
+          endDate: new Date(subjectDetail.lastEntryDate)
+        },
+        screenedDate: {
+          startDate: new Date(subjectDetail.screenedDate),
+          endDate: new Date(subjectDetail.screenedDate)
+        }
+      };
+      setUserId?.(subjectDetail.userId);
+      reset(values);
+      setSelectedProtocol({
+        value: subjectDetail.studyId,
+        label: subjectDetail.protocolNumber
+      })
+    }
+  }, [subjectData]);
+
   return (
     <form className="grid grid-cols-1 sm:grid-cols-2 gap-x-12 gap-y-6" onSubmit={handleSubmit(onSubmit)}>
       <div>
-        <Input label="Sponsor Subject ID" placeholder={subjectIdFormat} {...register('sponsorSubjectID', { required: "Sponsor id required." })} disabled={!protocolId} />
+        <Input label="Sponsor Subject ID" placeholder={subjectIdFormat} {...register('sponsorSubjectID', { required: "Sponsor id required." })} disabled={!protocolId && !ids} />
         {errors.sponsorSubjectID && (
           <span className="text-red-500 -mt-10">{errors.sponsorSubjectID.message as string}</span>
         )}
@@ -192,7 +272,7 @@ const AddSubjectForm = ({ dropdowns, protocolId, subjectIdFormat }: AddSubjectFo
                   message: 'Only Single character allowed'
                 }
               })}
-              disabled={!protocolId} />
+              disabled={!protocolId && !ids} />
             {errors.firstNameInitials && (
               <span className="text-red-500 -mt-10">{errors.firstNameInitials.message as string}</span>
             )}
@@ -206,7 +286,7 @@ const AddSubjectForm = ({ dropdowns, protocolId, subjectIdFormat }: AddSubjectFo
                   message: 'Only Single character allowed'
                 }
               })}
-              disabled={!protocolId} />
+              disabled={!protocolId && !ids} />
             {errors.middleNameInitials && (
               <span className="text-red-500 -mt-10">{errors.middleNameInitials.message as string}</span>
             )}
@@ -220,7 +300,7 @@ const AddSubjectForm = ({ dropdowns, protocolId, subjectIdFormat }: AddSubjectFo
                   message: 'Only Single character allowed'
                 }
               })}
-              disabled={!protocolId} />
+              disabled={!protocolId && !ids} />
             {errors.lastNameInitials && (
               <span className="text-red-500 -mt-10">{errors.lastNameInitials.message as string}</span>
             )}
@@ -244,7 +324,7 @@ const AddSubjectForm = ({ dropdowns, protocolId, subjectIdFormat }: AddSubjectFo
               onChange={onChange}
               placeholder="Date of birth"
               label="Date of Birth"
-              disabled={!protocolId}
+              disabled={!protocolId && !ids}
             />
           )}
         />
@@ -267,7 +347,7 @@ const AddSubjectForm = ({ dropdowns, protocolId, subjectIdFormat }: AddSubjectFo
               })}
               type="number"
               // onKeyUp={validateId}
-              disabled={!protocolId} />
+              disabled={!protocolId && !ids} />
             {errors.partialID && (
               <span className="text-red-500 -mt-10">{errors.partialID.message as string}</span>
             )}
@@ -289,7 +369,7 @@ const AddSubjectForm = ({ dropdowns, protocolId, subjectIdFormat }: AddSubjectFo
                   onChange={onChange}
                   options={idOptions}
                   value={value}
-                  isDisabled={!protocolId}
+                  isDisabled={!protocolId && !ids}
                 />
               )}
             />
@@ -333,7 +413,7 @@ const AddSubjectForm = ({ dropdowns, protocolId, subjectIdFormat }: AddSubjectFo
         <div className="grid grid-cols-2 gap-x-6">
           <div>
             <Label label="Height" className="inline-block mb-2" />
-            <Input type="number" placeholder="Enter Height" {...register('height', { required: "Height is required." })} disabled={!protocolId} />
+            <Input type="number" step="0.01" placeholder="Enter Height" {...register('height', { required: "Height is required." })} disabled={!protocolId && !ids} />
             {errors.height && (
               <span className="text-red-500 -mt-10">{errors.height.message as string}</span>
             )}
@@ -355,7 +435,7 @@ const AddSubjectForm = ({ dropdowns, protocolId, subjectIdFormat }: AddSubjectFo
                   }}
                   options={heightUnitOptions}
                   value={value}
-                  isDisabled={!protocolId}
+                  isDisabled={!protocolId && !ids}
                 />
               )}
             />
@@ -372,7 +452,7 @@ const AddSubjectForm = ({ dropdowns, protocolId, subjectIdFormat }: AddSubjectFo
       <div className="grid grid-cols-2 gap-x-6">
         <div>
           <Label label="weight" className="inline-block mb-2" />
-          <Input type="number" placeholder="Enter weight" {...register('Weight', { required: 'Weight is required.' })} disabled={!protocolId} />
+          <Input type="number" step="0.01" placeholder="Enter weight" {...register('Weight', { required: 'Weight is required.' })} disabled={!protocolId && !ids} />
           {errors.Weight && (
             <span className="text-red-500 -mt-10">{errors.Weight.message as string}</span>
           )}
@@ -384,7 +464,7 @@ const AddSubjectForm = ({ dropdowns, protocolId, subjectIdFormat }: AddSubjectFo
             control={control}
             name='weightUnit'
             rules={{
-              required: 'Weight Unit is required!',
+              // required: 'Weight Unit is required!',
             }}
             render={({ field: { onChange, onBlur, value } }: any) => (
               <Select
@@ -407,7 +487,91 @@ const AddSubjectForm = ({ dropdowns, protocolId, subjectIdFormat }: AddSubjectFo
       {isDetailsRequired &&
         <div>
           <Label label="Details" className="inline-block mb-2" />
-          <Input type="textarea" placeholder="Enter Detail" {...register('indicationDetails', { required: "Detail is required." })} disabled={!protocolId} />
+          <Input type="textarea" placeholder="Enter Detail" {...register('indicationDetails', { required: "Detail is required." })} disabled={!protocolId && !ids} />
+          {errors.detail && (
+            <span className="text-red-500 -mt-10">{errors.detail.message as string}</span>
+          )}
+        </div>
+      }
+
+      {ids &&
+        <div>
+          <Label label="Visit Type" className="inline-block mb-2" />
+          <Controller
+            control={control}
+            name='visitType'
+            rules={{
+              required: 'Visit Type is required!',
+            }}
+            render={({ field: { onChange, onBlur, value } }: any) => (
+              <Select
+                // wrapperClassName="grow" 
+                onChange={onChange}
+                options={visitTypeOptions}
+                value={value}
+              />
+            )}
+          />
+          {errors.visitType && (
+            <span className="text-red-500 -mt-10">{errors.visitType.message as string}</span>
+          )}
+        </div>
+      }
+
+      {ids &&
+        <div>
+          <Controller
+            control={control}
+            name='lastSubjectEntryDate'
+            rules={{
+              required: "Last Subject Entry Date is required!",
+            }}
+            render={({ field: { onChange, onBlur, value } }: any) => (
+              <Datepicker
+                popoverDirection='down'
+                value={value}
+                asSingle
+                useRange={false}
+                onChange={onChange}
+                // placeholder=""
+                label="Last Subject Entry Date"
+              />
+            )}
+          />
+          {errors.lastSubjectEntryDate && (
+            <span className="text-red-500 -mt-10">{errors.lastSubjectEntryDate.message as string}</span>
+          )}
+        </div>}
+
+      {ids &&
+        <div>
+          <Controller
+            control={control}
+            name='screenedDate'
+            rules={{
+              required: "Screened Date is required!",
+            }}
+            render={({ field: { onChange, onBlur, value } }: any) => (
+              <Datepicker
+                popoverDirection='down'
+                value={value}
+                asSingle
+                useRange={false}
+                onChange={onChange}
+                // placeholder=""
+                label="Screened Date"
+              />
+            )}
+          />
+          {errors.screenedDate && (
+            <span className="text-red-500 -mt-10">{errors.screenedDate.message as string}</span>
+          )}
+        </div>}
+
+      {ids &&
+        <div>
+          <Label label="Request Notes" className="inline-block mb-2" />
+          <Textarea placeholder="Enter notes" {...register('requestNote', { required: "Detail is required." })} />
           {errors.detail && (
             <span className="text-red-500 -mt-10">{errors.detail.message as string}</span>
           )}

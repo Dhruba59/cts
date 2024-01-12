@@ -127,9 +127,10 @@ export const ChangeRequestReprintListColumns = ({ onDelete }
       header: "Action",
       size: 140,
       cell: ({ row }) => {
+        console.log(row);
         return (
           <div className="flex items-center gap-6">
-            <ChangeRequestModal />
+            <ChangeRequestModal id={row.original.subjectId + '_' + row.original.nationalTypeId}/>
           </div>
         );
       }

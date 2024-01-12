@@ -4,7 +4,7 @@ import { customStyles } from "@/constants/selectStyle";
 import { SelectProps } from "@/types/common";
 import ReactSelect, { GroupBase, GroupProps, OptionProps, Options } from "react-select";
 import Label from "./label";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { SelectOptionType } from "@/model/drop-down-list";
 
 const Select = <
@@ -16,8 +16,10 @@ const Select = <
 ) => {
   const { label, placeholder, wrapperClassName, options = [], value, ...restProps } = props;
   const [selected, setSelected] = useState<SelectOptionType[]>([]);
+  const memoizedOptions = useMemo(() => options, [options]);
 
   useEffect(() => {
+    if(memoizedOptions.length === 0) return;
     //@ts-ignore
     setSelected((prevSelected) => {
       //@ts-ignore
@@ -25,13 +27,13 @@ const Select = <
         return value;
       } else if (Array.isArray(value)) {
         let tempValue = value.map(val => val.toString());
-        return options.filter((option: any) => tempValue.includes(option.value));
+        return memoizedOptions.filter((option: any) => tempValue.includes(option.value));
       } else if (!Array.isArray(value)) {
         //console.log(value, options);
-        return options.filter((option: any) => option.value === value?.toString())
+        return memoizedOptions.filter((option: any) => option.value === value?.toString())
       }
     })
-  }, [value, options]);
+  }, [value, memoizedOptions]);
 
   return (
     <div className={wrapperClassName}>

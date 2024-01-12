@@ -176,6 +176,7 @@ const AddUser = ({ id }: AddUserProps) => {
   const [initialSiteProtocolIds, setInitialSiteProtocolIds] = useState<string[]>();
   const [siteUserSiteId, setSiteUserSiteId] = useState<string>();
   const [completedTrainings, setCompletedTrainings] = useState<CompletedTraining[]>([]);
+  
   const { data: dropdowns, isLoading: isDropdownDataLoading } = useGetUserDropdowns();
   const { data: userData, isLoading: isUserDataLoading, refetch: refetchUser } = useGetUserById({ UserId: id! });
   const { mutate: addUser, isLoading: isCreatingUser } = useAddUser();

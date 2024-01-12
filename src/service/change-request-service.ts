@@ -6,9 +6,19 @@ export const getChangeRequestReprint = ({queryKey}: any) => {
   const [key, params ] = queryKey as any;
   return request({url: 'ChangeRequest/reprint', method: 'GET', params});
 }
+export const getSubjectDetails = ({queryKey}: any) => {
+  const [key, params ] = queryKey as any;
+  return request({url: 'ChangeRequest/subject-details', method: 'GET', params});
+}
 export const getChangeRequestDashboard = ({queryKey}: any) => {
   const [key, params ] = queryKey as any;
   return request({url: 'ChangeRequest/dashboard', method: 'GET', params});
+}
+export const getChangeRequestDashboardDropdows = () => {
+  return request({url: 'ChangeRequest/dashboard-dropdowns', method: 'GET'});
+}
+export const getChangeRequestReprintDropdowns = () => {
+  return request({url: 'ChangeRequest/reprint-dropdowns', method: 'GET'});
 }
 export const getChangeRequestAudit = ({queryKey}: any) => {
   const [key, params ] = queryKey as any;
@@ -35,6 +45,10 @@ export const getIndications = ({queryKey}: any) => {
 
 export const addChangeRequest = (data: any) => {
   return request({url: 'ChangeRequest', method: 'POST', data});
+}
+
+export const saveChangeRequest = (data: any) => {
+  return request({url: 'ChangeRequest/save', method: 'POST', data});
 }
 
 export const editChangeRequest = (data: any) => {

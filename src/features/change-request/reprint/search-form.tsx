@@ -6,23 +6,21 @@ import Input from "@/components/ui/input";
 import Label from "@/components/ui/label";
 import Select from "@/components/ui/select";
 import { ChangeRequestReprintQuery } from "@/model/change-request";
-import { SelectOptionType } from "@/model/drop-down-list";
+import { DropDownItem, SelectOptionType } from "@/model/drop-down-list";
 import { StudyListQueryData } from "@/model/study";
 import { convertTypeToSelectOption } from "@/utils/helpers";
 import { useEffect, useState } from "react";
-import { Control, Controller, ControllerProps, FieldValues, RegisterOptions, UseFormRegister } from "react-hook-form";
+import { Control, Controller, ControllerProps, FieldValues, RegisterOptions, UseFormRegister, UseFormReturn } from "react-hook-form";
 import { DateValueType } from "react-tailwindcss-datepicker";
 
 interface SearchFormProps {
-  register: UseFormRegister<ChangeRequestReprintQuery>;
-  Controller: React.ElementType;
-  control: Control<ChangeRequestReprintQuery>;
   isAdvancedOpen: boolean;
-  reset: any;
+  form: UseFormReturn;
+  dropdownsData: {[key: string]: DropDownItem[]}
 }
 
 interface AdvancedSearchFormProps extends Omit<SearchFormProps, 'isAdvancedOpen'> {
-  dropDownList: any;
+  // dropDownList: any;
 }
 
 const initialSearchFormValues = {
@@ -41,17 +39,30 @@ const initialSearchFormValues = {
   Active: false
 }
 
-const SearchForm: React.FC<SearchFormProps> = ({ isAdvancedOpen, register, Controller, control, reset }) => {
-  const [sponsorOptions, setSponsorOptions] = useState<SelectOptionType[]>([]);
+const SearchForm: React.FC<SearchFormProps> = ({ isAdvancedOpen, form, dropdownsData }) => {
+  const [protocolOptions, setProtocolOptions] = useState<SelectOptionType[]>([]);
+  const {
+    register,
+    handleSubmit,
+    control,
+    setValue,
+    formState: { errors },
+    reset,
+  } = form;
+
+  useEffect(() => {
+    setProtocolOptions(convertTypeToSelectOption(dropdownsData?.protocols));
+  }, [dropdownsData]);
+
   return (
     <div className="flex justify-start gap-2 md:gap-3">
       <div className="flex lg:flex lg:items-center gap-2 flex-1 md:flex-none">
         <Label label="Protocol: " className="hidden xl:block" />
         <Controller
           control={control}
-          name='siteStudyId'
+          name='SiteStudyId'
           render={({ field: { onChange, onBlur, value } }: any) => (
-            <Select className="md:w-36 xl:w-48" onChange={onChange} label="" options={sponsorOptions} value={value} />
+            <Select className="md:w-36 xl:w-48" onChange={onChange} label="" options={protocolOptions} value={value} />
           )}
         />
       </div>
@@ -60,7 +71,7 @@ const SearchForm: React.FC<SearchFormProps> = ({ isAdvancedOpen, register, Contr
         <Input
           placeholder="Enter Subject ID"
           className="md:w-36  xl:w-48"
-          {...register("subjectId")}
+          {...register("SubjectId")}
         />
       </div>
       <div>
@@ -72,45 +83,54 @@ const SearchForm: React.FC<SearchFormProps> = ({ isAdvancedOpen, register, Contr
 
 export default SearchForm;
 
-const AdvanceSearchForm = ({ dropDownList, register, Controller, control, reset }: AdvancedSearchFormProps) => {
-  const [value, setValue] = useState<DateValueType>({
-    startDate: new Date(),
-    endDate: null,
-  });
-  const [phaseOptions, setPhaseOptions] = useState<SelectOptionType[]>([]);
-  const [sponsorOptions, setSponsorOptions] = useState<SelectOptionType[]>([]);
+const AdvanceSearchForm = ({ form, dropdownsData }: AdvancedSearchFormProps) => {
+  // const [value, setValue] = useState<DateValueType>({
+  //   startDate: new Date(),
+  //   endDate: null,
+  // });
+  const [regionGroupOptions, setRegionGroupOptions] = useState<SelectOptionType[]>([]);
+  const [siteOptions, setSiteOptions] = useState<SelectOptionType[]>([]);
   const [dateValue, setDateValue] = useState<DateValueType>({
     startDate: new Date(),
     endDate: new Date(),
   });
+  const {
+    register,
+    handleSubmit,
+    control,
+    setValue,
+    formState: { errors },
+    reset,
+  } = form;
+
   const handleValueChange = (newValue: any) => {
     setDateValue(newValue);
   };
 
   useEffect(() => {
-    setPhaseOptions(convertTypeToSelectOption(dropDownList?.phases));
-    setSponsorOptions(convertTypeToSelectOption(dropDownList?.sponsors));
-  }, [dropDownList])
+    setRegionGroupOptions(convertTypeToSelectOption(dropdownsData?.regionGroups));
+    setSiteOptions(convertTypeToSelectOption(dropdownsData?.sites));
+  }, [dropdownsData]);
 
   return (
     <div className="hidden lg:block p-6 pt-2 space-y-4">
       <div className="grid grid-col-1 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-x-4 gap-y-2">
         <Controller
           control={control}
-          name='regionGroup'
+          name='RegionGroup'
           render={({ field: { onChange, onBlur, value } }: any) => (
             <Select
               //className="md:w-36  xl:w-48" 
-              onChange={onChange} label="Region Group" options={sponsorOptions} value={value} />
+              onChange={onChange} label="Region Group" options={regionGroupOptions} value={value} />
           )}
         />
         <Controller
           control={control}
-          name='siteId'
+          name='SiteId'
           render={({ field: { onChange, onBlur, value } }: any) => (
             <Select
               //className="md:w-36  xl:w-48" 
-              onChange={onChange} label="Site Name" options={sponsorOptions} value={value} />
+              onChange={onChange} label="Site Name" options={siteOptions} value={value} />
           )}
         />
         <div className="flex flex-col items-start justify-between gap-2 mt-1">
@@ -119,23 +139,23 @@ const AdvanceSearchForm = ({ dropDownList, register, Controller, control, reset 
             <Input
               placeholder="F"
               className="md:w-10 xl:16"
-              {...register("firstInit")}
+              {...register("FirstInit")}
             />
             <Input
               placeholder="M"
               className="md:w-10 xl:16"
-              {...register("middleInit")}
+              {...register("MiddleInit")}
             />
             <Input
               placeholder="L"
               className="md:w-10 xl:16"
-              {...register("lastInit")}
+              {...register("LastInit")}
             />
           </div>
         </div>
         <Controller
           control={control}
-          name='dateOfBirth'
+          name='DateOfBirth'
           render={({ field: { onChange, onBlur, value } }: any) => (
             <Datepicker
               // containerClassName="md:w-36 xl:w-48"
@@ -150,7 +170,10 @@ const AdvanceSearchForm = ({ dropDownList, register, Controller, control, reset 
         />
         <Controller
           control={control}
-          name='fromDate'
+          name='FromDate'
+          rules={{
+            required: "From date is required!",
+          }}
           render={({ field: { onChange, onBlur, value } }: any) => (
             <Datepicker
               // containerClassName="md:w-36 xl:w-48"
@@ -165,7 +188,10 @@ const AdvanceSearchForm = ({ dropDownList, register, Controller, control, reset 
         />
         <Controller
           control={control}
-          name='toDate'
+          name='ToDate'
+          rules={{
+            required: "To date is required!",
+          }}
           render={({ field: { onChange, onBlur, value } }: any) => (
             <Datepicker
               // containerClassName="md:w-36 xl:w-48"
