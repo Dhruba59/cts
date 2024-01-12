@@ -108,9 +108,9 @@ return ([
     cell: ({ row }) => {
       return (
         <div className="flex items-center gap-6">
-          <ChangeRequestDashboardModal  requestId={row.original.requestId}  onAccept={() => onAccept(row.original.requestId)} onReject={() => onReject(row.original.requestId)}/>
+          <ChangeRequestDashboardModal  requestId={row.original.requestId}  onAccept={onAccept} onReject={onReject}/>
           <Cross className="cursor-pointer"  onClick={() => onReject(row.original.requestId)}/>
-          <Check className="cursor-pointer"  onClick={() => onAccept(row.original.requestId)}/>
+          <Check className="cursor-pointer"  onClick={() => {onAccept(row.original.requestId)}}/>
         </div>
       );
     }
