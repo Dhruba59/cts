@@ -16,7 +16,7 @@ const SponsorList = () => {
   const [sorting, setSorting] = useState<SortingState>([
   ]);
 
-  const { data: sponsorData } = useQuery({
+  const { data: sponsorData, isLoading, refetch } = useQuery({
     queryFn: getSponsors,
     queryKey: ['sort', queryData],
   });
@@ -59,7 +59,7 @@ const SponsorList = () => {
   return (
     <main>
       <ListHeader setQueryData={setQueryData} />
-      <ListTable data={sponsorData?.data?.items} sorting={sorting} setSorting={setSorting} />
+      <ListTable data={sponsorData?.data?.items} sorting={sorting} setSorting={setSorting} isLoading={isLoading} refetch={refetch}/>
       <Pagination
         currentPage={sponsorData?.data?.pageNumber}
         setCurrentPage={setCurrentPageNumber}

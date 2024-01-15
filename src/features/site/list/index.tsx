@@ -20,7 +20,7 @@ const SiteList = () => {
     //{ id: "indicationName", desc: false }
   ]);
 
-  const { data: siteData } = useGetSites(queryData)
+  const { data: siteData, isLoading, refetch } = useGetSites(queryData)
   // const { data: siteData } = useQuery({
   //   queryFn: getSites,
   //   queryKey: ['sort', queryData],
@@ -65,7 +65,7 @@ const SiteList = () => {
   return (
     <main>
       <ListHeader setQueryData={setQueryData} />
-      <ListTable data={siteData?.data?.items} sorting={sorting} setSorting={setSorting} />
+      <ListTable data={siteData?.data?.items} sorting={sorting} setSorting={setSorting} isLoading={isLoading} refetch={refetch}/>
       <Pagination
         currentPage={siteData?.data?.pageNumber}
         setCurrentPage={setCurrentPageNumber}

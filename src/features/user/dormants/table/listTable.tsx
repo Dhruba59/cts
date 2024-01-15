@@ -16,7 +16,7 @@ import { useTableRowsSelection } from "@/hooks/table-rows-selection-hooks";
 import { UserQuery } from "@/model/user";
 
 
-export function ListTable({ data, pageSize, totalPages, sorting, setSorting, refetchUsers }: any) {
+export function ListTable({ data, pageSize, totalPages, sorting, setSorting, refetch, isLoading }: any) {
 
   const {
     handleSubmit,
@@ -36,13 +36,13 @@ export function ListTable({ data, pageSize, totalPages, sorting, setSorting, ref
         setId(0);
         setOpen(false);
         toast.success(data?.data.details, { position: "top-center" });
-        refetchUsers();
+        refetch();
       },
       onError: (error: any) => {
         setId(0);
         setOpen(false);
         toast.error(error?.response?.data.title, { position: "top-center" });
-        refetchUsers();
+        refetch();
       }
     });
 
@@ -76,7 +76,7 @@ export function ListTable({ data, pageSize, totalPages, sorting, setSorting, ref
         List of Dormant User
       </h4>
       <div className="hidden sm:block">
-        <SimpleTable data={data} columns={columns} totalPages={totalPages} sorting={sorting} setSorting={setSorting} />
+        <SimpleTable data={data} columns={columns} totalPages={totalPages} sorting={sorting} setSorting={setSorting} isLoading={isLoading}/>
       </div>
       <div className="block sm:hidden">
         <ExpandableTable

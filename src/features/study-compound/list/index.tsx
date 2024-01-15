@@ -20,7 +20,7 @@ const StudyCompoundList = () => {
     //{ id: "indicationName", desc: false }
   ]);
 
-  const { data: studyCompoundData } = useGetStudyCompounds(queryData)
+  const { data: studyCompoundData, isLoading, refetch } = useGetStudyCompounds(queryData)
 
   const setCurrentPageNumber = (page: number) => {
     setQueryData((data) => {
@@ -61,7 +61,7 @@ const StudyCompoundList = () => {
   return (
     <main>
       <ListHeader setQueryData={setQueryData} />
-      <ListTable data={studyCompoundData?.data?.items} sorting={sorting} setSorting={setSorting} />
+      <ListTable data={studyCompoundData?.data?.items} sorting={sorting} setSorting={setSorting} isLoading={isLoading} refetch={refetch}/>
       <Pagination
         currentPage={studyCompoundData?.data?.pageNumber}
         setCurrentPage={setCurrentPageNumber}

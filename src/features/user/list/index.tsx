@@ -17,7 +17,7 @@ const UserList = () => {
   const [sorting, setSorting] = useState<SortingState>([
     //{ id: "indicationName", desc: false }
   ]);
-  const { data: usersData, error, isLoading: isLoadingUsers, refetch: refetchUsers
+  const { data: usersData, error, isLoading: isLoading, refetch: refetch
   } = useGetUsers(queryData);
 
 
@@ -66,7 +66,7 @@ const UserList = () => {
   return (
     <main>
       <ListHeader setQueryData={setQueryData} />
-      <ListTable data={usersData?.data?.items} sorting={sorting} setSorting={setSorting} />
+      <ListTable data={usersData?.data?.items} sorting={sorting} setSorting={setSorting} isLoading={isLoading} refetch={refetch}/>
       <Pagination
         currentPage={usersData?.data?.pageNumber}
         setCurrentPage={setCurrentPageNumber}

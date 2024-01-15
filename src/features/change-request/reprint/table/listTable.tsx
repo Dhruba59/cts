@@ -11,7 +11,7 @@ import { MODAL_TYPE_ENUM } from "@/model/enum";
 import { ChangeRequestReprintListColumns } from "./columns";
 
 
-export function ListTable({ data, sorting, setSorting, refetchIndications, isLoadingTableData }: any) {
+export function ListTable({ data, sorting, setSorting, refetch, isLoading }: any) {
 
   const {
     handleSubmit,
@@ -30,13 +30,13 @@ export function ListTable({ data, sorting, setSorting, refetchIndications, isLoa
         setId(0);
         setOpen(false);
         toast.success(data?.data.details ,{position:"top-center"});
-        refetchIndications();
+        refetch();
       },
       onError: (error: any) => {
         setId(0);
         setOpen(false);
         toast.error(error?.response?.data.title ,{position:"top-center"});
-        refetchIndications();
+        refetch();
       }
     });
 
@@ -58,10 +58,10 @@ export function ListTable({ data, sorting, setSorting, refetchIndications, isLoa
   return (
     <div className="sm:wrapper">
       <h4 className="hidden md:block font-semibold py-4 px-6 text-dark-900">
-        Change Request & Re-Print
+      Change Request & Re-Print
       </h4>
       <div className="hidden sm:block">
-        <SimpleTable data={data} columns={columns} sorting={sorting} setSorting={setSorting} isLoading={isLoadingTableData}/>
+        <SimpleTable data={data} columns={columns} sorting={sorting} setSorting={setSorting} isLoading={isLoading}/>
       </div>
       <div className="block sm:hidden">
         <ExpandableTable
