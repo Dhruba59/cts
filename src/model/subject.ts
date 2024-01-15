@@ -1,3 +1,4 @@
+import { ChangeReqSubjectIdProps } from "./change-request";
 import { Query } from "./query";
 
 export interface Subject {
@@ -83,4 +84,8 @@ export interface Protocol {
     DateOfBirth?: string;
     FromDate?: string;
     ToDate?: string;
+  }
+
+  export interface SubjectEntryEditForm {
+    ids?: ChangeReqSubjectIdProps;
   }

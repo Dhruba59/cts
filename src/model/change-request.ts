@@ -175,3 +175,15 @@ export interface CodeType {
     weight?: number,
     DateEntered?: string
   }
+  export interface SubjectDetailsParams {
+    SubjectId: string;
+    NationalTypeId?: string;
+  }
+
+  
+  export interface ChangeReqSubjectIdProps {
+    subjectId: string;
+    nationalIdType: string;
+  }
+
+  
