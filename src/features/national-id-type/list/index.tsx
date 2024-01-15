@@ -20,7 +20,7 @@ const NationalIdTypeList = () => {
     //{ id: "indicationName", desc: false }
   ]);
 
-  const { data: nationalIdTypeData, refetch: refetchNationalIdType } = useGetNationalIdTypes(queryData)
+  const { data: nationalIdTypeData, isLoading, refetch: refetchNationalIdType } = useGetNationalIdTypes(queryData)
   // const { data: nationalIdTypeData, refetch: refetchNationalIdType } = useQuery({
   //   queryFn: getNationalIdTypes,
   //   queryKey: ['sort', queryData],
@@ -65,7 +65,7 @@ const NationalIdTypeList = () => {
   return (
     <main>
       <ListHeader setQueryData={setQueryData} />
-      <ListTable data={nationalIdTypeData?.data?.items} sorting={sorting} setSorting={setSorting} refetchNationalIdType={refetchNationalIdType}/>
+      <ListTable data={nationalIdTypeData?.data?.items} sorting={sorting} setSorting={setSorting} refetchNationalIdType={refetchNationalIdType} isLoading={isLoading}/>
       <Pagination
         currentPage={nationalIdTypeData?.data?.pageNumber}
         setCurrentPage={setCurrentPageNumber}

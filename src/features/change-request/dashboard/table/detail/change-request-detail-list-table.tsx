@@ -14,7 +14,7 @@ import { MODAL_TYPE_ENUM } from "@/model/enum";
 import { ChangeRequestReviewDetailListColumns } from "./change-request-detail-columns";
 
 
-export function ChangeRequestDetailListTable({ data, sorting, setSorting, refetchIndications }: any) {
+export function ChangeRequestDetailListTable({ data, sorting, setSorting, refetch, isLoading }: any) {
 
   const {
     handleSubmit,
@@ -33,13 +33,13 @@ export function ChangeRequestDetailListTable({ data, sorting, setSorting, refetc
         setId(0);
         setOpen(false);
         toast.success(data?.data.details, { position: "top-center" });
-        refetchIndications();
+        refetch();
       },
       onError: (error: any) => {
         setId(0);
         setOpen(false);
         toast.error(error?.response?.data.title, { position: "top-center" });
-        refetchIndications();
+        refetch();
       }
     });
 
@@ -58,7 +58,7 @@ export function ChangeRequestDetailListTable({ data, sorting, setSorting, refetc
   return (
     <div className="">
       <div className="hidden sm:block">
-        <SimpleTable data={data} columns={columns} sorting={sorting} setSorting={setSorting} />
+        <SimpleTable data={data} columns={columns} sorting={sorting} setSorting={setSorting} isLoading={isLoading}/>
       </div>
       <div className="block sm:hidden">
         <ExpandableTable

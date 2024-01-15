@@ -11,6 +11,7 @@ import { DEFAULT_PAGE_SIZE } from "@/constants/common";
 import { useQuery } from "react-query";
 import { MainContainer } from "@/components/style-container";
 import { useGetIndications } from "@/hooks/rq-hooks/indication-hooks";
+import { rejectChangeRequest } from '@/service/change-request-service';
 
 const IndicationList = () => {
 
@@ -20,7 +21,7 @@ const IndicationList = () => {
     //{ id: "indicationName", desc: false }
   ]);
 
-  const { data: studyData, error, isLoading, refetch: refetchIndications 
+  const { data: studyData, error, isLoading, refetch 
   } = useGetIndications(queryData);
   
   //console.log(studyData);
@@ -67,7 +68,7 @@ const IndicationList = () => {
   return (
     <main>
       <ListHeader setQueryData={setQueryData} />
-      <ListTable data={studyData?.data?.items} sorting={sorting} setSorting={setSorting} />
+      <ListTable data={studyData?.data?.items} sorting={sorting} setSorting={setSorting} isLoading={isLoading} />
       <Pagination
         currentPage={studyData?.data?.pageNumber}
         setCurrentPage={setCurrentPageNumber}

@@ -77,7 +77,7 @@ const ChangeRequestAuditDetailModal = ({ subjectId, regionGroupsId }: any) => {
       }}
     >
       <div className="flex flex-col gap-2">
-        <AuditDetailListTable data={_data?.data?.items} sorting={sorting} setSorting={setSorting} />
+        <AuditDetailListTable data={_data?.data?.items} sorting={sorting} setSorting={setSorting} isLoading={isLoading}/>
         <Pagination
           currentPage={_data?.data?.pageNumber}
           setCurrentPage={setCurrentPageNumber}

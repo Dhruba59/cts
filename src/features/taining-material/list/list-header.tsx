@@ -16,18 +16,18 @@ const ListHeader = ({ setQueryData }: any) => {
 
   const { data: studyProtocolDropDown } = useGetStudyProtocols();
 
-  console.log(studyProtocolDropDown);
+  //console.log(studyProtocolDropDown);
 
   const defaultValues: TrainingMaterialQuery = {
-    trainingId: 0,
+    trainingId: null,
     trainingName: '',
-    passMarks: 0,
-    displayOrder: 0,
-    materialId: 0,
+    passMarks: null,
+    displayOrder: null,
+    materialId: null,
     fileName: '',
     filePath: '',
-    preScreen: undefined,
-    active: undefined
+    preScreen: null,
+    active: null 
   }
   const {
     register,

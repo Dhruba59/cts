@@ -79,7 +79,7 @@ const ChangeRequestReviewDetailModal = ({ requestId, subjectId, regionGroupsId, 
       }}
     >
       <div className="flex flex-col gap-2">
-        <ChangeRequestDetailListTable data={_data?.data?.items} sorting={sorting} setSorting={setSorting} />
+        <ChangeRequestDetailListTable data={_data?.data?.items} sorting={sorting} setSorting={setSorting} isLoading={isLoading}/>
       </div>
     </Modal>
   );

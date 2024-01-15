@@ -14,7 +14,7 @@ import { number } from 'yup';
 import { MODAL_TYPE_ENUM } from "@/model/enum";
 
 
-export function ListTable({ data, sorting, setSorting, refetchNationalIdType }: any) {
+export function ListTable({ data, sorting, setSorting, refetchNationalIdType, isLoading }: any) {
 
   const {
     handleSubmit,
@@ -64,7 +64,7 @@ export function ListTable({ data, sorting, setSorting, refetchNationalIdType }: 
         List of Indication
       </h4>
       <div className="hidden sm:block">
-        <SimpleTable data={data} columns={columns} sorting={sorting} setSorting={setSorting} />
+        <SimpleTable data={data} columns={columns} sorting={sorting} setSorting={setSorting} isLoading={isLoading}/>
       </div>
       <div className="block sm:hidden">
         <ExpandableTable
@@ -72,6 +72,7 @@ export function ListTable({ data, sorting, setSorting, refetchNationalIdType }: 
           columns={columns}
           tableTitle=" List of Indication"
           listTitleKey="indication_name"
+          
         />
       </div>
       <Modal
