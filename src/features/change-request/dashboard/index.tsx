@@ -21,7 +21,7 @@ const ChangeRequestDashboardList = () => {
     //{ id: "indicationName", desc: false }
   ]);
 
-  const { data: _data, error, isLoading, refetch: refetchIndications 
+  const { data: _data, error, isLoading, refetch: refetch
   } = useChangeRequestDashboard(queryData);
   
   useEffect(() => {
@@ -64,7 +64,7 @@ const ChangeRequestDashboardList = () => {
   return (
     <main>
       <ListHeader setQueryData={setQueryData} />
-      <ListTable data={_data?.data?.items} sorting={sorting} setSorting={setSorting} />
+      <ListTable data={_data?.data?.items} sorting={sorting} setSorting={setSorting} isLoading={isLoading} refetch={refetch}/>
       <Pagination
         currentPage={_data?.data?.pageNumber}
         setCurrentPage={setCurrentPageNumber}

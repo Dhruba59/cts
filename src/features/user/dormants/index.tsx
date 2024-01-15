@@ -19,7 +19,7 @@ const DormantUserList = () => {
     //{ id: "UserName", desc: false }
   ]);
 
-  const { data: dormantUserData, error, isLoading, refetch: refetchUsers 
+  const { data: dormantUserData, error, isLoading, refetch: refetch
   } = useGetDormantUsers(queryData);
 
   const setCurrentPageNumber = (page: number) => {
@@ -59,7 +59,8 @@ const DormantUserList = () => {
   return (
     <main>
       <ListHeader setQueryData={setQueryData} />
-      <ListTable data={dormantUserData?.data?.items} pageSize={pageSize} totalPages={dormantUserData?.data?.totalPages} sorting={sorting} setSorting={setSorting} />
+      <ListTable data={dormantUserData?.data?.items} pageSize={pageSize} totalPages={dormantUserData?.data?.totalPages} sorting={sorting} setSorting={setSorting}
+        isLoading={isLoading} refetch={refetch} />
       <Pagination
         currentPage={dormantUserData?.data?.pageNumber}
         setCurrentPage={setCurrentPageNumber}

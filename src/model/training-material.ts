@@ -2,15 +2,15 @@ import { Query } from "./query";
 import AddTrainingMeterialPage from '../app/(main)/training-material/add/page';
 
 export interface TrainingMaterial {
-  trainingId?: number;
-  trainingName?: string;
-  passMarks?: number;
-  displayOrder?: number;
-  materialId?: number;
-  fileName?: string; 
-  filePath?: string;
-  preScreen?: boolean;
-  active?: boolean;
+  trainingId?: number | null;
+  trainingName?: string| null;
+  passMarks?: number| null;
+  displayOrder?: number| null;
+  materialId?: number| null;
+  fileName?: string| null; 
+  filePath?: string| null;
+  preScreen?: boolean| null;
+  active?: boolean| null;
 }
 
 

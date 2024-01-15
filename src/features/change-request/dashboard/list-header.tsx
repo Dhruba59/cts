@@ -38,7 +38,8 @@ const ListHeader = ({ setQueryData }: any) => {
     //console.log(value);
     const params = {
       ...value,
-      codeType: value?.codeType?.value
+      protocolNumber: value?.protocolNumber?.value,
+      requestStatus: value?.requestStatus?.value,
     }
     setQueryData(params);
   }

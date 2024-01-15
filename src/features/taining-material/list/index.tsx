@@ -21,7 +21,7 @@ const TrainingMaterialList = () => {
     //{ id: "indicationName", desc: false }
   ]);
 
-  const { data: trainingMaterialData, error, isLoading, refetch: refetchIndications 
+  const { data: trainingMaterialData, error, isLoading, refetch: refetch
   } = useGetTrainingMaterials(queryData);
 
   const setCurrentPageNumber = (page: number) => {
@@ -61,7 +61,7 @@ const TrainingMaterialList = () => {
   return (
     <main>
       <ListHeader setQueryData={setQueryData} />
-      <ListTable data={trainingMaterialData?.data?.items} sorting={sorting} setSorting={setSorting} />
+      <ListTable data={trainingMaterialData?.data?.items} sorting={sorting} setSorting={setSorting} isLoading={isLoading} refetch={refetch}/>
       <Pagination
         currentPage={trainingMaterialData?.data?.pageNumber}
         setCurrentPage={setCurrentPageNumber}

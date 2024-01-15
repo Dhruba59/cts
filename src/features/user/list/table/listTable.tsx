@@ -13,7 +13,7 @@ import { MODAL_TYPE_ENUM } from "@/model/enum";
 import { getColumns } from "./columns";
 
 
-export function ListTable({ data, sorting, setSorting, refetchIndications }: any) {
+export function ListTable({ data, sorting, setSorting, refetch, isLoading }: any) {
 
   const {
     handleSubmit,
@@ -32,13 +32,13 @@ export function ListTable({ data, sorting, setSorting, refetchIndications }: any
         setId(0);
         setOpen(false);
         toast.success(data?.data.details ,{position:"top-center"});
-        refetchIndications();
+        refetch();
       },
       onError: (error: any) => {
         setId(0);
         setOpen(false);
         toast.error(error?.response?.data.title ,{position:"top-center"});
-        refetchIndications();
+        refetch();
       }
     });
 
@@ -63,7 +63,7 @@ export function ListTable({ data, sorting, setSorting, refetchIndications }: any
         List of Users
       </h4>
       <div className="hidden sm:block">
-        <SimpleTable data={data} columns={columns} sorting={sorting} setSorting={setSorting} />
+        <SimpleTable data={data} columns={columns} sorting={sorting} setSorting={setSorting} isLoading={isLoading}/>
       </div>
       <div className="block sm:hidden">
         <ExpandableTable
