@@ -50,7 +50,7 @@ const ListHeader = ({ setQueryData }: any) => {
     //console.log(codeTypeDropDown);
     useEffect(() => {
 
-      setRequestTypeOptions(convertTypeToSelectOption(requestTypeDropDown?.data));
+      setRequestTypeOptions(convertTypeToSelectOption(requestTypeDropDown?.data ?? []));
   
     }, [requestTypeDropDown])
     
