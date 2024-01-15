@@ -20,18 +20,9 @@ const getProtocolsDropdown = (data: Protocol[]) => {
   return data?.map((protocol) => ({ value: protocol.studyId.toString(), label: protocol.protocolNumber }))
 }
 
-const initialQueryParams: SearchLastSubjectsParams = {
-  StudyId: '',
-  SponsorSubjectId: '',
-  DateOfBirth: '',
-  FirstInitial: '',
-  MiddleInitial: '',
-  LastInitial: '',
-  FromDate: '',
-  ToDate: ''
+export const getSiteStudyIdByStudyId = (data: any, studyId: number | string) => {
+  return data.find((item: any) => item.studyId == studyId).siteStudyId;
 }
-
-
 
 const SubjectEntryEditForm = ({ ids }: SubjectEntryEditForm) => {
   const [studyTypeOptions, setStudyTypeOptions] = useState<SelectOptionType[]>([]);
@@ -140,9 +131,9 @@ const SubjectEntryEditForm = ({ ids }: SubjectEntryEditForm) => {
             <div className='flex flex-col md:flex-row md:items-center md:col-span-2 gap-2 w-full'>
               {!isSiteUser &&
                 <Label
-                label="Study Type"
-                className="text-sm md:text-base mr-2 md:font-medium w-32"
-              />}
+                  label="Study Type"
+                  className="text-sm md:text-base mr-2 md:font-medium w-32"
+                />}
               <Select
                 label={isSiteUser ? 'Study Type' : ''}
                 wrapperClassName="w-full"
@@ -173,7 +164,6 @@ const SubjectEntryEditForm = ({ ids }: SubjectEntryEditForm) => {
                 }}
                 value={selectedProtocol}
                 options={protocolOptions}
-                isDisabled={!!ids}
               />
             </div>
           </div>
@@ -214,13 +204,13 @@ const SubjectEntryEditForm = ({ ids }: SubjectEntryEditForm) => {
                 />
               </div>
             </div>} */}
-            {/* @ts-ignore */}
-          {session?.user?.currentRole?.roleId == USER_ROLE_ENUM.SITE_USER && selectedProtocol?.value &&
-          <div className=" ">
-            <AddSubjectForm dropdowns={dropdowns?.data || []} protocolId={selectedProtocol?.value} subjectIdFormat={subjectEntryFormat} setSelectedProtocol={setSelectedProtocol} ids={ids} studyType={selectedStudy} setStudyType={setSelectedStudy}/>
-          </div>}
           {/* @ts-ignore */}
-          {session?.user?.currentRole?.roleId !== USER_ROLE_ENUM.SITE_USER && <SubjectEntrySelectionTab currentTab={currentTab} setCurrentTab={setCurrentTab} ids={ids} isPreScreen={isPreScreen} subjectEntryFormat={subjectEntryFormat} protocolId={selectedProtocol?.value} setSelectedProtocol={setSelectedProtocol}  setQueryParams={setQueryParams} dropdowns={dropdowns?.data || []}  studyType={selectedStudy} setStudyType={setSelectedStudy} userId={userId} setUserId={setUserId}/> }
+          {session?.user?.currentRole?.roleId == USER_ROLE_ENUM.SITE_USER && selectedProtocol?.value &&
+            <div className=" ">
+              <AddSubjectForm dropdowns={dropdowns?.data || []} protocolId={selectedProtocol?.value} subjectIdFormat={subjectEntryFormat} setSelectedProtocol={setSelectedProtocol} ids={ids} studyType={selectedStudy} setStudyType={setSelectedStudy} protocolList={protocolList}/>
+            </div>}
+          {/* @ts-ignore */}
+          {((session?.user?.currentRole?.roleId !== USER_ROLE_ENUM.SITE_USER && selectedProtocol?.value) || ids) && <SubjectEntrySelectionTab currentTab={currentTab} setCurrentTab={setCurrentTab} ids={ids} isPreScreen={isPreScreen} subjectEntryFormat={subjectEntryFormat} protocolList={protocolList?.data.protocols} protocolId={selectedProtocol?.value} setSelectedProtocol={setSelectedProtocol} setQueryParams={setQueryParams} dropdowns={dropdowns?.data || []} studyType={selectedStudy} setStudyType={setSelectedStudy} userId={userId} setUserId={setUserId} />}
         </div>
       </div>
       {

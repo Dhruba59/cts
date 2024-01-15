@@ -14,6 +14,7 @@ import { watch } from "fs";
 import React, { Dispatch, RefObject, SetStateAction, useEffect, useRef, useState } from "react";
 import { Controller, UseFormReturn, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
+import { getSiteStudyIdByStudyId } from "..";
 
 interface AddSubjectFormProps {
   dropdowns: { [key: string]: DropDownItem[] | any };
@@ -25,9 +26,10 @@ interface AddSubjectFormProps {
   setStudyType: Dispatch<SetStateAction<SelectOptionType | undefined>>;
   userId?: number | null;
   setUserId?: Dispatch<SetStateAction<number | null>>
+  protocolList: any;
 }
 
-const AddSubjectForm = ({ dropdowns, protocolId, subjectIdFormat, setSelectedProtocol, ids, studyType, setStudyType, userId, setUserId }: AddSubjectFormProps) => {
+const AddSubjectForm = ({ dropdowns, protocolId, subjectIdFormat, setSelectedProtocol, protocolList, ids, studyType, setStudyType, userId, setUserId }: AddSubjectFormProps) => {
   const [heightUnitOptions, setHeightUnitOptions] = useState<SelectOptionType[]>();
   const [weightUnitOptions, setWeightUnitOptions] = useState<SelectOptionType[]>();
   const [isDetailsRequired, setIsDetailsRequired] = useState<boolean>(false);
@@ -40,7 +42,7 @@ const AddSubjectForm = ({ dropdowns, protocolId, subjectIdFormat, setSelectedPro
   const { mutate: validateDetailRequirement } = useIsDetailsRequired();
   const { mutate: verifySocialCode } = useVerifySocialCode();
 
-  const { data: subjectData } = useGetChangeReqSubjectDetails({
+  const { data: subjectData, isLoading: isLoadingSubjectData } = useGetChangeReqSubjectDetails({
     SubjectId: ids?.subjectId ?? '',
     NationalTypeId: ids?.nationalIdType ?? ''
   });
@@ -83,18 +85,21 @@ const AddSubjectForm = ({ dropdowns, protocolId, subjectIdFormat, setSelectedPro
                   ...values,
                   dateOfBirth: new Date(values.dateOfBirth.startDate),
                   idType: values.idType.value ?? values.idType,
+                  visitTypeId: values.visitTypeId.value ?? values.visitTypeId,
                   gender: values.gender.value ?? values.gender,
                   heightUnit: values.heightUnit.value ?? values.heightUnit,
                   weightUnit: values.weightUnit.value ?? values.weightUnit,
-                  studyId: protocolId
+                  studyId: protocolId,
+                  siteStudyId: getSiteStudyIdByStudyId(protocolList, protocolId ?? '')
                 }
                 if (ids) {
+                  payload.userId = userId,
                   payload.subjectId = ids.subjectId;
                   payload.lastSubjectEntryDate = new Date(values.lastSubjectEntryDate.startDate);
                   payload.screenedDate = new Date(values.screenedDate.startDate);
                   payload.requestNote = values.requestNote;
                   payload.indicationDetail = values.indicationDetail;
-                  console.log(payload);
+
                   saveSubjectChangeRequest(payload, {
                     onSuccess: (data) => {
                       toast.success(data.data.details);
@@ -106,6 +111,7 @@ const AddSubjectForm = ({ dropdowns, protocolId, subjectIdFormat, setSelectedPro
                   });
                   return;
                 }
+                
                 addSubject(payload, {
                   onSuccess: (data) => {
                     toast.success(data.data.details);
@@ -233,7 +239,7 @@ const AddSubjectForm = ({ dropdowns, protocolId, subjectIdFormat, setSelectedPro
         heightUnit: subjectDetail.heightUnit,
         Weight: subjectDetail.weight,
         weightUnit: subjectDetail.weightUnit,
-        visitType: subjectDetail.visitType,
+        visitTypeId: subjectDetail.visitType,
         lastSubjectEntryDate: {
           startDate: new Date(subjectDetail.lastEntryDate),
           endDate: new Date(subjectDetail.lastEntryDate)
@@ -282,7 +288,7 @@ const AddSubjectForm = ({ dropdowns, protocolId, subjectIdFormat, setSelectedPro
               placeholder="M"
               {...register('middleNameInitials', {
                 required: "required", pattern: {
-                  value: /^[a-zA-Z0-9]$/,
+                  value: /^[a-zA-Z0-9-]$/,
                   message: 'Only Single character allowed'
                 }
               })}
@@ -499,7 +505,7 @@ const AddSubjectForm = ({ dropdowns, protocolId, subjectIdFormat, setSelectedPro
           <Label label="Visit Type" className="inline-block mb-2" />
           <Controller
             control={control}
-            name='visitType'
+            name='visitTypeId'
             rules={{
               required: 'Visit Type is required!',
             }}
@@ -512,8 +518,8 @@ const AddSubjectForm = ({ dropdowns, protocolId, subjectIdFormat, setSelectedPro
               />
             )}
           />
-          {errors.visitType && (
-            <span className="text-red-500 -mt-10">{errors.visitType.message as string}</span>
+          {errors.visitTypeId && (
+            <span className="text-red-500 -mt-10">{errors.visitTypeId.message as string}</span>
           )}
         </div>
       }

@@ -64,7 +64,7 @@ const ChangeRequestReprintList = () => {
   return (
     <main>
       <ListHeader setQueryData={setQueryData} />
-      <ListTable data={_data?.data?.items} sorting={sorting} setSorting={setSorting} />
+      <ListTable data={_data?.data?.items} sorting={sorting} setSorting={setSorting} isLoadingTableData={isLoading} />
       <Pagination
         currentPage={_data?.data?.pageNumber}
         setCurrentPage={setCurrentPageNumber}

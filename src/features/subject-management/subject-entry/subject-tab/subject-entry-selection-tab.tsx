@@ -27,9 +27,10 @@ interface SelectionTabProps {
   setStudyType: Dispatch<SetStateAction<SelectOptionType | undefined>>;
   userId: number | null;
   setUserId: Dispatch<SetStateAction<number | null>>;
+  protocolList: any;
 }
 
-const SubjectEntrySelectionTab = ({ currentTab, setCurrentTab, isPreScreen, subjectEntryFormat, protocolId, setSelectedProtocol, dropdowns, setQueryParams, ids, studyType, setStudyType, userId, setUserId }
+const SubjectEntrySelectionTab = ({ currentTab, setCurrentTab, isPreScreen, subjectEntryFormat, protocolId, setSelectedProtocol,protocolList, dropdowns, setQueryParams, ids, studyType, setStudyType, userId, setUserId }
   : SelectionTabProps) => {
 
   const { data: session } = useSession();
@@ -71,7 +72,7 @@ const SubjectEntrySelectionTab = ({ currentTab, setCurrentTab, isPreScreen, subj
             )}
           </div>
           <div className="my-6">
-            {currentTab === "add" ? <AddSubjectForm dropdowns={dropdowns} protocolId={protocolId} subjectIdFormat={subjectEntryFormat} setSelectedProtocol={setSelectedProtocol} ids={ids} studyType={studyType} setStudyType={setStudyType} userId={userId} setUserId={setUserId}/>
+            {currentTab === "add" ? <AddSubjectForm dropdowns={dropdowns} protocolId={protocolId} subjectIdFormat={subjectEntryFormat} setSelectedProtocol={setSelectedProtocol} protocolList={protocolList} ids={ids} studyType={studyType} setStudyType={setStudyType} userId={userId} setUserId={setUserId}/>
               : <SearchSubjectForm setQueryParams={setQueryParams} protocolId={protocolId} />
             }
           </div>
