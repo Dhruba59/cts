@@ -1,5 +1,5 @@
 import { SubjectDetailsParams } from "@/model/change-request";
-import { addChangeRequest, acceptChangeRequest, rejectChangeRequest, viewChangeRequestDetail, getChangeRequestAudit, getChangeRequestAuditDetail, getChangeRequestBySubject, getChangeRequestDashboard, getChangeRequestReprint, getDashboardDropdown, getRequestTypeDropdown, getSubjectDetails } from "@/service/change-request-service";
+import { addChangeRequest, acceptChangeRequest, rejectChangeRequest, viewChangeRequestDetail, getChangeRequestAudit, getChangeRequestAuditDetail, getChangeRequestBySubject, getChangeRequestDashboard, getChangeRequestReprint, getDashboardDropdown, getRequestTypeDropdown, getSubjectDetails, saveChangeRequest, changeOperation, getChangeRequestVisitTypes } from "@/service/change-request-service";
 import { UseQueryOptions, useMutation, useQuery } from "react-query";
 
 
@@ -33,6 +33,10 @@ export const useChangeRequestDashboardDropdowns = () => useQuery({
   queryFn: getChangeRequestDashboard
 });
 
+export const useGetChangeReqVisitTypes = () => useQuery('changeRequestVisitType', {
+  queryFn: getChangeRequestVisitTypes
+});
+
 export const useChangeRequestReprintDropdowns = () => useQuery({
   queryFn: getChangeRequestReprint
 });
@@ -62,9 +66,12 @@ export const useChangeRequest = () => useMutation({
 })
 
 export const useSaveChangeRequest = () => useMutation({
-  mutationFn: addChangeRequest,
+  mutationFn: saveChangeRequest,
 })
 
+export const useChangeRequestChangeOperation = () => useMutation({
+  mutationFn: changeOperation,
+})
 
 export const useAcceptChangeRequest = () => useMutation({
   mutationFn: acceptChangeRequest,

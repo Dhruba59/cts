@@ -66,7 +66,7 @@ const RadioGroup = ({
       {label && <Label label={label} className={`inline-block mb-3 ${labelClassName}`} />}
       <div {...props}>
         {React.Children.map(children, (child) =>
-          React.cloneElement(child, { name, onChange, selectedValue })
+          child && React.cloneElement(child, { name, onChange, selectedValue })
         )}
       </div>
     </fieldset>

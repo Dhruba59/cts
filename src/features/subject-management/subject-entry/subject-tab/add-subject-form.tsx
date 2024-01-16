@@ -84,11 +84,11 @@ const AddSubjectForm = ({ dropdowns, protocolId, subjectIdFormat, setSelectedPro
                 let payload = {
                   ...values,
                   dateOfBirth: new Date(values.dateOfBirth.startDate),
-                  idType: values.idType.value ?? values.idType,
-                  visitTypeId: values.visitTypeId.value ?? values.visitTypeId,
-                  gender: values.gender.value ?? values.gender,
-                  heightUnit: values.heightUnit.value ?? values.heightUnit,
-                  weightUnit: values.weightUnit.value ?? values.weightUnit,
+                  idType: values?.idType?.value ?? values.idType,
+                  visitTypeId: values?.visitTypeId?.value ?? values?.visitTypeId,
+                  gender: values?.gender?.value ?? values?.gender,
+                  heightUnit: values?.heightUnit?.value ?? values.heightUnit,
+                  weightUnit: values?.weightUnit?.value ?? values.weightUnit,
                   studyId: protocolId,
                   siteStudyId: getSiteStudyIdByStudyId(protocolList, protocolId ?? '')
                 }
@@ -111,7 +111,6 @@ const AddSubjectForm = ({ dropdowns, protocolId, subjectIdFormat, setSelectedPro
                   });
                   return;
                 }
-                
                 addSubject(payload, {
                   onSuccess: (data) => {
                     toast.success(data.data.details);

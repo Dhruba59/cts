@@ -21,8 +21,8 @@ interface DetailRequirementPayload {
 }
 
 interface ValidateSponsorSubjectPayload {
-  studyId: string;
-  sponsorSubjectId: string;
+  studyId: string | number;
+  sponsorSubjectId: string | number;
 }
 
 interface VerifySocialCode {
