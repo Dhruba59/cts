@@ -33,7 +33,7 @@ export interface ChangeRequestReprintModel {
   isPartial? :boolean,
   active? :boolean,
   frequencyTypeId?: number
-
+  visitTypeIdForBusinessLogic?: number;
 }
 export interface ChangeRequestReprintQuery extends Query {
   regionGroup?: number;

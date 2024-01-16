@@ -10,9 +10,10 @@ import { DeleteOutlined } from "@/assets/icons";
 import { ChangeRequestReprintModel } from "@/model/change-request";
 import { formateTableDate } from "@/utils/helpers";
 import ChangeRequestModal from "./change-request-modal";
+import { SelectOptionType } from "@/model/drop-down-list";
 
 type ChangeRequestReprintListColumnsProps = {
-  onDelete: (id: any) => void
+  onDelete: (id: any) => void;
 }
 export const ChangeRequestReprintListColumns = ({ onDelete }
   : ChangeRequestReprintListColumnsProps): ColumnDef<ChangeRequestReprintModel>[] => {
@@ -127,10 +128,9 @@ export const ChangeRequestReprintListColumns = ({ onDelete }
       header: "Action",
       size: 140,
       cell: ({ row }) => {
-        console.log(row);
         return (
           <div className="flex items-center gap-6">
-            <ChangeRequestModal id={row.original.subjectId + '_' + row.original.nationalTypeId}/>
+            <ChangeRequestModal id={row.original.subjectId + '_' + row.original.nationalTypeId} visitTypeId={row.original.visitTypeIdForBusinessLogic} isPreScreen={row.original.preScreen}/>
           </div>
         );
       }

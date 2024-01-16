@@ -59,6 +59,15 @@ export const addChangeRequest = (data: any) => {
   return request({url: 'ChangeRequest', method: 'POST', data});
 }
 
+export const changeOperation = (data: any) => {
+  return request({url: 'ChangeRequest/change-operation', method: 'POST', data});
+}
+
+export const getChangeRequestVisitTypes = ({queryKey}: any) => {
+  const [key, params ] = queryKey as any;
+  return request({url: 'ChangeRequest/visit-types', method: 'GET' , params});
+}
+
 export const acceptChangeRequest = (data: any) => {
   return request({url: 'ChangeRequest/accept', method: 'PUT', data});
 }

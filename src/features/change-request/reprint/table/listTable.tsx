@@ -9,6 +9,7 @@ import { useDeleteIndication } from "@/hooks/rq-hooks/indication-hooks";
 import { number } from 'yup';
 import { MODAL_TYPE_ENUM } from "@/model/enum";
 import { ChangeRequestReprintListColumns } from "./columns";
+import { useGetChangeReqVisitTypes } from "@/hooks/rq-hooks/change-request-hooks";
 
 
 export function ListTable({ data, sorting, setSorting, refetch, isLoading }: any) {
