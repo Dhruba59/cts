@@ -35,6 +35,7 @@ export function ListTable({ data, sorting, setSorting, refetch, isLoading }: any
   const { mutate: acceptChangeRequest } = useAcceptChangeRequest();
   const { mutate: rejectChangeRequest } = useRejectChangeRequest();
   const { data: session } = useSession();
+  // @ts-ignore
   const isSysAdmin = session?.user?.currentRole?.roleId === USER_ROLE_ENUM.SYSTEM_ADMIN;
 
   const onRejectConfirm = () => {
