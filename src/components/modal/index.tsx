@@ -158,7 +158,7 @@ const Modal = ({
       >
         <main
           className={cn(
-            `bg-white rounded-lg shadow transition-all duration-200 ease-in-out max-h-[80vh] overflow-y-auto w-[80vw] sm:w-[70vw] lg:w-[50vw] ${visible ? "scale-100 opacity-100" : "scale-75 opacity-0"
+            `bg-white rounded-lg shadow transition-all duration-200 ease-in-out max-h-[80vh] w-[80vw] sm:w-[70vw] lg:w-[50vw] ${visible ? "scale-100 opacity-100" : "scale-75 opacity-0"
             }`,
             containerClassName
           )}

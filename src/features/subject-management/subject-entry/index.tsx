@@ -129,13 +129,8 @@ const SubjectEntryEditForm = ({ ids }: SubjectEntryEditForm) => {
         <div className="w-full px-6 py-8">
           <div className="flex gap-x-10 mb-4 justify-between">
             <div className='flex flex-col md:flex-row md:items-center md:col-span-2 gap-2 w-full'>
-              {!isSiteUser &&
-                <Label
-                  label="Study Type"
-                  className="text-sm md:text-base mr-2 md:font-medium w-32"
-                />}
               <Select
-                label={isSiteUser ? 'Study Type' : ''}
+                label='Study Type'
                 wrapperClassName="w-full"
                 onChange={(option) => {
                   if (option) {
@@ -149,13 +144,8 @@ const SubjectEntryEditForm = ({ ids }: SubjectEntryEditForm) => {
               />
             </div>
             <div className='flex flex-col md:flex-row md:items-center md:col-span-2 gap-2 w-full'>
-              {!isSiteUser &&
-                <Label
-                  label="Select a protocol"
-                  className="text-sm md:text-base mr-2 md:font-medium w-44"
-                />}
               <Select
-                label={isSiteUser ? 'Select a protocol' : ''}
+                label='Select a protocol'
                 wrapperClassName="w-full"
                 onChange={(option) => {
                   if (option) {
@@ -168,49 +158,12 @@ const SubjectEntryEditForm = ({ ids }: SubjectEntryEditForm) => {
             </div>
           </div>
           {/* @ts-ignore */}
-          {/* {session?.user?.currentRole?.roleId !== USER_ROLE_ENUM.SITE_USER && !ids &&
-            <div className="flex gap-x-10 justify-between">
-              <div className="flex gap-2 md:items-center flex-col md:flex-row w-full">
-                <Label
-                  label="Study Type"
-                  className="text-sm md:text-base mr-2 md:font-medium w-32"
-                />
-                <Select
-                  wrapperClassName="w-full"
-                  onChange={(option) => {
-                    if (option) {
-                      setSelectedStudy(option);
-                      setSelectedProtocol(null!);
-                    }
-                  }}
-                  value={selectedStudy}
-                  options={studyTypeOptions}
-                />
-              </div>
-              <div className="flex gap-2 md:items-center flex-col md:flex-row md:col-span-2 w-full">
-                <Label
-                  label="Select a protocol"
-                  className="text-sm md:text-base mr-2 md:font-medium w-44"
-                />
-                <Select
-                  wrapperClassName="w-full"
-                  onChange={(option) => {
-                    if (option) {
-                      setSelectedProtocol(option);
-                    }
-                  }}
-                  value={selectedProtocol}
-                  options={protocolOptions}
-                />
-              </div>
-            </div>} */}
-          {/* @ts-ignore */}
-          {session?.user?.currentRole?.roleId == USER_ROLE_ENUM.SITE_USER && selectedProtocol?.value &&
-            <div className=" ">
+          {((session?.user?.currentRole?.roleId == USER_ROLE_ENUM.SITE_USER && selectedProtocol?.value)  || ids) &&
+            <div>
               <AddSubjectForm dropdowns={dropdowns?.data || []} protocolId={selectedProtocol?.value} subjectIdFormat={subjectEntryFormat} setSelectedProtocol={setSelectedProtocol} ids={ids} studyType={selectedStudy} setStudyType={setSelectedStudy} protocolList={protocolList}/>
             </div>}
           {/* @ts-ignore */}
-          {((session?.user?.currentRole?.roleId !== USER_ROLE_ENUM.SITE_USER && (selectedProtocol?.value || ids))) && <SubjectEntrySelectionTab currentTab={currentTab} setCurrentTab={setCurrentTab} ids={ids} isPreScreen={isPreScreen} subjectEntryFormat={subjectEntryFormat} protocolList={protocolList?.data.protocols} protocolId={selectedProtocol?.value} setSelectedProtocol={setSelectedProtocol} setQueryParams={setQueryParams} dropdowns={dropdowns?.data || []} studyType={selectedStudy} setStudyType={setSelectedStudy} userId={userId} setUserId={setUserId} />}
+          {session?.user?.currentRole?.roleId !== USER_ROLE_ENUM.SITE_USER && !ids && selectedProtocol?.value && <SubjectEntrySelectionTab currentTab={currentTab} setCurrentTab={setCurrentTab} ids={ids} isPreScreen={isPreScreen} subjectEntryFormat={subjectEntryFormat} protocolList={protocolList?.data.protocols} protocolId={selectedProtocol?.value} setSelectedProtocol={setSelectedProtocol} setQueryParams={setQueryParams} dropdowns={dropdowns?.data || []} studyType={selectedStudy} setStudyType={setSelectedStudy} userId={userId} setUserId={setUserId} />}
         </div>
       </div>
       {
