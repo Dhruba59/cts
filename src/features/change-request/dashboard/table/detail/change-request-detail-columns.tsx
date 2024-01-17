@@ -19,77 +19,28 @@ export const ChangeRequestReviewDetailListColumns = ({ }: ChangeRequestReviewDet
 : ColumnDef<ChangeRequestReviewDetailModel>[] => {
 return ([
   {
-    header: "Modified Date",
-    accessorKey: "modifyDate",
+    header: "Properties",
+    accessorKey: "columnName",
     cell: ({ row }) => {
       return (
-        <div className="min-w-[100px]">{formateTableDateTime(row.original.modifyDate)}</div>
+        <div className="min-w-[100px]">{row.original.columnName}</div>
       );
     }
   },
   {
-    header: "Subject Initial",
-    accessorKey: "subjectInitial",
+    header: "Existing Record",
+    accessorKey: "old",
     cell: ({ row }) => {
       return (
-        <div className="min-w-[100px]">{row.original.subjectInitial}</div>
+        <div className="min-w-[100px]">{row.original.old}</div>
       );
     }
   },
   {
-    header: "DOB",
-    accessorKey: "dateOfBirth",
+    header: "Edited Record",
+    accessorKey: "new",
     cell: ({ row }) => {
-      return <div className=" min-w-[100px]">{formateTableDate(row.original.dateOfBirth)}</div>;
-    }
-  },
-  {
-    header: "ID Type",
-    accessorKey: "nationalIDTypeName",
-    cell: ({ row }) => {
-      return <div className=" min-w-[100px]">{row.original.nationalIDTypeName}</div>;
-    }
-  },
-  {
-    header: "National ID",
-    accessorKey: "nationalTypeId",
-    cell: ({ row }) => {
-      return <div className=" min-w-[100px]">{row.original.nationalTypeId}</div>;
-    }
-  },
-  {
-    header: "Sex",
-    accessorKey: "gender",
-    cell: ({ row }) => {
-      return <div className=" min-w-[100px]">{row.original.gender}</div>;
-    }
-  },
-  {
-    header: "Subject ID",
-    accessorKey: "sponsorSubjectId",
-    cell: ({ row }) => {
-      return <div className=" min-w-[100px]">{row.original.sponsorSubjectId}</div>;
-    }
-  }, 
-  {
-    header: "Height",
-    accessorKey: "height",
-    cell: ({ row }) => {
-      return <div className=" min-w-[100px]">{row.original.height}</div>;
-    }
-  },
-  {
-    header: "Weight",
-    accessorKey: "weight",
-    cell: ({ row }) => {
-      return <div className=" min-w-[100px]">{row.original.weight}</div>;
-    }
-  },
-  {
-    header: "Action",
-    accessorKey: "ActionStatus",
-    cell: ({ row }) => {
-      return <div className=" min-w-[100px]">{row.original.DateEntered}</div>;
+      return <div className=" min-w-[100px]">{row.original.new}</div>;
     }
   }
 ])};

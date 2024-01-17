@@ -7,13 +7,15 @@ import ChangeRequestDashboardModal from "./detail/change-request-dashboard-modal
 import { ChangeRequestDashboardModel, ChangeRequestDashboardQuery } from "@/model/change-request";
 import { useSession } from "next-auth/react";
 import { USER_ROLE_ENUM } from "@/model/enum";
+import View from "@/components/icons/view";
 
 type ChangeRequestDashboardListColumnsProps = {
+  onViewDetail: (id: any) => void,
   onReject: (id: any) => void,
   onAccept: (id: any) => void,
   isSysAdmin: boolean
 }
-export const ChangeRequestDashboardListColumns = ({ onAccept, onReject, isSysAdmin }
+export const ChangeRequestDashboardListColumns = ({ onViewDetail, onAccept, onReject, isSysAdmin }
   : ChangeRequestDashboardListColumnsProps): ColumnDef<ChangeRequestDashboardModel>[] => {
 
 
@@ -107,7 +109,8 @@ export const ChangeRequestDashboardListColumns = ({ onAccept, onReject, isSysAdm
       cell: ({ row }) => {
         return (
           <div className="flex items-center gap-6">
-            <ChangeRequestDashboardModal requestId={row.original.requestId} onAccept={onAccept} onReject={onReject} isSysAdmin={isSysAdmin}/>
+            <View  className="cursor-pointer" onClick={() => onViewDetail(row.original.requestId)}/>
+            {/* <ChangeRequestDashboardModal requestId={row.original.requestId} onAccept={onAccept} onReject={onReject} isSysAdmin={isSysAdmin}/> */}
             {isSysAdmin && <>
               <Cross className="cursor-pointer" onClick={() => onReject(row.original.requestId)} />
               <Check className="cursor-pointer" onClick={() => { onAccept(row.original.requestId) }} />
