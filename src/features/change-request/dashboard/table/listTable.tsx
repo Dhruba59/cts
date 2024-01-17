@@ -29,6 +29,7 @@ export function ListTable({ data, sorting, setSorting, refetch, isLoading }: any
   
   const [childModal, setChildModal] = useState<React.ReactNode>(null);
   const [openViewDetail, setOpenViewDetail] = useState<boolean>(false);
+  const [isPending, setIsPending] = useState<boolean>(false);
   const [openAccept, setOpenAccept] = useState<boolean>(false);
   const [openReject, setOpenReject] = useState<boolean>(false);
   const [requestId, setRequestId] = useState<number>(0);
@@ -80,6 +81,7 @@ export function ListTable({ data, sorting, setSorting, refetch, isLoading }: any
     setOpenReject(false);
     setChildModal(null);
     setOpenViewDetail(false);
+    setIsPending(false);
   }
 
   const onAccept = (id: number) => {
@@ -97,11 +99,12 @@ export function ListTable({ data, sorting, setSorting, refetch, isLoading }: any
 
   }
 
-  const onViewDetail = (id: number) => {
+  const onViewDetail = (id: number, pending: boolean) => {
     setChildModal(
       <ChangeRequestDashboardModal requestId={id} onAccept={onAccept} onReject={onReject} isSysAdmin={isSysAdmin} />
     )
     setOpenViewDetail(true);
+    setIsPending(pending);
   }
 
   const columns = useMemo(() => ChangeRequestDashboardListColumns({ onViewDetail, onAccept, onReject, isSysAdmin }), []);
@@ -164,10 +167,10 @@ export function ListTable({ data, sorting, setSorting, refetch, isLoading }: any
         renderFooter={{
           onSave: () => { onAccept(requestId) },
           onReject: () => { onReject(requestId) },
-          submitButtonName: isSysAdmin ? "Approve" : undefined,
-          rejectButtonName: isSysAdmin ? "Reject" : undefined,
+          submitButtonName: isSysAdmin && isPending ? "Approve" : undefined,
+          rejectButtonName: isSysAdmin && isPending ? "Reject" : undefined,
           cancelButtonName: "Close",
-          cancelButtonOnly: isSysAdmin ? false : true
+          cancelButtonOnly: isSysAdmin && isPending  ? false : true
         }}
       >
         {childModal}

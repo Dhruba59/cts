@@ -10,7 +10,7 @@ import { USER_ROLE_ENUM } from "@/model/enum";
 import View from "@/components/icons/view";
 
 type ChangeRequestDashboardListColumnsProps = {
-  onViewDetail: (id: any) => void,
+  onViewDetail: (id: any, pending: boolean) => void,
   onReject: (id: any) => void,
   onAccept: (id: any) => void,
   isSysAdmin: boolean
@@ -109,7 +109,7 @@ export const ChangeRequestDashboardListColumns = ({ onViewDetail, onAccept, onRe
       cell: ({ row }) => {
         return (
           <div className="flex items-center gap-6">
-            <View  className="cursor-pointer" onClick={() => onViewDetail(row.original.requestId)}/>
+            <View  className="cursor-pointer" onClick={() => onViewDetail(row.original.requestId, row.original.requestStatus === 'Pending')}/>
             {/* <ChangeRequestDashboardModal requestId={row.original.requestId} onAccept={onAccept} onReject={onReject} isSysAdmin={isSysAdmin}/> */}
             {isSysAdmin && row.original.requestStatus === 'Pending' &&  <>
               <Cross className="cursor-pointer" onClick={() => onReject(row.original.requestId)} />
