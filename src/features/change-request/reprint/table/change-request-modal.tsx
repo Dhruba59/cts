@@ -117,7 +117,7 @@ const ChangeRequestModal = ({ id, visitTypeId, isPreScreen }: any) => {
               control={control}
               name='visitType'
               render={({ field: { onChange, onBlur, value } }: any) => (
-                <Select className="" onChange={onChange} options={visitTypeOption} value={value} />
+                <Select className="" label="Visit Type" onChange={onChange} options={visitTypeOption} value={value} />
               )}
             />
             <Controller
@@ -125,10 +125,12 @@ const ChangeRequestModal = ({ id, visitTypeId, isPreScreen }: any) => {
               name='lastEntryDate'
               render={({ field: { onChange, onBlur, value } }: any) => (
                 <Datepicker
-                  // containerClassName="md:w-36 xl:w-48"
+                  label="Last entry date"
+                  containerClassName=""
                   // label="Date Of Birth"
                   value={value}
                   onChange={onChange}
+                  // popoverDirection=""
                   placeholder="Select Date"
                   useRange={false}
                   asSingle
@@ -137,7 +139,7 @@ const ChangeRequestModal = ({ id, visitTypeId, isPreScreen }: any) => {
             />
           </>}
         <div className="flex flex-col gap-3">
-          <Label className="w-40" label="Request Description:" />
+          <Label className="w-40" label="Request Description" />
           <Textarea
             {...register('requestDescription')}
             placeholder="Enter Description"
