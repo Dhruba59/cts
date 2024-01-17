@@ -47,10 +47,10 @@ const SidebarItem = ({ item, showIconOnly = false }: SidebarItemProps) => {
         {item?.child && item?.child.length > 0 && (
           <Popup
             show={true}
-            className="w-60 hidden group-hover:block top-10 left-[164px]"
+            className="w-60 hidden group-hover:block top-10 left-[164px] z-[10000]"
             showArrow
           >
-            <MenuItems menus={menuItems} className="text-sm font-semibold" />
+            <MenuItems menus={menuItems} className="text-sm font-semibold"/>
           </Popup>
         )}
         {!showIconOnly && (

@@ -69,7 +69,7 @@ const ChangeRequestReviewDetailModal = ({ requestId, subjectId, regionGroupsId, 
     <Modal
       triggerProp={<View />}
       title="Changed Request Detail"
-      containerClassName="flex flex-1 flex-col mx-10 "
+      containerClassName="flex flex-1 flex-col mx-10 overflow-auto"
       renderFooter={{
         onSave: () => { onAccept(requestId)},
         onReject: () => { onReject(requestId)},

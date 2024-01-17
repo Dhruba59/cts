@@ -35,7 +35,7 @@ const TableHead: React.FC<React.HTMLAttributes<HTMLTableCellElement>> = ({
   return (
     <th
       className={cn(
-        "bg-secondary-light text-sm font-medium p-4 border-b-2 text-start relative",
+        "bg-secondary-light text-sm font-medium p-4 border-b-2 text-start relative z-10",
         className
       )}
       {...props}

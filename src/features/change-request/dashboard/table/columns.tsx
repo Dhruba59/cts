@@ -108,7 +108,7 @@ export const ChangeRequestDashboardListColumns = ({ onAccept, onReject, isSysAdm
         return (
           <div className="flex items-center gap-6">
             <ChangeRequestDashboardModal requestId={row.original.requestId} onAccept={onAccept} onReject={onReject} isSysAdmin={isSysAdmin}/>
-            {isSysAdmin && <>
+            {isSysAdmin && row.original.requestStatus === 'Pending' && <>
               <Cross className="cursor-pointer" onClick={() => onReject(row.original.requestId)} />
               <Check className="cursor-pointer" onClick={() => { onAccept(row.original.requestId) }} />
             </>}
