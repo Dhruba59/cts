@@ -38,6 +38,7 @@ const ListHeader = ({ setQueryData }: any) => {
     //console.log(value);
     const params = {
       ...value,
+      userTypeId: value?.userTypeId?.value,
       protocolNumber: value?.protocolNumber?.value,
       requestStatus: value?.requestStatus?.value,
     }
@@ -45,7 +46,7 @@ const ListHeader = ({ setQueryData }: any) => {
   }
 
   useEffect(() => {
-    console.log({"_dropDown" : _dropDown});
+    //console.log({"_dropDown" : _dropDown});
   }, [_dropDown])
 
   return (

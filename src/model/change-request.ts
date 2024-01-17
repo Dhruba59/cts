@@ -153,27 +153,24 @@ export interface CodeType {
     isReqForLastSubjectEntry? : boolean,
   }
 
-
-  export interface ChangeRequestReviewDetailQuery extends Query {
-    subjectId?: number;
-    regionGroupsId?: string;
+  export interface ChangeRequestReviewDetailQuery {
+    changeRequestId?: number,
   }
-
   export interface ChangeRequestReviewDetailModel {
-    subjectId?: number,
-    subjectInitial?: string,
-    isPartialDate?: boolean,
-    dateOfBirth?: string,
-    social?: string,
-    gender?: string,
-    sponsorSubjectId?: string,
-    modifyDate?: string,
-    actionStatus?: number,
-    nationalTypeId?: number,
-    nationalIDTypeName?: string,
-    height?: number,
-    weight?: number,
-    DateEntered?: string
+    rowOrder?: number,
+    columnName?: string,
+    old?: boolean,
+    new?: string,
+    // social?: string,
+    // gender?: string,
+    // sponsorSubjectId?: string,
+    // modifyDate?: string,
+    // actionStatus?: number,
+    // nationalTypeId?: number,
+    // nationalIDTypeName?: string,
+    // height?: number,
+    // weight?: number,
+    // DateEntered?: string
   }
   export interface SubjectDetailsParams {
     SubjectId: string;

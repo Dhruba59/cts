@@ -15,6 +15,7 @@ import { MODAL_TYPE_ENUM } from "@/model/enum";
 import { useAcceptChangeRequest, useRejectChangeRequest } from "@/hooks/rq-hooks/change-request-hooks";
 import { useSession } from "next-auth/react";
 import { USER_ROLE_ENUM } from "@/model/enum";
+import ChangeRequestDashboardModal from "./detail/change-request-dashboard-modal";
 
 export function ListTable({ data, sorting, setSorting, refetch, isLoading }: any) {
 
@@ -24,25 +25,30 @@ export function ListTable({ data, sorting, setSorting, refetch, isLoading }: any
     reset,
     register
   } = useForm();
+
   
+  const [childModal, setChildModal] = useState<React.ReactNode>(null);
+  const [openViewDetail, setOpenViewDetail] = useState<boolean>(false);
   const [openAccept, setOpenAccept] = useState<boolean>(false);
   const [openReject, setOpenReject] = useState<boolean>(false);
   const [requestId, setRequestId] = useState<number>(0);
   const { mutate: acceptChangeRequest } = useAcceptChangeRequest();
   const { mutate: rejectChangeRequest } = useRejectChangeRequest();
-  
+  const { data: session } = useSession();
+  const isSysAdmin = session?.user?.currentRole?.roleId === USER_ROLE_ENUM.SYSTEM_ADMIN;
+
   const onRejectConfirm = () => {
-    rejectChangeRequest({requestId} , {
+    rejectChangeRequest({ requestId }, {
       onSuccess: (data) => {
         setRequestId(0);
         setOpenReject(false);
-        toast.success(data?.data.details ,{position:"top-center"});
+        toast.success(data?.data.details, { position: "top-center" });
         refetch();
       },
       onError: (error: any) => {
         setRequestId(0);
         setOpenReject(false);
-        toast.error(error?.response?.data.title ,{position:"top-center"});
+        toast.error(error?.response?.data.title, { position: "top-center" });
         refetch();
       }
     });
@@ -50,17 +56,17 @@ export function ListTable({ data, sorting, setSorting, refetch, isLoading }: any
   }
 
   const onAcceptConfirm = () => {
-    acceptChangeRequest({requestId} , {
+    acceptChangeRequest({ requestId }, {
       onSuccess: (data) => {
         setRequestId(0);
         setOpenAccept(false);
-        toast.success(data?.data.details ,{position:"top-center"});
+        toast.success(data?.data.details, { position: "top-center" });
         refetch();
       },
       onError: (error: any) => {
         setRequestId(0);
         setOpenAccept(false);
-        toast.error(error?.response?.data.title ,{position:"top-center"});
+        toast.error(error?.response?.data.title, { position: "top-center" });
         refetch();
       }
     });
@@ -71,25 +77,33 @@ export function ListTable({ data, sorting, setSorting, refetch, isLoading }: any
     setRequestId(0);
     setOpenAccept(false);
     setOpenReject(false);
- }
- 
- const onAccept = (id: number) => {
-  setRequestId(0);
-  setOpenAccept(true);
-  console.log(`ID: ${id}`);
-}
+    setChildModal(null);
+    setOpenViewDetail(false);
+  }
 
-const onReject = (id: number) => {
-  setRequestId(0);
-  setOpenReject(true);
-  console.log(`ID: ${id}`);
+  const onAccept = (id: number) => {
+    setRequestId(id);
+    setOpenViewDetail(false);
+    setOpenAccept(true);
+    //console.log(`ID: ${id}`);
+  }
 
-}
+  const onReject = (id: number) => {
+    setRequestId(id);
+    setOpenViewDetail(false);
+    setOpenReject(true);
+    //console.log(`ID: ${id}`);
 
-const { data: session } = useSession();
-const isSysAdmin = session?.user?.currentRole?.roleId === USER_ROLE_ENUM.SYSTEM_ADMIN;
+  }
 
-  const columns = useMemo(() => ChangeRequestDashboardListColumns({ onAccept, onReject, isSysAdmin }), []);
+  const onViewDetail = (id: number) => {
+    setChildModal(
+      <ChangeRequestDashboardModal requestId={id} onAccept={onAccept} onReject={onReject} isSysAdmin={isSysAdmin} />
+    )
+    setOpenViewDetail(true);
+  }
+
+  const columns = useMemo(() => ChangeRequestDashboardListColumns({ onViewDetail, onAccept, onReject, isSysAdmin }), []);
 
   return (
     <div className="sm:wrapper">
@@ -97,7 +111,7 @@ const isSysAdmin = session?.user?.currentRole?.roleId === USER_ROLE_ENUM.SYSTEM_
         List of Change Request
       </h4>
       <div className="hidden sm:block">
-        <SimpleTable data={data} columns={columns} sorting={sorting} setSorting={setSorting} isLoading={isLoading}/>
+        <SimpleTable data={data} columns={columns} sorting={sorting} setSorting={setSorting} isLoading={isLoading} />
       </div>
       <div className="block sm:hidden">
         <ExpandableTable
@@ -112,7 +126,7 @@ const isSysAdmin = session?.user?.currentRole?.roleId === USER_ROLE_ENUM.SYSTEM_
         open={openReject}
         onClose={() => onCancel()}
         title="Confirmation!"
-        containerClassName="!w-[624px]"
+        containerClassName="!w-[624px] z-50"
         renderFooter={{
           onSave: onRejectConfirm,
           submitButtonName: "Confirm",
@@ -128,7 +142,7 @@ const isSysAdmin = session?.user?.currentRole?.roleId === USER_ROLE_ENUM.SYSTEM_
         open={openAccept}
         onClose={() => onCancel()}
         title="Confirmation!"
-        containerClassName="!w-[624px]"
+        containerClassName="!w-[624px] z-50"
         renderFooter={{
           onSave: onAcceptConfirm,
           submitButtonName: "Confirm",
@@ -138,6 +152,24 @@ const isSysAdmin = session?.user?.currentRole?.roleId === USER_ROLE_ENUM.SYSTEM_
         <div className="text-black text-base px-6 py-2">
           <p>Do you want to accept?</p>
         </div>
+      </Modal>
+
+      {/* Request detail modal */}
+      <Modal
+        open={openViewDetail}
+        onClose={() => onCancel()}
+        title="Changed Request Detail"
+        containerClassName="flex flex-1 flex-col mx-10 z-0 overflow-auto"
+        renderFooter={{
+          onSave: () => { onAccept(requestId) },
+          onReject: () => { onReject(requestId) },
+          submitButtonName: isSysAdmin ? "Approve" : undefined,
+          rejectButtonName: isSysAdmin ? "Reject" : undefined,
+          cancelButtonName: "Close",
+          cancelButtonOnly: isSysAdmin ? false : true
+        }}
+      >
+        {childModal}
       </Modal>
     </div>
   );
