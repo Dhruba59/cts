@@ -14,7 +14,7 @@ import Pagination from "@/components/pagination";
 import { useChangeRequestAuditDetail } from "@/hooks/rq-hooks/change-request-hooks";
 import ChangeRequestDetailListTable from "./change-request-detail-list-table";
 
-const ChangeRequestReviewDetailModal = ({ requestId, subjectId, regionGroupsId, onAccept, onReject }: any) => {
+const ChangeRequestReviewDetailModal = ({ requestId, subjectId, regionGroupsId, onAccept, onReject, isSysAdmin }: any) => {
 
   const [queryData, setQueryData] = useState<ChangeRequestAuditDetailQuery>({
     subjectId: subjectId,
@@ -73,9 +73,10 @@ const ChangeRequestReviewDetailModal = ({ requestId, subjectId, regionGroupsId, 
       renderFooter={{
         onSave: () => { onAccept(requestId)},
         onReject: () => { onReject(requestId)},
-        submitButtonName: "Approve",
-        rejectButtonName: "Reject",
+        submitButtonName: isSysAdmin ? "Approve" : undefined,
+        rejectButtonName: isSysAdmin ? "Reject" : undefined,
         cancelButtonName: "Close",
+        cancelButtonOnly: isSysAdmin ? false : true
       }}
     >
       <div className="flex flex-col gap-2">
