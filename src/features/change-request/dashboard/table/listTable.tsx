@@ -13,7 +13,8 @@ import { useDeleteIndication } from "@/hooks/rq-hooks/indication-hooks";
 import { number } from 'yup';
 import { MODAL_TYPE_ENUM } from "@/model/enum";
 import { useAcceptChangeRequest, useRejectChangeRequest } from "@/hooks/rq-hooks/change-request-hooks";
-
+import { useSession } from "next-auth/react";
+import { USER_ROLE_ENUM } from "@/model/enum";
 
 export function ListTable({ data, sorting, setSorting, refetch, isLoading }: any) {
 
@@ -85,12 +86,15 @@ const onReject = (id: number) => {
 
 }
 
-  const columns = useMemo(() => ChangeRequestDashboardListColumns({ onAccept, onReject }), []);
+const { data: session } = useSession();
+const isSysAdmin = session?.user?.currentRole?.roleId === USER_ROLE_ENUM.SYSTEM_ADMIN;
+
+  const columns = useMemo(() => ChangeRequestDashboardListColumns({ onAccept, onReject, isSysAdmin }), []);
 
   return (
     <div className="sm:wrapper">
       <h4 className="hidden md:block font-semibold py-4 px-6 text-dark-900">
-        List of Indication
+        List of Change Request
       </h4>
       <div className="hidden sm:block">
         <SimpleTable data={data} columns={columns} sorting={sorting} setSorting={setSorting} isLoading={isLoading}/>
