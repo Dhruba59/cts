@@ -154,7 +154,7 @@ const constructPayload = (values: any, userType: USER_TYPE_ENUM, isUpdate: boole
     case USER_TYPE_ENUM.BOTH_USER_TYPE:
       payload.protocolIds = values?.protocols?.map((item: DndDataItem) => item.value).join(',');
       payload.siteId = values?.site?.value ?? values?.site ?? undefined;
-      payload.suppressMatchTypeId = values?.suppressMatchType?.value  ?? values?.suppressMatchType ?? undefined;
+      payload.suppressMatchTypeId = values?.suppressMatchType?.value ?? values?.suppressMatchType ?? undefined;
       payload.trainings = values?.training?.map((item: any) => ({
         trainingId: item?.protocolId, protocolId: item?.protocolId
       }));
@@ -176,7 +176,7 @@ const AddUser = ({ id }: AddUserProps) => {
   const [initialSiteProtocolIds, setInitialSiteProtocolIds] = useState<string[]>();
   const [siteUserSiteId, setSiteUserSiteId] = useState<string>();
   const [completedTrainings, setCompletedTrainings] = useState<CompletedTraining[]>([]);
-  
+
   const { data: dropdowns, isLoading: isDropdownDataLoading } = useGetUserDropdowns();
   const { data: userData, isLoading: isUserDataLoading, refetch: refetchUser } = useGetUserById({ UserId: id! });
   const { mutate: addUser, isLoading: isCreatingUser } = useAddUser();
@@ -244,7 +244,7 @@ const AddUser = ({ id }: AddUserProps) => {
         const adminNotificationSites = searchByIds(dropdowns?.data?.sites, user?.notificationSiteIds);
         setValue('notificationSites', adminNotificationSites);
         setValue('matchTypes', adminMatchTypes);
-      
+
         setAdminDndData({
           matchTypes: filterDndData([{
             title: 'Match Type',
@@ -263,9 +263,9 @@ const AddUser = ({ id }: AddUserProps) => {
             items: adminNotificationSites
           }])
         });
-        
+
       }
-      
+
       else if (user.userTypeId == USER_TYPE_ENUM.SPONSOR) {
         setSelectedSponsorId(user?.sponsorId);
         setInitialSponsorProtocolIds(user?.protocolIds?.map((id: number) => id.toString()));
@@ -300,7 +300,7 @@ const AddUser = ({ id }: AddUserProps) => {
     }
   }, [userData])
 
-  
+
 
   const onSubmit = (values: any) => {
     let payload = constructPayload(values, selectedUserType, !!id);
@@ -480,7 +480,7 @@ const AddUser = ({ id }: AddUserProps) => {
   }
 
   const handleSystemLoginName = (e: any) => {
-    if(id) return;
+    if (id) return;
     const firstName = getValues('firstName');
     const lastName = getValues('lastName');
     if (firstName && lastName && firstName !== '' && lastName !== '') {
@@ -515,7 +515,7 @@ const AddUser = ({ id }: AddUserProps) => {
       setUserTypeOptions(convertTypeToSelectOption(dropdowns?.data?.userTypes));
       setSponsorOptions(convertTypeToSelectOption(dropdowns?.data?.sponsors));
 
-      if (!id) {  
+      if (!id) {
         setAdminDndData({
           matchTypes: [{
             title: 'Match Type',
@@ -685,8 +685,13 @@ const AddUser = ({ id }: AddUserProps) => {
                 <span className="text-red-500 -mt-10">{errors.city.message as string}</span>
               )}
             </div>
-            <Textarea label="Address one" placeholder="Enter description here"  {...register("address1")} className="min-h-10 h-10 rounded-sm" />
-            <Textarea label="Address two" placeholder="Enter description here"  {...register("address2")} className="min-h-10 h-10 rounded-sm"/>
+            <div>
+              <Textarea label="Address one" placeholder="Enter description here"  {...register("address1", { required: "Address1 is required!" })} className="min-h-10 h-10 rounded-sm" />
+              {errors.address1 && (
+                <span className="text-red-500 -mt-10">{errors.address1.message as string}</span>
+              )}
+            </div>
+            <Textarea label="Address two" placeholder="Enter description here"  {...register("address2")} className="min-h-10 h-10 rounded-sm" />
             {/* <div className="col-span-full grid grid-cols-1 gap-6 md:grid-cols-2">
               <Textarea label="Address one" placeholder="Enter description here"  {...register("address1")} />
               <Textarea label="Address two" placeholder="Enter description here"  {...register("address2")} />
