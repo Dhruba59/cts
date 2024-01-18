@@ -89,7 +89,7 @@ const AdvanceSearchForm = ({ form }: Omit<SearchFormProps, 'isAdvancedOpen'>) =>
         />
       </div>
       <div className="flex items-center justify-end gap-4 !mt-10">
-        <Button className="" type="submit">Advance Search</Button>
+        <Button className="" type="submit">Search</Button>
         <Button className="px-8" variant="outline" onClick={() => reset()}>
           Reset
         </Button>
