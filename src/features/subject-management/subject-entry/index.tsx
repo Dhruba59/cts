@@ -16,6 +16,8 @@ import { useSession } from "next-auth/react";
 import { USER_ROLE_ENUM } from "@/model/enum";
 import AddSubjectForm from "./subject-tab/add-subject-form";
 import SearchSubjectForm from "./subject-tab/search-subject-form";
+import { DEFAULT_PAGE_SIZE } from "@/constants/common";
+import Pagination from "@/components/pagination";
 
 const getProtocolsDropdown = (data: Protocol[]) => {
   return data?.map((protocol) => ({ value: protocol.studyId.toString(), label: protocol.protocolNumber }))
@@ -31,6 +33,7 @@ const SubjectEntryEditForm = ({ ids }: SubjectEntryEditForm) => {
   const [selectedProtocol, setSelectedProtocol] = useState<SelectOptionType>();
   const [selectedStudy, setSelectedStudy] = useState<SelectOptionType>();
   const [userId, setUserId] = useState<number | null>(null);
+  const [pageSize, setPageSize] = useState<number>(DEFAULT_PAGE_SIZE);
   const [queryParams, setQueryParams] = useState<SearchLastSubjectsParams>(null!);
   const [currentTab, setCurrentTab] = useState<"add" | "last">("add");
   const [isPreScreen, setIsPreScreen] = useState<boolean>(false);
@@ -48,7 +51,7 @@ const SubjectEntryEditForm = ({ ids }: SubjectEntryEditForm) => {
   const { data: subjectList, isLoading: isSubjectLoading } = useQuery({
     queryFn: searchLastSubjects,
     queryKey: ['subjectEntry', queryParams],
-    enabled: userRole == USER_ROLE_ENUM.SYSTEM_ADMIN
+    enabled: userRole == USER_ROLE_ENUM.SYSTEM_ADMIN && !!selectedProtocol
   });
 
   const { data: protocolList } = useQuery({
@@ -119,6 +122,32 @@ const SubjectEntryEditForm = ({ ids }: SubjectEntryEditForm) => {
     };
   }, [selectedProtocol]);
 
+  const setCurrentPageNumber = (page: number) => {
+    setQueryParams((data: any) => {
+      if (data) {
+        return {
+          ...data,
+          PageNumber: page
+        }
+      } else {
+        return { PageNumber: page };
+      }
+    });
+  }
+
+  useEffect(() => {
+    setQueryParams((data) => {
+      if (data) {
+        return {
+          ...data,
+          PageSize: pageSize
+        }
+      } else {
+        return { PageSize: pageSize };
+      };
+    });
+  }, [pageSize]);
+
   console.log(protocolOptions);
   return (
     <main>
@@ -171,7 +200,15 @@ const SubjectEntryEditForm = ({ ids }: SubjectEntryEditForm) => {
       </div>
       {((userRole == USER_ROLE_ENUM.SYSTEM_ADMIN && selectedProtocol?.value)) &&
         <div>
-          <ListTable data={subjectList?.data} isLoading={isSubjectLoading} protocolId={selectedProtocol?.value} />
+          <ListTable data={subjectList?.data.items} isLoading={isSubjectLoading} protocolId={selectedProtocol?.value} />
+          <Pagination
+            currentPage={subjectList?.data?.pageNumber ?? 1}
+            lastPage={subjectList?.data?.totalPages ?? 0}
+            maxLength={7}
+            setCurrentPage={setCurrentPageNumber}
+            pageSize={pageSize}
+            setPageSize={setPageSize}
+          />
         </div>}
       {/* {
         currentTab === "last" && (

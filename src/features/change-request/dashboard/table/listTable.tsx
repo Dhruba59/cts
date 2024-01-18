@@ -88,6 +88,16 @@ export function ListTable({ data, sorting, setSorting, refetch, isLoading }: any
     setRequestId(id);
     setOpenViewDetail(false);
     setOpenAccept(true);
+    acceptChangeRequest({ id }, {
+      onSuccess: (data) => {
+        toast.success(data?.data.details, { position: "top-center" });
+        refetch();
+      },
+      onError: (error: any) => {
+        toast.error(error?.response?.data.title, { position: "top-center" });
+      }
+    });
+    // onAcceptConfirm(id);
     //console.log(`ID: ${id}`);
   }
 
@@ -95,6 +105,15 @@ export function ListTable({ data, sorting, setSorting, refetch, isLoading }: any
     setRequestId(id);
     setOpenViewDetail(false);
     setOpenReject(true);
+    rejectChangeRequest({ requestId }, {
+      onSuccess: (data) => {
+        toast.success(data?.data.details, { position: "top-center" });
+        refetch();
+      },
+      onError: (error: any) => {
+        toast.error(error?.response?.data.title, { position: "top-center" });
+      }
+    });
     //console.log(`ID: ${id}`);
 
   }
