@@ -15,6 +15,9 @@ import { Protocol, SearchLastSubjectsParams, SubjectEntryEditForm } from "@/mode
 import { useSession } from "next-auth/react";
 import { USER_ROLE_ENUM } from "@/model/enum";
 import AddSubjectForm from "./subject-tab/add-subject-form";
+import SearchSubjectForm from "./subject-tab/search-subject-form";
+import { DEFAULT_PAGE_SIZE } from "@/constants/common";
+import Pagination from "@/components/pagination";
 
 const getProtocolsDropdown = (data: Protocol[]) => {
   return data?.map((protocol) => ({ value: protocol.studyId.toString(), label: protocol.protocolNumber }))
@@ -30,6 +33,7 @@ const SubjectEntryEditForm = ({ ids }: SubjectEntryEditForm) => {
   const [selectedProtocol, setSelectedProtocol] = useState<SelectOptionType>();
   const [selectedStudy, setSelectedStudy] = useState<SelectOptionType>();
   const [userId, setUserId] = useState<number | null>(null);
+  const [pageSize, setPageSize] = useState<number>(DEFAULT_PAGE_SIZE);
   const [queryParams, setQueryParams] = useState<SearchLastSubjectsParams>(null!);
   const [currentTab, setCurrentTab] = useState<"add" | "last">("add");
   const [isPreScreen, setIsPreScreen] = useState<boolean>(false);
@@ -38,9 +42,7 @@ const SubjectEntryEditForm = ({ ids }: SubjectEntryEditForm) => {
   const { data: session } = useSession();
 
   // @ts-ignore
-  const isSiteUser = session?.user.currentRole.roleId == USER_ROLE_ENUM.SITE_USER;
-
-  console.log('type', userId);
+  const userRole = session?.user?.currentRole?.roleId;
 
   const { data: studyTypeData } = useQuery('studyType', {
     queryFn: getStudyType,
@@ -48,7 +50,8 @@ const SubjectEntryEditForm = ({ ids }: SubjectEntryEditForm) => {
 
   const { data: subjectList, isLoading: isSubjectLoading } = useQuery({
     queryFn: searchLastSubjects,
-    queryKey: ['subjectEntry', queryParams]
+    queryKey: ['subjectEntry', queryParams],
+    enabled: userRole == USER_ROLE_ENUM.SYSTEM_ADMIN && !!selectedProtocol
   });
 
   const { data: protocolList } = useQuery({
@@ -119,12 +122,38 @@ const SubjectEntryEditForm = ({ ids }: SubjectEntryEditForm) => {
     };
   }, [selectedProtocol]);
 
+  const setCurrentPageNumber = (page: number) => {
+    setQueryParams((data: any) => {
+      if (data) {
+        return {
+          ...data,
+          PageNumber: page
+        }
+      } else {
+        return { PageNumber: page };
+      }
+    });
+  }
+
+  useEffect(() => {
+    setQueryParams((data) => {
+      if (data) {
+        return {
+          ...data,
+          PageSize: pageSize
+        }
+      } else {
+        return { PageSize: pageSize };
+      };
+    });
+  }, [pageSize]);
+
   console.log(protocolOptions);
   return (
     <main>
       <Breadcrumbs title="Subject Management" subTitle="Entry Study Subject" />
       <div className="wrapper" >
-        <h4 className=" text-neutral-black px-6 py-4">{ids ? 'Update Subject' : 'Subject Entry'}</h4>
+        <h4 className=" text-neutral-black px-6 py-4">{ids ? 'Update Subject' : userRole == USER_ROLE_ENUM.SYSTEM_ADMIN ? 'Subject Entry /  Last Subject Contact' : 'Subject Entry'}</h4>
         <hr />
         <div className="w-full px-6 py-8">
           <div className="flex gap-x-10 mb-4 justify-between">
@@ -150,6 +179,7 @@ const SubjectEntryEditForm = ({ ids }: SubjectEntryEditForm) => {
                 onChange={(option) => {
                   if (option) {
                     setSelectedProtocol(option);
+                    setQueryParams({ StudyId: option.value });
                   }
                 }}
                 value={selectedProtocol}
@@ -157,20 +187,34 @@ const SubjectEntryEditForm = ({ ids }: SubjectEntryEditForm) => {
               />
             </div>
           </div>
-          {/* @ts-ignore */}
-          {((session?.user?.currentRole?.roleId == USER_ROLE_ENUM.SITE_USER && selectedProtocol?.value)  || ids) &&
+          {((userRole == USER_ROLE_ENUM.SITE_USER && selectedProtocol?.value) || ids) &&
             <div>
-              <AddSubjectForm dropdowns={dropdowns?.data || []} protocolId={selectedProtocol?.value} subjectIdFormat={subjectEntryFormat} setSelectedProtocol={setSelectedProtocol} ids={ids} studyType={selectedStudy} setStudyType={setSelectedStudy} protocolList={protocolList}/>
+              <AddSubjectForm dropdowns={dropdowns?.data || []} protocolId={selectedProtocol?.value} subjectIdFormat={subjectEntryFormat} setSelectedProtocol={setSelectedProtocol} ids={ids} setStudyType={setSelectedStudy} protocolList={protocolList} />
             </div>}
-          {/* @ts-ignore */}
-          {session?.user?.currentRole?.roleId !== USER_ROLE_ENUM.SITE_USER && !ids && selectedProtocol?.value && <SubjectEntrySelectionTab currentTab={currentTab} setCurrentTab={setCurrentTab} ids={ids} isPreScreen={isPreScreen} subjectEntryFormat={subjectEntryFormat} protocolList={protocolList?.data.protocols} protocolId={selectedProtocol?.value} setSelectedProtocol={setSelectedProtocol} setQueryParams={setQueryParams} dropdowns={dropdowns?.data || []} studyType={selectedStudy} setStudyType={setSelectedStudy} userId={userId} setUserId={setUserId} />}
+          {((userRole == USER_ROLE_ENUM.SYSTEM_ADMIN && selectedProtocol?.value)) &&
+            <div>
+              <SearchSubjectForm setQueryParams={setQueryParams} protocolId={selectedProtocol?.value} />
+            </div>}
+          {userRole !== USER_ROLE_ENUM.SITE_USER && userRole !== USER_ROLE_ENUM.SYSTEM_ADMIN && !ids && selectedProtocol?.value && <SubjectEntrySelectionTab currentTab={currentTab} setCurrentTab={setCurrentTab} ids={ids} isPreScreen={isPreScreen} subjectEntryFormat={subjectEntryFormat} protocolList={protocolList?.data.protocols} protocolId={selectedProtocol?.value} setSelectedProtocol={setSelectedProtocol} setQueryParams={setQueryParams} dropdowns={dropdowns?.data || []} setStudyType={setSelectedStudy} userId={userId} setUserId={setUserId} />}
         </div>
       </div>
-      {
+      {((userRole == USER_ROLE_ENUM.SYSTEM_ADMIN && selectedProtocol?.value)) &&
+        <div>
+          <ListTable data={subjectList?.data.items} isLoading={isSubjectLoading} protocolId={selectedProtocol?.value} />
+          <Pagination
+            currentPage={subjectList?.data?.pageNumber ?? 1}
+            lastPage={subjectList?.data?.totalPages ?? 0}
+            maxLength={7}
+            setCurrentPage={setCurrentPageNumber}
+            pageSize={pageSize}
+            setPageSize={setPageSize}
+          />
+        </div>}
+      {/* {
         currentTab === "last" && (
           <ListTable data={subjectList?.data} isLoading={isSubjectLoading} protocolId={selectedProtocol?.value} />
         )
-      }
+      } */}
 
     </main>
   );

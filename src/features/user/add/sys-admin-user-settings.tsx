@@ -62,13 +62,13 @@ const SysAdminUserSettings = ({ form, dndData, setDndData, matchTypes, sites }: 
         className="flex flex-col gap-x-4 sm:flex-row"
       />
 
-      <DragNDrop
+      {/* <DragNDrop
         onDragFinish={onSitesDragFinish}
         data={dndData.sites}
         // customComponents={components}
         wrapperClassName=""
         className="flex flex-col gap-x-4 sm:flex-row"
-      />
+      /> */}
 
     </div>
   )

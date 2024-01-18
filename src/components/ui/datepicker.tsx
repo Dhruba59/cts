@@ -7,7 +7,7 @@ interface Props extends DatepickerType {
 }
 
 const Datepicker = ({
-  displayFormat = "DD/MM/YYYY",
+  displayFormat = "DD-MMM-YYYY",
   separator = "⇀",
   containerClassName,
   inputClassName,

@@ -63,7 +63,7 @@ const HelpModal = ({ open, setOpen }: HelpModalProps) => {
       onClose={() => setOpen(false)}
       title="Submit Query"
       isLoading={isLoading}
-      containerClassName="!w-[624px]"
+      containerClassName="!w-[624px] overflow-auto"
       renderFooter={{
         onSave: handleSubmit(onSubmit),
         submitButtonName: "Send",

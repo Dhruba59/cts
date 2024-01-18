@@ -76,12 +76,13 @@ export function SimpleTable<TData, TValue>({
   return (
     <div {...props} className={`overflow-auto ${containerClassName}`}>
       <Table>
-        <TableHeader>
+        <TableHeader className="z-0">
           {table?.getHeaderGroups()?.map((headerGroup) => (
             <TableRow key={headerGroup.id}>
               {headerGroup.headers.map((header, index) => (
                 <TableHead
                   key={header.id}
+                  className="z-0"
                   style={{
                     width:
                       header.getSize() !== 150 ? header.getSize() : undefined

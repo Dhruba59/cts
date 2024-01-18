@@ -23,18 +23,18 @@ interface SelectionTabProps {
   setQueryParams: Dispatch<SetStateAction<SearchLastSubjectsParams>>;
   setSelectedProtocol: Dispatch<SetStateAction<SelectOptionType | undefined>>;
   ids: ChangeReqSubjectIdProps | undefined;
-  studyType: SelectOptionType;
   setStudyType: Dispatch<SetStateAction<SelectOptionType | undefined>>;
   userId: number | null;
   setUserId: Dispatch<SetStateAction<number | null>>;
   protocolList: any;
 }
 
-const SubjectEntrySelectionTab = ({ currentTab, setCurrentTab, isPreScreen, subjectEntryFormat, protocolId, setSelectedProtocol,protocolList, dropdowns, setQueryParams, ids, studyType, setStudyType, userId, setUserId }
+const SubjectEntrySelectionTab = ({ currentTab, setCurrentTab, isPreScreen, subjectEntryFormat, protocolId, setSelectedProtocol,protocolList, dropdowns, setQueryParams, ids, setStudyType, userId, setUserId }
   : SelectionTabProps) => {
 
   const { data: session } = useSession();
-  console.log(session);
+  // @ts-ignore
+  const isAdmin = session?.user.currentRole.roleId == USER_ROLE_ENUM.SYSTEM_ADMIN;
 
   useEffect(() => {
     if (isPreScreen || isPreScreen === undefined) {
@@ -50,6 +50,7 @@ const SubjectEntrySelectionTab = ({ currentTab, setCurrentTab, isPreScreen, subj
         <> */}
           <h5 className="mt-10 mb-4">What you want to do ?</h5>
           <div className="flex gap-4 items-center">
+            {isAdmin}
             <button
               className={cn("subject-entry", {
                 "subject-entry-active": currentTab === "add",
@@ -72,7 +73,7 @@ const SubjectEntrySelectionTab = ({ currentTab, setCurrentTab, isPreScreen, subj
             )}
           </div>
           <div className="my-6">
-            {currentTab === "add" ? <AddSubjectForm dropdowns={dropdowns} protocolId={protocolId} subjectIdFormat={subjectEntryFormat} setSelectedProtocol={setSelectedProtocol} protocolList={protocolList} ids={ids} studyType={studyType} setStudyType={setStudyType} userId={userId} setUserId={setUserId}/>
+            {currentTab === "add" ? <AddSubjectForm dropdowns={dropdowns} protocolId={protocolId} subjectIdFormat={subjectEntryFormat} setSelectedProtocol={setSelectedProtocol} protocolList={protocolList} ids={ids} setStudyType={setStudyType} userId={userId} setUserId={setUserId}/>
               : <SearchSubjectForm setQueryParams={setQueryParams} protocolId={protocolId} />
             }
           </div>

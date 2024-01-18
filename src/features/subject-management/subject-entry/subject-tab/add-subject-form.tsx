@@ -24,14 +24,13 @@ interface AddSubjectFormProps {
   subjectIdFormat: string;
   ids: ChangeReqSubjectIdProps | undefined;
   setSelectedProtocol: Dispatch<SetStateAction<SelectOptionType | undefined>>;
-  studyType: SelectOptionType | undefined;
   setStudyType: Dispatch<SetStateAction<SelectOptionType | undefined>>;
   userId?: number | null;
   setUserId?: Dispatch<SetStateAction<number | null>>
   protocolList: any;
 }
 
-const AddSubjectForm = ({ dropdowns, protocolId, subjectIdFormat, setSelectedProtocol, protocolList, ids, studyType, setStudyType, userId, setUserId }: AddSubjectFormProps) => {
+const AddSubjectForm = ({ dropdowns, protocolId, subjectIdFormat, setSelectedProtocol, protocolList, ids, setStudyType, userId, setUserId }: AddSubjectFormProps) => {
   const [heightUnitOptions, setHeightUnitOptions] = useState<SelectOptionType[]>();
   const [weightUnitOptions, setWeightUnitOptions] = useState<SelectOptionType[]>();
   const [isDetailsRequired, setIsDetailsRequired] = useState<boolean>(false);
