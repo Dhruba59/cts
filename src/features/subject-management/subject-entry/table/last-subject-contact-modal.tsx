@@ -25,7 +25,7 @@ const LastSubjectContactModal = ({ data, studyId }: any) => {
   const [visitType, setVisitType] = useState<SelectOptionType>();
   let currentDate = new Date().toJSON().slice(0, 10); // "2022-06-17"
   const [visitTypeOptions, setVisitTypeOptions] = useState<SelectOptionType[]>([]);
-  const [lastSubjectEntryDate, setLastSubjectEntryDate] = useState<string>(currentDate);
+  // const [lastSubjectEntryDate, setLastSubjectEntryDate] = useState<string>(currentDate);
   const { data: visitTypes, error, isLoading: visitLoading, refetch } = useGetVisitTypes();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [open, setOpen] = useState<boolean>(false);
@@ -38,8 +38,14 @@ const LastSubjectContactModal = ({ data, studyId }: any) => {
   const onHandelReset = async () => {
     setIsLoading(true);
     setOpen(false);
-    setLastSubjectEntryDate(currentDate);
+    // setLastSubjectEntryDate(currentDate);
     reset();
+    reset({
+      lastSubjectEntryDate: {
+        startDate: null,
+        endDate: null
+      }
+    })
   }
 
   const onSubmit = async (values: any) => {
@@ -51,7 +57,7 @@ const LastSubjectContactModal = ({ data, studyId }: any) => {
       subjectId: data.subjectID,
       nationalTypeId: data.nationalTypeID,
       visitTypeId: values.visitType.value,
-      lastSubjectEntryDate: values.lastSubjectEntryDate
+      lastSubjectEntryDate: values.lastSubjectEntryDate.startDate
     };
     updateVisitInfo(payload, {
       onSuccess: (data) => {
@@ -142,7 +148,25 @@ const LastSubjectContactModal = ({ data, studyId }: any) => {
         <div className="flex items-center justify-center gap-2">
           <Label className="w-40 text-right" label="Last Subject Entry Date:" />
           <div className="flex flex-col gap-2">
-            <Input
+          <Controller
+            control={control}
+            name='lastSubjectEntryDate'
+            rules={{
+              // required: "Date is required!",
+            }}
+            render={({ field: { onChange, onBlur, value } }: any) => (
+              <Datepicker
+                popoverDirection='down'
+                value={value}
+                asSingle
+                containerClassName="w-[200px] md:w-[280px]"
+                useRange={false}
+                onChange={onChange}
+                placeholder="Start Date"
+              />
+            )}
+          />
+            {/* <Input
               {...register('lastSubjectEntryDate', { required: "Last Subject Entry Date is required." })}
               name="lastSubjectEntryDate"
               type="text"
@@ -153,7 +177,7 @@ const LastSubjectContactModal = ({ data, studyId }: any) => {
               onBlur={(e) => (e.target.type = "text")}
               value={lastSubjectEntryDate}
 
-            />
+            /> */}
             <div>
               {errors.lastSubjectEntryDate && (
                 <span className="text-red-500 -mt-10">{errors.lastSubjectEntryDate.message as string}</span>
