@@ -39,7 +39,7 @@ const ListHeader = ({ setQueryData }: ListHeaderProps) => {
   const onSubmit = (values: any) => {
     const params: Omit<LastReprintSubjectsParams, 'PageSize' | 'OrderBy'> = {
       UserId: values?.user?.value,
-      UserName: '',
+      // UserName: '',
       ProtocolNumber: values?.protocol?.value,
       SponsorSubjectId: values.subjectId,
       FirstInitial: values.firstInitial,
@@ -48,7 +48,6 @@ const ListHeader = ({ setQueryData }: ListHeaderProps) => {
       FromDate: values.fromDate?.startDate,
       ToDate: values.toDate?.startDate,
     }
-    console.log(params);
     setQueryData((data) => ({
       ...data as LastReprintSubjectsParams,
       ...params
@@ -56,33 +55,6 @@ const ListHeader = ({ setQueryData }: ListHeaderProps) => {
   }
 
   return (
-    // <div>
-    //   <Breadcrumbs
-    //     title="Subject Management"
-    //     subTitle="Last Subject Re-Print"
-    //   />
-    //   <div className="md:hidden">
-    //     <SearchForm />
-    //   </div>
-    //   <section className="hidden md:block wrapper">
-    //     <div className="flex flex-row items-center justify-between px-6 py-3">
-    //       <h4 className=" text-neutral-black divide-y-2 divide-red-400">
-    //         Search Last Subject Entry
-    //       </h4>
-    //       <div className="">
-    //         <SearchForm />
-    //       </div>
-    //       <Toggle
-    //         prefixLabel="Advanced: "
-    //         className="hidden lg:block"
-    //         isChecked={isChecked}
-    //         setIsChecked={setIsChecked}
-    //       />
-    //     </div>
-    //     <hr />
-    //     {isChecked && <AdvanceSearchForm />}
-    //   </section>
-    // </div>
     <div className="sm:wrapper">
       <form onSubmit={handleSubmit(onSubmit)}>
         <Breadcrumbs title="Study Information" subTitle="Study List" />
@@ -100,7 +72,7 @@ const ListHeader = ({ setQueryData }: ListHeaderProps) => {
             setIsChecked={setIsChecked}
           />
         </div>
-        <hr className="" />
+        <hr />
         {isChecked && <AdvanceSearchForm form={form} />}
       </form>
     </div>

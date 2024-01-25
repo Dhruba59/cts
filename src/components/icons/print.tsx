@@ -1,6 +1,6 @@
-import React from "react";
+import React, { SVGProps } from "react";
 
-const Print = () => (
+const Print = ({...props}: React.SVGProps<SVGSVGElement>) => (
   <svg
     width={16}
     height={16}
@@ -8,6 +8,7 @@ const Print = () => (
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
     className="cursor-pointer"
+    {...props}
   >
     <g clipPath="url(#clip0_420_43313)">
       <path

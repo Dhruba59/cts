@@ -103,6 +103,10 @@ export const getUsersDropdownList = ({queryKey}: any) => {
   return request({ url: `${API_ROUTE_CONSTANT.SUBJECT}/get-user-dropdown`, method: "get", params });
 };
 
+export const getLastSubjectReport = ({queryKey}: any) => {
+  const [key, params ] = queryKey as any;
+  return request({ url: `${API_ROUTE_CONSTANT.SUBJECT}/last-subject-report`, method: "get", params });
+};
 
 // non pre-screen
 export const getVisitTypes = () => {

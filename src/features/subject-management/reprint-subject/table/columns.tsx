@@ -1,5 +1,6 @@
 import Print from "@/components/icons/print";
 import { IndeterminateCheckbox } from "@/components/ui/checkbox";
+import { LastSubjectPrintQueryParams } from "@/model/subject";
 import { formateTableDate } from "@/utils/helpers";
 import { ColumnDef } from "@tanstack/react-table";
 
@@ -8,9 +9,26 @@ export type List = {
   visitTypeName: string;
   dateEntered: string;
   protocolNumber: string;
+  dateOfBirth: string;
+  firstInitial: string;
+  fromDate: string;
+  toDate: string;
+  lastInitial: string;
+  middleInitial: string;
+  nationalTypeId: number;
+  siteCode: string;
+  siteNumber: string;
+  studyId: string;
+  subjectId: string;
+  subjectInitials: string;
+  userName: string;
 };
 
-export const getColumns = (): ColumnDef<List>[] => { 
+interface ColumnsProps {
+  onPrintClick: (subjectInfo: LastSubjectPrintQueryParams) => void;
+}
+
+export const getColumns = ({ onPrintClick }: ColumnsProps): ColumnDef<List>[] => { 
   return(
     [
       // {
@@ -75,9 +93,17 @@ export const getColumns = (): ColumnDef<List>[] => {
         header: "Action",
         size: 100,
         cell: ({ row }) => {
+          console.log(row);
+          const subjectInfo: LastSubjectPrintQueryParams = {
+            NationalTypeId: row.original.nationalTypeId,
+            SponsorSubjectId: row.original.sponsorSubjectId,
+            StudyId: row.original.studyId,
+            SubjectId: row.original.subjectId,
+            UserName: row.original.userName
+          } 
           return (
             <div className="flex items-center gap-6">
-              <Print />
+              <Print onClick={ () => onPrintClick(subjectInfo)}/>
             </div>
           );
         },

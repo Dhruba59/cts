@@ -8,7 +8,7 @@ import { SortingState } from "@tanstack/react-table";
 import { useQuery } from "react-query";
 import Pagination from "@/components/pagination";
 import { getLastReprintSubjects } from "@/service/subject-service";
-import { LastReprintSubjectsParams, SearchLastSubjectsParams } from "@/model/subject";
+import { LastReprintSubjectsParams } from "@/model/subject";
 
 const SubjectReprint = () => {
   const [queryData, setQueryData] = useState<LastReprintSubjectsParams>();
