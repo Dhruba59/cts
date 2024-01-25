@@ -31,7 +31,7 @@ interface LastContactSubjectsPdfProps {
 }
 
 // Create Document Component
-const LastContactSubjectsPdf = ({ data, isLoadingData }: LastContactSubjectsPdfProps) => {
+const LastContactSubjectsPdf = ({ data }: LastContactSubjectsPdfProps) => {
 
   return (
     <Document style={{ }}>
