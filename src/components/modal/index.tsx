@@ -53,6 +53,7 @@ const Modal = ({
 
   const handleModalClose = () => {
     setVisible(false);
+    setOpen?.(false);
     onClose?.();
   };
 
