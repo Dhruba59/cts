@@ -44,7 +44,7 @@ const SubjectReprint = () => {
   useEffect(() => {
     setQueryData((data) => ({
       ...data as any,
-      OrderBy: 'SponsorSubjectId ASC'
+      OrderBy: 'DateEntered ASC'
     }));
   }, []);
 
