@@ -24,7 +24,7 @@ const getProtocolsDropdown = (data: Protocol[]) => {
 }
 
 export const getSiteStudyIdByStudyId = (data: any, studyId: number | string) => {
-  return data.find((item: any) => item?.studyId == studyId)?.siteStudyId ?? '';
+  return data?.find((item: any) => item?.studyId == studyId)?.siteStudyId ?? '';
 }
 
 const SubjectEntryEditForm = ({ ids }: SubjectEntryEditForm) => {
@@ -189,7 +189,7 @@ const SubjectEntryEditForm = ({ ids }: SubjectEntryEditForm) => {
           </div>
           {((userRole == USER_ROLE_ENUM.SITE_USER && selectedProtocol?.value) || ids) &&
             <div>
-              <AddSubjectForm dropdowns={dropdowns?.data || []} protocolId={selectedProtocol?.value} subjectIdFormat={subjectEntryFormat} setSelectedProtocol={setSelectedProtocol} ids={ids} setStudyType={setSelectedStudy} protocolList={protocolList} />
+              <AddSubjectForm dropdowns={dropdowns?.data || []} protocolId={selectedProtocol?.value} subjectIdFormat={subjectEntryFormat} setSelectedProtocol={setSelectedProtocol} ids={ids} setStudyType={setSelectedStudy} protocolList={protocolList?.data.protocols} />
             </div>}
           {((userRole == USER_ROLE_ENUM.SYSTEM_ADMIN && selectedProtocol?.value)) &&
             <div>

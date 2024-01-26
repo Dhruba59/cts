@@ -14,7 +14,7 @@ import { watch } from "fs";
 import React, { Dispatch, RefObject, SetStateAction, useEffect, useRef, useState } from "react";
 import { Controller, UseFormReturn, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
-import { getSiteStudyIdByStudyId } from "..";
+// import { getSiteStudyIdByStudyId } from "..";
 import Alert from "@/components/ui/alert";
 import Modal from "@/components/modal";
 
@@ -28,6 +28,11 @@ interface AddSubjectFormProps {
   userId?: number | null;
   setUserId?: Dispatch<SetStateAction<number | null>>
   protocolList: any;
+}
+
+const getSiteStudyIdByStudyId = (data: any, studyId: number | string) => {
+  console.log('study', data, studyId);
+  return data?.find((item: any) => item?.studyId == studyId)?.siteStudyId ?? '';
 }
 
 const AddSubjectForm = ({ dropdowns, protocolId, subjectIdFormat, setSelectedProtocol, protocolList, ids, setStudyType, userId, setUserId }: AddSubjectFormProps) => {
@@ -102,7 +107,7 @@ const AddSubjectForm = ({ dropdowns, protocolId, subjectIdFormat, setSelectedPro
             heightUnit: values?.heightUnit?.value ?? values.heightUnit,
             weightUnit: values?.weightUnit?.value ?? values.weightUnit,
             studyId: protocolId,
-            siteStudyId: getSiteStudyIdByStudyId(protocolList, protocolId ?? '')
+            siteStudyId: getSiteStudyIdByStudyId(protocolList, protocolId ?? '') ?? ''
           }
           if (ids) {
             payload.userId = userId,
