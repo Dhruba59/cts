@@ -40,7 +40,7 @@ const ListHeader = ({ setQueryData }: ListHeaderProps) => {
     const params: Omit<LastReprintSubjectsParams, 'PageSize' | 'OrderBy'> = {
       UserId: values?.user?.value,
       UserName: '',
-      ProtocolNumber: values?.protocol?.value,
+      StudyId: values?.protocol?.value,
       SponsorSubjectId: values.subjectId,
       FirstInitial: values.firstInitial,
       MiddleInitial: values.middleInitial,
@@ -48,7 +48,6 @@ const ListHeader = ({ setQueryData }: ListHeaderProps) => {
       FromDate: values.fromDate?.startDate,
       ToDate: values.toDate?.startDate,
     }
-    console.log(params);
     setQueryData((data) => ({
       ...data as LastReprintSubjectsParams,
       ...params

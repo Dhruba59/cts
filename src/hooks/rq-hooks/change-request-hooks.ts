@@ -1,5 +1,5 @@
 import { SubjectDetailsParams } from "@/model/change-request";
-import { addChangeRequest, acceptChangeRequest, rejectChangeRequest, viewChangeRequestDetail, getChangeRequestAudit, getChangeRequestAuditDetail, getChangeRequestBySubject, getChangeRequestDashboard, getChangeRequestReprint, getDashboardDropdown, getRequestTypeDropdown, getSubjectDetails, saveChangeRequest, changeOperation, getChangeRequestVisitTypes } from "@/service/change-request-service";
+import { addChangeRequest, acceptChangeRequest, rejectChangeRequest, viewChangeRequestDetail, getChangeRequestAudit, getChangeRequestAuditDetail, getChangeRequestBySubject, getChangeRequestDashboard, getChangeRequestReprint, getDashboardDropdown, getRequestTypeDropdown, getSubjectDetails, saveChangeRequest, changeOperation, getChangeRequestVisitTypes, getChangeRequestDashboardDropdows, getChangeRequestReprintDropdowns } from "@/service/change-request-service";
 import { UseQueryOptions, useMutation, useQuery } from "react-query";
 
 
@@ -29,16 +29,16 @@ export const useChangeRequestDashboard = (queryData : any) => useQuery({
   queryKey: ['sort', queryData],
 });
 
-export const useChangeRequestDashboardDropdowns = () => useQuery({
-  queryFn: getChangeRequestDashboard
+export const useChangeRequestDashboardDropdowns = () => useQuery('changeRequestDashboardDropdowns', {
+  queryFn: getChangeRequestDashboardDropdows
 });
 
 export const useGetChangeReqVisitTypes = () => useQuery('changeRequestVisitType', {
   queryFn: getChangeRequestVisitTypes
 });
 
-export const useChangeRequestReprintDropdowns = () => useQuery({
-  queryFn: getChangeRequestReprint
+export const useChangeRequestReprintDropdowns = () => useQuery('changeRequestReprintDropdowns', {
+  queryFn: getChangeRequestReprintDropdowns
 });
 
 export const useChangeRequestAudit = (queryData : any) => useQuery({
