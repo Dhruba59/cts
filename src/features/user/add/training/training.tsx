@@ -141,7 +141,7 @@ const Training = ({ form, protocols, dndData, setDndData, completedTrainings, se
     <div className='flex flex-col gap-3'>
       <div className='flex flex-wrap gap-3 border rounded-md mx-4 mb-6 p-4 max-h-[300px] overflow-y-auto'>
         {
-          renderTraining() ?? 'No Trainings'
+          renderTraining() && renderTraining()?.length > 0 ? renderTraining() : 'No Trainings'
         }
       </div>
       {id && <ListTable form={form} data={completedTrainings} setCompletedTrainings={setCompletedTrainings} refetchUser={refetchUser}/>}
