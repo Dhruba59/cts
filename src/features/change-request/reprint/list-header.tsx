@@ -20,12 +20,12 @@ const ListHeader = ({ setQueryData }: any) => {
  
   const { data: session } = useSession();
   // @ts-ignore
-  const { data: reprintDropdowns } = useChangeRequestReprintDropdowns('reprintDropdowns');
+  const { data: reprintDropdowns } = useChangeRequestReprintDropdowns();
   const { data: dropdowns } = useChangeRequestDashboardDropdowns();
 
   const defaultValues: ChangeRequestReprintQuery = {
     regionGroup: 0,
-    siteId: 0,
+    siteId: 0,    
     siteStudyId: 0,
     subjectId: '',
     firstInit: '',

@@ -191,14 +191,14 @@ const SubjectEntryEditForm = ({ ids }: SubjectEntryEditForm) => {
             <div>
               <AddSubjectForm dropdowns={dropdowns?.data || []} protocolId={selectedProtocol?.value} subjectIdFormat={subjectEntryFormat} setSelectedProtocol={setSelectedProtocol} ids={ids} setStudyType={setSelectedStudy} protocolList={protocolList} />
             </div>}
-          {((userRole == USER_ROLE_ENUM.SYSTEM_ADMIN && selectedProtocol?.value)) &&
+          {((userRole == USER_ROLE_ENUM.SYSTEM_ADMIN && selectedProtocol?.value && !ids)) &&
             <div>
               <SearchSubjectForm setQueryParams={setQueryParams} protocolId={selectedProtocol?.value} />
             </div>}
           {userRole !== USER_ROLE_ENUM.SITE_USER && userRole !== USER_ROLE_ENUM.SYSTEM_ADMIN && !ids && selectedProtocol?.value && <SubjectEntrySelectionTab currentTab={currentTab} setCurrentTab={setCurrentTab} ids={ids} isPreScreen={isPreScreen} subjectEntryFormat={subjectEntryFormat} protocolList={protocolList?.data.protocols} protocolId={selectedProtocol?.value} setSelectedProtocol={setSelectedProtocol} setQueryParams={setQueryParams} dropdowns={dropdowns?.data || []} setStudyType={setSelectedStudy} userId={userId} setUserId={setUserId} />}
         </div>
       </div>
-      {((userRole == USER_ROLE_ENUM.SYSTEM_ADMIN && selectedProtocol?.value)) &&
+      {((userRole == USER_ROLE_ENUM.SYSTEM_ADMIN && selectedProtocol?.value && !ids)) &&
         <div>
           <ListTable data={subjectList?.data.items} isLoading={isSubjectLoading} protocolId={selectedProtocol?.value} />
           <Pagination
