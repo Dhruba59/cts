@@ -41,7 +41,7 @@ const initialUserParams: UserParams = {
 }
 
 const SearchForm = ({ isAdvancedOpen, form }: SearchFormProps) => {
-  const { control, register, formState: { errors } } = form;
+  const { control, register, reset, formState: { errors } } = form;
   const [userOptions, setUserOptions] = useState<SelectOptionType[]>([]);
   const [protocolOptions, setProtocolOptions] = useState<SelectOptionType[]>([]);
   const [protocolId, setProtocolId] = useState<number>();
@@ -135,6 +135,13 @@ const SearchForm = ({ isAdvancedOpen, form }: SearchFormProps) => {
       </div>
 
       <Button className={`mb-[1px] w-fit ${isAdvancedOpen ? 'hidden' : 'block'}`} type="submit" >Search</Button>
+      <Button
+        className={`mb-[1px] w-fit ${isAdvancedOpen ? "hidden" : "block"}`}
+        onClick={() => reset()}
+        variant="outline"
+        type="button">
+        Reset
+      </Button>
     </div>
   );
 };

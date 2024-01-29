@@ -13,7 +13,7 @@ interface ListHeaderProps {
 
 const initialValue = {
   protocol: '',
-  subjectId: '',
+  subjectId: null,
   fromDate: {
     startDate: null,
     endDate: null
