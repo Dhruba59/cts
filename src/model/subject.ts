@@ -22,6 +22,14 @@ export interface Subject {
     heigthUnit: string;
 }
 
+export interface LastSubjectPrintQueryParams {
+  UserName: string;
+  SubjectId: number | string;
+  StudyId: number | string;
+  SponsorSubjectId: number | string;
+  NationalTypeId: number | string;
+}
+
 export interface SubjectQuery extends Subject, Query{
 
 }

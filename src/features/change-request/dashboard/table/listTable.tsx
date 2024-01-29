@@ -120,7 +120,7 @@ export function ListTable({ data, sorting, setSorting, refetch, isLoading }: any
 
   const onViewDetail = (id: number, pending: boolean) => {
     setChildModal(
-      <ChangeRequestDashboardModal requestId={id} onAccept={onAccept} onReject={onReject} isSysAdmin={isSysAdmin} />
+      <ChangeRequestDashboardModal requestId={id} onAccept={onAccept} onReject={onReject} isSysAdmin={isSysAdmin}/>
     )
     setOpenViewDetail(true);
     setIsPending(pending);
@@ -182,7 +182,7 @@ export function ListTable({ data, sorting, setSorting, refetch, isLoading }: any
         open={openViewDetail}
         onClose={() => onCancel()}
         title="Changed Request Detail"
-        containerClassName="flex flex-1 flex-col mx-10 z-0 overflow-auto"
+        containerClassName="flex flex-1 flex-col mx-10 z-0 overflow-auto max-w-fit"
         renderFooter={{
           onSave: () => { onAccept(requestId) },
           onReject: () => { onReject(requestId) },
