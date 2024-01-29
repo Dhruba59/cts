@@ -114,11 +114,11 @@ export const getUserRoleFromValue = (role: string) => {
       return 'Site User';
   }
 }
-export const convertTypeToSelectOption = (data: DropDownItem[]): SelectOptionType[] => (
+export const convertTypeToSelectOption = (data: DropDownItem[] | undefined): SelectOptionType[]|[] => (
   data?.map((item: DropDownItem) => ({
     label: item.text,
     value: item.value,
-  }))
+  })) ?? []
 );
 
 export const formateTableDate = (date?: string) => {
