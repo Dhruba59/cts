@@ -2,6 +2,7 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { Query } from "./query";
 import { number } from 'yup';
+import { DateRangeType, DateType } from "react-tailwindcss-datepicker";
 
 export interface ChangeRequestReprintModel {
   userName?: string,
@@ -36,16 +37,16 @@ export interface ChangeRequestReprintModel {
   visitTypeIdForBusinessLogic?: number;
 }
 export interface ChangeRequestReprintQuery extends Query {
-  regionGroup?: number;
-  siteId?: number;
-  siteStudyId?: number;
-  subjectId?: string;
-  firstInit?: string;
-  middleInit?: string;
-  lastInit?: string;
-  dateOfBirth?: string | null;
-  fromDate?: string | null;
-  toDate?: string | null;
+  RegionGroup?: number | null;
+  SiteId?: number | null;
+  SiteStudyId?: number | null;
+  SubjectId?: string | null;
+  FirstInit?: string | null;
+  MiddleInit?: string | null;
+  LastInit?: string | null;
+  DateOfBirth?: DateRangeType;
+  FromDate?: DateRangeType;
+  ToDate?: DateRangeType;
 }
 
 export interface CodeType {

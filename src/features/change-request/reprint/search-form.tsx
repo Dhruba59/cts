@@ -35,6 +35,20 @@ const SearchForm: React.FC<SearchFormProps> = ({ isAdvancedOpen, form, dropdowns
 
   const onReset = () => {
     reset();
+    reset({
+      DateOfBirth: {
+        startDate: null,
+        endDate: null,
+      },
+      FromDate: {
+        startDate: null,
+        endDate: null,
+      },
+      ToDate: {
+        startDate: null,
+        endDate: null,
+      },
+    });
     setQueryData({});
   }
 
@@ -153,9 +167,7 @@ const AdvanceSearchForm = ({ form, dropdownsData, setQueryData }: AdvancedSearch
         <Controller
           control={control}
           name='FromDate'
-          rules={{
-            required: "From date is required!",
-          }}
+          rules={{}}
           render={({ field: { onChange, onBlur, value } }: any) => (
             <Datepicker
               // containerClassName="md:w-36 xl:w-48"
@@ -171,9 +183,7 @@ const AdvanceSearchForm = ({ form, dropdownsData, setQueryData }: AdvancedSearch
         <Controller
           control={control}
           name='ToDate'
-          rules={{
-            required: "To date is required!",
-          }}
+          rules={{}}
           render={({ field: { onChange, onBlur, value } }: any) => (
             <Datepicker
               // containerClassName="md:w-36 xl:w-48"
