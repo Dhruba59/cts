@@ -48,7 +48,7 @@ const SearchForm: React.FC<SearchFormProps> = ({ isAdvancedOpen, form, dropdowns
         <Label label="Protocol: " className="hidden xl:block" />
         <Controller
           control={control}
-          name='SiteStudyId'
+          name='StudyId'
           render={({ field: { onChange, onBlur, value } }: any) => (
             <Select className="md:w-auto" onChange={onChange} label="" options={protocolOptions} value={value} placeholder="Select Protocol"/>
           )}

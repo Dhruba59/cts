@@ -32,12 +32,12 @@ const ListHeader = ({ setQueryData }: any) => {
   const onSubmit = (values: any) => {
     const params = {
       ...values,
-      StudyId: values?.StudyId?.value,
-      RegionGroup: values?.RegionGroup?.value,
-      SiteId: values?.SiteId?.value,
-      FromDate: values?.FromDate?.startDate,
-      ToDate: values?.ToDate?.startDate,
-      DateOfBirth: values?.DateOfBirth?.startDate
+      studyId: values?.StudyId?.value,
+      regionGroup: values?.RegionGroup?.value,
+      siteId: values?.SiteId?.value,
+      fromDate: values?.FromDate?.startDate,
+      toDate: values?.ToDate?.startDate,
+      dateOfBirth: values?.DateOfBirth?.startDate
     }
     setQueryData(params);
   }
