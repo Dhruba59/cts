@@ -24,7 +24,7 @@ enum SEND_REQ_OPERATION_TYPE_ENUM {
   DELETE_LAST_VISIT_ENTRY = 2
 }
 
-const ChangeRequestModal = ({ id, visitTypeId, isPreScreen }: any) => {
+const ChangeRequestModal = ({ id, visitTypeId, isPreScreen, onPrintClick }: any) => {
   const [open, setOpen] = useState<boolean>(false);
   const [selectedOperation, setSelectedOperation] = useState();
   const [visitTypeOption, setVisitTypeOption] = useState<SelectOptionType[]>([]);
@@ -55,7 +55,8 @@ const ChangeRequestModal = ({ id, visitTypeId, isPreScreen }: any) => {
       router.push(`/study-subject-edit/${id}`);
     }
     else if (selectedOperation == SEND_REQ_OPERATION_TYPE_ENUM.PRINT_SUBJECT) {
-      console.log('printing');
+      onPrintClick();
+      setOpen(false);
     }
     else {
       const [subjectId, nationalTypeId] = id.split('_');
@@ -95,34 +96,69 @@ const ChangeRequestModal = ({ id, visitTypeId, isPreScreen }: any) => {
       open={open}
       setOpen={setOpen}
       title="Subject request for"
-      renderFooter={{ onSave: handleSubmit(onSubmit), submitButtonName: "Submit" }}
+      renderFooter={{
+        onSave: handleSubmit(onSubmit),
+        submitButtonName: "Submit",
+      }}
       onClose={onCloseModal}
-      isLoading={isLoadingChangeOperation}
-    >
-      <form className="flex flex-col gap-6 mx-4 md:w-1/2" onSubmit={(handleSubmit(onSubmit))}>
-        <RadioGroup name="send-req-option" label="Please Select below option:" rootClassName="flex flex-col" className="flex flex-col gap-2" selectedValue={selectedOperation} onChange={handleRadioChange}>
-          <RadioButton id='1' value={SEND_REQ_OPERATION_TYPE_ENUM.PRINT_SUBJECT}>Print Subject</RadioButton>
-          <RadioButton id='2' value={SEND_REQ_OPERATION_TYPE_ENUM.EDIT_SUBJECT}>Edit Subject</RadioButton>
-          <RadioButton id='4' value={SEND_REQ_OPERATION_TYPE_ENUM.DELETE_SUBJECT_ENTRY}>Delete Subject Entry</RadioButton>
-          {!isSiteUser && parseInt(visitTypeId) < 1 && !isPreScreen &&
-            <RadioButton id='3' value={SEND_REQ_OPERATION_TYPE_ENUM.ENTER_LAST_SUBJECT_CONTACT}>Enter Last Subject Contact</RadioButton>
-          }
-          {parseInt(visitTypeId) >= 1 && !isPreScreen &&
-            <RadioButton id='5' value={SEND_REQ_OPERATION_TYPE_ENUM.DELETE_LAST_VISIT_ENTRY}>Delete Last Visit Entry</RadioButton>
-          }
+      isLoading={isLoadingChangeOperation}>
+      <form
+        className="flex flex-col gap-6 mx-4 md:w-1/2"
+        onSubmit={handleSubmit(onSubmit)}>
+        <RadioGroup
+          name="send-req-option"
+          label="Please Select below option:"
+          rootClassName="flex flex-col"
+          className="flex flex-col gap-2"
+          selectedValue={selectedOperation}
+          onChange={handleRadioChange}>
+          <RadioButton
+            id="1"
+            value={SEND_REQ_OPERATION_TYPE_ENUM.PRINT_SUBJECT}>
+            Print Subject
+          </RadioButton>
+          <RadioButton id="2" value={SEND_REQ_OPERATION_TYPE_ENUM.EDIT_SUBJECT}>
+            Edit Subject
+          </RadioButton>
+          <RadioButton
+            id="4"
+            value={SEND_REQ_OPERATION_TYPE_ENUM.DELETE_SUBJECT_ENTRY}>
+            Delete Subject Entry
+          </RadioButton>
+          {!isSiteUser && parseInt(visitTypeId) < 1 && !isPreScreen && (
+            <RadioButton
+              id="3"
+              value={SEND_REQ_OPERATION_TYPE_ENUM.ENTER_LAST_SUBJECT_CONTACT}>
+              Enter Last Subject Contact
+            </RadioButton>
+          )}
+          {parseInt(visitTypeId) >= 1 && !isPreScreen && (
+            <RadioButton
+              id="5"
+              value={SEND_REQ_OPERATION_TYPE_ENUM.DELETE_LAST_VISIT_ENTRY}>
+              Delete Last Visit Entry
+            </RadioButton>
+          )}
         </RadioGroup>
-        {selectedOperation == SEND_REQ_OPERATION_TYPE_ENUM.ENTER_LAST_SUBJECT_CONTACT &&
+        {selectedOperation ==
+          SEND_REQ_OPERATION_TYPE_ENUM.ENTER_LAST_SUBJECT_CONTACT && (
           <>
             <Controller
               control={control}
-              name='visitType'
+              name="visitType"
               render={({ field: { onChange, onBlur, value } }: any) => (
-                <Select className="" label="Visit Type" onChange={onChange} options={visitTypeOption} value={value} />
+                <Select
+                  className=""
+                  label="Visit Type"
+                  onChange={onChange}
+                  options={visitTypeOption}
+                  value={value}
+                />
               )}
             />
             <Controller
               control={control}
-              name='lastEntryDate'
+              name="lastEntryDate"
               render={({ field: { onChange, onBlur, value } }: any) => (
                 <Datepicker
                   label="Last entry date"
@@ -137,15 +173,19 @@ const ChangeRequestModal = ({ id, visitTypeId, isPreScreen }: any) => {
                 />
               )}
             />
-          </>}
-        <div className="flex flex-col gap-3">
-          <Label className="w-40" label="Request Description" />
-          <Textarea
-            {...register('requestDescription')}
-            placeholder="Enter Description"
-          // className="w-[200px] md:w-[280px]"
-          />
-        </div>
+          </>
+        )}
+        {selectedOperation ==
+          SEND_REQ_OPERATION_TYPE_ENUM.DELETE_SUBJECT_ENTRY && (
+          <div className="flex flex-col gap-3">
+            <Label className="w-40" label="Request Description" />
+            <Textarea
+              {...register("requestDescription")}
+              placeholder="Enter Description"
+              // className="w-[200px] md:w-[280px]"
+            />
+          </div>
+        )}
       </form>
     </Modal>
   );

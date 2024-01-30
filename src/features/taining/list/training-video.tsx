@@ -25,7 +25,7 @@ const TrainingVideo = ({ videoUrl }: any) => {
       <div className="aspect-video">
         <ReactPlayer
           className='react-player'
-          url="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+          url={videoUrl}
           width="100%"
           height="100%"
           controls={true}

@@ -43,8 +43,12 @@ const SearchSubjectForm = ({ setQueryParams, protocolId }: SearchSubjectFormProp
     defaultValues: initialValue
   });
 
+  const onReset = () => {
+    reset();
+    setQueryParams({ StudyId: protocolId ? protocolId : '' });
+  }
+
   const onSubmit = (values: any) => {
-    
     const params: SearchLastSubjectsParams = {
       StudyId: protocolId ? protocolId : '',
       SponsorSubjectId: values.sponsorSubjectID,
@@ -115,7 +119,7 @@ const SearchSubjectForm = ({ setQueryParams, protocolId }: SearchSubjectFormProp
       />
       <div className="flex items-center justify-center !mt-10 gap-4 col-span-full">
         <Button className="px-8" type="submit">Search</Button>
-        <Button className="px-8" variant="outline" onClick={() => reset()}>
+        <Button className="px-8" variant="outline" onClick={() => onReset()}>
           Reset
         </Button>
       </div>

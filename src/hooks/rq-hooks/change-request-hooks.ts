@@ -3,7 +3,7 @@ import { addChangeRequest, acceptChangeRequest, rejectChangeRequest, viewChangeR
 import { UseQueryOptions, useMutation, useQuery } from "react-query";
 
 
-export const useRequestTypeDropdown = () => useQuery({
+export const useRequestTypeDropdown = () => useQuery('requestTypeDropdown' ,{
   queryFn: getRequestTypeDropdown,
   //queryKey: ['sort', queryData],
 })

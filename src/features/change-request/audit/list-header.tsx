@@ -35,8 +35,6 @@ const ListHeader = ({ setQueryData }: any) => {
   });
 
   const onSubmit = (value: any) => {
-    //console.log(value);
-
     const params = {
       ...value,
       requestStatus: value?.requestStatus?.value,
@@ -49,7 +47,6 @@ const ListHeader = ({ setQueryData }: any) => {
 
     //console.log(codeTypeDropDown);
     useEffect(() => {
-
       setRequestTypeOptions(convertTypeToSelectOption(requestTypeDropDown?.data ?? []));
   
     }, [requestTypeDropDown])

@@ -14,8 +14,9 @@ import { SelectOptionType } from "@/model/drop-down-list";
 
 type ChangeRequestReprintListColumnsProps = {
   onDelete: (id: any) => void;
+  onPrintClick: () => void;
 }
-export const ChangeRequestReprintListColumns = ({ onDelete }
+export const ChangeRequestReprintListColumns = ({ onDelete, onPrintClick }
   : ChangeRequestReprintListColumnsProps): ColumnDef<ChangeRequestReprintModel>[] => {
   return ([
 
@@ -130,7 +131,7 @@ export const ChangeRequestReprintListColumns = ({ onDelete }
       cell: ({ row }) => {
         return (
           <div className="flex items-center gap-6">
-            <ChangeRequestModal id={row.original.subjectId + '_' + row.original.nationalTypeId} visitTypeId={row.original.visitTypeIdForBusinessLogic} isPreScreen={row.original.preScreen}/>
+            <ChangeRequestModal id={row.original.subjectId + '_' + row.original.nationalTypeId} visitTypeId={row.original.visitTypeIdForBusinessLogic} isPreScreen={row.original.preScreen} onPrintClick={onPrintClick}/>
           </div>
         );
       }

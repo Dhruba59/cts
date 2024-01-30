@@ -114,12 +114,18 @@ export const getUserRoleFromValue = (role: string) => {
       return 'Site User';
   }
 }
-export const convertTypeToSelectOption = (data: DropDownItem[] | undefined): SelectOptionType[]|[] => (
-  data?.map((item: DropDownItem) => ({
-    label: item.text,
-    value: item.value,
-  })) ?? []
-);
+export const convertTypeToSelectOption = ( data: DropDownItem[] | undefined ): 
+  SelectOptionType[] | [] => {
+    if(!Array.isArray(data)) {
+      return [];
+    }
+    return (
+      data?.map((item: DropDownItem) => ({
+        label: item.text,
+        value: item.value,
+      })) ?? []
+    );
+};
 
 export const formateTableDate = (date?: string) => {
   if(!date){

@@ -1,12 +1,10 @@
 'use client';
 
 import Breadcrumbs from "@/components/ui/breadcrumbs";
-import Label from "@/components/ui/label";
 import Select from "@/components/ui/select";
 import React, { useEffect, useState } from "react";
 import SubjectEntrySelectionTab from "./subject-tab/subject-entry-selection-tab";
 import ListTable from "./table/list-table";
-import { Controller, useForm } from "react-hook-form";
 import { SelectOptionType } from "@/model/drop-down-list";
 import { useQuery } from "react-query";
 import { getProtocolsByStudyId, getStudyType, getSubjectDropdowns, searchLastSubjects } from "@/service/subject-service";
@@ -18,6 +16,8 @@ import AddSubjectForm from "./subject-tab/add-subject-form";
 import SearchSubjectForm from "./subject-tab/search-subject-form";
 import { DEFAULT_PAGE_SIZE } from "@/constants/common";
 import Pagination from "@/components/pagination";
+import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
 
 const getProtocolsDropdown = (data: Protocol[]) => {
   return data?.map((protocol) => ({ value: protocol.studyId.toString(), label: protocol.protocolNumber }))
@@ -40,6 +40,7 @@ const SubjectEntryEditForm = ({ ids }: SubjectEntryEditForm) => {
   const [subjectEntryFormat, setSubjectEntryFormat] = useState<string>('');
 
   const { data: session } = useSession();
+  const router = useRouter();
 
   // @ts-ignore
   const userRole = session?.user?.currentRole?.roleId;
@@ -69,15 +70,32 @@ const SubjectEntryEditForm = ({ ids }: SubjectEntryEditForm) => {
     if (protocol) {
       return protocol.subjectIdEntryFormat;
     }
-  }
+  };
+
+  const setCurrentPageNumber = (page: number) => {
+    setQueryParams((data: any) => {
+      if (data) {
+        return {
+          ...data,
+          PageNumber: page
+        }
+      } else {
+        return { PageNumber: page };
+      }
+    });
+  };
 
   useEffect(() => {
     setStudyTypeOptions(convertTypeToSelectOption(studyTypeData?.data?.studyTypes));
   }, [studyTypeData]);
 
   useEffect(() => {
-    if (studyTypeOptions?.[0] && !ids) {
-      setSelectedStudy(studyTypeOptions[0]);
+    if(!ids) {
+      if(userRole == USER_ROLE_ENUM.SYSTEM_ADMIN) {
+        setSelectedStudy(studyTypeOptions[2] ?? '');
+      } else {
+        setSelectedStudy(studyTypeOptions[0] ?? '');
+      }
     }
   }, [studyTypeOptions, ids]);
 
@@ -91,49 +109,41 @@ const SubjectEntryEditForm = ({ ids }: SubjectEntryEditForm) => {
   //     setSelectedProtocol(protocolOptions[0]);
   // }, [protocolOptions]);
 
-  useEffect(() => {
+  // useEffect(() => {
+  //   const prescreen = protocolList?.data?.protocols?.find(
+  //     ({ studyId }: any) => studyId.toString() === selectedProtocol?.value
+  //   )?.isPreScreen;
+  //   setIsPreScreen(prescreen);
 
-    const prescreen = protocolList?.data?.protocols
-      ?.find(({ studyId }: any) => studyId.toString() === selectedProtocol?.value)
-      ?.isPreScreen;
-    setIsPreScreen(prescreen);
-
-    // set query param
-    const params: SearchLastSubjectsParams = {
-      StudyId: selectedProtocol?.value,
-      // SponsorSubjectId: values.sponsorSubjectID,
-      // DateOfBirth: values?.DateOfBirth?.startDate,
-      // FirstInitial: values.FirstInitial,
-      // MiddleInitial: values.MiddleInitial,
-      // LastInitial: values.LastInitial,
-      // FromDate: values.FromDate?.startDate,
-      // ToDate: values.ToDate?.startDate
-    }
-
-    if (!prescreen) {
-      setQueryParams(params);
-    }
-
-  }, [selectedProtocol]);
+  //   // set query param
+  //   if (!prescreen) {
+  //     setQueryParams({ StudyId: selectedProtocol?.value });
+  //   }
+  // }, [selectedProtocol]);
 
   useEffect(() => {
     if (selectedProtocol) {
-      setSubjectEntryFormat(getSubjectIdFormatFromProtocol(selectedProtocol?.value));
+      const protocol = protocolList?.data?.protocols.find((item: any) => item.studyId.toString() === selectedProtocol?.value);
+      if(protocol?.trainingIncomplete) {
+        toast.warn('Training Incomplete for the protocol!');
+        setTimeout(() => {
+          router.push('/training');
+        }, 3000);
+      };
+      setSubjectEntryFormat(protocol?.subjectIdEntryFormat ?? '');
+
+
+      const prescreen = protocolList?.data?.protocols?.find(
+        ({ studyId }: any) => studyId.toString() === selectedProtocol?.value
+      )?.isPreScreen;
+      setIsPreScreen(prescreen);
+  
+      // set query param
+      if (!prescreen) {
+        setQueryParams({ StudyId: selectedProtocol?.value });
+      }
     };
   }, [selectedProtocol]);
-
-  const setCurrentPageNumber = (page: number) => {
-    setQueryParams((data: any) => {
-      if (data) {
-        return {
-          ...data,
-          PageNumber: page
-        }
-      } else {
-        return { PageNumber: page };
-      }
-    });
-  }
 
   useEffect(() => {
     setQueryParams((data) => {
@@ -148,7 +158,6 @@ const SubjectEntryEditForm = ({ ids }: SubjectEntryEditForm) => {
     });
   }, [pageSize]);
 
-  console.log(protocolOptions);
   return (
     <main>
       <Breadcrumbs title="Subject Management" subTitle="Entry Study Subject" />
