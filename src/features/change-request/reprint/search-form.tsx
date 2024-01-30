@@ -1,45 +1,28 @@
 "use client";
 import Button from "@/components/ui/button";
-import Checkbox from "@/components/ui/checkbox";
 import Datepicker from "@/components/ui/datepicker";
 import Input from "@/components/ui/input";
 import Label from "@/components/ui/label";
 import Select from "@/components/ui/select";
 import { ChangeRequestReprintQuery } from "@/model/change-request";
 import { DropDownItem, SelectOptionType } from "@/model/drop-down-list";
-import { StudyListQueryData } from "@/model/study";
 import { convertTypeToSelectOption } from "@/utils/helpers";
-import { useEffect, useState } from "react";
-import { Control, Controller, ControllerProps, FieldValues, RegisterOptions, UseFormRegister, UseFormReturn } from "react-hook-form";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { Controller, UseFormReturn } from "react-hook-form";
 import { DateValueType } from "react-tailwindcss-datepicker";
 
 interface SearchFormProps {
   isAdvancedOpen: boolean;
   form: UseFormReturn;
   dropdownsData: {[key: string]: DropDownItem[]}
+  setQueryData: Dispatch<SetStateAction<ChangeRequestReprintQuery>>;
 }
 
 interface AdvancedSearchFormProps extends Omit<SearchFormProps, 'isAdvancedOpen'> {
   // dropDownList: any;
 }
 
-const initialSearchFormValues = {
-  StudyName: '',
-  ProtocolNumber: '',
-  SponsorId: '',
-  Phase: '',
-  MaxSubjects: '',
-  SubjectIdentryFormat: '',
-  date: {
-    startDate: null,
-    endDate: null
-  },
-  Sr: false,
-  PreScreen: false,
-  Active: false
-}
-
-const SearchForm: React.FC<SearchFormProps> = ({ isAdvancedOpen, form, dropdownsData }) => {
+const SearchForm: React.FC<SearchFormProps> = ({ isAdvancedOpen, form, dropdownsData, setQueryData }) => {
   const [protocolOptions, setProtocolOptions] = useState<SelectOptionType[]>([]);
   const {
     register,
@@ -49,6 +32,11 @@ const SearchForm: React.FC<SearchFormProps> = ({ isAdvancedOpen, form, dropdowns
     formState: { errors },
     reset,
   } = form;
+
+  const onReset = () => {
+    reset();
+    setQueryData({});
+  }
 
   useEffect(() => {
     setProtocolOptions(convertTypeToSelectOption(dropdownsData?.protocols));
@@ -62,20 +50,21 @@ const SearchForm: React.FC<SearchFormProps> = ({ isAdvancedOpen, form, dropdowns
           control={control}
           name='SiteStudyId'
           render={({ field: { onChange, onBlur, value } }: any) => (
-            <Select className="md:w-36 xl:w-48" onChange={onChange} label="" options={protocolOptions} value={value} />
+            <Select className="md:w-auto" onChange={onChange} label="" options={protocolOptions} value={value} placeholder="Select Protocol"/>
           )}
         />
       </div>
       <div className="grid lg:flex lg:items-center gap-2 flex-1 md:flex-none">
-        <Label label="Subject ID: " className="hidden lg:block" />
+        <Label label="Subject ID: " className="hidden xl:block" />
         <Input
           placeholder="Enter Subject ID"
           className="md:w-36  xl:w-48"
           {...register("SubjectId")}
         />
       </div>
-      <div>
+      <div className="flex gap-1">
         <Button className={`mb-[1px] w-fit ${isAdvancedOpen ? 'hidden' : 'block'}`} type="submit">Search</Button>
+        <Button className={`mb-[1px] w-fit ${isAdvancedOpen ? 'hidden' : 'block'}`} onClick={() => onReset()} variant='outline' type="button">Reset</Button>
       </div>
     </div>
   );
@@ -83,29 +72,22 @@ const SearchForm: React.FC<SearchFormProps> = ({ isAdvancedOpen, form, dropdowns
 
 export default SearchForm;
 
-const AdvanceSearchForm = ({ form, dropdownsData }: AdvancedSearchFormProps) => {
-  // const [value, setValue] = useState<DateValueType>({
-  //   startDate: new Date(),
-  //   endDate: null,
-  // });
+const AdvanceSearchForm = ({ form, dropdownsData, setQueryData }: AdvancedSearchFormProps) => {
+
   const [regionGroupOptions, setRegionGroupOptions] = useState<SelectOptionType[]>([]);
   const [siteOptions, setSiteOptions] = useState<SelectOptionType[]>([]);
-  const [dateValue, setDateValue] = useState<DateValueType>({
-    startDate: new Date(),
-    endDate: new Date(),
-  });
   const {
     register,
-    handleSubmit,
     control,
-    setValue,
     formState: { errors },
     reset,
   } = form;
 
-  const handleValueChange = (newValue: any) => {
-    setDateValue(newValue);
-  };
+
+  const onReset = () => {
+    reset();
+    setQueryData({});
+  }
 
   useEffect(() => {
     setRegionGroupOptions(convertTypeToSelectOption(dropdownsData?.regionGroups));
@@ -211,7 +193,7 @@ const AdvanceSearchForm = ({ form, dropdownsData }: AdvancedSearchFormProps) => 
           <Button type="submit" className="!h-10 mb-[1px]">
             Search
           </Button>
-          <Button type="submit" variant="outline" onClick={() => reset()}>
+          <Button type="button" variant="outline" onClick={() => onReset()}>
             Reset
           </Button>
         </div>

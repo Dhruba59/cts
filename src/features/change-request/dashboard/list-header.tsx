@@ -53,7 +53,7 @@ const ListHeader = ({ setQueryData }: any) => {
     <div>
       <Breadcrumbs title="Change Request Dashboard" subTitle="Change Request Dashboard List" />
       <form className="" onSubmit={handleSubmit(onSubmit)}>
-        <div className="md:hidden">
+        <div className="wrapper py-2 md:hidden">
           <SearchForm  isAdvancedOpen={isChecked} dropDown={_dropDown?.data} register={register} Controller={Controller} control={control}  reset={reset}/>
         </div>
         <section className="hidden md:block wrapper">

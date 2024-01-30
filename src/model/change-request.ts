@@ -43,9 +43,9 @@ export interface ChangeRequestReprintQuery extends Query {
   firstInit?: string;
   middleInit?: string;
   lastInit?: string;
-  dateOfBirth?: string;
-  fromDate?: string;
-  toDate?: string;
+  dateOfBirth?: string | null;
+  fromDate?: string | null;
+  toDate?: string | null;
 }
 
 export interface CodeType {
@@ -182,5 +182,3 @@ export interface CodeType {
     subjectId: string;
     nationalIdType: string;
   }
-
-  
