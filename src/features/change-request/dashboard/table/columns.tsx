@@ -84,10 +84,11 @@ export const ChangeRequestDashboardListColumns = ({ onViewDetail, onAccept, onRe
     },
     {
       header: "Type",
-      accessorKey: "visitTypeId",
-      cell: ({ row }) => {
-        return <div className=" min-w-[100px]">{row.original.visitTypeId}</div>;
-      }
+      accessorKey: "requestType",
+      enableSorting: false
+      // cell: ({ row }) => {
+      //   return <div className=" min-w-[100px]">{row.original.requestType}</div>;
+      // }
     },
     {
       header: "Status",
