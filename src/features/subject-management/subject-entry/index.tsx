@@ -124,10 +124,10 @@ const SubjectEntryEditForm = ({ ids }: SubjectEntryEditForm) => {
   useEffect(() => {
     if (selectedProtocol) {
       const protocol = protocolList?.data?.protocols.find((item: any) => item.studyId.toString() === selectedProtocol?.value);
-      if(protocol?.trainingIncomplete) {
+      if(protocol?.trainingIncomplete && userRole != USER_ROLE_ENUM.SYSTEM_ADMIN) {
         toast.warn('Training Incomplete for the protocol!');
         setTimeout(() => {
-          router.push('/training');
+          router.push(`training?studyId=${protocol.studyId}`);
         }, 3000);
       };
       setSubjectEntryFormat(protocol?.subjectIdEntryFormat ?? '');

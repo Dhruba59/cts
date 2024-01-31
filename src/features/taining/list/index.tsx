@@ -9,11 +9,13 @@ import { DownloadCertificateIcon, QuizIcon } from '@/assets/icons';
 import Breadcrumbs from '@/components/ui/breadcrumbs';
 import TrainingVideo from './training-video';
 import TrainingQuiz from './training-quiz';
+import { useParams, useSearchParams } from 'next/navigation';
+import { toast } from 'react-toastify';
 
 const UserTrainings = () => {
 
   const [trainingId, setTrainingId] = useState<number>();
-  const [selected, setSelected] = useState<number>();
+  const [selected, setSelected] = useState<number | null>();
   const [userTrainings, setUserTrainings] = useState<any>([]);
   const [videoUrl, setVideoUrl] = useState<string>('http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4');
   const [loadQuiz, setLoadQuiz] = useState<boolean>(false);
@@ -22,10 +24,13 @@ const UserTrainings = () => {
   const { data: tainingData, error, isLoading, refetch: refetchTrainings
   } = useGetUserTrainings();
 
+  const searchParams = useSearchParams();
+  const studyId = searchParams.get('studyId');
+
   useEffect(() => {
     setUserTrainings(tainingData?.data);
     setVideoUrl(tainingData?.data[0]?.filePath);
-    setSelected(tainingData?.data[0]?.trainingId)
+    setSelected(studyId ? parseInt(studyId) : null);
   }, [tainingData])
 
   return (
