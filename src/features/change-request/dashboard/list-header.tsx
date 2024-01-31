@@ -39,8 +39,8 @@ const ListHeader = ({ setQueryData }: any) => {
       userTypeId: value?.userTypeId?.value,
       protocolNumber: value?.protocolNumber?.value,
       requestStatus: value?.requestStatus?.value,
-      toDate: value?.toDate.startDate,
-      fromDate: value?.fromDate.startDate
+      toDate: value?.toDate?.startDate,
+      fromDate: value?.fromDate?.startDate
     }
     setQueryData(params);
   }
