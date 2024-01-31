@@ -22,7 +22,7 @@ const ListHeader = ({ setQueryData }: any) => {
   const { data: session } = useSession();
   // @ts-ignore
   const { data: reprintDropdowns } = useChangeRequestReprintDropdowns();
-  const { data: dropdowns } = useChangeRequestDashboardDropdowns();
+  //const { data: dropdowns } = useChangeRequestDashboardDropdowns();
 
   const form = useForm<ChangeRequestReprintQuery>({
     defaultValues: changeRequestReprintDefaultValue
@@ -32,12 +32,12 @@ const ListHeader = ({ setQueryData }: any) => {
   const onSubmit = (values: any) => {
     const params = {
       ...values,
-      SiteStudyId: values?.SiteStudyId?.value,
-      RegionGroup: values?.RegionGroup?.value,
-      SiteId: values?.SiteId?.value,
-      FromDate: values?.FromDate?.startDate,
-      ToDate: values?.ToDate?.startDate,
-      DateOfBirth: values?.DateOfBirth?.startDate
+      studyId: values?.StudyId?.value,
+      regionGroup: values?.RegionGroup?.value,
+      siteId: values?.SiteId?.value,
+      fromDate: values?.FromDate?.startDate,
+      toDate: values?.ToDate?.startDate,
+      dateOfBirth: values?.DateOfBirth?.startDate
     }
     setQueryData(params);
   }
@@ -55,7 +55,7 @@ const ListHeader = ({ setQueryData }: any) => {
                 <SearchForm
                   isAdvancedOpen={isChecked}
                   form={form}
-                  dropdownsData={dropdowns?.data}
+                  dropdownsData={reprintDropdowns?.data}
                   setQueryData={setQueryData}
                 />
               </div>
