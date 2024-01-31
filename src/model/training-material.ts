@@ -2,6 +2,7 @@ import { Query } from "./query";
 import AddTrainingMeterialPage from '../app/(main)/training-material/add/page';
 
 export interface TrainingMaterial {
+  studyId?: string | null;
   trainingId?: number | null;
   trainingName?: string| null;
   passMarks?: number| null;

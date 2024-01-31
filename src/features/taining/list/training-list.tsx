@@ -22,9 +22,9 @@ const TrainingList = ({ item, selected, setSelected, setVideoUrl, setLoadQuiz, s
 
   return (
     <div key={item.trainingId}
-      className= {`flex items-center justify-between gap-1 p-1 text-center border rounded ${selected === item.trainingId ? 'bg-red-100 border-red-700 shadow-red-300/50' : 'border-red-500 shadow-red-300/50'} shadow-inner leading-tight`}>
+      className= {`flex items-center justify-between gap-1 p-1 text-center border rounded ${selected === item.studyId ? 'bg-red-100 border-red-700 shadow-red-300/50' : 'border-red-500 shadow-red-300/50'} shadow-inner leading-tight`}>
       <button
-        className= {`text-center px-2 py-1 border rounded-sm  text-black bg-red-200 ${selected === item.trainingId ? 'border-red-700 shadow-red-300/50' : 'border-red-500 shadow-red-300/50'} shadow-inner leading-tight`}
+        className= {`text-center px-2 py-1 border rounded-sm  text-black bg-red-200 ${selected === item.studyId ? 'border-red-700 shadow-red-300/50' : 'border-red-500 shadow-red-300/50'} shadow-inner leading-tight`}
         type="button"
         onClick={() => { setVideoUrl(item.filePath); setLoadQuiz(false); setSelected(item.trainingId)}}
       >
