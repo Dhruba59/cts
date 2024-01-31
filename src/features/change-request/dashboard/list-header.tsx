@@ -37,7 +37,7 @@ const ListHeader = ({ setQueryData }: any) => {
   const onSubmit = (value: any) => {
     const params = {
       userTypeId: value?.userTypeId?.value,
-      protocolNumber: value?.protocolNumber?.value,
+      protocolNumber: value?.protocolNumber?.label,
       requestStatus: value?.requestStatus?.value,
       toDate: value?.toDate?.startDate,
       fromDate: value?.fromDate?.startDate
