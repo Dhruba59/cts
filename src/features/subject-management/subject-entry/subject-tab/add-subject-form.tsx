@@ -18,6 +18,11 @@ import { toast } from "react-toastify";
 import Alert from "@/components/ui/alert";
 import Modal from "@/components/modal";
 
+enum NATIONAL_ID_TYPE {
+  PASSPORT = '2',
+  SOCIAL_SECURITY = '1'
+}
+
 interface AddSubjectFormProps {
   dropdowns: { [key: string]: DropDownItem[] | any };
   protocolId: string | undefined;
@@ -40,6 +45,7 @@ const AddSubjectForm = ({ dropdowns, protocolId, subjectIdFormat, setSelectedPro
   const [weightUnitOptions, setWeightUnitOptions] = useState<SelectOptionType[]>();
   const [isDetailsRequired, setIsDetailsRequired] = useState<boolean>(false);
   const [isIdWarningModalOpen, setIsIdWarningModalOpen] = useState<boolean>(false);
+  const [showIdWarning, setShowIdWarning] = useState<boolean>(true);
   const [idWarningMessage, setIdWarningMessage] = useState<string>('');
   const [idOptions, setIdOptions] = useState<SelectOptionType[]>();
   const [genderOptions, setGenderOptions] = useState<SelectOptionType[]>();
@@ -69,21 +75,50 @@ const AddSubjectForm = ({ dropdowns, protocolId, subjectIdFormat, setSelectedPro
     setFocus
   } = useForm();
 
-  const verifyId = (e: any) => {
-    const payload = {
-      SocialCode: e.target.value
+  const onBlurIdField = (e: any) => {
+    if(e.target.value === '' || e.target.value === '0000') {
+      setIsIdWarningModalOpen(true);
+      setIdWarningMessage(`${e.target.value} not a valid entry. If subject does not have or does not know SSN / Passport number, enter XXXX.`);
+      setValue('partialID', '');
+    } else {
+      verifyId();
     }
-    verifySocialCode(payload, {
-      onSuccess: (data) => {
-        if (data.data.isValid === false) {
-          setIsIdWarningModalOpen(true);
-          setIdWarningMessage(data.data.message);
-        }
-      },
-      onError: (error: any) => {
-        toast.error(error.response.data.details);
+  }
+
+  const verifyId = () => {
+    // const payload = {
+    //   SocialCode: e.target.value
+    // }
+    const id = getValues('partialID');
+    const idType = getValues('idType');
+    if(!!id) {
+      const payload = {
+        SocialCode: id
       }
-    })
+      verifySocialCode(payload, {
+        onSuccess: (data) => {
+          if (data.data.isValid === false) {
+            setIsIdWarningModalOpen(true);
+            setIdWarningMessage(data.data.message);
+          }
+        },
+        onError: (error: any) => {
+          toast.error(error.response.data.details);
+        }
+      })
+    }
+
+    // verifySocialCode(payload, {
+    //   onSuccess: (data) => {
+    //     if (data.data.isValid === false) {
+    //       setIsIdWarningModalOpen(true);
+    //       setIdWarningMessage(data.data.message);
+    //     }
+    //   },
+    //   onError: (error: any) => {
+    //     toast.error(error.response.data.details);
+    //   }
+    // })
   };
 
   const onSubmit = async (values: any) => {
@@ -91,6 +126,10 @@ const AddSubjectForm = ({ dropdowns, protocolId, subjectIdFormat, setSelectedPro
     const validationPayload = {
       studyId: protocolId ?? '-1',
       sponsorSubjectId: values.sponsorSubjectID
+    }
+
+    if(!values?.middleNameInitials || values?.middleNameInitials.length === 0) {
+      setError('middleNameInitials', {type: 'custom', message:  'If you have not middle name then put a "-" on the field' });
     }
 
     validateSponsor(validationPayload, {
@@ -278,7 +317,7 @@ const AddSubjectForm = ({ dropdowns, protocolId, subjectIdFormat, setSelectedPro
               <Input
                 placeholder="M"
                 {...register('middleNameInitials', {
-                  required: "required", pattern: {
+                  required: "Put '-' if you have no middle name", pattern: {
                     value: /^[a-zA-Z0-9-]$/,
                     message: 'Only Single character allowed'
                   }
@@ -342,7 +381,7 @@ const AddSubjectForm = ({ dropdowns, protocolId, subjectIdFormat, setSelectedPro
                     message: 'Only four digits'
                   }
                 })}
-                onBlur={verifyId}
+                onBlur={onBlurIdField}
                 type="number"
                 // onKeyUp={validateId}
                 disabled={!protocolId && !ids} />
@@ -364,7 +403,10 @@ const AddSubjectForm = ({ dropdowns, protocolId, subjectIdFormat, setSelectedPro
                     wrapperClassName="w-full"
                     // label="Id Type" 
                     placeholder="ID Type"
-                    onChange={onChange}
+                    onChange={(option) => {
+                      onChange(option);
+                      verifyId();
+                    }}
                     options={idOptions}
                     value={value}
                     isDisabled={!protocolId && !ids}
@@ -590,14 +632,18 @@ const AddSubjectForm = ({ dropdowns, protocolId, subjectIdFormat, setSelectedPro
         setOpen={setIsIdWarningModalOpen}
         title="Alert!"
         renderFooter={{
-          onSave: () => setIsIdWarningModalOpen(false),
+          onSave: () => { 
+            setIsIdWarningModalOpen(false);
+            setShowIdWarning(false);
+          },
           // onReject: () => setFocus('partialID'),
           submitButtonName: "Continue",
           cancelButtonName: "Edit",
         }}
         onClose={() => {
           setFocus('partialID');
-          setIsIdWarningModalOpen(false);
+          setValue('partialID', '');
+          // setIsIdWarningModalOpen(false);
         }}
       >
         {idWarningMessage}

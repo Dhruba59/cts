@@ -6,9 +6,11 @@ import Label from "@/components/ui/label";
 import Select from "@/components/ui/select";
 import Textarea from "@/components/ui/textarea";
 import { DropDownItem, SelectOptionType } from "@/model/drop-down-list";
+import { USER_ROLE_ENUM } from "@/model/enum";
 import { CodeType } from "@/model/indication";
 import { getIndicationCodeTypes } from "@/service/indication-service";
 import { convertTypeToSelectOption } from "@/utils/helpers";
+import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 
 interface SearchFormProps {
@@ -25,42 +27,56 @@ export function SearchForm({
   register,
   Controller,
   control,
-  reset
+  reset,
 }: SearchFormProps) {
-
   const [protocolOptions, setProtocolOptions] = useState<SelectOptionType[]>([]);
   const [userTypeOptions, setUserTypeOptions] = useState<SelectOptionType[]>([]);
-  //console.log(codeTypeDropDown);
-  useEffect(() => {
+  const { data: session } = useSession();
+  // @ts-ignore
+  const isAdmin = session?.user?.currentRole?.roleId == USER_ROLE_ENUM.SYSTEM_ADMIN;
 
+  useEffect(() => {
     setProtocolOptions(convertTypeToSelectOption(dropDown?.protocols));
     setUserTypeOptions(convertTypeToSelectOption(dropDown?.userTypes));
-
-  }, [dropDown])
+  }, [dropDown]);
 
   return (
     <div className="flex justify-start gap-2 md:gap-3">
-      <div className="flex lg:flex lg:items-center gap-2 flex-1 md:flex-none">
-        <Label label="User Type: " className="hidden xl:block" />
-        <Controller
-          control={control}
-          name='userTypeId'
-          render={({ field: { onChange, onBlur, value } }: any) => (
-            <Select className="md:w-32 xl:w-36" onChange={onChange} label="" options={userTypeOptions} value={value} />
-          )}
-        />
-      </div>
+      {isAdmin && (
+        <div className="flex lg:flex lg:items-center gap-2 flex-1 md:flex-none">
+          <Label label="User Type: " className="hidden xl:block" />
+          <Controller
+            control={control}
+            name="userTypeId"
+            render={({ field: { onChange, onBlur, value } }: any) => (
+              <Select
+                className="md:w-32 xl:w-36"
+                onChange={onChange}
+                label=""
+                options={userTypeOptions}
+                value={value}
+              />
+            )}
+          />
+        </div>
+      )}
       <div className="flex lg:flex lg:items-center gap-2 flex-1 md:flex-none">
         <Label label="Protocol: " className="hidden xl:block" />
         <Controller
           control={control}
-          name='protocolNumber'
+          name="protocolNumber"
           render={({ field: { onChange, onBlur, value } }: any) => (
-            <Select className="md:w-32 xl:w-36" onChange={onChange} label="" options={protocolOptions} value={value} />
+            <Select
+              className="md:w-32 xl:w-36"
+              onChange={onChange}
+              label=""
+              options={protocolOptions}
+              value={value}
+            />
           )}
         />
       </div>
-      <div className={`flex gap-1 ${isAdvancedOpen ? 'hidden' : 'block'}`}>
+      <div className={`flex gap-1 ${isAdvancedOpen ? "hidden" : "block"}`}>
         <Button type="submit" className="!h-10 mb-[1px]">
           Search
         </Button>
@@ -72,32 +88,43 @@ export function SearchForm({
   );
 }
 
-export function AdvanceSearchForm({ dropDown, register, Controller, control, reset }: any) {
+export function AdvanceSearchForm({
+  dropDown,
+  register,
+  Controller,
+  control,
+  reset,
+}: any) {
   const defaultValues = {
-
     codeType: { value: "", label: "Select " },
-
   };
-  const [requestStatusesOptions, setRequestStatusesOptions] = useState<SelectOptionType[]>([]);
+  const [requestStatusesOptions, setRequestStatusesOptions] = useState<
+    SelectOptionType[]
+  >([]);
   useEffect(() => {
-    setRequestStatusesOptions(convertTypeToSelectOption(dropDown?.requestStatuses));
-  }, [dropDown])
+    setRequestStatusesOptions(
+      convertTypeToSelectOption(dropDown?.requestStatuses)
+    );
+  }, [dropDown]);
   return (
     <div className="hidden lg:block p-6 pt-2 space-y-4">
       <div className="grid grid-col-1 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-x-4 gap-y-2">
-       
-      <Controller
+        <Controller
           control={control}
-          name='requestStatus'
+          name="requestStatus"
           render={({ field: { onChange, onBlur, value } }: any) => (
             <Select
-              //className="md:w-36  xl:w-48" 
-              onChange={onChange} label="Request Status" options={requestStatusesOptions} value={value} />
+              //className="md:w-36  xl:w-48"
+              onChange={onChange}
+              label="Request Status"
+              options={requestStatusesOptions}
+              value={value}
+            />
           )}
         />
         <Controller
           control={control}
-          name='fromDate'
+          name="fromDate"
           render={({ field: { onChange, onBlur, value } }: any) => (
             <Datepicker
               // containerClassName="md:w-36 xl:w-48"
@@ -112,7 +139,7 @@ export function AdvanceSearchForm({ dropDown, register, Controller, control, res
         />
         <Controller
           control={control}
-          name='toDate'
+          name="toDate"
           render={({ field: { onChange, onBlur, value } }: any) => (
             <Datepicker
               // containerClassName="md:w-36 xl:w-48"

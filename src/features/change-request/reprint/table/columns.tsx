@@ -40,9 +40,9 @@ export const ChangeRequestReprintListColumns = ({ onDelete, onPrintClick }
     },
     {
       header: "Subject ID",
-      accessorKey: "subjectId",
+      accessorKey: "sponsorSubjectId",
       cell: ({ row }) => {
-        return <div className=" min-w-[100px]">{row.original.subjectId}</div>;
+        return <div className=" min-w-[50px]">{row.original.sponsorSubjectId}</div>;
       }
     },
     {
