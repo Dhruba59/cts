@@ -31,7 +31,7 @@ const UserTrainings = () => {
     setUserTrainings(tainingData?.data);
     setVideoUrl(tainingData?.data[0]?.filePath);
     setSelected(studyId ? parseInt(studyId) : tainingData?.data[0]?.studyId);
-    setTrainingId(studyId ? tainingData?.data.find((item: any) => item.studyId === studyId)?.trainingId : tainingData?.data[0]?.trainingId);
+    setTrainingId(studyId ? tainingData?.data?.find((item: any) => item.studyId === studyId)?.trainingId : tainingData?.data[0]?.trainingId);
   }, [tainingData])
 
   return (
