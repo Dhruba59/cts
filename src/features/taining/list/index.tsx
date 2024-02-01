@@ -30,24 +30,31 @@ const UserTrainings = () => {
   useEffect(() => {
     setUserTrainings(tainingData?.data);
     setVideoUrl(tainingData?.data[0]?.filePath);
-    setSelected(studyId ? parseInt(studyId) : null);
+    setSelected(studyId ? parseInt(studyId) : tainingData?.data[0]?.studyId);
+    setTrainingId(studyId ? tainingData?.data.find((item: any) => item.studyId === studyId)?.trainingId : tainingData?.data[0]?.trainingId);
   }, [tainingData])
 
   return (
     <main>
       <div className="wrapper mt-1">
         <Breadcrumbs title="Training List" subTitle="Training List" />
-        <div className=" flex-wrap flex items-center justify-start gap-1 m-1">
-          {userTrainings?.map((item: any) => (
-            <TrainingList key={item.trainingId} item={item} selected={selected} setSelected={setSelected} setVideoUrl={setVideoUrl} setLoadQuiz={setLoadQuiz} setShowResult={setShowResult} diableQuizes={diableQuizes}/>
-          ))}
+        <h4 className=" text-neutral-black px-3 py-4">Training Modules</h4>
+        <div className="flex flex-row gap-1">
+          <div className="flex-none w-1/6 gap-1">           
+            <div className='flex flex-col gap-1'>
+              {userTrainings?.map((item: any) => (
+                <TrainingList key={item.trainingId} item={item} trainingId={trainingId} setTrainingId={setTrainingId} selected={selected} setSelected={setSelected} setVideoUrl={setVideoUrl} setLoadQuiz={setLoadQuiz} setShowResult={setShowResult} diableQuizes={diableQuizes} />
+              ))}
+            </div>
+          </div>
+          <div className="wrapper mt-0 flex w-5/6  justify-center">
+            {
+              !loadQuiz ? <TrainingVideo videoUrl={videoUrl} />
+                : <TrainingQuiz trainigId={trainingId} setDiableQuizes={setDiableQuizes} showResult={showResult} setShowResult={setShowResult} refetchTrainings={refetchTrainings} />
+            }
+          </div>
         </div>
-      </div>
-      <div className="wrapper -mt-2 flex items-center justify-center">
-        {
-          !loadQuiz ? <TrainingVideo videoUrl={videoUrl} />
-            : <TrainingQuiz trainigId={selected} setDiableQuizes={setDiableQuizes} showResult={showResult} setShowResult={setShowResult}  refetchTrainings={refetchTrainings}/>
-        }
+
       </div>
     </main>
   );
