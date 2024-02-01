@@ -80,7 +80,10 @@ const AddSubjectForm = ({ dropdowns, protocolId, subjectIdFormat, setSelectedPro
       setIsIdWarningModalOpen(true);
       setIdWarningMessage(`${e.target.value} not a valid entry. If subject does not have or does not know SSN / Passport number, enter XXXX.`);
       setValue('partialID', '');
-    } else {
+    } else if(e.target.value.toLowerCase() === 'xxxx') {
+      return;
+    }
+     else {
       verifyId();
     }
   }
@@ -377,12 +380,13 @@ const AddSubjectForm = ({ dropdowns, protocolId, subjectIdFormat, setSelectedPro
               <Input
                 {...register('partialID', {
                   required: "Id required", pattern: {
-                    value: /^\d{4}$/,
+                    // value: /^\d{4}$/,
+                    value: /^(x{4}|\d{4})$/i,
                     message: 'Only four digits'
                   }
                 })}
                 onBlur={onBlurIdField}
-                type="number"
+                // type="number"
                 // onKeyUp={validateId}
                 disabled={!protocolId && !ids} />
               {errors.partialID && (
