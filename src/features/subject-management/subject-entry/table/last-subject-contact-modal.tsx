@@ -20,6 +20,7 @@ const LastSubjectContactModal = ({ data, studyId }: any) => {
     control,
     formState: { errors },
     reset,
+    setValue
   } = useForm();
 
   const [visitType, setVisitType] = useState<SelectOptionType>();
@@ -30,6 +31,15 @@ const LastSubjectContactModal = ({ data, studyId }: any) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [open, setOpen] = useState<boolean>(false);
   const { mutate: updateVisitInfo, isLoading:isUpdatingVisitInfo} = useUpdateVisitInfo();
+
+  useEffect(() => {
+    const date = new Date();
+    console.log(date);
+    setValue('lastSubjectEntryDate', {
+      startDate: date ,
+      endDate: date 
+    })
+  }, [])
 
   useEffect(() => {
     setVisitTypeOptions(convertTypeToSelectOption(visitTypes?.data as any));
