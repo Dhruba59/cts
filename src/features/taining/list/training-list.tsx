@@ -12,8 +12,9 @@ import { json } from "stream/consumers";
 import { DownloadCertificateIcon, QuizIcon } from "@/assets/icons";
 
 
-const TrainingList = ({ item, selected, setSelected, setVideoUrl, setLoadQuiz, setShowResult, diableQuizes }: any) => {
+const TrainingList = ({ item, trainingId, setTrainingId,selected, setSelected, setVideoUrl, setLoadQuiz, setShowResult, diableQuizes }: any) => {
 
+  const [subItem, setSubItem] = useState<string>('module');
   useEffect(() => {
     //setVideoUrl(item[0]?.filePath);
     //console.log(item[0]?.filePath);
@@ -22,25 +23,67 @@ const TrainingList = ({ item, selected, setSelected, setVideoUrl, setLoadQuiz, s
 
   return (
     <div key={item.trainingId}
-      className= {`flex items-center justify-between gap-1 p-1 text-center border rounded ${selected === item.studyId ? 'bg-red-100 border-red-700 shadow-red-300/50' : 'border-red-500 shadow-red-300/50'} shadow-inner leading-tight`}>
-      <button
-        className= {`text-center px-2 py-1 border rounded-sm  text-black bg-red-200 ${selected === item.studyId ? 'border-red-700 shadow-red-300/50' : 'border-red-500 shadow-red-300/50'} shadow-inner leading-tight`}
-        type="button"
-        onClick={() => { setVideoUrl(item.filePath); setLoadQuiz(false); setSelected(item.trainingId)}}
-      >
-        {item.trainingName}
-      </button>
-      {
-        item.hasQuizAccess && !diableQuizes?.includes(item.trainingId) ? <QuizIcon className="cursor-pointer" onClick={() => 
-          { 
-            setLoadQuiz(true); 
-            setSelected(item.trainingId);
-            setShowResult(false); 
-          }} /> : ""
-      }
-      {
-        item.canDownloadCertificate ? <DownloadCertificateIcon className="cursor-pointer" onClick={() => { alert('downloading..'); setSelected(item.trainingId)}} /> : ""
-      }
+      className={`flex flex-col gap-1 ml-2 p-1  border rounded ${selected === item.studyId ? ' border-red-700 shadow-red-300/50' : 'border-red-500 shadow-red-300/50'} shadow-inner leading-tight`}>
+        <details className="group" open ={selected === item.studyId ? true : false}>
+          <summary className="font-medium cursor-pointer list-none">
+            <div className="flex justify-between items-center font-medium cursor-pointer list-none">
+              <div className="text-left">{item.trainingName}</div>
+              <div className="text-right transition group-open:rotate-180">
+                <svg fill="none" height="20" shape-rendering="geometricPrecision" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewBox="0 0 24 24" width="24"><path d="M6 9l6 6 6-6"></path>
+                </svg>
+              </div>
+            </div>
+          </summary>
+          <div className="text-neutral-600 mt-3 group-open:animate-fadeIn">
+            <div className="flex flex-col gap-1">
+              <button
+                className={`px-2 text-left py-1 border border-sky-900 rounded-sm  text-black  shadow-inner leading-tight ${trainingId === item.trainingId &&  subItem === 'module'? 'bg-red-100 border-red-700 shadow-red-300/50' : 'border-red-500 shadow-red-300/50'}`}
+                type="button"
+                onClick={() => { 
+                  setVideoUrl(item.filePath); 
+                  setLoadQuiz(false); 
+                  setSelected(item.studyId);
+                  setTrainingId(item.trainingId);
+                  setSubItem('module'); }}
+              >
+                {'Study Subject Module'}
+              </button>
+              {item.hasQuizAccess && !diableQuizes?.includes(item.trainingId) ?
+
+                <button
+                  className={`px-2 text-left py-1 border border-sky-900 rounded-sm subItem  text-black  shadow-inner leading-tight ${trainingId === item.trainingId &&  subItem === 'quiz'? 'bg-red-100 border-red-700 shadow-red-300/50' : 'border-red-500 shadow-red-300/50'}`}
+                  type="button"
+                  onClick={() => {
+                    setLoadQuiz(true);
+                    setSelected(item.studyId);
+                    setShowResult(false);
+                    setTrainingId(item.trainingId);
+                    setSubItem('quiz');
+                  }}
+                >
+                  {'Complete Quiz'}
+                </button>
+                : ""}
+              {
+                item.canDownloadCertificate ?
+
+                  <button
+                    className={`px-2 text-left py-1 border border-sky-900 rounded-sm  text-black   shadow-inner leading-tight ${trainingId === item.trainingId &&  subItem === 'certificate'? 'bg-red-100 border-red-700 shadow-red-300/50' : 'border-red-500 shadow-red-300/50'}`}
+                    type="button"
+                    onClick={() => {
+                      alert('downloading..');
+                      setSelected(item.studyId);
+                      setTrainingId(item.trainingId);
+                      setSubItem('certificate');
+                    }}
+                  >
+                    {'Download Certificate'}
+                  </button>
+                  : ""
+              }
+            </div>
+          </div>
+        </details>
     </div>
   );
 };
