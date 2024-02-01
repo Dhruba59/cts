@@ -89,11 +89,7 @@ const AddSubjectForm = ({ dropdowns, protocolId, subjectIdFormat, setSelectedPro
   }
 
   const verifyId = () => {
-    // const payload = {
-    //   SocialCode: e.target.value
-    // }
     const id = getValues('partialID');
-    const idType = getValues('idType');
     if(!!id) {
       const payload = {
         SocialCode: id
@@ -110,22 +106,9 @@ const AddSubjectForm = ({ dropdowns, protocolId, subjectIdFormat, setSelectedPro
         }
       })
     }
-
-    // verifySocialCode(payload, {
-    //   onSuccess: (data) => {
-    //     if (data.data.isValid === false) {
-    //       setIsIdWarningModalOpen(true);
-    //       setIdWarningMessage(data.data.message);
-    //     }
-    //   },
-    //   onError: (error: any) => {
-    //     toast.error(error.response.data.details);
-    //   }
-    // })
   };
 
   const onSubmit = async (values: any) => {
-    //console.log(values);
     const validationPayload = {
       studyId: protocolId ?? '-1',
       sponsorSubjectId: values.sponsorSubjectID

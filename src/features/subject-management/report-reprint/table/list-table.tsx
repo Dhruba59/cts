@@ -1,6 +1,6 @@
 import SimpleTable from "@/components/table/simpleTable";
 import { Dispatch, SetStateAction, useMemo, useState } from "react";
-import { LIST_COLUMN, getColumns } from "./columns";
+import { getColumns } from "./columns";
 import ExpandableTable from "@/components/table/expandableTable";
 import { SortingState } from "@tanstack/react-table";import ReprintReportPdf from "../reprint-report-pdf";
 import { PDFViewer } from "@react-pdf/renderer";
