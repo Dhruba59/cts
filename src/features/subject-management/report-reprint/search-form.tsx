@@ -19,9 +19,10 @@ import { useQuery } from "react-query";
 interface SearchFormProps {
   isAdvancedOpen: boolean;
   form: UseFormReturn;
+  onReset: () => void;
 }
 
-const SearchForm = ({ isAdvancedOpen, form }: SearchFormProps) => {
+const SearchForm = ({ isAdvancedOpen, form, onReset }: SearchFormProps) => {
   const [protocolOptions, setProtocolOptions] = useState<SelectOptionType[]>(
     []
   );
@@ -30,6 +31,11 @@ const SearchForm = ({ isAdvancedOpen, form }: SearchFormProps) => {
   const { data: protocolList } = useQuery({
     queryFn: getAssignedProtocols,
   });
+
+  const resetForm = () => {
+    onReset();
+    reset();
+  }
 
   useEffect(() => {
     setProtocolOptions(convertTypeToSelectOption(protocolList?.data ?? []));
@@ -67,7 +73,7 @@ const SearchForm = ({ isAdvancedOpen, form }: SearchFormProps) => {
       </Button>
       <Button
         className={`mb-[1px] w-fit ${isAdvancedOpen ? "hidden" : "block"}`}
-        onClick={() => reset()}
+        onClick={resetForm}
         variant="outline"
         type="button">
         Reset
@@ -78,8 +84,13 @@ const SearchForm = ({ isAdvancedOpen, form }: SearchFormProps) => {
 
 const AdvanceSearchForm = ({
   form,
+  onReset,
 }: Omit<SearchFormProps, "isAdvancedOpen">) => {
   const { register, control, reset } = form;
+  const resetForm = () => {
+    onReset();
+    reset();
+  }
   return (
     <div className="hidden lg:block p-6 space-y-6">
       <div className="grid grid-col-1 md:grid-cols-3 gap-x-16">
@@ -94,7 +105,7 @@ const AdvanceSearchForm = ({
               useRange={false}
               onChange={onChange}
               placeholder="From Date"
-              label="Date of Birth"
+              label="From Date"
             />
           )}
         />
@@ -109,7 +120,7 @@ const AdvanceSearchForm = ({
               useRange={false}
               onChange={onChange}
               placeholder="To Date"
-              label="Date of Birth"
+              label="To Date"
             />
           )}
         />
@@ -118,7 +129,7 @@ const AdvanceSearchForm = ({
         <Button className="" type="submit">
           Search
         </Button>
-        <Button className="px-8" variant="outline" onClick={() => reset()}>
+        <Button className="px-8" variant="outline" onClick={resetForm}>
           Reset
         </Button>
       </div>

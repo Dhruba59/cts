@@ -136,11 +136,11 @@ const AddSubjectForm = ({ dropdowns, protocolId, subjectIdFormat, setSelectedPro
           }
           if (ids) {
             payload.userId = userId,
-              payload.subjectId = ids.subjectId;
+            payload.subjectId = ids.subjectId;
             payload.lastSubjectEntryDate = new Date(values.lastSubjectEntryDate.startDate);
             payload.screenedDate = new Date(values.screenedDate.startDate);
             payload.requestNote = values.requestNote;
-            payload.indicationDetail = values.indicationDetail;
+            payload.indicationDetail = values.indicationDetails;
 
             saveSubjectChangeRequest(payload, {
               onSuccess: (data) => {
@@ -254,6 +254,7 @@ const AddSubjectForm = ({ dropdowns, protocolId, subjectIdFormat, setSelectedPro
         heightUnit: subjectDetail.heightUnit,
         Weight: subjectDetail.weight,
         weightUnit: subjectDetail.weightUnit,
+        indicationDetails: subjectDetail.indicationDetail,
         visitTypeId: subjectDetail.visitType,
         lastSubjectEntryDate: {
           startDate: new Date(subjectDetail.lastEntryDate),
