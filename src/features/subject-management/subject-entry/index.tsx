@@ -198,7 +198,7 @@ const SubjectEntryEditForm = ({ ids }: SubjectEntryEditForm) => {
           </div>
           {((userRole == USER_ROLE_ENUM.SITE_USER && selectedProtocol?.value) || ids) &&
             <div>
-              <AddSubjectForm dropdowns={dropdowns?.data || []} protocolId={selectedProtocol?.value} subjectIdFormat={subjectEntryFormat} setSelectedProtocol={setSelectedProtocol} ids={ids} setStudyType={setSelectedStudy} protocolList={protocolList?.data.protocols} />
+              <AddSubjectForm dropdowns={dropdowns?.data || []} protocolId={selectedProtocol?.value} subjectIdFormat={subjectEntryFormat} setSelectedProtocol={setSelectedProtocol} ids={ids} setStudyType={setSelectedStudy} protocolList={protocolList?.data.protocols} userId={userId} setUserId={setUserId}/>
             </div>}
           {((userRole == USER_ROLE_ENUM.SYSTEM_ADMIN && selectedProtocol?.value && !ids)) &&
             <div>

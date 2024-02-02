@@ -11,6 +11,10 @@ interface ListHeaderProps {
   setQueryData: Dispatch<SetStateAction<LastReprintSubjectsParams | undefined>>;
 }
 
+
+const currentDate = new Date();
+const sixMonthsAgo = new Date(currentDate);
+sixMonthsAgo.setMonth(currentDate.getMonth() - 6);
 const initialValue = {
   user: '',
   protocol: '',
@@ -19,8 +23,8 @@ const initialValue = {
   lastInitial: '',
   subjectId: '',
   fromDate: {
-    startDate: null,
-    endDate: null
+    startDate: sixMonthsAgo,
+    endDate: sixMonthsAgo
   },
   toDate: {
     startDate: null,
@@ -55,6 +59,10 @@ const ListHeader = ({ setQueryData }: ListHeaderProps) => {
     }));
   }
 
+  const onResetSearchFields = () => {
+    setQueryData({});
+  }
+
   return (
     <div className="sm:wrapper">
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -64,7 +72,7 @@ const ListHeader = ({ setQueryData }: ListHeaderProps) => {
             Search Study
           </h4>
           <div className="">
-            <SearchForm isAdvancedOpen={isChecked} form={form} />
+            <SearchForm isAdvancedOpen={isChecked} form={form} onResetSearchFields={onResetSearchFields}/>
           </div>
           <Toggle
             prefixLabel="More: "
@@ -74,7 +82,7 @@ const ListHeader = ({ setQueryData }: ListHeaderProps) => {
           />
         </div>
         <hr />
-        {isChecked && <AdvanceSearchForm form={form} />}
+        {isChecked && <AdvanceSearchForm form={form} onResetSearchFields={onResetSearchFields}/>}
       </form>
     </div>
   );

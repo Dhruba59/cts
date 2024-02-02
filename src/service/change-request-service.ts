@@ -69,7 +69,7 @@ export const getChangeRequestVisitTypes = ({queryKey}: any) => {
 }
 
 export const acceptChangeRequest = (data: any) => {
-  return request({url: 'ChangeRequest/accept', method: 'PUT', data});
+  return request({url: 'ChangeRequest/accept', method: 'POST', data});
 }
 export const saveChangeRequest = (data: any) => {
   return request({url: 'ChangeRequest/save', method: 'POST', data});
