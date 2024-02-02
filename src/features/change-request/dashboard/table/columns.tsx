@@ -13,8 +13,9 @@ type ChangeRequestDashboardListColumnsProps = {
   onViewDetail: (id: any, pending: boolean) => void,
   onReject: (id: any) => void,
   onAccept: (id: any) => void,
-  isSysAdmin: boolean
+  isSysAdmin: boolean,
 }
+
 export const ChangeRequestDashboardListColumns = ({ onViewDetail, onAccept, onReject, isSysAdmin }
   : ChangeRequestDashboardListColumnsProps): ColumnDef<ChangeRequestDashboardModel>[] => {
 

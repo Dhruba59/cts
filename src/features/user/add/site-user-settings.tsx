@@ -120,9 +120,7 @@ const SiteUserSettings = ({ form, sites, dndData, initialProtocolsIds, setDndDat
         <Controller
           control={control}
           name='suppressMatchType'
-          rules={{
-            required: 'Suppress match type is required!',
-          }}
+          rules={{}}
           render={({ field: { onChange, onBlur, value } }: any) => (
             <Select onChange={onChange} label="Suppress match type" options={matchTypeOptions} value={value} />
           )}

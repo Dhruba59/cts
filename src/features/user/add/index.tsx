@@ -619,9 +619,7 @@ const AddUser = ({ id }: AddUserProps) => {
               <Controller
                 control={control}
                 name='userType'
-                rules={{
-                  required: 'User type is required!',
-                }}
+                rules={{}}
                 render={({ field: { onChange, onBlur, value } }: any) => (
                   <Select
                     onChange={(option) => {
@@ -641,9 +639,7 @@ const AddUser = ({ id }: AddUserProps) => {
               <Controller
                 control={control}
                 name='sponsor'
-                rules={{
-                  required: 'Sponsor is required!',
-                }}
+                rules={{}}
                 render={({ field: { onChange, onBlur, value } }: any) => (
                   <Select
                     onChange={(option) => {

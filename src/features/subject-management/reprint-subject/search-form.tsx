@@ -21,11 +21,13 @@ interface SearchFormProps {
   // control: Control<StudyListQueryData>;
   isAdvancedOpen: boolean;
   form: UseFormReturn;
+  onResetSearchFields: () => void;
   // reset: any;
 }
 
 interface AdvanceSearchFormProps {
   form: UseFormReturn;
+  onResetSearchFields: () => void;
 }
 
 interface UserParams {
@@ -40,7 +42,7 @@ const initialUserParams: UserParams = {
   Take: 100
 }
 
-const SearchForm = ({ isAdvancedOpen, form }: SearchFormProps) => {
+const SearchForm = ({ isAdvancedOpen, form, onResetSearchFields }: SearchFormProps) => {
   const { control, register, reset, formState: { errors } } = form;
   const [userOptions, setUserOptions] = useState<SelectOptionType[]>([]);
   const [protocolOptions, setProtocolOptions] = useState<SelectOptionType[]>([]);
@@ -70,6 +72,11 @@ const SearchForm = ({ isAdvancedOpen, form }: SearchFormProps) => {
       ...data,
       SearchParameter: val
     }));
+  }
+
+  const onReset = () => {
+    reset();
+    onResetSearchFields();
   }
 
   useEffect(() => {
@@ -137,7 +144,7 @@ const SearchForm = ({ isAdvancedOpen, form }: SearchFormProps) => {
       <Button className={`mb-[1px] w-fit ${isAdvancedOpen ? 'hidden' : 'block'}`} type="submit" >Search</Button>
       <Button
         className={`mb-[1px] w-fit ${isAdvancedOpen ? "hidden" : "block"}`}
-        onClick={() => reset()}
+        onClick={onReset}
         variant="outline"
         type="button">
         Reset
@@ -146,8 +153,13 @@ const SearchForm = ({ isAdvancedOpen, form }: SearchFormProps) => {
   );
 };
 
-const AdvanceSearchForm = ({ form }: AdvanceSearchFormProps) => {
+const AdvanceSearchForm = ({ form, onResetSearchFields }: AdvanceSearchFormProps) => {
   const { control, register, reset } = form;
+
+  const onReset = () => {
+    reset();
+    onResetSearchFields();
+  }
   return (
     <div className="hidden lg:block p-6 space-y-6">
       <div className="grid grid-col-1 md:grid-cols-3 lg:grid-cols-4 gap-x-16">
@@ -190,8 +202,8 @@ const AdvanceSearchForm = ({ form }: AdvanceSearchFormProps) => {
         />
       </div>
       <div className="flex items-center justify-end gap-4 !mt-10">
-        <Button className="" type="submit">Advance Search</Button>
-        <Button className="px-8" variant="outline" onClick={() => reset()}>
+        <Button className="" type="submit">Search</Button>
+        <Button className="px-8" variant="outline" onClick={onReset}>
           reset
         </Button>
       </div>

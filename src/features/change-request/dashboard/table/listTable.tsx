@@ -40,7 +40,7 @@ export function ListTable({ data, sorting, setSorting, refetch, isLoading }: any
   const isSysAdmin = session?.user?.currentRole?.roleId === USER_ROLE_ENUM.SYSTEM_ADMIN;
 
   const onRejectConfirm = () => {
-    rejectChangeRequest({ requestId }, {
+    rejectChangeRequest({ changeRequestId: requestId }, {
       onSuccess: (data) => {
         setRequestId(0);
         setOpenReject(false);
@@ -58,17 +58,17 @@ export function ListTable({ data, sorting, setSorting, refetch, isLoading }: any
   }
 
   const onAcceptConfirm = () => {
-    acceptChangeRequest({ requestId }, {
+    acceptChangeRequest({ changeRequestId: requestId }, {
       onSuccess: (data) => {
         setRequestId(0);
         setOpenAccept(false);
-        toast.success(data?.data.details, { position: "top-center" });
+        toast.success(data?.data.message, { position: "top-center" });
         refetch();
       },
       onError: (error: any) => {
         setRequestId(0);
         setOpenAccept(false);
-        toast.error(error?.response?.data.title, { position: "top-center" });
+        toast.error(error?.response?.data.detail, { position: "top-center" });
         refetch();
       }
     });
@@ -84,19 +84,30 @@ export function ListTable({ data, sorting, setSorting, refetch, isLoading }: any
     setIsPending(false);
   }
 
+  const onAcceptOnDetailsView = (id: number) => {
+    setRequestId(id);
+    setOpenViewDetail(false);
+    setOpenAccept(true);
+  }
+  const onRejectOnDetailsView = (id: number) => {
+    setRequestId(id);
+    setOpenViewDetail(false);
+    setOpenReject(true);
+  }
+
   const onAccept = (id: number) => {
     setRequestId(id);
     setOpenViewDetail(false);
     setOpenAccept(true);
-    acceptChangeRequest({ id }, {
-      onSuccess: (data) => {
-        toast.success(data?.data.details, { position: "top-center" });
-        refetch();
-      },
-      onError: (error: any) => {
-        toast.error(error?.response?.data.title, { position: "top-center" });
-      }
-    });
+    // acceptChangeRequest({ changeRequestId: id }, {
+    //   onSuccess: (data) => {
+    //     toast.success(data?.data.details, { position: "top-center" });
+    //     refetch();
+    //   },
+    //   onError: (error: any) => {
+    //     toast.error(error?.response?.data.title, { position: "top-center" });
+    //   }
+    // });
     // onAcceptConfirm(id);
     //console.log(`ID: ${id}`);
   }
@@ -105,25 +116,26 @@ export function ListTable({ data, sorting, setSorting, refetch, isLoading }: any
     setRequestId(id);
     setOpenViewDetail(false);
     setOpenReject(true);
-    rejectChangeRequest({ requestId }, {
-      onSuccess: (data) => {
-        toast.success(data?.data.details, { position: "top-center" });
-        refetch();
-      },
-      onError: (error: any) => {
-        toast.error(error?.response?.data.title, { position: "top-center" });
-      }
-    });
+    // rejectChangeRequest({ changeRequestId: id }, {
+    //   onSuccess: (data) => {
+    //     toast.success(data?.data.details, { position: "top-center" });
+    //     refetch();
+    //   },
+    //   onError: (error: any) => {
+    //     toast.error(error?.response?.data.title, { position: "top-center" });
+    //   }
+    // });
     //console.log(`ID: ${id}`);
 
   }
 
   const onViewDetail = (id: number, pending: boolean) => {
     setChildModal(
-      <ChangeRequestDashboardModal requestId={id} onAccept={onAccept} onReject={onReject} isSysAdmin={isSysAdmin}/>
+      <ChangeRequestDashboardModal requestId={id} onAccept={onAcceptOnDetailsView} onReject={onRejectOnDetailsView} isSysAdmin={isSysAdmin}/>
     )
     setOpenViewDetail(true);
     setIsPending(pending);
+    setRequestId(id);
   }
 
   const columns = useMemo(() => ChangeRequestDashboardListColumns({ onViewDetail, onAccept, onReject, isSysAdmin }), []);
@@ -184,8 +196,8 @@ export function ListTable({ data, sorting, setSorting, refetch, isLoading }: any
         title="Changed Request Detail"
         containerClassName="flex flex-1 flex-col mx-10 z-0 overflow-auto max-w-fit"
         renderFooter={{
-          onSave: () => { onAccept(requestId) },
-          onReject: () => { onReject(requestId) },
+          onSave: () => { onAcceptOnDetailsView(requestId) },
+          onReject: () => { onRejectOnDetailsView(requestId) },
           submitButtonName: isSysAdmin && isPending ? "Approve" : undefined,
           rejectButtonName: isSysAdmin && isPending ? "Reject" : undefined,
           cancelButtonName: "Close",
