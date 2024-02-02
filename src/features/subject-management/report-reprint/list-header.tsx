@@ -40,6 +40,10 @@ const ListHeader = ({ setQueryData }: ListHeaderProps) => {
     setQueryData((data: ReprintMatchReportsType) => ({...data, ...params}));
   }
 
+  const onReset = () => {
+    setQueryData({});
+  }
+
   return (
     <div className="sm:wrapper">
       <Breadcrumbs
@@ -53,7 +57,7 @@ const ListHeader = ({ setQueryData }: ListHeaderProps) => {
             Search Study
           </h4>
           <div className="">
-            <SearchForm isAdvancedOpen={isChecked} form={form} />
+            <SearchForm isAdvancedOpen={isChecked} form={form} onReset={onReset}/>
           </div>
           <Toggle
             prefixLabel="More: "
@@ -63,7 +67,7 @@ const ListHeader = ({ setQueryData }: ListHeaderProps) => {
           />
         </div>
         <hr className="" />
-        {isChecked && <AdvanceSearchForm form={form} />}
+        {isChecked && <AdvanceSearchForm form={form} onReset={onReset}/>}
       </form>
     </div>
   );
