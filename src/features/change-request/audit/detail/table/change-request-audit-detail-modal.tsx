@@ -16,6 +16,7 @@ import AuditDetailListTable from "./audit-detail-list-table";
 
 const ChangeRequestAuditDetailModal = ({ subjectId, regionGroupsId }: any) => {
 
+  const [open, setOpen] = useState<boolean>(true);
   const [queryData, setQueryData] = useState<ChangeRequestAuditDetailQuery>({
     subjectId: subjectId,
     regionGroupsId: regionGroupsId
@@ -28,9 +29,9 @@ const ChangeRequestAuditDetailModal = ({ subjectId, regionGroupsId }: any) => {
   const { data: _data, error, isLoading, refetch: refetch
   } = useChangeRequestAuditDetail(queryData);
 
-  useEffect(() => {
-    console.log(_data);
-  }, [_data])
+  // useEffect(() => {
+  //   console.log(_data);
+  // }, [_data])
   const setCurrentPageNumber = (page: number) => {
     setQueryData((data) => {
       if (data) {
@@ -66,16 +67,6 @@ const ChangeRequestAuditDetailModal = ({ subjectId, regionGroupsId }: any) => {
   }, [sorting]);
 
   return (
-    <Modal
-      triggerProp={<View />}
-      title="Changed Request Audit Detail List"
-      containerClassName="flex flex-1 flex-col mx-10 "
-      renderFooter={{
-        onSave: () => {},
-        cancelButtonName: "Close",
-        cancelButtonOnly: true,
-      }}
-    >
       <div className="flex flex-col gap-2">
         <AuditDetailListTable data={_data?.data?.items} sorting={sorting} setSorting={setSorting} isLoading={isLoading}/>
         <Pagination
@@ -87,7 +78,6 @@ const ChangeRequestAuditDetailModal = ({ subjectId, regionGroupsId }: any) => {
           maxLength={7}
         />
       </div>
-    </Modal>
   );
 };
 

@@ -12,6 +12,7 @@ import { useForm } from "react-hook-form";
 import { useDeleteIndication } from "@/hooks/rq-hooks/indication-hooks";
 import { number } from 'yup';
 import { MODAL_TYPE_ENUM } from "@/model/enum";
+import ChangeRequestAuditDetailModal from "../detail/table/change-request-audit-detail-modal";
 
 
 export function ListTable({ data, sorting, setSorting, refetch, isLoading }: any) {
@@ -22,41 +23,24 @@ export function ListTable({ data, sorting, setSorting, refetch, isLoading }: any
     reset,
     register
   } = useForm();
-  
+
+  const [childModal, setChildModal] = useState<React.ReactNode>(null);
   const [open, setOpen] = useState<boolean>(false);
   const [id, setId] = useState<number>(0);
-  const { mutate: deleteIndication } = useDeleteIndication();
 
-  const onDeleteConfirm = () => {
-     deleteIndication({id} , {
-      onSuccess: (data) => {
-        setId(0);
-        setOpen(false);
-        toast.success(data?.data.details ,{position:"top-center"});
-        refetch();
-      },
-      onError: (error: any) => {
-        setId(0);
-        setOpen(false);
-        toast.error(error?.response?.data.title ,{position:"top-center"});
-        refetch();
-      }
-    });
 
-  }
-
-  const onDeleteCancel = () => {
-    console.log('onDelete Cancel')
-    setId(0);
-    setOpen(false);
- }
- 
-  const onDelete = (id: number) => {
-    setId(id);
+  const onViewDetail = (subjectId: number | undefined, regionGroupsId: number | undefined) => {
+    setChildModal(
+      <ChangeRequestAuditDetailModal subjectId={subjectId} regionGroupsId={regionGroupsId} />
+    );
     setOpen(true);
   }
 
-  const columns = useMemo(() => ChangeRequestAuditListColumns({ onDelete }), []);
+  const onHideDetail = () => {
+    setChildModal(null);
+    setOpen(false);
+  }
+  const columns = useMemo(() => ChangeRequestAuditListColumns({ onViewDetail }), []);
 
   return (
     <div className="sm:wrapper">
@@ -75,20 +59,16 @@ export function ListTable({ data, sorting, setSorting, refetch, isLoading }: any
         />
       </div>
       <Modal
-        type={MODAL_TYPE_ENUM.WARNING}
         open={open}
-        onClose={() => onDeleteCancel()}
-        title="Confirmation!"
-        containerClassName="!w-[624px]"
+        onClose={onHideDetail}
+        title="Changed Request Audit Detail!"
+        containerClassName="flex flex-1 flex-col mx-10"
         renderFooter={{
-          onSave: onDeleteConfirm,
-          submitButtonName: "Confirm",
-          cancelButtonName: "Cancel"
+          cancelButtonName: "Close",
+          cancelButtonOnly: true
         }}
       >
-        <div className="text-black text-base px-6 py-2">
-          <p>Do you want to delete?</p>
-        </div>
+        {childModal}
       </Modal>
     </div>
   );

@@ -12,9 +12,9 @@ import { formateTableDate, formateTableDateTime } from "@/utils/helpers";
 import ChangeRequestAuditDetailModal from "../detail/table/change-request-audit-detail-modal";
 
 type ChangeRequestAuditListColumnsProps = {
-  onDelete: (id: any) => void
+  onViewDetail: (subjectId: number | undefined, regionGroupsId: number | undefined) => void
 }
-export const ChangeRequestAuditListColumns = ({ onDelete }: ChangeRequestAuditListColumnsProps)
+export const ChangeRequestAuditListColumns = ({ onViewDetail }: ChangeRequestAuditListColumnsProps)
 : ColumnDef<ChangeRequestAuditModel>[] => {
 return ([
 
@@ -92,7 +92,8 @@ return ([
     cell: ({ row }) => {
       return (
         <div className="flex items-center gap-6">
-           <ChangeRequestAuditDetailModal  subjectId={row.original.subjectId} regionGroupsId={row.original.regionGroupsId}/>
+          <View  className="cursor-pointer" onClick={() => onViewDetail(row.original.subjectId, row.original.regionGroupsId)}/>
+           {/* <ChangeRequestAuditDetailModal  subjectId={row.original.subjectId} regionGroupsId={row.original.regionGroupsId}/> */}
         </div>
       );
     }
