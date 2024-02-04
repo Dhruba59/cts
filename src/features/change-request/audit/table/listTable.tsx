@@ -24,21 +24,17 @@ export function ListTable({ data, sorting, setSorting, refetch, isLoading }: any
     register
   } = useForm();
 
-  const [childModal, setChildModal] = useState<React.ReactNode>(null);
-  const [open, setOpen] = useState<boolean>(false);
+  const [viewDetailModal, setViewDetailModal] = useState<React.ReactNode>(null);
   const [id, setId] = useState<number>(0);
 
-
   const onViewDetail = (subjectId: number | undefined, regionGroupsId: number | undefined) => {
-    setChildModal(
-      <ChangeRequestAuditDetailModal subjectId={subjectId} regionGroupsId={regionGroupsId} />
+    setViewDetailModal(
+      <ChangeRequestAuditDetailModal subjectId={subjectId} regionGroupsId={regionGroupsId} onHideDetail={onHideDetail}/>
     );
-    setOpen(true);
   }
 
   const onHideDetail = () => {
-    setChildModal(null);
-    setOpen(false);
+    setViewDetailModal(null);
   }
   const columns = useMemo(() => ChangeRequestAuditListColumns({ onViewDetail }), []);
 
@@ -58,18 +54,7 @@ export function ListTable({ data, sorting, setSorting, refetch, isLoading }: any
           listTitleKey="indication_name"
         />
       </div>
-      <Modal
-        open={open}
-        onClose={onHideDetail}
-        title="Changed Request Audit Detail!"
-        containerClassName="flex flex-1 flex-col mx-10"
-        renderFooter={{
-          cancelButtonName: "Close",
-          cancelButtonOnly: true
-        }}
-      >
-        {childModal}
-      </Modal>
+      {viewDetailModal}
     </div>
   );
 };

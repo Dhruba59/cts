@@ -14,7 +14,7 @@ import Pagination from "@/components/pagination";
 import { useChangeRequestAuditDetail } from "@/hooks/rq-hooks/change-request-hooks";
 import AuditDetailListTable from "./audit-detail-list-table";
 
-const ChangeRequestAuditDetailModal = ({ subjectId, regionGroupsId }: any) => {
+const ChangeRequestAuditDetailModal = ({ subjectId, regionGroupsId, onHideDetail}: any) => {
 
   const [open, setOpen] = useState<boolean>(true);
   const [queryData, setQueryData] = useState<ChangeRequestAuditDetailQuery>({
@@ -30,8 +30,9 @@ const ChangeRequestAuditDetailModal = ({ subjectId, regionGroupsId }: any) => {
   } = useChangeRequestAuditDetail(queryData);
 
   // useEffect(() => {
-  //   console.log(_data);
-  // }, [_data])
+  //   //console.log(_data);
+  //   //console.log(open);
+  // }, [subjectId])
   const setCurrentPageNumber = (page: number) => {
     setQueryData((data) => {
       if (data) {
@@ -67,8 +68,22 @@ const ChangeRequestAuditDetailModal = ({ subjectId, regionGroupsId }: any) => {
   }, [sorting]);
 
   return (
+    <Modal
+      open={open}
+      onClose={() => {
+        setOpen(false);
+        onHideDetail();
+      }} 
+      title="Changed Request Audit Detail!"
+      containerClassName="flex flex-1 flex-col mx-10"
+      renderFooter={{
+        cancelButtonName: "Close",
+        cancelButtonOnly: true
+      }}
+    >
       <div className="flex flex-col gap-2">
-        <AuditDetailListTable data={_data?.data?.items} sorting={sorting} setSorting={setSorting} isLoading={isLoading}/>
+
+        <AuditDetailListTable data={_data?.data?.items} sorting={sorting} setSorting={setSorting} isLoading={isLoading} />
         <Pagination
           currentPage={_data?.data?.pageNumber}
           setCurrentPage={setCurrentPageNumber}
@@ -78,6 +93,7 @@ const ChangeRequestAuditDetailModal = ({ subjectId, regionGroupsId }: any) => {
           maxLength={7}
         />
       </div>
+    </Modal>
   );
 };
 
