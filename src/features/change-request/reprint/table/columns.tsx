@@ -13,10 +13,11 @@ import ChangeRequestModal from "./change-request-modal";
 import { SelectOptionType } from "@/model/drop-down-list";
 
 type ChangeRequestReprintListColumnsProps = {
+  onOpenChangeRequestModal: (subjectId: number | undefined, nationalTypeId: number | undefined, visitTypeId: number | undefined, isPreScreen: boolean | undefined) => void;
   onDelete: (id: any) => void;
   onPrintClick: () => void;
 }
-export const ChangeRequestReprintListColumns = ({ onDelete, onPrintClick }
+export const ChangeRequestReprintListColumns = ({ onOpenChangeRequestModal, onDelete, onPrintClick }
   : ChangeRequestReprintListColumnsProps): ColumnDef<ChangeRequestReprintModel>[] => {
   return ([
 
@@ -75,14 +76,14 @@ export const ChangeRequestReprintListColumns = ({ onDelete, onPrintClick }
     },
     {
       header: "NID",
-      accessorKey: "nationalTypeId",
+      accessorKey: "social",
       cell: ({ row }) => {
-        return <div className=" min-w-[50px]">{row.original.nationalTypeId}</div>;
+        return <div className=" min-w-[50px]">{row.original.social}</div>;
       }
     },
     {
       header: "ID Type",
-      accessorKey: "nationalIdTypeName",
+      accessorKey: "NationalTypeId",
       cell: ({ row }) => {
         return <div className=" min-w-[100px]">{row.original.nationalIdTypeName}</div>;
       }
@@ -131,7 +132,8 @@ export const ChangeRequestReprintListColumns = ({ onDelete, onPrintClick }
       cell: ({ row }) => {
         return (
           <div className="flex items-center gap-6">
-            <ChangeRequestModal id={row.original.subjectId + '_' + row.original.nationalTypeId} visitTypeId={row.original.visitTypeIdForBusinessLogic} isPreScreen={row.original.preScreen} onPrintClick={onPrintClick}/>
+            <Link href="" onClick={() => onOpenChangeRequestModal(row.original.subjectId, row.original.nationalTypeId, row.original.visitTypeIdForBusinessLogic, row.original.preScreen )}><Edit/></Link>
+            {/* <ChangeRequestModal id={row.original.subjectId + '_' + row.original.nationalTypeId} visitTypeId={row.original.visitTypeIdForBusinessLogic} isPreScreen={row.original.preScreen} onPrintClick={onPrintClick}/> */}
           </div>
         );
       }

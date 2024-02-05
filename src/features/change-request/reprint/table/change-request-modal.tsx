@@ -24,8 +24,8 @@ enum SEND_REQ_OPERATION_TYPE_ENUM {
   DELETE_LAST_VISIT_ENTRY = 2
 }
 
-const ChangeRequestModal = ({ id, visitTypeId, isPreScreen, onPrintClick }: any) => {
-  const [open, setOpen] = useState<boolean>(false);
+const ChangeRequestModal = ({ id, visitTypeId, isPreScreen, onPrintClick, onHideChangeRequestModal }: any) => {
+  const [open, setOpen] = useState<boolean>(true);
   const [selectedOperation, setSelectedOperation] = useState();
   const [visitTypeOption, setVisitTypeOption] = useState<SelectOptionType[]>([]);
   const { data: session } = useSession();
@@ -57,6 +57,7 @@ const ChangeRequestModal = ({ id, visitTypeId, isPreScreen, onPrintClick }: any)
     else if (selectedOperation == SEND_REQ_OPERATION_TYPE_ENUM.PRINT_SUBJECT) {
       onPrintClick();
       setOpen(false);
+      onHideChangeRequestModal();
     }
     else {
       const [subjectId, nationalTypeId] = id.split('_');
@@ -72,6 +73,7 @@ const ChangeRequestModal = ({ id, visitTypeId, isPreScreen, onPrintClick }: any)
         onSuccess: (data) => {
           toast.success(data?.data.details);
           setOpen(false);
+          onHideChangeRequestModal();
         },
         onError: (error: any) => {
           toast.error(error?.response?.data.detail);
@@ -82,6 +84,7 @@ const ChangeRequestModal = ({ id, visitTypeId, isPreScreen, onPrintClick }: any)
 
   const onCloseModal = () => {
     reset();
+    onHideChangeRequestModal();
   }
 
   useEffect(() => {
@@ -92,7 +95,6 @@ const ChangeRequestModal = ({ id, visitTypeId, isPreScreen, onPrintClick }: any)
 
   return (
     <Modal
-      triggerProp={<Edit />}
       open={open}
       setOpen={setOpen}
       title="Subject request for"
