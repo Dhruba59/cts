@@ -282,7 +282,7 @@ const AddSubjectForm = ({ dropdowns, protocolId, subjectIdFormat, setSelectedPro
         Weight: subjectDetail.weight,
         weightUnit: subjectDetail.weightUnit,
         indicationDetails: subjectDetail.indicationDetail,
-        visitTypeId: subjectDetail.visitType,
+        visitTypeId: subjectDetail.visitTypeId,
         lastSubjectEntryDate: {
           startDate: new Date(subjectDetail.lastEntryDate),
           endDate: new Date(subjectDetail.lastEntryDate)
@@ -387,6 +387,8 @@ const AddSubjectForm = ({ dropdowns, protocolId, subjectIdFormat, setSelectedPro
               placeholder="Date Of Birth"
               {...register("dateOfBirth", {
                 required: "Year of Birth required",
+                validate: (value) =>
+                  /^[0-9]{4}$/.test(value) || "Please enter a 4-digit year",
               })}
               type="number"
             />
@@ -412,7 +414,7 @@ const AddSubjectForm = ({ dropdowns, protocolId, subjectIdFormat, setSelectedPro
                   useRange={false}
                   onChange={onChange}
                   placeholder="Date of birth"
-                  label="Date of Birth"
+                  label="Date of Birth"   
                   disabled={!protocolId && !ids}
                 />
               )}
@@ -717,7 +719,7 @@ const AddSubjectForm = ({ dropdowns, protocolId, subjectIdFormat, setSelectedPro
             <Label label="Request Notes" className="inline-block mb-2" />
             <Textarea
               placeholder="Enter notes"
-              {...register("requestNote", { required: "Detail is required." })}
+              {...register("requestNote", {})}
             />
             {errors.detail && (
               <span className="text-red-500 -mt-10">

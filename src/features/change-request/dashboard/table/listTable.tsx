@@ -194,7 +194,7 @@ export function ListTable({ data, sorting, setSorting, refetch, isLoading }: any
         open={openViewDetail}
         onClose={() => onCancel()}
         title="Changed Request Detail"
-        containerClassName="flex flex-1 flex-col mx-10 z-0 overflow-auto max-w-fit"
+        containerClassName="flex flex-1 flex-col mx-10 z-0 overflow-auto max-w-[700px]"
         renderFooter={{
           onSave: () => { onAcceptOnDetailsView(requestId) },
           onReject: () => { onRejectOnDetailsView(requestId) },
