@@ -41,12 +41,12 @@ const SubjectReprint = () => {
     }));
   }, [sorting]);
 
-  useEffect(() => {
-    setQueryData((data) => ({
-      ...data as any,
-      OrderBy: 'DateEntered ASC'
-    }));
-  }, []);
+  // useEffect(() => {
+  //   setQueryData((data) => ({
+  //     ...data as any,
+  //     OrderBy: 'DateEntered ASC'
+  //   }));
+  // }, []);
 
   useEffect(() => {
     setQueryData((data) => ({

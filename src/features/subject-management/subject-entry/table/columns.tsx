@@ -179,7 +179,7 @@ export const getColumns = (): ColumnDef<List>[] => {
 //   },
 // ];
 
-export const getListColumn = (studyId: number) => {
+export const getListColumn = (studyId: number, onUpdateSubject: () => void) => {
   return ([
     // {
     //   header: "User Name",
@@ -245,7 +245,7 @@ export const getListColumn = (studyId: number) => {
       cell: ({ row }: any) => {
         return (
           <div className="flex items-center gap-6">
-            <LastSubjectContactModal data={row.original} studyId={studyId}/>
+            <LastSubjectContactModal data={row.original} studyId={studyId} onUpdateSubject={onUpdateSubject}/>
           </div>
         );
       },

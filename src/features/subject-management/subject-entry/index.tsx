@@ -6,7 +6,7 @@ import React, { useEffect, useState } from "react";
 import SubjectEntrySelectionTab from "./subject-tab/subject-entry-selection-tab";
 import ListTable from "./table/list-table";
 import { SelectOptionType } from "@/model/drop-down-list";
-import { useQuery } from "react-query";
+import { QueryClient, useQuery } from "react-query";
 import { getProtocolsByStudyId, getStudyType, getSubjectDropdowns, searchLastSubjects } from "@/service/subject-service";
 import { convertTypeToSelectOption } from "@/utils/helpers";
 import { Protocol, SearchLastSubjectsParams, SubjectEntryEditForm } from "@/model/subject";
@@ -49,9 +49,9 @@ const SubjectEntryEditForm = ({ ids }: SubjectEntryEditForm) => {
     queryFn: getStudyType,
   });
 
-  const { data: subjectList, isLoading: isSubjectLoading } = useQuery({
+  const { data: subjectList, isLoading: isSubjectLoading, isRefetching: isRefetchingSubject, refetch } = useQuery({
     queryFn: searchLastSubjects,
-    queryKey: ['subjectEntry', queryParams],
+    queryKey: ['last_subjects', queryParams],
     enabled: userRole == USER_ROLE_ENUM.SYSTEM_ADMIN && !!selectedProtocol
   });
 
@@ -120,6 +120,17 @@ const SubjectEntryEditForm = ({ ids }: SubjectEntryEditForm) => {
   //     setQueryParams({ StudyId: selectedProtocol?.value });
   //   }
   // }, [selectedProtocol]);
+
+  const queryClient = new QueryClient();
+
+  const onUpdateSubject = () => {
+    // const params = {... queryParams};
+    // queryClient.invalidateQueries()
+// Invalidate every query with a key that starts with `todos`
+    // queryClient.invalidateQueries({ queryKey: ['last_subjects'] });
+    // setQueryParams(params);
+    refetch();
+  }
 
   useEffect(() => {
     if (selectedProtocol) {
@@ -209,7 +220,7 @@ const SubjectEntryEditForm = ({ ids }: SubjectEntryEditForm) => {
       </div>
       {((userRole == USER_ROLE_ENUM.SYSTEM_ADMIN && selectedProtocol?.value && !ids)) &&
         <div>
-          <ListTable data={subjectList?.data.items} isLoading={isSubjectLoading} protocolId={selectedProtocol?.value} />
+          <ListTable data={subjectList?.data.items} isLoading={isSubjectLoading || isRefetchingSubject} protocolId={selectedProtocol?.value} onUpdateSubject={onUpdateSubject}/>
           <Pagination
             currentPage={subjectList?.data?.pageNumber ?? 1}
             lastPage={subjectList?.data?.totalPages ?? 0}

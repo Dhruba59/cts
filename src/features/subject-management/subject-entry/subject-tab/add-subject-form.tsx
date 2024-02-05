@@ -17,6 +17,7 @@ import { toast } from "react-toastify";
 // import { getSiteStudyIdByStudyId } from "..";
 import Alert from "@/components/ui/alert";
 import Modal from "@/components/modal";
+import { useRouter } from "next/navigation";
 
 enum NATIONAL_ID_TYPE {
   PASSPORT = '2',
@@ -62,6 +63,7 @@ const AddSubjectForm = ({ dropdowns, protocolId, subjectIdFormat, setSelectedPro
     NationalTypeId: ids?.nationalIdType ?? ''
   });
   const subjectDetail = subjectData?.data.subjectDetail;
+  const router = useRouter();
 
   const {
     register,
@@ -122,7 +124,7 @@ const AddSubjectForm = ({ dropdowns, protocolId, subjectIdFormat, setSelectedPro
       saveSubjectChangeRequest(payload, {
         onSuccess: (data) => {
           toast.success(data.data.details);
-          reset();
+          router.push('/last-subject-reprint');
         },
         onError: (error: any) => {
           toast.error(error.response.data.detail);
@@ -200,6 +202,10 @@ const AddSubjectForm = ({ dropdowns, protocolId, subjectIdFormat, setSelectedPro
   };
 
   const handleReset = () => {
+    if(ids) {
+      updateFieldsWithSubjectData();
+      return;
+    }
     const zip = getValues('zip');
     reset();
     reset({ dateOfBirth: { startDate: null, endDate: null }, zip: zip, weightUnit: weightUnitOptions?.[0].value, heightUnit: heightUnitOptions?.[0].value })
@@ -213,6 +219,10 @@ const AddSubjectForm = ({ dropdowns, protocolId, subjectIdFormat, setSelectedPro
     } else {
       setValue('weightUnit', weightUnitOptions?.[1])
     }
+  }
+
+  const handleCancel = () => {
+    router.push('/last-subject-reprint');
   }
 
   useEffect(() => {
@@ -256,7 +266,7 @@ const AddSubjectForm = ({ dropdowns, protocolId, subjectIdFormat, setSelectedPro
   //   };
   // }, [wrapperRef])
 
-  useEffect(() => {
+  const updateFieldsWithSubjectData = () => {
     if (subjectDetail) {
       setVisitTypeOptions(convertTypeToSelectOption(subjectData?.data?.visitTypes));
       setStudyType({
@@ -289,7 +299,8 @@ const AddSubjectForm = ({ dropdowns, protocolId, subjectIdFormat, setSelectedPro
         screenedDate: {
           startDate: new Date(subjectDetail.screenedDate),
           endDate: new Date(subjectDetail.screenedDate)
-        }
+        },
+        requestNote: ''
       };
       setUserId?.(subjectDetail.userId);
       reset(values);
@@ -298,7 +309,11 @@ const AddSubjectForm = ({ dropdowns, protocolId, subjectIdFormat, setSelectedPro
         label: subjectDetail.protocolNumber
       })
     }
-  }, [subjectData]);
+  }
+
+  useEffect(() => {
+    updateFieldsWithSubjectData();
+  }, [subjectDetail]);
 
   return (
     <>
@@ -738,8 +753,11 @@ const AddSubjectForm = ({ dropdowns, protocolId, subjectIdFormat, setSelectedPro
             disabled={isSubjectAddLoading || isLoadingChangeRequest}>
             Submit
           </Button>
-          <Button className="px-8" variant="outline" onClick={handleReset}>
+          <Button className="px-8" variant="secondary" onClick={handleReset}>
             Reset
+          </Button>
+          <Button className="px-8" variant="outline" onClick={handleCancel}>
+            Cancel
           </Button>
         </div>
       </form>
