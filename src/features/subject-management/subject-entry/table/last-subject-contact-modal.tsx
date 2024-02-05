@@ -13,7 +13,7 @@ import React, { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 
-const LastSubjectContactModal = ({ data, studyId }: any) => {
+const LastSubjectContactModal = ({ data, studyId, onUpdateSubject }: any) => {
   const {
     register,
     handleSubmit,
@@ -73,6 +73,7 @@ const LastSubjectContactModal = ({ data, studyId }: any) => {
       onSuccess: (data) => {
         toast.success(data.data.details);
         setOpen(false);
+        onUpdateSubject();
       },
       onError: (error: any) => {
         toast.error(error.response.data.detail);

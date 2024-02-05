@@ -27,8 +27,8 @@ const initialValue = {
     endDate: sixMonthsAgo
   },
   toDate: {
-    startDate: null,
-    endDate: null
+    startDate: currentDate,
+    endDate: currentDate
   }
 }
 

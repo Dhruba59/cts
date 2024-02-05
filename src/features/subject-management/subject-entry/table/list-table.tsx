@@ -4,8 +4,8 @@ import Pagination from "@/components/pagination";
 import ExpandableTable from "@/components/table/expandableTable";
 import SimpleTable from "@/components/table/simpleTable";
 
-const ListTable = ({ data, isLoading, protocolId }: any) => {
-  const columns = useMemo(() => getListColumn(protocolId), [protocolId]);
+const ListTable = ({ data, isLoading, protocolId, onUpdateSubject }: any) => {
+  const columns = getListColumn(protocolId, onUpdateSubject);
   // const data = useMemo(() => LIST_DATA, []);
 
   const [currentPage, setCurrentPage] = useState(1);
