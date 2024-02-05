@@ -40,7 +40,7 @@ return ([
     header: "Edited Record",
     accessorKey: "new",
     cell: ({ row }) => {
-      return <div className=" min-w-[100px]">{row.original.new}</div>;
+      return <div className={`min-w-[100px] ${row.original.old !== row.original.new && 'text-red-500'}`}>{row.original.new}</div>;
     }
   }
 ])};

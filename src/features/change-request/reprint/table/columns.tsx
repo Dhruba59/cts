@@ -75,14 +75,14 @@ export const ChangeRequestReprintListColumns = ({ onDelete, onPrintClick }
     },
     {
       header: "NID",
-      accessorKey: "nationalTypeId",
+      accessorKey: "social",
       cell: ({ row }) => {
-        return <div className=" min-w-[50px]">{row.original.nationalTypeId}</div>;
+        return <div className=" min-w-[50px]">{row.original.social}</div>;
       }
     },
     {
       header: "ID Type",
-      accessorKey: "nationalIdTypeName",
+      accessorKey: "nationalTypeId",
       cell: ({ row }) => {
         return <div className=" min-w-[100px]">{row.original.nationalIdTypeName}</div>;
       }

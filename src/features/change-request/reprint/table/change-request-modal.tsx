@@ -96,6 +96,7 @@ const ChangeRequestModal = ({ id, visitTypeId, isPreScreen, onPrintClick }: any)
       open={open}
       setOpen={setOpen}
       title="Subject request for"
+      containerClassName="max-w-[500px]"
       renderFooter={{
         onSave: handleSubmit(onSubmit),
         submitButtonName: "Submit",
