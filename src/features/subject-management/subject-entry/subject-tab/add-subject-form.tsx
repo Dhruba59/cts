@@ -147,7 +147,6 @@ const AddSubjectForm = ({ dropdowns, protocolId, subjectIdFormat, setSelectedPro
       setError('middleNameInitials', {type: 'custom', message:  'If you have not middle name then put a "-" on the field' });
     }
 
-  
 
     delete values.zip;
     let payload = {
@@ -412,7 +411,9 @@ const AddSubjectForm = ({ dropdowns, protocolId, subjectIdFormat, setSelectedPro
                   value={value}
                   asSingle
                   useRange={false}
-                  onChange={onChange}
+                  onChange={(date) => {
+                    onChange(date?.startDate ? date : null);
+                  }}
                   placeholder="Date of birth"
                   label="Date of Birth"   
                   disabled={!protocolId && !ids}
