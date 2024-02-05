@@ -83,7 +83,7 @@ export const ChangeRequestReprintListColumns = ({ onOpenChangeRequestModal, onDe
     },
     {
       header: "ID Type",
-      accessorKey: "NationalTypeId",
+      accessorKey: "nationalTypeId",
       cell: ({ row }) => {
         return <div className=" min-w-[100px]">{row.original.nationalIdTypeName}</div>;
       }
