@@ -179,7 +179,7 @@ export const getColumns = (): ColumnDef<List>[] => {
 //   },
 // ];
 
-export const getListColumn = (studyId: number, onUpdateSubject: () => void) => {
+export const getListColumn = (studyId: number, onUpdateSubject: (data: any) => void) => {
   return ([
     // {
     //   header: "User Name",

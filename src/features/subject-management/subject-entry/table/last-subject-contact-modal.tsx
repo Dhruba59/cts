@@ -70,10 +70,10 @@ const LastSubjectContactModal = ({ data, studyId, onUpdateSubject }: any) => {
       lastSubjectEntryDate: values.lastSubjectEntryDate.startDate
     };
     updateVisitInfo(payload, {
-      onSuccess: (data) => {
-        toast.success(data.data.details);
+      onSuccess: (response) => {
+        toast.success(response.data.details);
         setOpen(false);
-        onUpdateSubject();
+        onUpdateSubject(data);
       },
       onError: (error: any) => {
         toast.error(error.response.data.detail);

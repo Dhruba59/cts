@@ -5,8 +5,8 @@ import ExpandableTable from "@/components/table/expandableTable";
 import { SortingState } from "@tanstack/react-table";
 import Modal from "@/components/modal";
 import { PDFViewer } from "@react-pdf/renderer";
-import LastContactSubjectsPdf from "../contact-subject-pdf";
-import { LastSubjectPrintQueryParams } from "@/model/subject";
+import LastContactSubjectsPdf from "../../pdf/contact-subject-pdf";
+import { LastSubjectPdfData, LastSubjectPrintQueryParams } from "@/model/subject";
 import { useGetLastSubjectReport } from "@/hooks/rq-hooks/subject-hooks";
 import { getLastSubjectReport } from "@/service/subject-service";
 import { useQuery } from "react-query";
@@ -19,16 +19,7 @@ export interface ListTableProps {
   isLoadingTableData?: boolean;
 }
 
-export interface LastSubjectPdfData {
-  sponsorSubjectId: string;
-  siteCode: string;
-  reportRunTime: string;
-  protocol: string;
-  dob: string;
-  intitials: string;
-  lastSubjectContactDate: string;
-  lastSubjectContactType: string;
-}
+
 
 const ListTable = ({
   data,
