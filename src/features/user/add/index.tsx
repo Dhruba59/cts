@@ -203,10 +203,9 @@ const AddUser = ({ id }: AddUserProps) => {
     resetField,
   } = form;
 
-  useEffect(() => {
-    const user = userData?.data;
-    setCompletedTrainings(userData?.data?.completedTrainings);
-    if (userData) {
+  const updateFieldsWithUserData = (user: any) => {
+    setCompletedTrainings(user?.completedTrainings);
+    if (user) {
       const values = {
         firstName: user.firstName,
         middleName: user.middleName,
@@ -298,9 +297,15 @@ const AddUser = ({ id }: AddUserProps) => {
         });
       }
     }
-  }, [userData])
 
+  }
 
+  useEffect(() => {
+    if(userData) {
+      const user = userData?.data;
+      updateFieldsWithUserData(user);
+    }
+  }, [userData]);
 
   const onSubmit = (values: any) => {
     let payload = constructPayload(values, selectedUserType, !!id);
@@ -478,6 +483,24 @@ const AddUser = ({ id }: AddUserProps) => {
       );
     }
   }
+  
+  // const handleReset = () => {
+  //   if(id && userData) {
+  //     const user = userData?.data;
+  //     updateFieldsWithUserData(user);
+  //     return;
+  //   }
+  //   reset();
+  //   setSiteUserDndData(initialSiteUserDndValue);
+  //   setTrainingDndData(initialTrainingDndValue);  
+  //   setSponsorDndData(initialSponsorDndValue);
+  //   setAdminDndData(initialAdminDndValue);
+  //   setSelectedProtocols([]);
+  // }
+
+  const handleCancel = () => {
+    router.push('/user/list');
+  }
 
   const handleSystemLoginName = (e: any) => {
     if (id) return;
@@ -494,7 +517,7 @@ const AddUser = ({ id }: AddUserProps) => {
 
   const watchSystemLogin = watch('systemLogin');
   useEffect(() => {
-    if (!id) {
+    if (!id && watchSystemLogin && watchSystemLogin !== '') {
       validateUsername({
         username: watchSystemLogin,
       }, {
@@ -739,7 +762,10 @@ const AddUser = ({ id }: AddUserProps) => {
         </section>
         <div className="flex justify-center gap-4 mt-8 md:mt-14">
           <Button type="submit" className="px-8">Submit</Button>
-          <Button className="px-8" variant="outline" onClick={() => { }} disabled={!!id} >
+          {/* <Button type="button" className="px-8" variant="secondary" onClick={handleReset} >
+            Reset
+          </Button> */}
+          <Button className="px-8" variant="outline" onClick={handleCancel} >
             Cancel
           </Button>
         </div>
