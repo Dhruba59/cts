@@ -79,13 +79,18 @@ const LoginForm = () => {
             id="site-user"
             value={USER_ROLE_VALUE.site_user.toString()}
             className="accent-primary text-black"
+            hoverClassName="hover:cursor-pointer"
           >
             Site User
           </RadioButton>
-          <RadioButton id="sys-admin" value={USER_ROLE_VALUE.sys_admin.toString()} className="accent-primary">
+          <RadioButton id="sys-admin" value={USER_ROLE_VALUE.sys_admin.toString()}
+            className="accent-primary"
+            hoverClassName="hover:cursor-pointer">
             Sys Admin
           </RadioButton>
-          <RadioButton id="sponsor" value={USER_ROLE_VALUE.sponsor.toString()} className="accent-primary">
+          <RadioButton id="sponsor" value={USER_ROLE_VALUE.sponsor.toString()}
+            className="accent-primary"
+            hoverClassName="hover:cursor-pointer">
             Sponsor
           </RadioButton>
         </RadioGroup>
