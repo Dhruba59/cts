@@ -14,6 +14,7 @@ import { Indication, IndicationQuery } from "@/model/indication";
 import { AddSponsorProps, SponsorQuery } from "@/model/sponsor";
 import { getSponsorById } from "@/service/sponsor-service";
 import { convertTypeToSelectOption } from "@/utils/helpers";
+import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useQuery } from "react-query";
@@ -22,7 +23,7 @@ import { number } from "yup";
 
 
 const AddSponsor = ({ id }: AddSponsorProps) => {
-
+  const router = useRouter();
   const defaultValues = {
     sponsorId: 0,
     sponsorName: '',
@@ -57,9 +58,8 @@ const AddSponsor = ({ id }: AddSponsorProps) => {
   });
 
   const handleCancel = () => {
-    if (!id) {
       reset();
-    }
+      router.push("/sponsor/list");
   }
 
   const onSubmit = (payload: any) => {
@@ -112,7 +112,7 @@ const AddSponsor = ({ id }: AddSponsorProps) => {
       <Breadcrumbs title="SponsorData" subTitle="Add SponsorData" />
       <section className="wrapper">
         <h4 className=" text-neutral-black px-6 py-4">
-          SponsorData Information
+          Sponsor Information
         </h4>
         <hr />
         <form onSubmit={handleSubmit(onSubmit)} className="px-6 py-8 space-y-6">
@@ -182,7 +182,7 @@ const AddSponsor = ({ id }: AddSponsorProps) => {
           </div>
           <div className="flex justify-center gap-4 mt-8 md:mt-14">
             <Button type="submit" className="px-8">Submit</Button>
-            <Button className="px-8" variant="outline" onClick={handleCancel} disabled={!!id} >
+            <Button className="px-8" variant="outline" onClick={handleCancel}>
               Cancel
             </Button>
           </div>

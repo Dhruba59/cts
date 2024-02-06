@@ -8,6 +8,7 @@ import { toast } from "react-toastify";
 import Modal from "@/components/modal";
 import { ListTableProps } from "@/model/study";
 import { MODAL_TYPE_ENUM } from "@/model/enum";
+import TableTopWithAddButtin from "@/components/table/table-top-with-add-button";
 
 const ListTable = ({ data, sorting, setSorting }: ListTableProps) => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
@@ -41,14 +42,13 @@ const ListTable = ({ data, sorting, setSorting }: ListTableProps) => {
 
   return (
     <div className="sm:wrapper">
-      <h4 className="hidden md:block font-semibold py-4 px-6 text-dark-900">
-        List of Study
-      </h4>
+      <TableTopWithAddButtin headerText="List of Study" addButtonLink="add"/>
       <div className="w-full block sm:hidden">
         <ExpandableTable
           data={data}
           columns={columns}
           tableTitle=" List of study"
+          addButtonLink="add"
           listTitleKey="protocol_number"
         />
       </div>

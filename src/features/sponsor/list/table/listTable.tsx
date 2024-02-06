@@ -11,7 +11,7 @@ import Modal from "@/components/modal";
 import { useForm } from "react-hook-form";
 import { useDeleteSponsor } from "@/hooks/rq-hooks/sponsor-hooks";
 import { number } from 'yup';
-
+import TableTopWithAddButtin from "@/components/table/table-top-with-add-button";
 
 export function ListTable({ data, sorting, setSorting, isLoading, refetch }: any) {
 
@@ -60,9 +60,7 @@ export function ListTable({ data, sorting, setSorting, isLoading, refetch }: any
 
   return (
     <div className="sm:wrapper">
-      <h4 className="hidden md:block font-semibold py-4 px-6 text-dark-900">
-        List of Sponsor
-      </h4>
+      <TableTopWithAddButtin headerText="List of Sponsor" addButtonLink="add"/>
       <div className="hidden sm:block">
         <SimpleTable data={data} columns={columns} sorting={sorting} setSorting={setSorting} isLoading={isLoading}/>
       </div>
@@ -71,6 +69,7 @@ export function ListTable({ data, sorting, setSorting, isLoading, refetch }: any
           data={data}
           columns={columns}
           tableTitle=" List of Sponsor"
+          addButtonLink="add"
           listTitleKey="study_name"
         />
       </div>

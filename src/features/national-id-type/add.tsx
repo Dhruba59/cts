@@ -8,7 +8,8 @@ import Input from "@/components/ui/input";
 import Label from "@/components/ui/label";
 import Select from "@/components/ui/select";
 import Textarea from "@/components/ui/textarea";
-import { useAddNationalIdType, useEditNationalIdType, useGetFrequencyTypes, useGetNationalIdTypeById 
+import {
+  useAddNationalIdType, useEditNationalIdType, useGetFrequencyTypes, useGetNationalIdTypeById
 } from "@/hooks/rq-hooks/national-id-type-hooks";
 import { DropDownItem, SelectOptionType } from "@/model/drop-down-list";
 import { AddNationalIdTypeProps, NationalIdType, NationalIdTypeQuery } from "@/model/national-id-type";
@@ -19,9 +20,12 @@ import { Controller, useForm } from "react-hook-form";
 import { useQuery } from "react-query";
 import { toast } from "react-toastify";
 import { number } from "yup";
+import { useRouter } from 'next/navigation';
 
 
 const AddNationalIdType = ({ id }: AddNationalIdTypeProps) => {
+
+  const router = useRouter();
 
   const defaultValues = {
     nationalTypeId: 0,
@@ -42,24 +46,20 @@ const AddNationalIdType = ({ id }: AddNationalIdTypeProps) => {
   });
 
 
-  const { mutate: AddNationalIdType, isLoading: isAddNationalIdTypeLoading 
+  const { mutate: AddNationalIdType, isLoading: isAddNationalIdTypeLoading
   } = useAddNationalIdType();
-  const { mutate: EditNationalIdType, isLoading: isEditNationalIdTypeLoading 
+  const { mutate: EditNationalIdType, isLoading: isEditNationalIdTypeLoading
   } = useEditNationalIdType();
-  const { data: frequencyTypesDropdown, error, isLoading, refetch 
+  const { data: frequencyTypesDropdown, error, isLoading, refetch
   } = useGetFrequencyTypes();
   const [frequencyTypes, setFrequencyTypes] = useState<SelectOptionType[]>([]);
 
-  const { data: nationalIdTypeData, refetch: refetchNationalIdType 
+  const { data: nationalIdTypeData, refetch: refetchNationalIdType
   } = useGetNationalIdTypeById(id)
 
-
-
   const handleCancel = () => {
-    if(!id) {
-      reset();
-      refetch();
-    }
+    reset()
+    router.push("/national-id-type/list");
   }
 
   const onSubmit = (payload: any) => {
@@ -72,7 +72,7 @@ const AddNationalIdType = ({ id }: AddNationalIdTypeProps) => {
     }
 
     if (id) {
-      payload = { ...payload};
+      payload = { ...payload };
       EditNationalIdType(payload, {
         onSuccess: ({ data }: any) => {
           const newFieldValues = {
@@ -116,10 +116,10 @@ const AddNationalIdType = ({ id }: AddNationalIdTypeProps) => {
 
   return (
     <div className="w-full">
-      <Breadcrumbs title="NationalID Type" subTitle="Add NationalID Type" />
+      <Breadcrumbs title="NID Type" subTitle="Add NID Type" />
       <section className="wrapper">
         <h4 className=" text-neutral-black px-6 py-4">
-        NationalID Type Information
+          NID Type Information
         </h4>
         <hr />
         <form onSubmit={handleSubmit(onSubmit)} className="px-6 py-8 space-y-6">
@@ -156,7 +156,7 @@ const AddNationalIdType = ({ id }: AddNationalIdTypeProps) => {
 
           <div className="flex justify-center gap-4 mt-8 md:mt-14">
             <Button type="submit" className="px-8">Submit</Button>
-            <Button className="px-8" variant="outline" onClick={handleCancel} disabled={!!id} >
+            <Button className="px-8" variant="outline" onClick={handleCancel} >
               Cancel
             </Button>
           </div>
