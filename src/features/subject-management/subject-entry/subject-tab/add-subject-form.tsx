@@ -648,7 +648,7 @@ const AddSubjectForm = ({ dropdowns, protocolId, subjectIdFormat, setSelectedPro
           </div>
         )}
 
-        {ids && (
+        {ids && parseInt(subjectDetail?.visitTypeId) !== 1 && (
           <div>
             <Label label="Visit Type" className="inline-block mb-2" />
             <Controller
