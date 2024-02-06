@@ -63,22 +63,77 @@ const SearchSubjectForm = ({ setQueryParams, protocolId }: SearchSubjectFormProp
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="grid grid-cols-1 sm:grid-cols-2 gap-x-12 gap-y-6">
-      <Input label="Sponsor Subject ID" placeholder="Enter subject ID" {...register('sponsorSubjectID')} disabled={!protocolId} />
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className="grid grid-cols-1 sm:grid-cols-2 gap-x-12 gap-y-6">
+      <Input
+        label="Sponsor Subject ID"
+        placeholder="Enter subject ID"
+        {...register("sponsorSubjectID")}
+        disabled={!protocolId}
+      />
       <div>
         <Label label="Subject Initials" className="inline-block mb-2" />
         <div className="grid grid-cols-3 gap-6">
-          <Input placeholder="F" {...register('FirstInitial')} disabled={!protocolId} />
-          <Input placeholder="M" {...register('MiddleInitial')} disabled={!protocolId} />
-          <Input placeholder="L" {...register('LastInitial')} disabled={!protocolId} />
+          <div>
+            <Input
+              placeholder="F"
+              {...register("FirstInitial", {
+                pattern: {
+                  value: /^[a-zA-Z0-9-]$/,
+                  message: "Only Single character allowed",
+                },
+              })}
+              disabled={!protocolId}
+            />
+            {errors.FirstInitial && (
+              <span className="text-red-500 -mt-10">
+                {errors.FirstInitial.message as string}
+              </span>
+            )}
+          </div>
+          <div>
+            <Input
+              placeholder="M"
+              {...register("MiddleInitial", {
+                pattern: {
+                  value: /^[a-zA-Z0-9]$/,
+                  message: "Only Single character allowed",
+                },
+              })}
+              disabled={!protocolId}
+            />
+            {errors.MiddleInitial && (
+              <span className="text-red-500 -mt-10">
+                {errors.MiddleInitial.message as string}
+              </span>
+            )}
+          </div>
+          <div>
+            <Input
+              placeholder="L"
+              {...register("LastInitial", {
+                pattern: {
+                  value: /^[a-zA-Z0-9]$/,
+                  message: "Only Single character allowed",
+                },
+              })}
+              disabled={!protocolId}
+            />
+            {errors.LastInitial && (
+              <span className="text-red-500 -mt-10">
+                {errors.LastInitial.message as string}
+              </span>
+            )}
+          </div>
         </div>
       </div>
       <Controller
         control={control}
-        name='DateOfBirth'
+        name="DateOfBirth"
         render={({ field: { onChange, onBlur, value } }: any) => (
           <Datepicker
-            popoverDirection='down'
+            popoverDirection="down"
             value={value}
             asSingle
             useRange={false}
@@ -91,7 +146,7 @@ const SearchSubjectForm = ({ setQueryParams, protocolId }: SearchSubjectFormProp
       />
       <Controller
         control={control}
-        name='FromDate'
+        name="FromDate"
         render={({ field: { onChange, onBlur, value } }: any) => (
           <Datepicker
             label="From Date"
@@ -105,7 +160,7 @@ const SearchSubjectForm = ({ setQueryParams, protocolId }: SearchSubjectFormProp
       />
       <Controller
         control={control}
-        name='ToDate'
+        name="ToDate"
         render={({ field: { onChange, onBlur, value } }: any) => (
           <Datepicker
             label="To Date"
@@ -118,7 +173,9 @@ const SearchSubjectForm = ({ setQueryParams, protocolId }: SearchSubjectFormProp
         )}
       />
       <div className="flex items-center justify-center !mt-10 gap-4 col-span-full">
-        <Button className="px-8" type="submit">Search</Button>
+        <Button className="px-8" type="submit">
+          Search
+        </Button>
         <Button className="px-8" variant="outline" onClick={() => onReset()}>
           Reset
         </Button>
