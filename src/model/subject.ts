@@ -97,3 +97,14 @@ export interface Protocol {
   export interface SubjectEntryEditForm {
     ids?: ChangeReqSubjectIdProps;
   }
+
+  export interface LastSubjectPdfData {
+    sponsorSubjectId: string;
+    siteCode: string;
+    reportRunTime: string;
+    protocol: string;
+    dob: string;
+    intitials: string;
+    lastSubjectContactDate: string;
+    lastSubjectContactType: string;
+  }

@@ -5,7 +5,7 @@ import { BookIcon } from '@/assets/icons';
 // import logo from "@/assets/image/cts-logo.png";
 import logo from '@/assets/image/cts-logo.png';
 import Spinner from '@/components/ui/spinner';
-import { LastSubjectPdfData } from './table/list-table';
+import { LastSubjectPdfData } from '@/model/subject';
 // import logo from '../../assets/image/cts-logo.png'
 
 const Br = () => "\n";
