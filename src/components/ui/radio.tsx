@@ -7,6 +7,7 @@ interface RadioButtonProps extends React.ComponentPropsWithoutRef<"input"> {
   children?: React.ReactNode;
   selectedValue?: string | number;
   wrapperClassName?: string;
+  hoverClassName?: string;
 }
 
 const RadioButton: React.FC<RadioButtonProps> = ({
@@ -16,6 +17,7 @@ const RadioButton: React.FC<RadioButtonProps> = ({
   children,
   selectedValue,
   wrapperClassName,
+  hoverClassName,
   ...props
 }) => {
   const inputRef = useRef<HTMLInputElement>(null);
@@ -34,10 +36,10 @@ const RadioButton: React.FC<RadioButtonProps> = ({
         id={id}
         ref={inputRef}
         value={value}
-        className={cn("accent-secondary h-4 w-4", className)}
+        className={cn("accent-secondary h-4 w-4", className, hoverClassName)}
         {...props}
       />
-      {children && <Label label={children} htmlFor={id} />}
+      {children && <Label label={children} htmlFor={id} className={cn(hoverClassName)}/>}
     </div>
   );
 };
