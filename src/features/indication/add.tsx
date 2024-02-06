@@ -13,6 +13,7 @@ import { DropDownItem, SelectOptionType } from "@/model/drop-down-list";
 import { Indication, IndicationQuery } from "@/model/indication";
 import { getIndicationById, getIndicationCodeTypes } from "@/service/indication-service";
 import { convertTypeToSelectOption } from "@/utils/helpers";
+import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useQuery } from "react-query";
@@ -24,6 +25,7 @@ type AddIndicationProps = {
 }
 const AddIndication = ({ id }: AddIndicationProps) => {
 
+  const router = useRouter();
   const defaultValues = {
     indicationId: 0,
     indicationName: '',
@@ -57,7 +59,9 @@ const AddIndication = ({ id }: AddIndicationProps) => {
   const handleCancel = () => {
     if(!id) {
       reset();
-      refetch();
+      //refetch();
+    }else{
+      router.push("/indication/list");
     }
   }
 
@@ -176,7 +180,7 @@ const AddIndication = ({ id }: AddIndicationProps) => {
 
           <div className="flex justify-center gap-4 mt-8 md:mt-14">
             <Button type="submit" className="px-8">Submit</Button>
-            <Button className="px-8" variant="outline" onClick={handleCancel} disabled={!!id} >
+            <Button className="px-8" variant="outline" onClick={handleCancel} >
               Cancel
             </Button>
           </div>
