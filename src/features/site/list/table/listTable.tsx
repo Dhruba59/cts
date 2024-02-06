@@ -1,18 +1,14 @@
 "use client";
 import ExpandableTable from "@/components/table/expandableTable";
 import SimpleTable from "@/components/table/simpleTable";
-import { DataTableProps } from "@/model/common";
 import { useMemo, useState } from "react";
 import { SiteListColumns } from "./columns";
-import { useGetStudyDelete } from "@/hooks/rq-hooks/study-hooks";
 import { toast } from "react-toastify";
-import { getColumns } from "@/features/study/list-of-study/list-table/columns";
 import Modal from "@/components/modal";
 import { useForm } from "react-hook-form";
 import { useDeleteSite } from "@/hooks/rq-hooks/site-hooks";
-import { number } from 'yup';
 import { MODAL_TYPE_ENUM } from "@/model/enum";
-
+import TableTopWithAddButtin from "@/components/table/table-top-with-add-button";
 
 export function ListTable({ data, sorting, setSorting, isLoading, refetch }: any) {
 
@@ -62,9 +58,7 @@ export function ListTable({ data, sorting, setSorting, isLoading, refetch }: any
 
   return (
     <div className="sm:wrapper">
-      <h4 className="hidden md:block font-semibold py-4 px-6 text-dark-900">
-        List of Indication
-      </h4>
+      <TableTopWithAddButtin headerText="List of Site" addButtonLink="add"/>
       <div className="hidden sm:block">
         <SimpleTable data={data} columns={columns} sorting={sorting} setSorting={setSorting} isLoading={isLoading}/>
       </div>
@@ -72,8 +66,9 @@ export function ListTable({ data, sorting, setSorting, isLoading, refetch }: any
         <ExpandableTable
           data={data}
           columns={columns}
-          tableTitle=" List of Indication"
-          listTitleKey="indication_name"
+          tableTitle=" List of Site"
+          addButtonLink="add"
+          listTitleKey="siteName"
         />
       </div>
       <Modal

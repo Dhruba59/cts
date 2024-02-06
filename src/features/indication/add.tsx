@@ -13,7 +13,7 @@ import { DropDownItem, SelectOptionType } from "@/model/drop-down-list";
 import { Indication, IndicationQuery } from "@/model/indication";
 import { getIndicationById, getIndicationCodeTypes } from "@/service/indication-service";
 import { convertTypeToSelectOption } from "@/utils/helpers";
-import { useRouter } from "next/router";
+import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useQuery } from "react-query";
@@ -51,18 +51,14 @@ const AddIndication = ({ id }: AddIndicationProps) => {
   const { mutate: EditIndication, isLoading: isEditIndicationLoading } = useEditIndication();
   const { data: codeTypesDropdown, error, isLoading, refetch } = useGetIndicationCodeTypes();
   const [codeTypes, setCodeTypes] = useState<SelectOptionType[]>([]);
-  const { data: indicationData, error: indicationDataError, isLoading: isIndicationDataLoading, refetch: refetchIndicationData 
+  const { data: indicationData, error: indicationDataError, isLoading: isIndicationDataLoading, refetch: refetchIndicationData
   } = useGetIndicationById(id);
 
   //console.log(`ID: ${id}`);
 
   const handleCancel = () => {
-    if(!id) {
-      reset();
-      //refetch();
-    }else{
-      router.push("/indication/list");
-    }
+    reset();
+    router.push("/indication/list");
   }
 
   const onSubmit = (payload: any) => {
@@ -75,7 +71,7 @@ const AddIndication = ({ id }: AddIndicationProps) => {
     }
 
     if (id) {
-      payload = { ...payload};
+      payload = { ...payload };
       EditIndication(payload, {
         onSuccess: ({ data }: any) => {
           const newFieldValues = {
@@ -173,7 +169,7 @@ const AddIndication = ({ id }: AddIndicationProps) => {
               name="isRequireDetails"
               control={control}
               render={({ field: { onChange, onBlur, value } }: any) =>
-                <Checkbox className="" onChange={onChange} value={value} checked={value}/>}
+                <Checkbox className="" onChange={onChange} value={value} checked={value} />}
             />
             <Label label="Require Details" />
           </div>

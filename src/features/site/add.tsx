@@ -20,10 +20,10 @@ import { Controller, useForm, useWatch } from "react-hook-form";
 import { useQuery } from "react-query";
 import { toast } from "react-toastify";
 import { number } from "yup";
+import { useRouter } from 'next/navigation';
 
-
-const AddIndication = ({ id }: AddSiteProps) => {
-
+const AddSite = ({ id }: AddSiteProps) => {
+  const router = useRouter();
   const defaultValues = {
     siteId: 0,
     siteName: '',
@@ -71,10 +71,8 @@ const AddIndication = ({ id }: AddSiteProps) => {
   });
 
   const handleCancel = () => {
-    if (!id) {
-      reset();
-      refetch();
-    }
+    reset();
+    router.push("/site/list");
   }
 
   useEffect(() => {
@@ -82,7 +80,7 @@ const AddIndication = ({ id }: AddSiteProps) => {
   }, [frequencyTypeIdField])
 
   const fillupRegionGroupField = (data: any) => {
-    let country = isNaN(data) ?  data.value : data.toString();
+    let country = isNaN(data) ? data.value : data.toString();
 
     const region = regionGroup
       .find(({ countryId }) => countryId === country);
@@ -96,7 +94,7 @@ const AddIndication = ({ id }: AddSiteProps) => {
       frequencyTypeId: payload?.frequencyTypeId?.value ?? payload?.frequencyTypeId
     }
 
- 
+
     if (id) {
       payload = { ...payload };
       EditSite(payload, {
@@ -328,7 +326,7 @@ const AddIndication = ({ id }: AddSiteProps) => {
           </div>
           <div className="flex justify-center gap-4 mt-8 md:mt-14">
             <Button type="submit" className="px-8">Submit</Button>
-            <Button className="px-8" variant="outline" onClick={handleCancel} disabled={!!id} >
+            <Button className="px-8" variant="outline" onClick={handleCancel} >
               Cancel
             </Button>
           </div>
@@ -338,6 +336,6 @@ const AddIndication = ({ id }: AddSiteProps) => {
   );
 };
 
-export default AddIndication;
+export default AddSite;
 
 
