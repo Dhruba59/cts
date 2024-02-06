@@ -19,10 +19,10 @@ import { Controller, useForm } from "react-hook-form";
 import { useQuery } from "react-query";
 import { toast } from "react-toastify";
 import { number } from "yup";
-
+import { useRouter } from 'next/navigation';
 
 const AddStudyCompound = ({ id }: AddStudyCompoundProps) => {
-
+  const router = useRouter();
   const defaultValues = {
     studyCompoundId: 0,
     studyCompoundName: '',
@@ -52,9 +52,9 @@ const AddStudyCompound = ({ id }: AddStudyCompoundProps) => {
   // });
 
   const handleCancel = () => {
-    if(!id) {
+   
       reset();
-    }
+      router.push("/study-compound/list");
   }
 
   const onSubmit = (payload: any) => {
@@ -140,7 +140,7 @@ const AddStudyCompound = ({ id }: AddStudyCompoundProps) => {
 
           <div className="flex justify-center gap-4 mt-8 md:mt-14">
             <Button type="submit" className="px-8">Submit</Button>
-            <Button className="px-8" variant="outline" onClick={handleCancel} disabled={!!id} >
+            <Button className="px-8" variant="outline" onClick={handleCancel}>
               Cancel
             </Button>
           </div>

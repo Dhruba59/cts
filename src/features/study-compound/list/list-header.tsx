@@ -44,14 +44,14 @@ const ListHeader = ({ setQueryData }: any) => {
 
   return (
     <div>
-      <Breadcrumbs title="Indication" subTitle="Indication List" />
+      <Breadcrumbs title="Study Compound" subTitle="Study Compound List" />
       <form className="" onSubmit={handleSubmit(onSubmit)}>
         <div className="md:hidden">
           <SearchForm  isAdvancedOpen={isChecked} register={register} Controller={Controller} control={control}  reset={reset}/>
         </div>
         <section className="hidden md:block wrapper">
           <div className="flex flex-row items-center justify-between px-3 py-3">
-            <h4 className=" text-neutral-black">Search Indication</h4>
+            <h4 className=" text-neutral-black">Search Study Compound</h4>
             <div className="">
               <SearchForm isAdvancedOpen={isChecked}   register={register} Controller={Controller} control={control} reset={reset}/>
             </div>

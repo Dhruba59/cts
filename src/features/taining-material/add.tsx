@@ -30,9 +30,10 @@ import { Controller, useForm } from "react-hook-form";
 import { useQuery } from "react-query";
 import { toast } from "react-toastify";
 import { number } from "yup";
+import { useRouter } from 'next/navigation';
 
 const AddTrainingMaterial = ({ id }: AddTrainingMaterialProps) => {
-  //console.log(`ID: ${id}`);
+  const router = useRouter();
 
   const defaultValues: TrainingMaterialQuery = {
     studyId: null,
@@ -80,10 +81,8 @@ const AddTrainingMaterial = ({ id }: AddTrainingMaterialProps) => {
   } = useGetTrainingMaterialById(id);
 
   const handleCancel = () => {
-    if (!id) {
       reset();
-      refetch();
-    }
+      router.push("/training-material/list");
   };
 
   const onSubmit = (payload: any) => {
@@ -264,8 +263,7 @@ const AddTrainingMaterial = ({ id }: AddTrainingMaterialProps) => {
             <Button
               className="px-8"
               variant="outline"
-              onClick={handleCancel}
-              disabled={!!id}>
+              onClick={handleCancel}>
               Cancel
             </Button>
           </div>

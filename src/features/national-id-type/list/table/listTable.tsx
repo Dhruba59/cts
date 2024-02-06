@@ -12,6 +12,7 @@ import { useForm } from "react-hook-form";
 import { useDeleteNationalIdType } from "@/hooks/rq-hooks/national-id-type-hooks";
 import { number } from 'yup';
 import { MODAL_TYPE_ENUM } from "@/model/enum";
+import TableTopWithAddButtin from "@/components/table/table-top-with-add-button";
 
 
 export function ListTable({ data, sorting, setSorting, refetch, isLoading }: any) {
@@ -60,9 +61,7 @@ export function ListTable({ data, sorting, setSorting, refetch, isLoading }: any
 
   return (
     <div className="sm:wrapper">
-      <h4 className="hidden md:block font-semibold py-4 px-6 text-dark-900">
-        List of Indication
-      </h4>
+      <TableTopWithAddButtin headerText="List of NID Type" addButtonLink="add"/>
       <div className="hidden sm:block">
         <SimpleTable data={data} columns={columns} sorting={sorting} setSorting={setSorting} isLoading={isLoading}/>
       </div>
@@ -70,8 +69,9 @@ export function ListTable({ data, sorting, setSorting, refetch, isLoading }: any
         <ExpandableTable
           data={data}
           columns={columns}
-          tableTitle=" List of Indication"
-          listTitleKey="indication_name"
+          tableTitle=" List of NID Type"
+          addButtonLink="add"
+          listTitleKey="nationalIdTypeName"
           
         />
       </div>

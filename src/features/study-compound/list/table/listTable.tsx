@@ -8,7 +8,7 @@ import { toast } from "react-toastify";
 import Modal from "@/components/modal";
 import { useForm } from "react-hook-form";
 import { MODAL_TYPE_ENUM } from "@/model/enum";
-
+import TableTopWithAddButtin from "@/components/table/table-top-with-add-button";
 
 export function ListTable({ data, sorting, setSorting, isLoading, refetch }: any) {
 
@@ -59,9 +59,7 @@ export function ListTable({ data, sorting, setSorting, isLoading, refetch }: any
 
   return (
     <div className="sm:wrapper">
-      <h4 className="hidden md:block font-semibold py-4 px-6 text-dark-900">
-        List of Indication
-      </h4>
+      <TableTopWithAddButtin headerText="List of Study Compound" addButtonLink="add"/>
       <div className="hidden sm:block">
         <SimpleTable data={data} columns={columns} sorting={sorting} setSorting={setSorting} isLoading={isLoading} />
       </div>
@@ -69,8 +67,9 @@ export function ListTable({ data, sorting, setSorting, isLoading, refetch }: any
         <ExpandableTable
           data={data}
           columns={columns}
-          tableTitle=" List of Indication"
-          listTitleKey="indication_name"
+          tableTitle=" List of Study Compound"
+          addButtonLink="add"
+          listTitleKey="studyCompoundName"
         />
       </div>
       <Modal

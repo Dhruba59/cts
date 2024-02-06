@@ -12,33 +12,36 @@ import { useForm } from "react-hook-form";
 import { useDeleteIndication } from "@/hooks/rq-hooks/indication-hooks";
 import { number } from 'yup';
 import { MODAL_TYPE_ENUM } from "@/model/enum";
+import Button from "@/components/ui/button";
+import { useRouter } from "next/navigation";
+import TableTopWithAddButtin from "@/components/table/table-top-with-add-button";
 
 
 export function ListTable({ data, sorting, setSorting, refetch, isLoading }: any) {
-
+  const router = useRouter();
   const {
     handleSubmit,
     formState: { errors },
     reset,
     register
   } = useForm();
-  
+
   const [open, setOpen] = useState<boolean>(false);
   const [id, setId] = useState<number>(0);
   const { mutate: deleteIndication } = useDeleteIndication();
 
   const onDeleteConfirm = () => {
-     deleteIndication({id} , {
+    deleteIndication({ id }, {
       onSuccess: (data) => {
         setId(0);
         setOpen(false);
-        toast.success(data?.data.details ,{position:"top-center"});
+        toast.success(data?.data.details, { position: "top-center" });
         refetch();
       },
       onError: (error: any) => {
         setId(0);
         setOpen(false);
-        toast.error(error?.response?.data.title ,{position:"top-center"});
+        toast.error(error?.response?.data.title, { position: "top-center" });
         refetch();
       }
     });
@@ -49,8 +52,8 @@ export function ListTable({ data, sorting, setSorting, refetch, isLoading }: any
     console.log('onDelete Cancel')
     setId(0);
     setOpen(false);
- }
- 
+  }
+
   const onDelete = (id: number) => {
     setId(id);
     setOpen(true);
@@ -60,17 +63,16 @@ export function ListTable({ data, sorting, setSorting, refetch, isLoading }: any
 
   return (
     <div className="sm:wrapper">
-      <h4 className="hidden md:block font-semibold py-4 px-6 text-dark-900">
-        List of Indication
-      </h4>
+      <TableTopWithAddButtin headerText="List of Indication" addButtonLink="add"/>
       <div className="hidden sm:block">
-        <SimpleTable data={data} columns={columns} sorting={sorting} setSorting={setSorting} isLoading={isLoading}/>
+        <SimpleTable data={data} columns={columns} sorting={sorting} setSorting={setSorting} isLoading={isLoading} />
       </div>
       <div className="block sm:hidden">
         <ExpandableTable
           data={data}
           columns={columns}
           tableTitle=" List of Indication"
+          addButtonLink="add"
           listTitleKey="indication_name"
         />
       </div>

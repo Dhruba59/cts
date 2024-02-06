@@ -11,7 +11,7 @@ import { useDeleteIndication } from "@/hooks/rq-hooks/indication-hooks";
 import { number } from 'yup';
 import { MODAL_TYPE_ENUM } from "@/model/enum";
 import { getColumns } from "./columns";
-
+import TableTopWithAddButtin from "@/components/table/table-top-with-add-button";
 
 export function ListTable({ data, sorting, setSorting, refetch, isLoading }: any) {
 
@@ -59,9 +59,7 @@ export function ListTable({ data, sorting, setSorting, refetch, isLoading }: any
 
   return (
     <div className="sm:wrapper">
-      <h4 className="hidden md:block font-semibold py-4 px-6 text-dark-900">
-        List of Users
-      </h4>
+      <TableTopWithAddButtin headerText="List of User" addButtonLink="add"/>
       <div className="hidden sm:block">
         <SimpleTable data={data} columns={columns} sorting={sorting} setSorting={setSorting} isLoading={isLoading}/>
       </div>
@@ -69,8 +67,9 @@ export function ListTable({ data, sorting, setSorting, refetch, isLoading }: any
         <ExpandableTable
           data={data}
           columns={columns}
-          tableTitle=" List of Indication"
-          listTitleKey="indication_name"
+          tableTitle=" List of User"
+          addButtonLink="add"
+          listTitleKey="userName"
         />
       </div>
       <Modal

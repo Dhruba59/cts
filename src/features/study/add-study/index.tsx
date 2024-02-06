@@ -15,12 +15,13 @@ import { MainContainer } from "@/components/style-container";
 import { useQuery } from "react-query";
 import { getStudiyById } from "@/service/study-service";
 import { calculateDaysBetweenDates } from "@/utils/helpers";
-
+import { useRouter } from 'next/navigation';
 interface AddStudyProps {
   id?: string;
 }
 
 const AddStudy = ({ id }: AddStudyProps) => {
+  const router = useRouter();
   const [assignedData, setAssignedData] = useState<DndDataType[]>(initialAssignedData);
   const [criticalDndData, setCriticalDndData] = useState<CriticalDndDataType[]>(initialCriticalDndData);
   const { data: dropdownList, error, isLoading, refetch } = useGetStudyDropdownsList();
@@ -123,12 +124,11 @@ const AddStudy = ({ id }: AddStudyProps) => {
   }
 
   const handleCancel = () => {
-    if(!id) {
       reset();
       setAssignedData(initialAssignedData);
       setCriticalDndData(initialCriticalDndData);
-      refetch();
-    }
+      //refetch();
+      router.push("/study/list");
   }
 
   useEffect(() => {
@@ -209,7 +209,7 @@ const AddStudy = ({ id }: AddStudyProps) => {
         <CriticalSetup errors={errors} criticalSetupData={criticalDndData} setCriticalSetupData={setCriticalDndData} Controller={Controller} control={control} register={register}/>
         <div className="flex items-center justify-center gap-4 mt-16">
           <Button className="px-8" type="submit" loading={isAddStudyLoading || isUpdateStudyLoading}>Submit</Button>
-          <Button variant="outline" className="px-8" onClick={handleCancel} disabled={!!id}>
+          <Button variant="outline" className="px-8" onClick={handleCancel}>
             Cancel
           </Button>
         </div>
