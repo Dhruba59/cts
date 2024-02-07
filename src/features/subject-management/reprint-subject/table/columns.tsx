@@ -1,7 +1,7 @@
 import Print from "@/components/icons/print";
 import { IndeterminateCheckbox } from "@/components/ui/checkbox";
 import { LastSubjectPrintQueryParams } from "@/model/subject";
-import { formateTableDate } from "@/utils/helpers";
+import { formateTableDate, formateTableDateTime } from "@/utils/helpers";
 import { ColumnDef } from "@tanstack/react-table";
 
 export type List = {
@@ -80,7 +80,7 @@ export const getColumns = ({ onPrintClick }: ColumnsProps): ColumnDef<List>[] =>
         accessorKey: "dateEntered",
         cell: ({ row }) => {
           return (
-            <div className=" min-w-[200px]">{row.original.dateEntered}</div>
+            <div className=" min-w-[200px]">{formateTableDateTime(row.original.dateEntered)}</div>
           );
         },
       },
