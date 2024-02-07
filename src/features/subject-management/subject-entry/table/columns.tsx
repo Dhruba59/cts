@@ -54,6 +54,7 @@ export interface LastSubject {
   secondInit?: string,
   thirdInit?: string,
   nationalTypeID?: number,
+  idType?: string,
   screenedDate?: string,
   zipcode?: string,
   height?: number,
@@ -179,12 +180,8 @@ export const getColumns = (): ColumnDef<List>[] => {
 //   },
 // ];
 
-export const getListColumn = (studyId: number, onUpdateSubject: (data: any) => void) => {
+export const getListColumn = (studyId: number, onUpdateSubject: (data: any) => void) :ColumnDef<List>[] => {
   return ([
-    // {
-    //   header: "User Name",
-    //   accessorKey: "user_name",
-    // },
     {
       header: "Protocol",
       accessorKey: "protocolNumber",
