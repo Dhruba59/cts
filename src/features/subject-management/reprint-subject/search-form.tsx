@@ -154,7 +154,7 @@ const SearchForm = ({ isAdvancedOpen, form, onResetSearchFields }: SearchFormPro
 };
 
 const AdvanceSearchForm = ({ form, onResetSearchFields }: AdvanceSearchFormProps) => {
-  const { control, register, reset } = form;
+  const { control, register, reset, formState: { errors } } = form;
 
   const onReset = () => {
     reset();
@@ -165,16 +165,56 @@ const AdvanceSearchForm = ({ form, onResetSearchFields }: AdvanceSearchFormProps
       <div className="grid grid-col-1 md:grid-cols-3 lg:grid-cols-4 gap-x-16">
         <div>
           <Label label="Subject Initials" className="inline-block mb-2" />
-          <div className="grid grid-cols-3 gap-x-8">
-            <Input placeholder="F" {...register('firstInitial')} />
-            <Input placeholder="M" {...register('middleInitial')} />
-            <Input placeholder="L" {...register('lastInitial')} />
+          <div className="grid grid-cols-3 gap-x-2">
+            <Input
+              placeholder="F"
+              {...register("firstInitial", {
+                pattern: {
+                  value: /^[a-zA-Z]$/,
+                  message: "One alphabetic character allowed",
+                },
+              })}
+              maxLength={1}
+              type="text"
+            />
+            <Input
+              placeholder="M"
+              {...register("middleInitial", {
+                pattern: {
+                  value: /^[a-zA-Z]$/,
+                  message: "One alphabetic character allowed",
+                },
+              })}
+              maxLength={1}
+              type="text"
+            />
+            <Input
+              placeholder="L"
+              {...register("lastInitial", {
+                pattern: {
+                  value: /^[a-zA-Z]$/,
+                  message: "One alphabetic character allowed",
+                },
+              })}
+              maxLength={1}
+              type="text"
+            />
           </div>
+          {(errors.firstInitial ||
+            errors.middleInitial ||
+            errors.lastInitial) && (
+            <span className="text-red-500">Only Single alphabetic character allowed</span>
+          )}
         </div>
-        <Input placeholder="Enter subject id" label="Subject id" className="" {...register('subjectId')} />
+        <Input
+          placeholder="Enter subject id"
+          label="Subject id"
+          className=""
+          {...register("subjectId")}
+        />
         <Controller
           control={control}
-          name='fromDate'
+          name="fromDate"
           render={({ field: { onChange, onBlur, value } }: any) => (
             <Datepicker
               label="From Date"
@@ -188,7 +228,7 @@ const AdvanceSearchForm = ({ form, onResetSearchFields }: AdvanceSearchFormProps
         />
         <Controller
           control={control}
-          name='toDate'
+          name="toDate"
           render={({ field: { onChange, onBlur, value } }: any) => (
             <Datepicker
               label="To Date"
@@ -202,7 +242,9 @@ const AdvanceSearchForm = ({ form, onResetSearchFields }: AdvanceSearchFormProps
         />
       </div>
       <div className="flex items-center justify-end gap-4 !mt-10">
-        <Button className="" type="submit">Search</Button>
+        <Button className="" type="submit">
+          Search
+        </Button>
         <Button className="px-8" variant="outline" onClick={onReset}>
           reset
         </Button>

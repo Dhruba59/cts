@@ -344,10 +344,12 @@ const AddSubjectForm = ({ dropdowns, protocolId, subjectIdFormat, setSelectedPro
                 {...register("firstNameInitials", {
                   required: "required",
                   pattern: {
-                    value: /^[a-zA-Z0-9]$/,
-                    message: "Only Single character allowed",
+                    value: /^[a-zA-Z]$/,
+                    message: "Only one alphabetic character allowed",
                   },
                 })}
+                maxLength={1}
+                type="text"
                 disabled={!protocolId && !ids}
               />
               {errors.firstNameInitials && (
@@ -362,10 +364,12 @@ const AddSubjectForm = ({ dropdowns, protocolId, subjectIdFormat, setSelectedPro
                 {...register("middleNameInitials", {
                   required: "Put '-' if you have no middle name",
                   pattern: {
-                    value: /^[a-zA-Z0-9-]$/,
-                    message: "Only Single character allowed",
+                    value: /^[a-zA-Z-]$/,
+                    message: "Only one character allowed",
                   },
                 })}
+                maxLength={1}
+                type="text"
                 disabled={!protocolId && !ids}
               />
               {errors.middleNameInitials && (
@@ -380,10 +384,12 @@ const AddSubjectForm = ({ dropdowns, protocolId, subjectIdFormat, setSelectedPro
                 {...register("lastNameInitials", {
                   required: "required",
                   pattern: {
-                    value: /^[a-zA-Z0-9]$/,
-                    message: "Only Single character allowed",
+                    value: /^[a-zA-Z]$/,
+                    message: "Only one alphabetic character allowed",
                   },
                 })}
+                maxLength={1}
+                type="text"
                 disabled={!protocolId && !ids}
               />
               {errors.lastNameInitials && (
@@ -753,9 +759,9 @@ const AddSubjectForm = ({ dropdowns, protocolId, subjectIdFormat, setSelectedPro
             disabled={isSubjectAddLoading || isLoadingChangeRequest}>
             Submit
           </Button>
-          <Button className="px-8" variant="secondary" onClick={handleReset}>
+          {/* <Button className="px-8" variant="secondary" onClick={handleReset}>
             Reset
-          </Button>
+          </Button> */}
           <Button className="px-8" variant="outline" onClick={handleCancel}>
             Cancel
           </Button>

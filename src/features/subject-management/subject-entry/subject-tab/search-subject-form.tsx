@@ -80,10 +80,12 @@ const SearchSubjectForm = ({ setQueryParams, protocolId }: SearchSubjectFormProp
               placeholder="F"
               {...register("FirstInitial", {
                 pattern: {
-                  value: /^[a-zA-Z0-9-]$/,
-                  message: "Only Single character allowed",
+                  value: /^[a-zA-Z]$/,
+                  message: "One alphabetic character allowed",
                 },
               })}
+              maxLength={1}
+              type="text"
               disabled={!protocolId}
             />
             {errors.FirstInitial && (
@@ -97,10 +99,12 @@ const SearchSubjectForm = ({ setQueryParams, protocolId }: SearchSubjectFormProp
               placeholder="M"
               {...register("MiddleInitial", {
                 pattern: {
-                  value: /^[a-zA-Z0-9]$/,
-                  message: "Only Single character allowed",
+                  value: /^[a-zA-Z]$/,
+                  message: "One alphabetic character allowed",
                 },
               })}
+              maxLength={1}
+              type="text"
               disabled={!protocolId}
             />
             {errors.MiddleInitial && (
@@ -114,10 +118,12 @@ const SearchSubjectForm = ({ setQueryParams, protocolId }: SearchSubjectFormProp
               placeholder="L"
               {...register("LastInitial", {
                 pattern: {
-                  value: /^[a-zA-Z0-9]$/,
-                  message: "Only Single character allowed",
+                  value: /^[a-zA-Z]$/,
+                  message: "One alphabetic character allowed",
                 },
               })}
+              maxLength={1}
+              type="text"
               disabled={!protocolId}
             />
             {errors.LastInitial && (
