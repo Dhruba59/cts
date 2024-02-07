@@ -131,23 +131,49 @@ const AdvanceSearchForm = ({ form, dropdownsData, setQueryData }: AdvancedSearch
         />
         <div className="flex flex-col items-start justify-between gap-2 mt-1">
           <Label label="Subject Initials" className="hidden lg:block" />
-          <div className="flex justify-around w-full">
+          <div className="flex justify-around gap-2 w-full">
             <Input
               placeholder="F"
-              className="md:w-10 xl:16"
-              {...register("FirstInit")}
+              className="md:w-10 xl:w-16"
+              {...register("FirstInit", {
+                pattern: {
+                  value: /^[a-zA-Z]$/,
+                  message: "One alphabetic character allowed",
+                },
+              })}
+              maxLength={1}
+              type="text"
             />
             <Input
               placeholder="M"
-              className="md:w-10 xl:16"
-              {...register("MiddleInit")}
+              className="md:w-10 xl:w-16"
+              {...register("MiddleInit", {
+                pattern: {
+                  value: /^[a-zA-Z]$/,
+                  message: "One alphabetic character allowed",
+                },
+              })}
+              maxLength={1}
+              type="text"
             />
             <Input
               placeholder="L"
-              className="md:w-10 xl:16"
-              {...register("LastInit")}
+              className="md:w-10 xl:w-16"
+              {...register("LastInit", {
+                pattern: {
+                  value: /^[a-zA-Z]$/,
+                  message: "One alphabetic character allowed",
+                },
+              })}
+              maxLength={1}
+              type="text"
             />
           </div>
+          {(errors.FirstInit ||
+            errors.MiddleInit ||
+            errors.LastInit) && (
+            <span className="text-red-500">One alphabetic character allowed</span>
+          )}
         </div>
         <Controller
           control={control}

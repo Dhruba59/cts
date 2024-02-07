@@ -174,6 +174,7 @@ const LastSubjectContactModal = ({ data, studyId, onUpdateSubject }: any) => {
                 useRange={false}
                 onChange={onChange}
                 placeholder="Start Date"
+                maxDate={new Date()}
               />
             )}
           />
