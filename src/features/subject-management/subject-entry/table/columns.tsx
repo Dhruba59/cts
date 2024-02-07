@@ -1,6 +1,6 @@
 import { ColumnDef } from "@tanstack/react-table";
 import PrintSubjectModal from "./print-subject-modal";
-import { formateTableDate } from "@/utils/helpers";
+import { formateTableDate, formateTableDateTime } from "@/utils/helpers";
 import LastSubjectContactModal from "./last-subject-contact-modal";
 
 export type List = {
@@ -205,18 +205,27 @@ export const getListColumn = (studyId: number, onUpdateSubject: (data: any) => v
       header: "3rd Init",
       accessorKey: "thirdInit",
     },
-  
     {
       header: "DOB",
       accessorKey: "dob",
+      cell: ({ row }) => {
+        return (
+          <div className=" min-w-[100px]">{formateTableDate(row.original.dateEntered)}</div>
+        );
+      },
     },
     {
-      header: "National ID",
-      accessorKey: "national_id",
+      header: "NID",
+      accessorKey: "social",
+      cell: ({ row }) => {
+        return (
+          <div className=" min-w-[100px]">{row.original.social}</div>
+        );
+      },
     },
     {
       header: "ID Type",
-      accessorKey: "nationalTypeID",
+      accessorKey: "idType",
     },
     {
       header: "Sex",
@@ -237,6 +246,11 @@ export const getListColumn = (studyId: number, onUpdateSubject: (data: any) => v
     {
       header: "Date Entered",
       accessorKey: "dateEntered",
+      cell: ({ row }) => {
+        return (
+          <div className=" min-w-[200px]">{formateTableDateTime(row.original.dateEntered)}</div>
+        );
+      },
     },
     {
       id: "actions",
