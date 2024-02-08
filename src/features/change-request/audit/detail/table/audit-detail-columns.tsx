@@ -53,7 +53,7 @@ return ([
     header: "National ID",
     accessorKey: "nationalTypeId",
     cell: ({ row }) => {
-      return <div className=" min-w-[100px]">{row.original.nationalTypeId}</div>;
+      return <div className=" min-w-[100px]">{row.original.social}</div>;
     }
   },
   {
