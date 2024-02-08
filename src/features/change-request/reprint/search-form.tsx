@@ -2,6 +2,7 @@
 import Button from "@/components/ui/button";
 import Datepicker from "@/components/ui/datepicker";
 import Input from "@/components/ui/input";
+import InputFieldWithRegexValidation from "@/components/ui/inputfield-with-regex";
 import Label from "@/components/ui/label";
 import Select from "@/components/ui/select";
 import { ChangeRequestReprintQuery } from "@/model/change-request";
@@ -113,26 +114,54 @@ const AdvanceSearchForm = ({ form, dropdownsData, setQueryData }: AdvancedSearch
       <div className="grid grid-col-1 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-x-4 gap-y-2">
         <Controller
           control={control}
-          name='RegionGroup'
+          name="RegionGroup"
           render={({ field: { onChange, onBlur, value } }: any) => (
             <Select
-              //className="md:w-36  xl:w-48" 
-              onChange={onChange} label="Region Group" options={regionGroupOptions} value={value} />
+              //className="md:w-36  xl:w-48"
+              onChange={onChange}
+              label="Region Group"
+              options={regionGroupOptions}
+              value={value}
+            />
           )}
         />
         <Controller
           control={control}
-          name='SiteId'
+          name="SiteId"
           render={({ field: { onChange, onBlur, value } }: any) => (
             <Select
-              //className="md:w-36  xl:w-48" 
-              onChange={onChange} label="Site Name" options={siteOptions} value={value} />
+              //className="md:w-36  xl:w-48"
+              onChange={onChange}
+              label="Site Name"
+              options={siteOptions}
+              value={value}
+            />
           )}
         />
         <div className="flex flex-col items-start justify-between gap-2 mt-1">
           <Label label="Subject Initials" className="hidden lg:block" />
           <div className="flex justify-around gap-2 w-full">
-            <Input
+            <Controller
+              control={control}
+              name="FirstInit"
+              rules={{
+                pattern: {
+                  value: /^[a-zA-Z]$/,
+                  message: "One alphabetic character allowed",
+                },
+              }}
+              render={({ field: { onChange, onBlur, value } }: any) => (
+                <InputFieldWithRegexValidation
+                  className="md:w-10 xl:w-16"
+                  placeholder="F"
+                  maxLength={1}
+                  onChange={onChange}
+                  value={value}
+                  regex={/^[a-zA-Z]*$/}
+                />
+              )}
+            />
+            {/* <Input
               placeholder="F"
               className="md:w-10 xl:w-16"
               {...register("FirstInit", {
@@ -143,8 +172,28 @@ const AdvanceSearchForm = ({ form, dropdownsData, setQueryData }: AdvancedSearch
               })}
               maxLength={1}
               type="text"
+            /> */}
+             <Controller
+              control={control}
+              name="MiddleInit"
+              rules={{
+                pattern: {
+                  value: /^[a-zA-Z]$/,
+                  message: "One alphabetic character allowed",
+                },
+              }}
+              render={({ field: { onChange, onBlur, value } }: any) => (
+                <InputFieldWithRegexValidation
+                  className="md:w-10 xl:w-16"
+                  placeholder="M"
+                  maxLength={1}
+                  onChange={onChange}
+                  value={value}
+                  regex={/^[a-zA-Z]*$/}
+                />
+              )}
             />
-            <Input
+            {/* <Input
               placeholder="M"
               className="md:w-10 xl:w-16"
               {...register("MiddleInit", {
@@ -155,8 +204,28 @@ const AdvanceSearchForm = ({ form, dropdownsData, setQueryData }: AdvancedSearch
               })}
               maxLength={1}
               type="text"
+            /> */}
+            <Controller
+              control={control}
+              name="LastInit"
+              rules={{
+                pattern: {
+                  value: /^[a-zA-Z]$/,
+                  message: "One alphabetic character allowed",
+                },
+              }}
+              render={({ field: { onChange, onBlur, value } }: any) => (
+                <InputFieldWithRegexValidation
+                  className="md:w-10 xl:w-16"
+                  placeholder="L"
+                  maxLength={1}
+                  onChange={onChange}
+                  value={value}
+                  regex={/^[a-zA-Z]*$/}
+                />
+              )}
             />
-            <Input
+            {/* <Input
               placeholder="L"
               className="md:w-10 xl:w-16"
               {...register("LastInit", {
@@ -167,17 +236,17 @@ const AdvanceSearchForm = ({ form, dropdownsData, setQueryData }: AdvancedSearch
               })}
               maxLength={1}
               type="text"
-            />
+            /> */}
           </div>
-          {(errors.FirstInit ||
-            errors.MiddleInit ||
-            errors.LastInit) && (
-            <span className="text-red-500">One alphabetic character allowed</span>
+          {(errors.FirstInit || errors.MiddleInit || errors.LastInit) && (
+            <span className="text-red-500">
+              One alphabetic character allowed
+            </span>
           )}
         </div>
         <Controller
           control={control}
-          name='DateOfBirth'
+          name="DateOfBirth"
           render={({ field: { onChange, onBlur, value } }: any) => (
             <Datepicker
               // containerClassName="md:w-36 xl:w-48"
@@ -192,7 +261,7 @@ const AdvanceSearchForm = ({ form, dropdownsData, setQueryData }: AdvancedSearch
         />
         <Controller
           control={control}
-          name='FromDate'
+          name="FromDate"
           rules={{}}
           render={({ field: { onChange, onBlur, value } }: any) => (
             <Datepicker
@@ -208,7 +277,7 @@ const AdvanceSearchForm = ({ form, dropdownsData, setQueryData }: AdvancedSearch
         />
         <Controller
           control={control}
-          name='ToDate'
+          name="ToDate"
           rules={{}}
           render={({ field: { onChange, onBlur, value } }: any) => (
             <Datepicker

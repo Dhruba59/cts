@@ -1,6 +1,7 @@
 import Button from "@/components/ui/button";
 import Datepicker from "@/components/ui/datepicker";
 import Input from "@/components/ui/input";
+import InputFieldWithRegexValidation from "@/components/ui/inputfield-with-regex";
 import Label from "@/components/ui/label";
 import { SearchLastSubjectsParams } from "@/model/subject";
 import React, { Dispatch, SetStateAction } from "react";
@@ -76,7 +77,27 @@ const SearchSubjectForm = ({ setQueryParams, protocolId }: SearchSubjectFormProp
         <Label label="Subject Initials" className="inline-block mb-2" />
         <div className="grid grid-cols-3 gap-6">
           <div>
-            <Input
+            <Controller
+              control={control}
+              name="FirstInitial"
+              rules={{
+                pattern: {
+                  value: /^[a-zA-Z]$/,
+                  message: "One alphabetic character allowed",
+                },
+              }}
+              render={({ field: { onChange, onBlur, value } }: any) => (
+                <InputFieldWithRegexValidation
+                  placeholder="F"
+                  maxLength={1}
+                  disabled={!protocolId}
+                  onChange={onChange}
+                  value={value}
+                  regex={/^[a-zA-Z]*$/}
+                />
+              )}
+            />
+            {/* <Input
               placeholder="F"
               {...register("FirstInitial", {
                 pattern: {
@@ -87,7 +108,7 @@ const SearchSubjectForm = ({ setQueryParams, protocolId }: SearchSubjectFormProp
               maxLength={1}
               type="text"
               disabled={!protocolId}
-            />
+            /> */}
             {errors.FirstInitial && (
               <span className="text-red-500 -mt-10">
                 {errors.FirstInitial.message as string}
@@ -95,7 +116,27 @@ const SearchSubjectForm = ({ setQueryParams, protocolId }: SearchSubjectFormProp
             )}
           </div>
           <div>
-            <Input
+            <Controller
+              control={control}
+              name="MiddleInitial"
+              rules={{
+                pattern: {
+                  value: /^[a-zA-Z]$/,
+                  message: "One alphabetic character allowed",
+                },
+              }}
+              render={({ field: { onChange, onBlur, value } }: any) => (
+                <InputFieldWithRegexValidation
+                  placeholder="M"
+                  maxLength={1}
+                  disabled={!protocolId}
+                  onChange={onChange}
+                  value={value}
+                  regex={/^[a-zA-Z]*$/}
+                />
+              )}
+            />
+            {/* <Input
               placeholder="M"
               {...register("MiddleInitial", {
                 pattern: {
@@ -106,7 +147,7 @@ const SearchSubjectForm = ({ setQueryParams, protocolId }: SearchSubjectFormProp
               maxLength={1}
               type="text"
               disabled={!protocolId}
-            />
+            /> */}
             {errors.MiddleInitial && (
               <span className="text-red-500 -mt-10">
                 {errors.MiddleInitial.message as string}
@@ -114,7 +155,27 @@ const SearchSubjectForm = ({ setQueryParams, protocolId }: SearchSubjectFormProp
             )}
           </div>
           <div>
-            <Input
+            <Controller
+              control={control}
+              name="LastInitial"
+              rules={{
+                pattern: {
+                  value: /^[a-zA-Z]$/,
+                  message: "One alphabetic character allowed",
+                },
+              }}
+              render={({ field: { onChange, onBlur, value } }: any) => (
+                <InputFieldWithRegexValidation
+                  placeholder="L"
+                  maxLength={1}
+                  disabled={!protocolId}
+                  onChange={onChange}
+                  value={value}
+                  regex={/^[a-zA-Z]*$/}
+                />
+              )}
+            />
+            {/* <Input
               placeholder="L"
               {...register("LastInitial", {
                 pattern: {
@@ -125,7 +186,7 @@ const SearchSubjectForm = ({ setQueryParams, protocolId }: SearchSubjectFormProp
               maxLength={1}
               type="text"
               disabled={!protocolId}
-            />
+            /> */}
             {errors.LastInitial && (
               <span className="text-red-500 -mt-10">
                 {errors.LastInitial.message as string}

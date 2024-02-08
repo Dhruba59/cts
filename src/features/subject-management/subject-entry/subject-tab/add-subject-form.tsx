@@ -18,6 +18,7 @@ import { toast } from "react-toastify";
 import Alert from "@/components/ui/alert";
 import Modal from "@/components/modal";
 import { useRouter } from "next/navigation";
+import InputFieldWithRegexValidation from "@/components/ui/inputfield-with-regex";
 
 enum NATIONAL_ID_TYPE {
   PASSPORT = '2',
@@ -52,6 +53,7 @@ const AddSubjectForm = ({ dropdowns, protocolId, subjectIdFormat, setSelectedPro
   const [genderOptions, setGenderOptions] = useState<SelectOptionType[]>();
   const [visitTypeOptions, setVisitTypeOptions] = useState<SelectOptionType[]>();
   const [nationalID, setNationalId] = useState<string>('');
+
   const { mutate: addSubject, isLoading: isSubjectAddLoading } = useAddSubjectMutation();
   const { mutate: saveSubjectChangeRequest, isLoading: isLoadingChangeRequest } = useSaveChangeRequest();
   const { mutate: validateSponsor } = useValidateSponsorSubjectId();
@@ -72,6 +74,7 @@ const AddSubjectForm = ({ dropdowns, protocolId, subjectIdFormat, setSelectedPro
     setValue,
     setError,
     clearErrors,
+    formState,
     formState: { errors },
     reset,
     getValues,
@@ -302,6 +305,7 @@ const AddSubjectForm = ({ dropdowns, protocolId, subjectIdFormat, setSelectedPro
         },
         requestNote: ''
       };
+      // setValue('partialID', subjectDetail.nationalIdLastFourDigit);
       setUserId?.(subjectDetail.userId);
       reset(values);
       setSelectedProtocol({
@@ -339,7 +343,28 @@ const AddSubjectForm = ({ dropdowns, protocolId, subjectIdFormat, setSelectedPro
           <Label label="Subject Initials" className="inline-block mb-2" />
           <div className="grid grid-cols-3 gap-6">
             <div>
-              <Input
+              <Controller
+                control={control}
+                name="firstNameInitials"
+                rules={{
+                  required: "Required!",
+                  pattern: {
+                    value: /^[a-zA-Z]$/,
+                    message: "Only one alphabetic character allowed",
+                  },
+                }}
+                render={({ field: { onChange, onBlur, value } }: any) => (
+                  <InputFieldWithRegexValidation
+                    placeholder="F"
+                    maxLength={1}
+                    disabled={!protocolId && !ids}
+                    onChange={onChange}
+                    value={value}
+                    regex={/^[a-zA-Z]*$/}
+                  />
+                )}
+              />
+              {/* <Input
                 placeholder="F"
                 {...register("firstNameInitials", {
                   required: "required",
@@ -351,7 +376,7 @@ const AddSubjectForm = ({ dropdowns, protocolId, subjectIdFormat, setSelectedPro
                 maxLength={1}
                 type="text"
                 disabled={!protocolId && !ids}
-              />
+              /> */}
               {errors.firstNameInitials && (
                 <span className="text-red-500 -mt-10">
                   {errors.firstNameInitials.message as string}
@@ -359,7 +384,28 @@ const AddSubjectForm = ({ dropdowns, protocolId, subjectIdFormat, setSelectedPro
               )}
             </div>
             <div>
-              <Input
+              <Controller
+                control={control}
+                name="middleNameInitials"
+                rules={{
+                  required: "Put a '-' if you have no middle name",
+                  pattern: {
+                    value: /^[a-zA-Z-]$/,
+                    message: "Only one alphabetic character allowed",
+                  },
+                }}
+                render={({ field: { onChange, onBlur, value } }: any) => (
+                  <InputFieldWithRegexValidation
+                    placeholder="M"
+                    maxLength={1}
+                    disabled={!protocolId && !ids}
+                    onChange={onChange}
+                    value={value}
+                    regex={/^[a-zA-Z-]*$/}
+                  />
+                )}
+              />
+              {/* <Input
                 placeholder="M"
                 {...register("middleNameInitials", {
                   required: "Put '-' if you have no middle name",
@@ -371,7 +417,7 @@ const AddSubjectForm = ({ dropdowns, protocolId, subjectIdFormat, setSelectedPro
                 maxLength={1}
                 type="text"
                 disabled={!protocolId && !ids}
-              />
+              /> */}
               {errors.middleNameInitials && (
                 <span className="text-red-500 -mt-10">
                   {errors.middleNameInitials.message as string}
@@ -379,7 +425,28 @@ const AddSubjectForm = ({ dropdowns, protocolId, subjectIdFormat, setSelectedPro
               )}
             </div>
             <div>
-              <Input
+              <Controller
+                control={control}
+                name="lastNameInitials"
+                rules={{
+                  required: "Required!",
+                  pattern: {
+                    value: /^[a-zA-Z]$/,
+                    message: "Only one alphabetic character allowed",
+                  },
+                }}
+                render={({ field: { onChange, onBlur, value } }: any) => (
+                  <InputFieldWithRegexValidation
+                    placeholder="L"
+                    maxLength={1}
+                    disabled={!protocolId && !ids}
+                    onChange={onChange}
+                    value={value}
+                    regex={/^[a-zA-Z]*$/}
+                  />
+                )}
+              />
+              {/* <Input
                 placeholder="L"
                 {...register("lastNameInitials", {
                   required: "required",
@@ -391,7 +458,7 @@ const AddSubjectForm = ({ dropdowns, protocolId, subjectIdFormat, setSelectedPro
                 maxLength={1}
                 type="text"
                 disabled={!protocolId && !ids}
-              />
+              /> */}
               {errors.lastNameInitials && (
                 <span className="text-red-500 -mt-10">
                   {errors.lastNameInitials.message as string}
@@ -436,7 +503,7 @@ const AddSubjectForm = ({ dropdowns, protocolId, subjectIdFormat, setSelectedPro
                     onChange(date?.startDate ? date : null);
                   }}
                   placeholder="Date of birth"
-                  label="Date of Birth"   
+                  label="Date of Birth"
                   disabled={!protocolId && !ids}
                 />
               )}
@@ -456,20 +523,45 @@ const AddSubjectForm = ({ dropdowns, protocolId, subjectIdFormat, setSelectedPro
                 label="Last 4 SSN/National ID"
                 className="inline-block mb-2"
               />
-              <Input
+              <Controller
+                control={control}
+                name="partialID"
+                rules={{
+                  required: "ID is required!",
+                  pattern: {
+                    // value: /^\d{4}$/,
+                    value: /^(x{4}|\d{4})$/i,
+                    message: "Last four digits",
+                  },
+                }}
+                render={({ field: { onChange, onBlur, value } }: any) => (
+                  <InputFieldWithRegexValidation
+                    onBlur={onBlurIdField}
+                    maxLength={4}
+                    regex={/^(x{0,4}|X{0,4}|\d{0,4})$/i}
+                    disabled={!protocolId && !ids}
+                    value={value}
+                    onChange={onChange}
+                    // key={formState.isSubmitSuccessful	 ? "submitted" : "notsubmitted"}
+                  />
+                )}
+              />
+              {/* <InputFieldWithRegexValidation
                 {...register("partialID", {
                   required: "Id required",
                   pattern: {
                     // value: /^\d{4}$/,
                     value: /^(x{4}|\d{4})$/i,
-                    message: "Only four digits",
+                    message: "Last four digits",
                   },
                 })}
                 onBlur={onBlurIdField}
-                // type="number"
-                // onKeyUp={validateId}
+                maxLength={4}
+                supportedCharacters={/^(x{0,4}|X{0,4}|\d{0,4})$/i}
                 disabled={!protocolId && !ids}
-              />
+                value={nationalID}
+                // key={formState.isSubmitSuccessful	 ? "submitted" : "notsubmitted"}
+              /> */}
               {errors.partialID && (
                 <span className="text-red-500 -mt-10">
                   {errors.partialID.message as string}
