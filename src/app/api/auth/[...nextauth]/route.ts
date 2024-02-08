@@ -14,8 +14,13 @@ export const authOptions: NextAuthOptions = {
       if (account?.provider === "credentials") return true;
       return false;
     },
-    async jwt({ token, user }) {
+    async jwt({ token, user, trigger, session }) {
+
+      if (trigger === 'update') {
+        token.user = {...session.user};     
+      }
       user && (token.user = user);
+
       return token;
     },
     async session({ session, token }: any) {
