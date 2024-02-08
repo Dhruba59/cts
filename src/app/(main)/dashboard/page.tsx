@@ -1,17 +1,14 @@
 "use client";
 
-import Button from "@/components/ui/button";
-import Input from "@/components/ui/input";
-import Checkbox, { CheckboxGroup } from "@/components/ui/checkbox";
-import Textarea from "@/components/ui/textarea";
+
 import CardDataStats from "@/components/CardDataStats";
 import { useEffect, useMemo, useState } from "react";
 import { USERS, USER_COLUMN } from "@/components/table/mockData";
-import Select from "@/components/ui/select";
-import { useHubContext } from "@/context/hub-connection-context";
-import { MainContainer } from "@/components/style-container";
 import React, { PureComponent } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, BarChart, Bar, Rectangle, AreaChart, Area, PieChart, Pie, Cell } from 'recharts';
+import DisclaimerModal from "@/features/dashboard/disclaimer-modal";
+import { signOut, useSession } from "next-auth/react";
+
 
 
 const bar_chart_data = [
@@ -170,6 +167,9 @@ const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, per
   );
 };
 export default function Dashboard() {
+
+  const {data: session, update} = useSession();
+
   const options = [
     { value: "blues", label: "Blues" },
     { value: "rock", label: "Rock" },
@@ -177,39 +177,65 @@ export default function Dashboard() {
     { value: "orchestra", label: "Orchestra" }
   ];
 
+  const [openDisclaimerModal, setOpenDisclaimerModal] = useState<React.ReactNode>(null);
+  const [id, setId] = useState<number>(0);
+
+  const onAccept = () => {
+    setOpenDisclaimerModal(null);
+    update({
+      ...session,
+      user: {
+        ...session?.user,
+        eulaAccepted: true
+      }
+    })
+  }
+
+  const onReject = () => {
+    signOut();
+    setOpenDisclaimerModal(null);   
+  }
+
   const [totalUser, setTotalUser] = useState<number>(0);
   const columns = useMemo(() => USER_COLUMN, []);
   const data = useMemo(() => USERS, []);
 
 
-  const { connection } = useHubContext();
+  //const { connection } = useHubContext();
 
   useEffect(() => {
+    //@ts-ignore
+    if(session && !session?.user?.eulaAccepted){
+      setOpenDisclaimerModal(
+        //@ts-ignore
+        <DisclaimerModal firstName={session?.user?.firstName} lastName={session?.user?.lastName} onAccept={onAccept} onReject={onReject}/>
+      );
+    }
 
-    connection.on("UserConnected", (connectionId) => {
-      // TODO: add this conectionId for further uses
-      console.log(connectionId);
-    });
+    // connection.on("UserConnected", (connectionId) => {
+    //   // TODO: add this conectionId for further uses
+    //   //console.log(connectionId);
+    // });
 
-    connection.on("UserDisconnected", (connectionId) => {
-      // TODO: remove this connectionId from list
-      //console.log(connectionId);
-    });
+    // connection.on("UserDisconnected", (connectionId) => {
+    //   // TODO: remove this connectionId from list
+    //   //console.log(connectionId);
+    // });
 
-    connection.on("OnlineUsersCount", (message) => {
-      setTotalUser(message);
-      console.log(`Total User connected: ${message}`);
-    });
+    // connection.on("OnlineUsersCount", (message) => {
+    //   //setTotalUser(message);
+    //   //console.log(`Total User connected: ${message}`);
+    // });
 
     //setConnection(connection);
   }, []);
 
   const sendMessage = async () => {
     //if (connection) await connection.send("GetOnlineUsersCount");
-    if (connection)
-      await connection.invoke("GetOnlineUsersCount").catch((error) => {
-        return console.error(error.toString());
-      });
+    // if (connection)
+    //   await connection.invoke("GetOnlineUsersCount").catch((error) => {
+    //     return console.error(error.toString());
+    //   });
   };
 
   return (
@@ -336,6 +362,7 @@ export default function Dashboard() {
 
 
       </div>
+      {openDisclaimerModal}
     </main>
   );
 }
