@@ -3,6 +3,7 @@ import Button from "@/components/ui/button";
 import Checkbox from "@/components/ui/checkbox";
 import Datepicker from "@/components/ui/datepicker";
 import Input from "@/components/ui/input";
+import InputFieldWithRegexValidation from "@/components/ui/inputfield-with-regex";
 import Label from "@/components/ui/label";
 import Select from "@/components/ui/select";
 import { SelectOptionType } from "@/model/drop-down-list";
@@ -166,7 +167,27 @@ const AdvanceSearchForm = ({ form, onResetSearchFields }: AdvanceSearchFormProps
         <div>
           <Label label="Subject Initials" className="inline-block mb-2" />
           <div className="grid grid-cols-3 gap-x-2">
-            <Input
+            <Controller
+              control={control}
+              name="firstInitial"
+              rules={{
+                pattern: {
+                  value: /^[a-zA-Z]$/,
+                  message: "Only one alphabetic character allowed",
+                },
+              }}
+              render={({ field: { onChange, onBlur, value } }: any) => (
+                <InputFieldWithRegexValidation
+                  placeholder="F"
+                  maxLength={1}
+                  // disabled={!protocolId && !ids}
+                  onChange={onChange}
+                  value={value}
+                  regex={/^[a-zA-Z]*$/}
+                />
+              )}
+            />
+            {/* <Input
               placeholder="F"
               {...register("firstInitial", {
                 pattern: {
@@ -176,8 +197,29 @@ const AdvanceSearchForm = ({ form, onResetSearchFields }: AdvanceSearchFormProps
               })}
               maxLength={1}
               type="text"
+            /> */}
+
+            <Controller
+              control={control}
+              name="middleInitial"
+              rules={{
+                pattern: {
+                  value: /^[a-zA-Z]$/,
+                  message: "Only one alphabetic character allowed",
+                },
+              }}
+              render={({ field: { onChange, onBlur, value } }: any) => (
+                <InputFieldWithRegexValidation
+                  placeholder="M"
+                  maxLength={1}
+                  // disabled={!protocolId && !ids}
+                  onChange={onChange}
+                  value={value}
+                  regex={/^[a-zA-Z]*$/}
+                />
+              )}
             />
-            <Input
+            {/* <Input
               placeholder="M"
               {...register("middleInitial", {
                 pattern: {
@@ -187,8 +229,29 @@ const AdvanceSearchForm = ({ form, onResetSearchFields }: AdvanceSearchFormProps
               })}
               maxLength={1}
               type="text"
+            /> */}
+
+            <Controller
+              control={control}
+              name="lastInitial"
+              rules={{
+                pattern: {
+                  value: /^[a-zA-Z]$/,
+                  message: "Only one alphabetic character allowed",
+                },
+              }}
+              render={({ field: { onChange, onBlur, value } }: any) => (
+                <InputFieldWithRegexValidation
+                  placeholder="L"
+                  maxLength={1}
+                  // disabled={!protocolId && !ids}
+                  onChange={onChange}
+                  value={value}
+                  regex={/^[a-zA-Z]*$/}
+                />
+              )}
             />
-            <Input
+            {/* <Input
               placeholder="L"
               {...register("lastInitial", {
                 pattern: {
@@ -198,12 +261,14 @@ const AdvanceSearchForm = ({ form, onResetSearchFields }: AdvanceSearchFormProps
               })}
               maxLength={1}
               type="text"
-            />
+            /> */}
           </div>
           {(errors.firstInitial ||
             errors.middleInitial ||
             errors.lastInitial) && (
-            <span className="text-red-500">Only Single alphabetic character allowed</span>
+            <span className="text-red-500">
+              Single alphabetic character allowed
+            </span>
           )}
         </div>
         <Input
