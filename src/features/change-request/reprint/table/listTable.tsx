@@ -11,9 +11,9 @@ import { MODAL_TYPE_ENUM } from "@/model/enum";
 import { ChangeRequestReprintListColumns } from "./columns";
 import { useGetChangeReqVisitTypes } from "@/hooks/rq-hooks/change-request-hooks";
 import Spinner from "@/components/ui/spinner";
-import ReprintPdf from "../reprint-pdf";
 import { PDFViewer } from "@react-pdf/renderer";
 import ChangeRequestModal from "./change-request-modal";
+import ReprintPdf from "../../pdf/reprint-pdf";
 
 
 export function ListTable({ data, sorting, setSorting, refetch, isLoading }: any) {
