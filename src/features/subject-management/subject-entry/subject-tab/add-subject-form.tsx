@@ -42,6 +42,11 @@ const getSiteStudyIdByStudyId = (data: any, studyId: number | string) => {
   return data?.find((item: any) => item?.studyId == studyId)?.siteStudyId ?? '';
 }
 
+const addOffsetToDate = (date: string) => {
+  const newDate = new Date(date);
+  return newDate.setMinutes(newDate.getMinutes() - newDate.getTimezoneOffset());
+}
+
 const AddSubjectForm = ({ dropdowns, protocolId, subjectIdFormat, setSelectedProtocol, protocolList, ids, setStudyType, userId, setUserId }: AddSubjectFormProps) => {
   const [heightUnitOptions, setHeightUnitOptions] = useState<SelectOptionType[]>();
   const [weightUnitOptions, setWeightUnitOptions] = useState<SelectOptionType[]>();
@@ -282,8 +287,8 @@ const AddSubjectForm = ({ dropdowns, protocolId, subjectIdFormat, setSelectedPro
         middleNameInitials: subjectDetail.middleInitial,
         lastNameInitials: subjectDetail.lastInitial,
         dateOfBirth: dropdowns.partialDateAllowed ? new Date(subjectDetail?.dateOfBirth).getFullYear() : {
-          startDate: new Date(subjectDetail.dateOfBirth),
-          endDate: new Date(subjectDetail.dateOfBirth)
+          startDate: addOffsetToDate(subjectDetail.dateOfBirth),
+          endDate: addOffsetToDate(subjectDetail.dateOfBirth)
         },
         partialID: subjectDetail.nationalIdLastFourDigit,
         idType: subjectDetail.idType,
@@ -296,12 +301,12 @@ const AddSubjectForm = ({ dropdowns, protocolId, subjectIdFormat, setSelectedPro
         indicationDetails: subjectDetail.indicationDetail,
         visitTypeId: subjectDetail.visitTypeId,
         lastSubjectEntryDate: {
-          startDate: new Date(subjectDetail.lastEntryDate),
-          endDate: new Date(subjectDetail.lastEntryDate)
+          startDate: addOffsetToDate(subjectDetail.lastEntryDate),
+          endDate: addOffsetToDate(subjectDetail.lastEntryDate)
         },
         screenedDate: {
-          startDate: new Date(subjectDetail.screenedDate),
-          endDate: new Date(subjectDetail.screenedDate)
+          startDate: addOffsetToDate(subjectDetail.screenedDate),
+          endDate: addOffsetToDate(subjectDetail.screenedDate)
         },
         requestNote: ''
       };
