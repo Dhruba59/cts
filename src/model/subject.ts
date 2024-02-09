@@ -109,7 +109,7 @@ export interface Protocol {
     lastSubjectContactType: string;
   }
 
-  export interface LastSubjectMatchReportParams {
+  export interface MatchReportQueryParams {
     SubjectId: string | number;
     NationalTypeId: string | number;
   }
