@@ -331,7 +331,7 @@ const AddSubjectForm = ({ dropdowns, protocolId, subjectIdFormat, setSelectedPro
         onSubmit={handleSubmit(onSubmit)}>
         <div>
           <Input
-            label={`Sponsor Subject ID (${subjectIdFormat})`}
+            label={`Sponsor Subject ID ${subjectIdFormat && subjectIdFormat !== '' && `(format: ${subjectIdFormat})`}`}
             placeholder={subjectIdFormat}
             {...register("sponsorSubjectID", {
               required: "Sponsor id required.",
