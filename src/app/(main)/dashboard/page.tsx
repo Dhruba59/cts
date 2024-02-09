@@ -8,6 +8,7 @@ import React, { PureComponent } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, BarChart, Bar, Rectangle, AreaChart, Area, PieChart, Pie, Cell } from 'recharts';
 import DisclaimerModal from "@/features/dashboard/disclaimer-modal";
 import { signOut, useSession } from "next-auth/react";
+import { USER_ROLE_ENUM } from "@/model/enum";
 
 
 
@@ -202,10 +203,9 @@ export default function Dashboard() {
 
 
   //const { connection } = useHubContext();
-
   useEffect(() => {
     //@ts-ignore
-    if(session && !session?.user?.eulaAccepted){
+    if(session && !session?.user?.eulaAccepted && session?.user.currentRole.roleId != USER_ROLE_ENUM.SYSTEM_ADMIN){
       setOpenDisclaimerModal(
         //@ts-ignore
         <DisclaimerModal firstName={session?.user?.firstName} lastName={session?.user?.lastName} onAccept={onAccept} onReject={onReject}/>
