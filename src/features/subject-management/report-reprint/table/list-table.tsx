@@ -6,6 +6,10 @@ import { SortingState } from "@tanstack/react-table";import ReprintReportPdf fro
 import { PDFViewer } from "@react-pdf/renderer";
 import Spinner from "@/components/ui/spinner";
 import Modal from "@/components/modal";
+import ReprintPdf from "@/features/change-request/pdf/reprint-pdf";
+import { getSubjectMatchReport } from "@/service/report-service";
+import { useQuery } from "react-query";
+import { LastSubjectMatchReportParams } from "@/model/subject";
 
 
 export interface ListTableProps {
@@ -18,14 +22,22 @@ export interface ListTableProps {
 const ListTable = ({ data, sorting, setSorting, isLoadingTableData }: ListTableProps) => {
   const isLoading = false;
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [lastSubjectQueryParams, setLastSubjectQueryParams] =
+  useState<LastSubjectMatchReportParams>();
+  const { data: subjectMatchReport, isLoading: isLoadingSubjectMatchReport } =
+    useQuery({
+      queryFn: getSubjectMatchReport,
+      queryKey: ["reportReprintSubjects", lastSubjectQueryParams],
+      enabled: !!lastSubjectQueryParams,
+    });
+
+    const onPrintClick = (subjectInfo: LastSubjectMatchReportParams) => {
+      setLastSubjectQueryParams(subjectInfo);
+      setIsModalOpen(true);
+    };
 
   const onCloseModal = () => {
     setIsModalOpen(false);
-  };
-
-  const onPrintClick = () => {
-    // setLastSubjectQueryParams(subjectInfo);
-    setIsModalOpen(true);
   };
 
   const columns = useMemo(() => getColumns({ onPrintClick }), []);
@@ -60,8 +72,8 @@ const ListTable = ({ data, sorting, setSorting, isLoadingTableData }: ListTableP
             </div>
           ) : (
             <PDFViewer className="w-full h-[85vh]">
-              <ReprintReportPdf
-                data={[]}
+              <ReprintPdf
+                data={subjectMatchReport?.data}
               />
             </PDFViewer>
           )}
