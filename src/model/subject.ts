@@ -108,3 +108,8 @@ export interface Protocol {
     lastSubjectContactDate: string;
     lastSubjectContactType: string;
   }
+
+  export interface LastSubjectMatchReportParams {
+    SubjectId: string | number;
+    NationalTypeId: string | number;
+  }

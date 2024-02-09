@@ -2,17 +2,19 @@ import { formateTableDate } from "@/utils/helpers";
 import { ColumnDef } from "@tanstack/react-table";
 import PrintSubjectModal from "../../subject-entry/table/print-subject-modal";
 import Print from "@/components/icons/print";
+import { LastSubjectMatchReportParams } from "@/model/subject";
 
 export type List = {
   user_name: string;
   protocol: string;
-  subject_id: string;
+  subjectID: string;
+  sid: string;
   first_init: string;
   second_init: string;
   third_init: string;
   dob: string;
   national_id: number;
-  id_type: string;
+  nationalTypeID: string;
   sex: string;
   zip: number;
   height: number;
@@ -21,7 +23,7 @@ export type List = {
 };
 
 interface ReportReprintColumnProps {
-  onPrintClick: () => void;
+  onPrintClick: (val: LastSubjectMatchReportParams) => void;
 }
 
 export const getColumns = ({ onPrintClick }: ReportReprintColumnProps): ColumnDef<List>[] => { 
@@ -98,9 +100,13 @@ export const getColumns = ({ onPrintClick }: ReportReprintColumnProps): ColumnDe
       header: "Action",
       size: 80,
       cell: ({ row }) => {
+        const subjectInfo = {
+          SubjectId: row.original.sid,
+          NationalTypeId: row.original.nationalTypeID
+        }
         return (
           <div className="flex items-center gap-6">
-            <Print onClick={onPrintClick} />
+            <Print onClick={() => onPrintClick(subjectInfo)} />
           </div>
         );
       },
