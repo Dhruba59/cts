@@ -5,16 +5,18 @@ import Label from "./label";
 export interface InputProps
   extends React.InputHTMLAttributes<HTMLInputElement> {
   label?: string;
+  span?: string | number | React.ReactNode
   wrapperClassName?: string;
 }
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
-  ({ className, type, label, required, wrapperClassName, ...props }, ref) => {
+  ({ className, type, label, span, required, wrapperClassName, ...props }, ref) => {
     return (
       <div className={wrapperClassName}>
         {label && (
           <Label
             label={label}
+            span={span}
             isRequired={required}
             className="inline-block mb-2"
           />
