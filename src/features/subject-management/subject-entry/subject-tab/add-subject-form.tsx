@@ -20,6 +20,7 @@ import Modal from "@/components/modal";
 import { useRouter } from "next/navigation";
 import InputFieldWithRegexValidation from "@/components/ui/inputfield-with-regex";
 
+
 enum NATIONAL_ID_TYPE {
   PASSPORT = '2',
   SOCIAL_SECURITY = '1'
@@ -29,6 +30,7 @@ interface AddSubjectFormProps {
   dropdowns: { [key: string]: DropDownItem[] | any };
   protocolId: string | undefined;
   subjectIdFormat: string;
+  restSubjectIdFormat: any;
   ids: ChangeReqSubjectIdProps | undefined;
   setSelectedProtocol: Dispatch<SetStateAction<SelectOptionType | undefined>>;
   setStudyType: Dispatch<SetStateAction<SelectOptionType | undefined>>;
@@ -38,7 +40,7 @@ interface AddSubjectFormProps {
 }
 
 const getSiteStudyIdByStudyId = (data: any, studyId: number | string) => {
-  console.log('study', data, studyId);
+  //console.log('study', data, studyId);
   return data?.find((item: any) => item?.studyId == studyId)?.siteStudyId ?? '';
 }
 
@@ -47,7 +49,8 @@ const addOffsetToDate = (date: string) => {
   return newDate.setMinutes(newDate.getMinutes() - newDate.getTimezoneOffset());
 }
 
-const AddSubjectForm = ({ dropdowns, protocolId, subjectIdFormat, setSelectedProtocol, protocolList, ids, setStudyType, userId, setUserId }: AddSubjectFormProps) => {
+const AddSubjectForm = ({ dropdowns, protocolId, subjectIdFormat, restSubjectIdFormat,
+  setSelectedProtocol, protocolList,  ids, setStudyType, userId, setUserId }: AddSubjectFormProps) => {
   const [heightUnitOptions, setHeightUnitOptions] = useState<SelectOptionType[]>();
   const [weightUnitOptions, setWeightUnitOptions] = useState<SelectOptionType[]>();
   const [isDetailsRequired, setIsDetailsRequired] = useState<boolean>(false);
@@ -58,7 +61,7 @@ const AddSubjectForm = ({ dropdowns, protocolId, subjectIdFormat, setSelectedPro
   const [genderOptions, setGenderOptions] = useState<SelectOptionType[]>();
   const [visitTypeOptions, setVisitTypeOptions] = useState<SelectOptionType[]>();
   const [nationalID, setNationalId] = useState<string>('');
-
+  const [studyId, setStudyId] = useState<string>('');
   const { mutate: addSubject, isLoading: isSubjectAddLoading } = useAddSubjectMutation();
   const { mutate: saveSubjectChangeRequest, isLoading: isLoadingChangeRequest } = useSaveChangeRequest();
   const { mutate: validateSponsor } = useValidateSponsorSubjectId();
@@ -69,6 +72,7 @@ const AddSubjectForm = ({ dropdowns, protocolId, subjectIdFormat, setSelectedPro
     SubjectId: ids?.subjectId ?? '',
     NationalTypeId: ids?.nationalIdType ?? ''
   });
+
   const subjectDetail = subjectData?.data.subjectDetail;
   const router = useRouter();
 
@@ -249,7 +253,6 @@ const AddSubjectForm = ({ dropdowns, protocolId, subjectIdFormat, setSelectedPro
   }, [heightUnitOptions, weightUnitOptions])
 
   useEffect(() => {
-    //console.log('protocolid', protocolId);
     if (protocolId) {
       validateDetailRequirement({ StudyId: protocolId }, {
         onSuccess: (data) => {
@@ -316,13 +319,21 @@ const AddSubjectForm = ({ dropdowns, protocolId, subjectIdFormat, setSelectedPro
       setSelectedProtocol({
         value: subjectDetail.studyId,
         label: subjectDetail.protocolNumber
-      })
+      });
+
+      setStudyId(subjectDetail.studyId);
     }
   }
 
   useEffect(() => {
     updateFieldsWithSubjectData();
   }, [subjectDetail]);
+
+
+  useEffect(() => {
+    restSubjectIdFormat(studyId);
+  }, [studyId]);
+
 
   return (
     <>
@@ -331,12 +342,14 @@ const AddSubjectForm = ({ dropdowns, protocolId, subjectIdFormat, setSelectedPro
         onSubmit={handleSubmit(onSubmit)}>
         <div>
           <Input
-            label={`Sponsor Subject ID ${subjectIdFormat && subjectIdFormat !== '' && `(format: ${subjectIdFormat})`}`}
+            label={`Sponsor Subject ID `}
+            span={subjectIdFormat && subjectIdFormat !== '' && <span className='text-[13px] italic text-red-600'>(<span>Format: </span><span className='text-[11px]'>{subjectIdFormat}</span>)</span>}
             placeholder={subjectIdFormat}
             {...register("sponsorSubjectID", {
               required: "Sponsor id required.",
             })}
             disabled={!protocolId && !ids}
+            onFocus={() => restSubjectIdFormat(studyId)}
           />
           {errors.sponsorSubjectID && (
             <span className="text-red-500 -mt-10">

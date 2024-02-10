@@ -18,6 +18,7 @@ import { DEFAULT_PAGE_SIZE } from "@/constants/common";
 import Pagination from "@/components/pagination";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
+import useProtocolListStore from "@/store";
 
 const getProtocolsDropdown = (data: Protocol[]) => {
   return data?.map((protocol) => ({ value: protocol.studyId.toString(), label: protocol.protocolNumber }))
@@ -65,10 +66,12 @@ const SubjectEntryEditForm = ({ ids }: SubjectEntryEditForm) => {
     queryFn: getSubjectDropdowns,
   });
 
-  const getSubjectIdFormatFromProtocol = (id: string) => {
-    const protocol = protocolList?.data?.protocols.find((item: any) => item.studyId.toString() === id)
+  //const { protocols, addProtocols } = useProtocolListStore();
+
+  const restSubjectIdFormat = (id: string) => {
+    const protocol = protocolList?.data?.protocols.find((item: any) => item.studyId === id)
     if (protocol) {
-      return protocol.subjectIdEntryFormat;
+      setSubjectEntryFormat(protocol?.subjectIdEntryFormat ?? '');
     }
   };
 
@@ -102,6 +105,7 @@ const SubjectEntryEditForm = ({ ids }: SubjectEntryEditForm) => {
 
   useEffect(() => {
     setProtocolOptions(getProtocolsDropdown(protocolList?.data?.protocols));
+    //addProtocols(protocolList?.data?.protocols);
   }, [protocolList]);
 
   // useEffect(() => {
@@ -141,8 +145,8 @@ const SubjectEntryEditForm = ({ ids }: SubjectEntryEditForm) => {
           router.push(`training?studyId=${protocol.studyId}`);
         }, 3000);
       };
-      setSubjectEntryFormat(protocol?.subjectIdEntryFormat ?? '');
 
+      setSubjectEntryFormat(protocol?.subjectIdEntryFormat ?? '');
 
       const prescreen = protocolList?.data?.protocols?.find(
         ({ studyId }: any) => studyId.toString() === selectedProtocol?.value
@@ -209,7 +213,7 @@ const SubjectEntryEditForm = ({ ids }: SubjectEntryEditForm) => {
           </div>
           {((userRole == USER_ROLE_ENUM.SITE_USER && selectedProtocol?.value) || ids) &&
             <div>
-              <AddSubjectForm dropdowns={dropdowns?.data || []} protocolId={selectedProtocol?.value} subjectIdFormat={subjectEntryFormat} setSelectedProtocol={setSelectedProtocol} ids={ids} setStudyType={setSelectedStudy} protocolList={protocolList?.data.protocols} userId={userId} setUserId={setUserId}/>
+              <AddSubjectForm dropdowns={dropdowns?.data || []} protocolId={selectedProtocol?.value} subjectIdFormat={subjectEntryFormat} restSubjectIdFormat={restSubjectIdFormat} setSelectedProtocol={setSelectedProtocol} ids={ids} setStudyType={setSelectedStudy} protocolList={protocolList?.data.protocols} userId={userId} setUserId={setUserId}/>
             </div>}
           {((userRole == USER_ROLE_ENUM.SYSTEM_ADMIN && selectedProtocol?.value && !ids)) &&
             <div>
