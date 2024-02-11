@@ -13,7 +13,7 @@ import { DropDownItem, SelectOptionType } from "@/model/drop-down-list";
 import { Indication, IndicationQuery } from "@/model/indication";
 import { getIndicationById, getIndicationCodeTypes } from "@/service/indication-service";
 import { convertTypeToSelectOption } from "@/utils/helpers";
-import React, { useEffect, useState } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import Tab from "../user-tab";
 import { useAddUser, useEditUser, useGetUserById, useGetUserDropdowns, useValidateUserName } from "@/hooks/rq-hooks/user-hooks";
@@ -26,6 +26,7 @@ import { toast } from "react-toastify";
 import SysAdminUserSettings from "./sys-admin-user-settings";
 import SponsorUserSettings from "./sponsor-user-settings";
 import { useRouter } from "next/navigation";
+import Loading from "@/components/loader";
 
 interface AddUserProps {
   id?: string;
@@ -301,7 +302,7 @@ const AddUser = ({ id }: AddUserProps) => {
   }
 
   useEffect(() => {
-    if(userData) {
+    if (userData) {
       const user = userData?.data;
       updateFieldsWithUserData(user);
     }
@@ -483,7 +484,7 @@ const AddUser = ({ id }: AddUserProps) => {
       );
     }
   }
-  
+
   // const handleReset = () => {
   //   if(id && userData) {
   //     const user = userData?.data;
@@ -563,214 +564,214 @@ const AddUser = ({ id }: AddUserProps) => {
 
 
   return (
-    <div className="w-full">
-      <Breadcrumbs title="User" subTitle="Add User" />
-      <form onSubmit={handleSubmit(onSubmit)} className="">
-        <section className="wrapper">
-          <h4 className=" text-neutral-black px-6 py-4">
-            {id ? 'Update User' : 'Create New User'}
-          </h4>
-          <hr />
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 lg:gap-6 px-6 py-8">
-            <div>
-              <Input
-                label="First Name"
-                placeholder="Enter First name"
-                {...register("firstName", {
-                  required: "First name is required!"
-                })}
-                onBlur={handleSystemLoginName}
-              />
-              {errors.firstName && (
-                <span className="text-red-500 -mt-10">{errors.firstName.message as string}</span>
-              )}
-            </div>
-            <div>
-              <Input
-                label="Middle Name"
-                placeholder="Middle Name"
-                {...register("middleName", {
-                  // required: "Middle name is required!"
-                })}
-              />
-              {errors.middleName && (
-                <span className="text-red-500 -mt-10">{errors.middleName.message as string}</span>
-              )}
-            </div>
-            <div>
-              <Input
-                label="Last Name"
-                placeholder="Enter last name"
-                {...register("lastName", {
-                  required: "Last name is required!"
-                })}
-                onBlur={handleSystemLoginName}
-              />
-              {errors.lastName && (
-                <span className="text-red-500 -mt-10">{errors.lastName.message as string}</span>
-              )}
-            </div>
-            <div>
-              <Input
-                label="Title"
-                placeholder="Enter Title"
-                {...register("title", {
-                  // required: "Title is required!"
-                })}
-              />
-              {errors.title && (
-                <span className="text-red-500 -mt-10">{errors.title.message as string}</span>
-              )}
-            </div>
-            <div>
-              <Input
-                label="Email"
-                placeholder="Enter Email"
-                {...register("email", {
-                  required: "Email is required!",
-                  pattern: {
-                    value: /\S+@\S+\.\S+/,
-                    message: "Invalid email!"
-                  }
-                })}
-              />
-              {errors.email && (
-                <span className="text-red-500 -mt-10">{errors.email.message as string}</span>
-              )}
-            </div>
-            <div>
-              <Controller
-                control={control}
-                name='userType'
-                rules={{}}
-                render={({ field: { onChange, onBlur, value } }: any) => (
-                  <Select
-                    onChange={(option) => {
-                      onChange(option);
-                      setSelectedUserType(option.value);
-                    }}
-                    label="User type"
-                    options={userTypeOptions}
-                    value={value} />
+      <div className="w-full">
+        <Breadcrumbs title="User" subTitle="Add User" />
+        <form onSubmit={handleSubmit(onSubmit)} className="">
+          <section className="wrapper">
+            <h4 className=" text-neutral-black px-6 py-4">
+              {id ? 'Update User' : 'Create New User'}
+            </h4>
+            <hr />
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 lg:gap-6 px-6 py-8">
+              <div>
+                <Input
+                  label="First Name"
+                  placeholder="Enter First name"
+                  {...register("firstName", {
+                    required: "First name is required!"
+                  })}
+                  onBlur={handleSystemLoginName}
+                />
+                {errors.firstName && (
+                  <span className="text-red-500 -mt-10">{errors.firstName.message as string}</span>
                 )}
-              />
-              {errors.userType && (
-                <span className="text-red-500 -mt-10">{errors.userType.message as string}</span>
-              )}
-            </div>
-            <div>
-              <Controller
-                control={control}
-                name='sponsor'
-                rules={{}}
-                render={({ field: { onChange, onBlur, value } }: any) => (
-                  <Select
-                    onChange={(option) => {
-                      onChange(option);
-                      setSelectedSponsorId(option.value.toString());
-                    }}
-                    label="Sponsor"
-                    options={sponsorOptions}
-                    value={value} />
+              </div>
+              <div>
+                <Input
+                  label="Middle Name"
+                  placeholder="Middle Name"
+                  {...register("middleName", {
+                    // required: "Middle name is required!"
+                  })}
+                />
+                {errors.middleName && (
+                  <span className="text-red-500 -mt-10">{errors.middleName.message as string}</span>
                 )}
-              />
-              {errors.sponsor && (
-                <span className="text-red-500 -mt-10">{errors.sponsor.message as string}</span>
-              )}
-            </div>
-            <div>
-              <Input
-                label="System Login"
-                placeholder="Enter system login"
-                disabled={!!id}
-                {...register("systemLogin", {
-                  // required: "System login is required!"
-                })}
-              // onChange={handleSystemLoginChange}
-              />
-              {errors.systemLogin && (
-                <span className={`${errors.systemLogin.type === 'custom' ? 'text-green-500' : 'text-red-500'} -mt-10`}>{errors.systemLogin.message as string}</span>
-              )}
-            </div>
-            <div>
-              <Input
-                label="City"
-                placeholder="Enter City"
-                {...register("city", {
-                  required: "City is required!"
-                })}
-              />
-              {errors.city && (
-                <span className="text-red-500 -mt-10">{errors.city.message as string}</span>
-              )}
-            </div>
-            <div>
-              <Textarea label="Address one" placeholder="Enter description here"  {...register("address1", { required: "Address1 is required!" })} className="min-h-10 h-10 rounded-sm" />
-              {errors.address1 && (
-                <span className="text-red-500 -mt-10">{errors.address1.message as string}</span>
-              )}
-            </div>
-            <Textarea label="Address two" placeholder="Enter description here"  {...register("address2")} className="min-h-10 h-10 rounded-sm" />
-            {/* <div className="col-span-full grid grid-cols-1 gap-6 md:grid-cols-2">
+              </div>
+              <div>
+                <Input
+                  label="Last Name"
+                  placeholder="Enter last name"
+                  {...register("lastName", {
+                    required: "Last name is required!"
+                  })}
+                  onBlur={handleSystemLoginName}
+                />
+                {errors.lastName && (
+                  <span className="text-red-500 -mt-10">{errors.lastName.message as string}</span>
+                )}
+              </div>
+              <div>
+                <Input
+                  label="Title"
+                  placeholder="Enter Title"
+                  {...register("title", {
+                    // required: "Title is required!"
+                  })}
+                />
+                {errors.title && (
+                  <span className="text-red-500 -mt-10">{errors.title.message as string}</span>
+                )}
+              </div>
+              <div>
+                <Input
+                  label="Email"
+                  placeholder="Enter Email"
+                  {...register("email", {
+                    required: "Email is required!",
+                    pattern: {
+                      value: /\S+@\S+\.\S+/,
+                      message: "Invalid email!"
+                    }
+                  })}
+                />
+                {errors.email && (
+                  <span className="text-red-500 -mt-10">{errors.email.message as string}</span>
+                )}
+              </div>
+              <div>
+                <Controller
+                  control={control}
+                  name='userType'
+                  rules={{}}
+                  render={({ field: { onChange, onBlur, value } }: any) => (
+                    <Select
+                      onChange={(option) => {
+                        onChange(option);
+                        setSelectedUserType(option.value);
+                      }}
+                      label="User type"
+                      options={userTypeOptions}
+                      value={value} />
+                  )}
+                />
+                {errors.userType && (
+                  <span className="text-red-500 -mt-10">{errors.userType.message as string}</span>
+                )}
+              </div>
+              <div>
+                <Controller
+                  control={control}
+                  name='sponsor'
+                  rules={{}}
+                  render={({ field: { onChange, onBlur, value } }: any) => (
+                    <Select
+                      onChange={(option) => {
+                        onChange(option);
+                        setSelectedSponsorId(option.value.toString());
+                      }}
+                      label="Sponsor"
+                      options={sponsorOptions}
+                      value={value} />
+                  )}
+                />
+                {errors.sponsor && (
+                  <span className="text-red-500 -mt-10">{errors.sponsor.message as string}</span>
+                )}
+              </div>
+              <div>
+                <Input
+                  label="System Login"
+                  placeholder="Enter system login"
+                  disabled={!!id}
+                  {...register("systemLogin", {
+                    // required: "System login is required!"
+                  })}
+                // onChange={handleSystemLoginChange}
+                />
+                {errors.systemLogin && (
+                  <span className={`${errors.systemLogin.type === 'custom' ? 'text-green-500' : 'text-red-500'} -mt-10`}>{errors.systemLogin.message as string}</span>
+                )}
+              </div>
+              <div>
+                <Input
+                  label="City"
+                  placeholder="Enter City"
+                  {...register("city", {
+                    required: "City is required!"
+                  })}
+                />
+                {errors.city && (
+                  <span className="text-red-500 -mt-10">{errors.city.message as string}</span>
+                )}
+              </div>
+              <div>
+                <Textarea label="Address one" placeholder="Enter description here"  {...register("address1", { required: "Address1 is required!" })} className="min-h-10 h-10 rounded-sm" />
+                {errors.address1 && (
+                  <span className="text-red-500 -mt-10">{errors.address1.message as string}</span>
+                )}
+              </div>
+              <Textarea label="Address two" placeholder="Enter description here"  {...register("address2")} className="min-h-10 h-10 rounded-sm" />
+              {/* <div className="col-span-full grid grid-cols-1 gap-6 md:grid-cols-2">
               <Textarea label="Address one" placeholder="Enter description here"  {...register("address1")} />
               <Textarea label="Address two" placeholder="Enter description here"  {...register("address2")} />
             </div> */}
-            <div>
-              <Input
-                label="State"
-                placeholder="Enter State"
-                {...register("state", {
-                  required: "State is required!"
-                })}
-              />
-              {errors.state && (
-                <span className="text-red-500 -mt-10">{errors.state.message as string}</span>
-              )}
-            </div>
-            <div>
-              <Input
-                label="Zip Code"
-                placeholder="Enter zip code"
-                {...register("zip", {
-                  required: "Zip code is required!"
-                })}
-              />
-              {errors.zip && (
-                <span className="text-red-500 -mt-10">{errors.zip.message as string}</span>
-              )}
-            </div>
-            <div className="flex flex-col items-start justify-between py-1 pb-4">
-              <Label label="Is User Active" />
-              <Controller
-                name="isActive"
-                control={control}
-                render={({ field: { onChange, onBlur, value } }: any) =>
-                  <Checkbox onChange={onChange} checked={id ? value : true} disabled={!id} />}
-              />
-            </div>
-            {/* {id && */}
+              <div>
+                <Input
+                  label="State"
+                  placeholder="Enter State"
+                  {...register("state", {
+                    required: "State is required!"
+                  })}
+                />
+                {errors.state && (
+                  <span className="text-red-500 -mt-10">{errors.state.message as string}</span>
+                )}
+              </div>
+              <div>
+                <Input
+                  label="Zip Code"
+                  placeholder="Enter zip code"
+                  {...register("zip", {
+                    required: "Zip code is required!"
+                  })}
+                />
+                {errors.zip && (
+                  <span className="text-red-500 -mt-10">{errors.zip.message as string}</span>
+                )}
+              </div>
+              <div className="flex flex-col items-start justify-between py-1 pb-4">
+                <Label label="Is User Active" />
+                <Controller
+                  name="isActive"
+                  control={control}
+                  render={({ field: { onChange, onBlur, value } }: any) =>
+                    <Checkbox onChange={onChange} checked={id ? value : true} disabled={!id} />}
+                />
+              </div>
+              {/* {id && */}
 
-            {/* <div className="col-span-full grid grid-cols-1 gap-6 md:grid-cols-2">
+              {/* <div className="col-span-full grid grid-cols-1 gap-6 md:grid-cols-2">
               <Textarea label="Address one" placeholder="Enter description here"  {...register("address1")} />
               <Textarea label="Address two" placeholder="Enter description here"  {...register("address2")} />
             </div> */}
-          </div>
-        </section>
+            </div>
+          </section>
 
-        <section className="wrapper space-y-6">
-          <Tab tabItems={getTabItems(selectedUserType)} titleClassname="my-2 px-2" />
-        </section>
-        <div className="flex justify-center gap-4 mt-8 md:mt-14">
-          <Button type="submit" className="px-8">Submit</Button>
-          {/* <Button type="button" className="px-8" variant="secondary" onClick={handleReset} >
+          <section className="wrapper space-y-6">
+            <Tab tabItems={getTabItems(selectedUserType)} titleClassname="my-2 px-2" />
+          </section>
+          <div className="flex justify-center gap-4 mt-8 md:mt-14">
+            <Button type="submit" className="px-8">Submit</Button>
+            {/* <Button type="button" className="px-8" variant="secondary" onClick={handleReset} >
             Reset
           </Button> */}
-          <Button className="px-8" variant="outline" onClick={handleCancel} >
-            Cancel
-          </Button>
-        </div>
-      </form>
-    </div>
+            <Button className="px-8" variant="outline" onClick={handleCancel} >
+              Cancel
+            </Button>
+          </div>
+        </form>
+      </div>
   );
 };
 

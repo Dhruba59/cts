@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { Suspense, useEffect, useMemo, useState } from "react";
 import ListHeader from "./list-header";
 import ListTable from "./table/listTable";
 import { Indication, IndicationQuery } from "@/model/indication";
@@ -12,6 +12,7 @@ import { useQuery } from "react-query";
 import { MainContainer } from "@/components/style-container";
 import { useGetIndications } from "@/hooks/rq-hooks/indication-hooks";
 import { rejectChangeRequest } from '@/service/change-request-service';
+import Loading from "@/components/loader";
 
 const IndicationList = () => {
 
@@ -21,9 +22,9 @@ const IndicationList = () => {
     //{ id: "indicationName", desc: false }
   ]);
 
-  const { data: studyData, error, isLoading, refetch 
+  const { data: studyData, error, isLoading, refetch
   } = useGetIndications(queryData);
-  
+
   //console.log(studyData);
 
   // const { data: studyData } = useQuery({
@@ -67,16 +68,16 @@ const IndicationList = () => {
 
   return (
     <main>
-      <ListHeader setQueryData={setQueryData} />
-      <ListTable data={studyData?.data?.items} sorting={sorting} setSorting={setSorting} isLoading={isLoading} />
-      <Pagination
-        currentPage={studyData?.data?.pageNumber}
-        setCurrentPage={setCurrentPageNumber}
-        lastPage={studyData?.data?.totalPages}
-        pageSize={pageSize}
-        setPageSize={setPageSize}
-        maxLength={7}
-      />
+        <ListHeader setQueryData={setQueryData} />
+        <ListTable data={studyData?.data?.items} sorting={sorting} setSorting={setSorting} isLoading={isLoading} />
+        <Pagination
+          currentPage={studyData?.data?.pageNumber}
+          setCurrentPage={setCurrentPageNumber}
+          lastPage={studyData?.data?.totalPages}
+          pageSize={pageSize}
+          setPageSize={setPageSize}
+          maxLength={7}
+        />
     </main>
   );
 };

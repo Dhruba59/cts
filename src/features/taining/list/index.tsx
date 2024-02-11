@@ -54,7 +54,6 @@ const UserTrainings = () => {
             }
           </div>
         </div>
-
       </div>
     </main>
   );
