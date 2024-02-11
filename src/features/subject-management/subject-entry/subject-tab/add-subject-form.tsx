@@ -26,6 +26,7 @@ import { getSubjectMatchReport } from "@/service/report-service";
 import { PDFViewer } from "@react-pdf/renderer";
 import Spinner from "@/components/ui/spinner";
 
+
 enum NATIONAL_ID_TYPE {
   PASSPORT = '2',
   SOCIAL_SECURITY = '1'
@@ -35,6 +36,7 @@ interface AddSubjectFormProps {
   dropdowns: { [key: string]: DropDownItem[] | any };
   protocolId: string | undefined;
   subjectIdFormat: string;
+  restSubjectIdFormat: any;
   ids: ChangeReqSubjectIdProps | undefined;
   setSelectedProtocol: Dispatch<SetStateAction<SelectOptionType | undefined>>;
   setStudyType: Dispatch<SetStateAction<SelectOptionType | undefined>>;
@@ -44,11 +46,17 @@ interface AddSubjectFormProps {
 }
 
 const getSiteStudyIdByStudyId = (data: any, studyId: number | string) => {
-  console.log('study', data, studyId);
+  //console.log('study', data, studyId);
   return data?.find((item: any) => item?.studyId == studyId)?.siteStudyId ?? '';
 }
 
-const AddSubjectForm = ({ dropdowns, protocolId, subjectIdFormat, setSelectedProtocol, protocolList, ids, setStudyType, userId, setUserId }: AddSubjectFormProps) => {
+const addOffsetToDate = (date: string) => {
+  const newDate = new Date(date);
+  return newDate.setMinutes(newDate.getMinutes() - newDate.getTimezoneOffset());
+}
+
+const AddSubjectForm = ({ dropdowns, protocolId, subjectIdFormat, restSubjectIdFormat,
+  setSelectedProtocol, protocolList,  ids, setStudyType, userId, setUserId }: AddSubjectFormProps) => {
   const [heightUnitOptions, setHeightUnitOptions] = useState<SelectOptionType[]>();
   const [weightUnitOptions, setWeightUnitOptions] = useState<SelectOptionType[]>();
   const [isDetailsRequired, setIsDetailsRequired] = useState<boolean>(false);
@@ -63,6 +71,7 @@ const AddSubjectForm = ({ dropdowns, protocolId, subjectIdFormat, setSelectedPro
   const [matchReportQueryParams, setMatchReportQueryParams] =
     useState<MatchReportQueryParams>();
 
+  const [studyId, setStudyId] = useState<string>('');
   const { mutate: addSubject, isLoading: isSubjectAddLoading } = useAddSubjectMutation();
   const { mutate: saveSubjectChangeRequest, isLoading: isLoadingChangeRequest } = useSaveChangeRequest();
   const { mutate: validateSponsor } = useValidateSponsorSubjectId();
@@ -80,6 +89,7 @@ const AddSubjectForm = ({ dropdowns, protocolId, subjectIdFormat, setSelectedPro
     SubjectId: ids?.subjectId ?? '',
     NationalTypeId: ids?.nationalIdType ?? ''
   });
+
   const subjectDetail = subjectData?.data.subjectDetail;
   const router = useRouter();
 
@@ -274,7 +284,6 @@ const AddSubjectForm = ({ dropdowns, protocolId, subjectIdFormat, setSelectedPro
   }, [heightUnitOptions, weightUnitOptions])
 
   useEffect(() => {
-    //console.log('protocolid', protocolId);
     if (protocolId) {
       validateDetailRequirement({ StudyId: protocolId }, {
         onSuccess: (data) => {
@@ -312,8 +321,8 @@ const AddSubjectForm = ({ dropdowns, protocolId, subjectIdFormat, setSelectedPro
         middleNameInitials: subjectDetail.middleInitial,
         lastNameInitials: subjectDetail.lastInitial,
         dateOfBirth: dropdowns.partialDateAllowed ? new Date(subjectDetail?.dateOfBirth).getFullYear() : {
-          startDate: new Date(subjectDetail.dateOfBirth),
-          endDate: new Date(subjectDetail.dateOfBirth)
+          startDate: addOffsetToDate(subjectDetail.dateOfBirth),
+          endDate: addOffsetToDate(subjectDetail.dateOfBirth)
         },
         partialID: subjectDetail.nationalIdLastFourDigit,
         idType: subjectDetail.idType,
@@ -326,12 +335,12 @@ const AddSubjectForm = ({ dropdowns, protocolId, subjectIdFormat, setSelectedPro
         indicationDetails: subjectDetail.indicationDetail,
         visitTypeId: subjectDetail.visitTypeId,
         lastSubjectEntryDate: {
-          startDate: new Date(subjectDetail.lastEntryDate),
-          endDate: new Date(subjectDetail.lastEntryDate)
+          startDate: addOffsetToDate(subjectDetail.lastEntryDate),
+          endDate: addOffsetToDate(subjectDetail.lastEntryDate)
         },
         screenedDate: {
-          startDate: new Date(subjectDetail.screenedDate),
-          endDate: new Date(subjectDetail.screenedDate)
+          startDate: addOffsetToDate(subjectDetail.screenedDate),
+          endDate: addOffsetToDate(subjectDetail.screenedDate)
         },
         requestNote: ''
       };
@@ -341,13 +350,21 @@ const AddSubjectForm = ({ dropdowns, protocolId, subjectIdFormat, setSelectedPro
       setSelectedProtocol({
         value: subjectDetail.studyId,
         label: subjectDetail.protocolNumber
-      })
+      });
+
+      setStudyId(subjectDetail.studyId);
     }
   }
 
   useEffect(() => {
     updateFieldsWithSubjectData();
   }, [subjectDetail]);
+
+
+  useEffect(() => {
+    restSubjectIdFormat(studyId);
+  }, [studyId]);
+
 
   return (
     <>
@@ -356,12 +373,14 @@ const AddSubjectForm = ({ dropdowns, protocolId, subjectIdFormat, setSelectedPro
         onSubmit={handleSubmit(onSubmit)}>
         <div>
           <Input
-            label={`Sponsor Subject ID (${subjectIdFormat})`}
+            label={`Sponsor Subject ID `}
+            span={subjectIdFormat && subjectIdFormat !== '' && <span className='text-[13px] italic text-red-600'>(<span>Format: </span><span className='text-[11px]'>{subjectIdFormat}</span>)</span>}
             placeholder={subjectIdFormat}
             {...register("sponsorSubjectID", {
               required: "Sponsor id required.",
             })}
             disabled={!protocolId && !ids}
+            onFocus={() => restSubjectIdFormat(studyId)}
           />
           {errors.sponsorSubjectID && (
             <span className="text-red-500 -mt-10">
