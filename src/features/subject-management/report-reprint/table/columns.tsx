@@ -2,7 +2,7 @@ import { formateTableDate } from "@/utils/helpers";
 import { ColumnDef } from "@tanstack/react-table";
 import PrintSubjectModal from "../../subject-entry/table/print-subject-modal";
 import Print from "@/components/icons/print";
-import { LastSubjectMatchReportParams } from "@/model/subject";
+import { MatchReportQueryParams } from "@/model/subject";
 
 export type List = {
   user_name: string;
@@ -23,7 +23,7 @@ export type List = {
 };
 
 interface ReportReprintColumnProps {
-  onPrintClick: (val: LastSubjectMatchReportParams) => void;
+  onPrintClick: (val: MatchReportQueryParams) => void;
 }
 
 export const getColumns = ({ onPrintClick }: ReportReprintColumnProps): ColumnDef<List>[] => { 
