@@ -36,7 +36,7 @@ interface AddSubjectFormProps {
   dropdowns: { [key: string]: DropDownItem[] | any };
   protocolId: string | undefined;
   subjectIdFormat: string;
-  restSubjectIdFormat: any;
+  restSubjectIdFormat?: any;
   ids: ChangeReqSubjectIdProps | undefined;
   setSelectedProtocol: Dispatch<SetStateAction<SelectOptionType | undefined>>;
   setStudyType: Dispatch<SetStateAction<SelectOptionType | undefined>>;
