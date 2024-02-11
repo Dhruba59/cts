@@ -19,6 +19,12 @@ import Alert from "@/components/ui/alert";
 import Modal from "@/components/modal";
 import { useRouter } from "next/navigation";
 import InputFieldWithRegexValidation from "@/components/ui/inputfield-with-regex";
+import ReprintPdf from "@/features/change-request/pdf/reprint-pdf";
+import { MatchReportQueryParams } from "@/model/subject";
+import { useQuery } from "react-query";
+import { getSubjectMatchReport } from "@/service/report-service";
+import { PDFViewer } from "@react-pdf/renderer";
+import Spinner from "@/components/ui/spinner";
 
 
 enum NATIONAL_ID_TYPE {
@@ -61,12 +67,23 @@ const AddSubjectForm = ({ dropdowns, protocolId, subjectIdFormat, restSubjectIdF
   const [genderOptions, setGenderOptions] = useState<SelectOptionType[]>();
   const [visitTypeOptions, setVisitTypeOptions] = useState<SelectOptionType[]>();
   const [nationalID, setNationalId] = useState<string>('');
+  const [isReportModalOpen, setIsReportModalOpen] = useState<boolean>(false);
+  const [matchReportQueryParams, setMatchReportQueryParams] =
+    useState<MatchReportQueryParams>();
+
   const [studyId, setStudyId] = useState<string>('');
   const { mutate: addSubject, isLoading: isSubjectAddLoading } = useAddSubjectMutation();
   const { mutate: saveSubjectChangeRequest, isLoading: isLoadingChangeRequest } = useSaveChangeRequest();
   const { mutate: validateSponsor } = useValidateSponsorSubjectId();
   const { mutate: validateDetailRequirement } = useIsDetailsRequired();
   const { mutate: verifySocialCode } = useVerifySocialCode();
+
+  const { data: subjectMatchReport, isLoading: isLoadingSubjectMatchReport } =
+    useQuery({
+      queryFn: getSubjectMatchReport,
+      queryKey: ["reportReprintSubjects", matchReportQueryParams],
+      enabled: !!matchReportQueryParams,
+    });
 
   const { data: subjectData, isLoading: isLoadingSubjectData } = useGetChangeReqSubjectDetails({
     SubjectId: ids?.subjectId ?? '',
@@ -89,6 +106,16 @@ const AddSubjectForm = ({ dropdowns, protocolId, subjectIdFormat, restSubjectIdF
     getValues,
     setFocus
   } = useForm();
+
+  const openMatchReportModal = (subjectInfo: MatchReportQueryParams) => {
+    setMatchReportQueryParams(subjectInfo);
+    setIsReportModalOpen(true);
+    console.log('report', subjectInfo, matchReportQueryParams);
+  };
+
+  const closeMatchReportModal = () => {
+    setIsReportModalOpen(false);
+  };
 
   const onBlurIdField = (e: any) => {
     if(e.target.value === '' || e.target.value === '0000') {
@@ -150,6 +177,10 @@ const AddSubjectForm = ({ dropdowns, protocolId, subjectIdFormat, restSubjectIdF
           toast.success(data.data.details);
           reset();
           reset({ dateOfBirth: { startDate: null, endDate: null }});
+          openMatchReportModal({
+            SubjectId: data?.data?.data?.subjectId,
+            NationalTypeId: payload?.idType
+          });
         },
         onError: (error: any) => {
           toast.error(error.response.data.details);
@@ -898,6 +929,26 @@ const AddSubjectForm = ({ dropdowns, protocolId, subjectIdFormat, restSubjectIdF
           // setIsIdWarningModalOpen(false);
         }}>
         {idWarningMessage}
+      </Modal>
+      <Modal
+        containerClassName="bg-transparent max-h-full !h-full top-0 max-w-full !w-full"
+        closeBtnClassName="bg-white rounded-full hover:scale-125 transition-all duration-200 right-8"
+        open={isReportModalOpen}
+        setOpen={setIsReportModalOpen}
+        onClose={() => closeMatchReportModal}>
+        <div className="h-full w-full mt-6">
+          {isLoadingSubjectMatchReport ? (
+            <div className="h-[85vh] flex items-center justify-center">
+              <Spinner size="large" />{" "}
+            </div>
+          ) : (
+            <PDFViewer className="w-full h-[85vh]">
+              <ReprintPdf
+                data={subjectMatchReport?.data}
+              />
+            </PDFViewer>
+          )}
+        </div>
       </Modal>
     </>
   );

@@ -9,7 +9,7 @@ import Modal from "@/components/modal";
 import ReprintPdf from "@/features/change-request/pdf/reprint-pdf";
 import { getSubjectMatchReport } from "@/service/report-service";
 import { useQuery } from "react-query";
-import { LastSubjectMatchReportParams } from "@/model/subject";
+import { MatchReportQueryParams } from "@/model/subject";
 
 
 export interface ListTableProps {
@@ -23,7 +23,7 @@ const ListTable = ({ data, sorting, setSorting, isLoadingTableData }: ListTableP
   const isLoading = false;
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [lastSubjectQueryParams, setLastSubjectQueryParams] =
-  useState<LastSubjectMatchReportParams>();
+  useState<MatchReportQueryParams>();
   const { data: subjectMatchReport, isLoading: isLoadingSubjectMatchReport } =
     useQuery({
       queryFn: getSubjectMatchReport,
@@ -31,7 +31,7 @@ const ListTable = ({ data, sorting, setSorting, isLoadingTableData }: ListTableP
       enabled: !!lastSubjectQueryParams,
     });
 
-    const onPrintClick = (subjectInfo: LastSubjectMatchReportParams) => {
+    const onPrintClick = (subjectInfo: MatchReportQueryParams) => {
       setLastSubjectQueryParams(subjectInfo);
       setIsModalOpen(true);
     };

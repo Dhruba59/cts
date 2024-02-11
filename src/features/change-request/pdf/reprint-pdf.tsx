@@ -8,6 +8,7 @@ import Spinner from '@/components/ui/spinner';
 import { CTS_LOGO_BASE64 } from '@/assets/image/base64-image';
 import Check from '@/components/icons/check';
 import { Cross } from 'recharts';
+import dayjs from 'dayjs';
 // import logo from '../../assets/image/cts-logo.png'
 
 const Br = () => "\n";
@@ -49,7 +50,12 @@ interface HeaderProps {
   }
 }
 
+interface FooterProps {
+  printTime: string;
+}
+
 const ReprintPdf = ({ data }: ReprintPdfProps) => {
+  const printTime = dayjs(new Date()).format("DD-MMM-YY HH:mm A");
   return (
     <Document style={{ }}>
     <Page size="A4" style={styles.page} >
@@ -63,7 +69,7 @@ const ReprintPdf = ({ data }: ReprintPdfProps) => {
         <ReportTable title='Probable  Matches' titleColor="blue" data={data?.probableMatches}/>
       </View>
       <Comment comment={data?.comments} />  
-      <Footer />  
+      <Footer printTime={printTime}/>  
     </Page>
   </Document>
   );
@@ -123,13 +129,13 @@ const Header = ({ data }: HeaderProps) => {
   )
 }
 
-const Footer = () => (
+const Footer = ({ printTime } : FooterProps) => (
   <View style={{ marginTop: 'auto', marginBottom: '20px' }}>
     <Text style={{fontSize: '8px'}}>Disclaimer: These are statistical estimates only. It is possible that a subject may be a database match and yet not have participated in the studies described above. 
       All dates and times are in GMT
     </Text>
     <Text style={{ fontSize: '8px', marginLeft: 'auto' }}>
-      Printed On: 07-Feb-24 13:33 PM
+      Printed On: {printTime}
     </Text>
   </View>
 )
