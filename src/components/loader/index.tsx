@@ -1,13 +1,9 @@
-'use client'
-import { useEffect } from "react";
 
 export default function Loading() {
-    //console.log('Loading...');
-    useEffect(() => {
-        console.log('Loading...');
-    }, []);
 
     return (
-        <h3 className="flex justify-center items-center mt-24">Loading...</h3>
+            <div className="flex items-center justify-center">
+                <h2 className="text-red-500 mx-auto my-auto">Loading...</h2>
+            </div>
     );
-  }
+}
