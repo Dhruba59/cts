@@ -3,7 +3,7 @@ import React from 'react';
 
 const MenuItem: React.FC<MenuItemProps> = ({ icon, text, url, onClick }) => {
   const content = url ? (
-    <a href={url} onClick={onClick} className="flex items-center px-4 py-1 border-b border-gray-100 cursor-pointer transition-colors hover:bg-gray-50 dark:hover:bg-slate-700">
+    <a href={`/${url}`} onClick={onClick} className="flex items-center px-4 py-1 border-b border-gray-100 cursor-pointer transition-colors hover:bg-gray-50 dark:hover:bg-slate-700">
       {icon && <div className="w-6 h-6 mr-4">{icon}</div>}
       <div>{text}</div>
     </a>
