@@ -1,7 +1,8 @@
 "use client";
 /* eslint-disable react-hooks/exhaustive-deps */
 import SimpleTable from "@/components/table/simpleTable";
-
+import { Suspense } from "react";
+import Loading from "@/components/loader";
 import { useEffect, useState } from "react";
 import { getIndications } from "@/service/indication-service";
 import {
@@ -18,6 +19,6 @@ export default function ChangeRequestAuditPage() {
   const currentTab = searchParams.get("tab");
 
   return (
-      <ChangeRequestAuditList></ChangeRequestAuditList>
+     <ChangeRequestAuditList></ChangeRequestAuditList>
   );
 }

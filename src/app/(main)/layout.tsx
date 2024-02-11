@@ -4,6 +4,8 @@ import { SidebarContextProvider, useSidebarContext } from "@/context/sidebar-con
 import Footer from "@/components/footer";
 import AuthManager from "@/components/auth/auth-manager";
 import MainBody from "@/components/main/main-body";
+import { Suspense } from "react";
+import Loading from "@/components/loader";
 
 export default function RootLayout({
   children
@@ -17,7 +19,11 @@ export default function RootLayout({
         <Header />
         <div className="flex h-auto max-md:">
           <Sidebar />
-          <MainBody>{children}</MainBody>
+          <MainBody>
+            <Suspense fallback={<Loading/>}>
+              {children}
+           </Suspense> 
+          </MainBody>
         </div>
         <Footer />
       </main>
