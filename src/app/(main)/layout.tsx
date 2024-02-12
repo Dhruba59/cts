@@ -5,7 +5,9 @@ import Footer from "@/components/footer";
 import AuthManager from "@/components/auth/auth-manager";
 import MainBody from "@/components/main/main-body";
 import { Suspense } from "react";
-import Loading from "@/components/loader";
+import Loading from "./loading";
+
+
 
 export default function RootLayout({
   children
