@@ -6,6 +6,7 @@ import { useChangePasswordMutation, useMatchPasswordMutation } from "@/hooks/rq-
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { signOut } from "next-auth/react";
+import Breadcrumbs from "@/components/ui/breadcrumbs";
 
 const ChangePasswordForm = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -81,9 +82,14 @@ const ChangePasswordForm = () => {
   };
 
   return (
-    <div>
+    <div className="w-full">
+    <Breadcrumbs title="Change Password" subTitle="Change Password" />
+    <section className="wrapper">
+      <h4 className=" text-neutral-black px-6 py-4">
+      Change/Reset Password
+      </h4>
+      <hr />
       <div className="w-[450px] p-10">
-        <h2 className="mb-6">Reset Password</h2>
         <form className="space-y-6 flex flex-col" onSubmit={handleSubmit(onSubmit)}>
           <div>
             <Input
@@ -130,13 +136,10 @@ const ChangePasswordForm = () => {
           </div>
           <Button className="!mt-10 w-fit" loading={isLoading} disabled={isLoading} type="submit">Save Changes</Button>
         </form>
-
-        {/* <div className="text-sm text-secondary flex items-center gap-8 mt-6">
-          <Link href="#">CTSdatabase Privacy Policy</Link>
-        </div> */}
       </div>
+      </section>
     </div>
   )
 }
 
-export default ChangePasswordForm
+export default ChangePasswordForm;
