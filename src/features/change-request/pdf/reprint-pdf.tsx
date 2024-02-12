@@ -64,11 +64,18 @@ const ReprintPdf = ({ data }: ReprintPdfProps) => {
       <View style={{  height: "3px", backgroundColor: '#5581c9', width: '100%' }}></View>
       <SearchInfo data={data?.searchInfo} />
       <View style={{ display: 'flex', flexDirection: 'column', gap: '25px', width: '100%'}}>
-        <ReportTable title='Virtually Certain Matches' titleColor="red" data={data?.certainMatches}/>
-        <ReportTable title='Possible  Matches' titleColor="blue" data={data?.possibleMatches}/>
-        <ReportTable title='Probable  Matches' titleColor="blue" data={data?.probableMatches}/>
+        <ReportTable title='Virtually Certain Matches' primaryColor="red" data={data?.certainMatches}/>
+        <ReportTable title='Possible  Matches' primaryColor="blue" data={data?.possibleMatches}/>
+        <ReportTable title='Probable  Matches' primaryColor="blue" data={data?.probableMatches}/>
       </View>
+      <StatusDisclaimer data={data}/>
       <Comment comment={data?.comments} />  
+      <View style={{ width: '80%,', margin: 'auto', display: 'flex', flexDirection: 'column', gap:'1px', alignItems: 'center', borderTop: '1px', borderBottom: '1px', padding: '10px 0px' }}>
+        <Text style={{fontSize: '10px'}}>PS = Prescreen, EOT = End Of Treatment</Text>
+        <Text style={{fontSize: '10px'}}>Please print a copy of subject file</Text>
+        <Text style={{fontSize: '8px'}}>If any of above information is incorrect, please contact us at support@ctsdatabase.com</Text>
+        <Text style={{fontSize: '8px'}}>or 1-855 CTS-CTSd(1-855-287-2873)</Text>
+      </View>
       <Footer printTime={printTime}/>  
     </Page>
   </Document>
@@ -81,10 +88,20 @@ interface CommentProps {
   comment: string;
 }
 
+const StatusDisclaimer = ({ data }: any) => {
+  const isAnyTableDataExist = data?.certainMatches?.length > 0 || data?.possibleMatches?.length > 0 || data?.probableMatches?.length > 0;
+  if(isAnyTableDataExist) return (
+    <Text style={{ fontSize: '8px', textAlign: 'center', margin: '10px'}}>
+      * Any statuses that are blank have not yet been reported to CTSdatabase. You may need to call this site for more information.
+    </Text>
+  );
+  return <></>;
+}
+
 const Comment = ({ comment }: CommentProps) => (
-  <View style={{ display: 'flex', flexDirection: 'column', gap: '4px', marginTop: '6px' }}>
-    <View style={{ width: '80px', height: '20px', backgroundColor: '#5581c9', color: 'white', fontSize: '10px' }}><Text style={{ margin: 'auto' }}>Comments</Text></View>
-    <Text style={{ fontSize: '8px', backgroundColor: '#e3dddc', padding: '2px' }}>{comment}</Text>
+  <View style={{ display: 'flex', flexDirection: 'column', gap: '', marginTop: '6px' }}>
+    <View style={{ width: '80px', marginLeft:'6px', height: '20px', backgroundColor: '#5581c9', color: 'white', fontSize: '10px' }}><Text style={{ margin: 'auto' }}>Comments</Text></View>
+    <Text style={{ fontSize: '8px', backgroundColor: '#e3dddc', padding: '2px', minHeight: '10px' }}>{comment}</Text>
   </View>
 );
 
@@ -110,22 +127,21 @@ const SearchInfo = ({ data }: SearchProps) => {
 const Header = ({ data }: HeaderProps) => {
   return(
     <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems:'center', marginBottom: '20px'}}>
-           {/* eslint-disable-next-line jsx-a11y/alt-text */}
-          <Image style={{ width: '100px' , height: '40px'}} src={CTS_LOGO_BASE64}/>
-          <View style={{display: 'flex', flexDirection: 'row', width: '100%', marginLeft: '17%'}}>
-            <View style={{marginTop: 'auto'}}>
-              <Text>CTSdatabase</Text>
-              <Text>Match Report</Text>
-            </View>
-            <View style={{height: '60px', width: '1px', backgroundColor: 'black', marginLeft: '10px', marginRight: '10px'}}></View>
-            <View style={{marginTop: 'auto', marginBottom: 'auto'}}>
-              <Text style={{fontSize: '12px'}}>Date: <Text style={{fontSize: '10px'}}>{data?.date}</Text></Text>
-              <Text style={{fontSize: '12px'}}>Site: <Text style={{fontSize: '10px'}}>{data?.site}</Text></Text>
-              <Text style={{fontSize: '12px'}}>Protocol: <Text style={{fontSize: '10px'}}>{data?.protocol}</Text></Text>
-            </View>
-          </View>
-          
-      </View>
+      {/* eslint-disable-next-line jsx-a11y/alt-text */}
+      <Image style={{ width: '100px' , height: '40px'}} src={CTS_LOGO_BASE64}/>
+      <View style={{display: 'flex', flexDirection: 'row', width: '100%', marginLeft: '17%'}}>
+        <View style={{marginTop: 'auto'}}>
+          <Text>CTSdatabase</Text>
+          <Text style={{ fontSize: '14px', marginLeft: 'auto' }}>Match Report</Text>
+        </View>
+        <View style={{height: '60px', width: '1px', backgroundColor: 'black', marginLeft: '10px', marginRight: '10px'}}></View>
+        <View style={{marginTop: 'auto', marginBottom: 'auto'}}>
+          <Text style={{fontSize: '12px'}}>Date: <Text style={{fontSize: '10px'}}>{data?.date}</Text></Text>
+          <Text style={{fontSize: '12px'}}>Site: <Text style={{fontSize: '10px'}}>{data?.site}</Text></Text>
+          <Text style={{fontSize: '12px'}}>Protocol: <Text style={{fontSize: '10px'}}>{data?.protocol}</Text></Text>
+        </View>
+      </View>        
+    </View>
   )
 }
 
@@ -141,7 +157,7 @@ const Footer = ({ printTime } : FooterProps) => (
 )
 
 
-const ReportTable = ({ title, data, titleColor}: any) => {
+const ReportTable = ({ title, data, primaryColor}: any) => {
   
   if(!data || data?.length < 1) {
     return <></>;
@@ -149,7 +165,7 @@ const ReportTable = ({ title, data, titleColor}: any) => {
 
   return (
     <View>
-      <Text style={{ fontSize:'10px', color: titleColor, marginBottom: '8px'}}>{title} | <Text style={{ color: 'black'}}> Identifiers matched closely enough that the odds are less than 1 in 10 million to occur by chance</Text> </Text>
+      <Text style={{ fontSize:'10px', color: primaryColor, marginBottom: '8px' }}>{title} | <Text style={{ color: 'black'}}> Identifiers matched closely enough that the odds are less than 1 in 10 million to occur by chance</Text> </Text>
       <View>
         {/* header */}
         <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-around', fontSize: '11px', padding: '3px'}}>
@@ -157,7 +173,7 @@ const ReportTable = ({ title, data, titleColor}: any) => {
           <Text>Identifiers Reported</Text>
           <Text>Site Information</Text>
         </View>
-        <View style={{ display: 'flex', flexDirection: 'row', backgroundColor: '#f9e5e6', padding: '3px', border: '1px', borderColor: 'red'}}>
+        <View style={{ display: 'flex', flexDirection: 'row', backgroundColor: primaryColor === 'red' ? '#f9e5e6' : '#5581c9', padding: '3px', border: '1px', borderColor: 'red'}}>
           <View style={{ width: '70px'}}>
             <Text style={{ fontSize: '10px', margin: 'auto'}}>Initial Visit</Text>
           </View>
