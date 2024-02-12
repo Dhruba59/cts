@@ -26,7 +26,6 @@ import { toast } from "react-toastify";
 import SysAdminUserSettings from "./sys-admin-user-settings";
 import SponsorUserSettings from "./sponsor-user-settings";
 import { useRouter } from "next/navigation";
-import Loading from "@/components/loader";
 
 interface AddUserProps {
   id?: string;

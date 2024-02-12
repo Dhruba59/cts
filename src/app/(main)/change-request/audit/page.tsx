@@ -1,16 +1,6 @@
 "use client";
 /* eslint-disable react-hooks/exhaustive-deps */
-import SimpleTable from "@/components/table/simpleTable";
-import { Suspense } from "react";
-import Loading from "@/components/loader";
-import { useEffect, useState } from "react";
-import { getIndications } from "@/service/indication-service";
-import {
-  Indication,
-  IndicationQuery,
-  Indication_coluns
-} from "@/model/indication";
-import { ColumnDef } from "@tanstack/react-table";
+
 import { useSearchParams } from "next/navigation";
 import ChangeRequestAuditList from "@/features/change-request/audit";
 
