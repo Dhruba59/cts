@@ -821,7 +821,7 @@ const AddSubjectForm = ({ dropdowns, protocolId, subjectIdFormat, restSubjectIdF
           </div>
         )}
 
-        {ids && (
+        {ids && parseInt(subjectDetail?.visitTypeId) !== 1 && (
           <div>
             <Controller
               control={control}
