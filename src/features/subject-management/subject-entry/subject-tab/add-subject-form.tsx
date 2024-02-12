@@ -795,6 +795,34 @@ const AddSubjectForm = ({ dropdowns, protocolId, subjectIdFormat, restSubjectIdF
           </div>
         )}
 
+        {ids && (
+          <div>
+            <Controller
+              control={control}
+              name="screenedDate"
+              rules={{
+                required: "Screened Date is required!",
+              }}
+              render={({ field: { onChange, onBlur, value } }: any) => (
+                <Datepicker
+                  popoverDirection="down"
+                  value={value}
+                  asSingle
+                  useRange={false}
+                  onChange={onChange}
+                  // placeholder=""
+                  label="Screened Date"
+                />
+              )}
+            />
+            {errors.screenedDate && (
+              <span className="text-red-500 -mt-10">
+                {errors.screenedDate.message as string}
+              </span>
+            )}
+          </div>
+        )}
+
         {ids && parseInt(subjectDetail?.visitTypeId) !== 1 && (
           <div>
             <Label label="Visit Type" className="inline-block mb-2" />
@@ -844,34 +872,6 @@ const AddSubjectForm = ({ dropdowns, protocolId, subjectIdFormat, restSubjectIdF
             {errors.lastSubjectEntryDate && (
               <span className="text-red-500 -mt-10">
                 {errors.lastSubjectEntryDate.message as string}
-              </span>
-            )}
-          </div>
-        )}
-
-        {ids && (
-          <div>
-            <Controller
-              control={control}
-              name="screenedDate"
-              rules={{
-                required: "Screened Date is required!",
-              }}
-              render={({ field: { onChange, onBlur, value } }: any) => (
-                <Datepicker
-                  popoverDirection="down"
-                  value={value}
-                  asSingle
-                  useRange={false}
-                  onChange={onChange}
-                  // placeholder=""
-                  label="Screened Date"
-                />
-              )}
-            />
-            {errors.screenedDate && (
-              <span className="text-red-500 -mt-10">
-                {errors.screenedDate.message as string}
               </span>
             )}
           </div>
