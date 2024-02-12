@@ -14,6 +14,9 @@ import Spinner from "@/components/ui/spinner";
 import { PDFViewer } from "@react-pdf/renderer";
 import ChangeRequestModal from "./change-request-modal";
 import ReprintPdf from "../../pdf/reprint-pdf";
+import { getSubjectMatchReport } from "@/service/report-service";
+import { useQuery } from "react-query";
+import { MatchReportQueryParams } from "@/model/subject";
 
 
 export function ListTable({ data, sorting, setSorting, refetch, isLoading }: any) {
@@ -29,13 +32,25 @@ export function ListTable({ data, sorting, setSorting, refetch, isLoading }: any
   const [id, setId] = useState<number>(0);
   const [isPrintModalOpen, setIsPrintModalOpen] = useState<boolean>(false);
   const { mutate: deleteIndication } = useDeleteIndication();
-  const [viewChangeRequestModal, setViewChangeRequestModal] = useState<React.ReactNode>(null);
+  const [viewChangeRequestModal, setViewChangeRequestModal] = useState<React.ReactNode>(null); 
+  const [subjectMatchReportQueryParams, setSubjectMatchReportQueryParams] =
+  useState<MatchReportQueryParams>();
 
+  const { data: subjectMatchReport, isLoading: isLoadingSubjectMatchReport } =
+    useQuery({
+      queryFn: getSubjectMatchReport,
+      queryKey: ["reportReprintSubjects", subjectMatchReportQueryParams],
+      enabled: !!subjectMatchReportQueryParams,
+    });
 
   /* <ChangeRequestModal id={row.original.subjectId + '_' + row.original.nationalTypeId} visitTypeId={row.original.visitTypeIdForBusinessLogic} isPreScreen={row.original.preScreen} onPrintClick={onPrintClick}/> */
 const onOpenChangeRequestModal = (subjectId: number | undefined, nationalTypeId: number | undefined, visitTypeId: number | undefined, isPreScreen: boolean | undefined)=> {
+  const subjectInfo: MatchReportQueryParams = {
+    SubjectId: subjectId ?? '',
+    NationalTypeId: nationalTypeId ?? ''
+  }
   setViewChangeRequestModal(
-    <ChangeRequestModal id={subjectId + '_' + nationalTypeId} visitTypeId={visitTypeId} isPreScreen={isPreScreen} onPrintClick={onPrintClick} onHideChangeRequestModal={onHideChangeRequestModal}/>
+    <ChangeRequestModal id={subjectId + '_' + nationalTypeId} visitTypeId={visitTypeId} isPreScreen={isPreScreen} onPrintClick={() => onPrintClick(subjectInfo)} onHideChangeRequestModal={onHideChangeRequestModal}/>
   );
 }
 
@@ -50,7 +65,8 @@ const onCloseModal = () => {
   setIsPrintModalOpen(false);
 };
 
-const onPrintClick = () => {
+const onPrintClick = (subjectInfo: MatchReportQueryParams) => {
+  setSubjectMatchReportQueryParams(subjectInfo);
   setIsPrintModalOpen(true);
 };
 
@@ -83,7 +99,7 @@ const onDelete = (id: number) => {
   setOpen(true);
 }
 
-const columns = useMemo(() => ChangeRequestReprintListColumns({ onOpenChangeRequestModal, onDelete, onPrintClick }), []);
+const columns = useMemo(() => ChangeRequestReprintListColumns({ onOpenChangeRequestModal, onDelete }), []);
 
 return (
   <div className="sm:wrapper">
@@ -125,14 +141,14 @@ return (
       setOpen={setIsPrintModalOpen}
       onClose={() => onCloseModal}>
       <div className="h-full w-full mt-6">
-        {isLoading ? (
+        {isLoadingSubjectMatchReport ? (
           <div className="h-[85vh] flex items-center justify-center">
             <Spinner size="large" />{" "}
           </div>
         ) : (
           <PDFViewer className="w-full h-[85vh]">
             <ReprintPdf
-              data={[]}
+              data={subjectMatchReport?.data}
             />
           </PDFViewer>
         )}

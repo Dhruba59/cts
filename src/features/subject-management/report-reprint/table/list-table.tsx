@@ -66,7 +66,7 @@ const ListTable = ({ data, sorting, setSorting, isLoadingTableData }: ListTableP
         setOpen={setIsModalOpen}
         onClose={() => onCloseModal}>
         <div className="h-full w-full mt-6">
-          {isLoading ? (
+          {isLoadingSubjectMatchReport ? (
             <div className="h-[85vh] flex items-center justify-center">
               <Spinner size="large" />{" "}
             </div>

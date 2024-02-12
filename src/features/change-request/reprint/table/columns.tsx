@@ -11,13 +11,13 @@ import { ChangeRequestReprintModel } from "@/model/change-request";
 import { formateTableDate } from "@/utils/helpers";
 import ChangeRequestModal from "./change-request-modal";
 import { SelectOptionType } from "@/model/drop-down-list";
+import { MatchReportQueryParams } from "@/model/subject";
 
 type ChangeRequestReprintListColumnsProps = {
   onOpenChangeRequestModal: (subjectId: number | undefined, nationalTypeId: number | undefined, visitTypeId: number | undefined, isPreScreen: boolean | undefined) => void;
   onDelete: (id: any) => void;
-  onPrintClick: () => void;
 }
-export const ChangeRequestReprintListColumns = ({ onOpenChangeRequestModal, onDelete, onPrintClick }
+export const ChangeRequestReprintListColumns = ({ onOpenChangeRequestModal, onDelete }
   : ChangeRequestReprintListColumnsProps): ColumnDef<ChangeRequestReprintModel>[] => {
   return ([
 
