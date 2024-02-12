@@ -69,13 +69,16 @@ const ReprintPdf = ({ data }: ReprintPdfProps) => {
         <ReportTable title='Probable  Matches' primaryColor="blue" data={data?.probableMatches}/>
       </View>
       <StatusDisclaimer data={data}/>
-      <Comment comment={data?.comments} />  
-      <View style={{ width: '80%,', margin: 'auto', display: 'flex', flexDirection: 'column', gap:'1px', alignItems: 'center', borderTop: '1px', borderBottom: '1px', padding: '10px 0px' }}>
-        <Text style={{fontSize: '10px'}}>PS = Prescreen, EOT = End Of Treatment</Text>
-        <Text style={{fontSize: '10px'}}>Please print a copy of subject file</Text>
-        <Text style={{fontSize: '8px'}}>If any of above information is incorrect, please contact us at support@ctsdatabase.com</Text>
-        <Text style={{fontSize: '8px'}}>or 1-855 CTS-CTSd(1-855-287-2873)</Text>
+      <Comment comment={data?.comments} />
+      <View wrap={false} style={{ width: '100%,', margin: 'auto', display:"flex", justifyContent:"center", alignItems: 'center' }}>
+        <View style={{ width: '80%,', marginTop: '10px', marginBottom: '10px', display: 'flex', flexDirection: 'column', gap:'1px', alignItems: 'center', borderTop: '1px', borderBottom: '1px', padding: '10px 0px' }}>
+          <Text style={{fontSize: '10px'}}>PS = Prescreen, EOT = End Of Treatment</Text>
+          <Text style={{fontSize: '10px'}}>Please print a copy of subject file</Text>
+          <Text style={{fontSize: '8px'}}>If any of above information is incorrect, please contact us at support@ctsdatabase.com</Text>
+          <Text style={{fontSize: '8px'}}>or 1-855 CTS-CTSd(1-855-287-2873)</Text>
+        </View>
       </View>
+      
       <Footer printTime={printTime}/>  
     </Page>
   </Document>
@@ -91,7 +94,7 @@ interface CommentProps {
 const StatusDisclaimer = ({ data }: any) => {
   const isAnyTableDataExist = data?.certainMatches?.length > 0 || data?.possibleMatches?.length > 0 || data?.probableMatches?.length > 0;
   if(isAnyTableDataExist) return (
-    <Text style={{ fontSize: '8px', textAlign: 'center', margin: '10px'}}>
+    <Text wrap={false} style={{ fontSize: '8px', textAlign: 'center', margin: '10px'}}>
       * Any statuses that are blank have not yet been reported to CTSdatabase. You may need to call this site for more information.
     </Text>
   );
@@ -99,27 +102,27 @@ const StatusDisclaimer = ({ data }: any) => {
 }
 
 const Comment = ({ comment }: CommentProps) => (
-  <View style={{ display: 'flex', flexDirection: 'column', gap: '', marginTop: '6px' }}>
+  <View wrap={false}  style={{ display: 'flex', flexDirection: 'column', gap: '', marginTop: '6px' }}>
     <View style={{ width: '80px', marginLeft:'6px', height: '20px', backgroundColor: '#5581c9', color: 'white', fontSize: '10px' }}><Text style={{ margin: 'auto' }}>Comments</Text></View>
-    <Text style={{ fontSize: '8px', backgroundColor: '#e3dddc', padding: '2px', minHeight: '10px' }}>{comment}</Text>
+    <Text style={{ fontSize: '8px', backgroundColor: '#e3dddc', padding: '2px', minHeight: '18px' }}>{comment}</Text>
   </View>
 );
 
 
 const SearchInfo = ({ data }: SearchProps) => {
   return (
-    <View style={{ display: 'flex', flexDirection: 'column', justifyContent:'center', marginTop: '14px', marginBottom: '20px', marginLeft: 'auto', marginRight: 'auto', alignItems:'center', rowGap: '5px', width: '80%', paddingTop: '10px', paddingBottom: '10px', borderTop: '.5px', borderBottom: '.5px'}}>
-    <Text style={{ fontSize: '10px', margin: 'auto', fontStyle: 'italic' }}>Search Parameters:</Text>
-    <View style={{ display: 'flex', flexDirection: 'row', columnGap: '15px' }}>
-      <Text style={{ fontSize: '12px' }}>Indication: <Text style={{ fontSize: '10px' }}>{data?.indication}</Text></Text>
-      <Text style={{ fontSize: '12px' }}>Subject Number: <Text style={{ fontSize: '10px' }}>{data?.subjectNumber}</Text></Text>
+    <View wrap={false}  style={{ display: 'flex', flexDirection: 'column', justifyContent:'center', marginTop: '14px', marginBottom: '20px', marginLeft: 'auto', marginRight: 'auto', alignItems:'center', rowGap: '3px', width: '80%', paddingTop: '10px', paddingBottom: '10px', borderTop: '.5px', borderBottom: '.5px'}}>
+      <Text style={{ fontSize: '10px', margin: 'auto', fontStyle: 'italic' }}>Search Parameters:</Text>
+      <View style={{ display: 'flex', flexDirection: 'row', columnGap: '15px' }}>
+        <Text style={{ fontSize: '10px', color: '#404040' }}>Indication: <Text style={{ fontSize: '10px', color: 'black' }}>{data?.indication}</Text></Text>
+        <Text style={{ fontSize: '10px', color: '#404040' }}>Subject Number: <Text style={{ fontSize: '10px', color: 'black' }}>{data?.subjectNumber}</Text></Text>
+      </View>
+      <View style={{ display: 'flex', flexDirection: 'row', columnGap: '15px', justifyContent: 'center' }}>
+        <Text style={{ fontSize: '10px', color: '#404040' }}>Initials: <Text style={{ fontSize: '10px', color: 'black' }}>{data?.initials}</Text></Text>
+        <Text style={{ fontSize: '10px', color: '#404040' }}>DOB: <Text style={{ fontSize: '10px', color: 'black' }}>{data?.dob}</Text></Text>
+        <Text style={{ fontSize: '10px', color: '#404040' }}>Sex: <Text style={{ fontSize: '10px', color: 'black' }}>{data?.gender}</Text></Text>
+      </View>
     </View>
-    <View style={{ display: 'flex', flexDirection: 'row', columnGap: '15px', justifyContent: 'center' }}>
-      <Text style={{ fontSize: '12px' }}>Initials: <Text style={{ fontSize: '10px' }}>{data?.initials}</Text></Text>
-      <Text style={{ fontSize: '12px' }}>DOB: <Text style={{ fontSize: '10px' }}>{data?.dob}</Text></Text>
-      <Text style={{ fontSize: '12px' }}>Sex: <Text style={{ fontSize: '10px' }}>{data?.gender}</Text></Text>
-    </View>
-  </View>
   )
 }
 
@@ -132,13 +135,13 @@ const Header = ({ data }: HeaderProps) => {
       <View style={{display: 'flex', flexDirection: 'row', width: '100%', marginLeft: '17%'}}>
         <View style={{marginTop: 'auto'}}>
           <Text>CTSdatabase</Text>
-          <Text style={{ fontSize: '14px', marginLeft: 'auto' }}>Match Report</Text>
+          <Text style={{ fontSize: '14px', marginLeft: 'auto', color: '#404040' }}>Match Report</Text>
         </View>
         <View style={{height: '60px', width: '1px', backgroundColor: 'black', marginLeft: '10px', marginRight: '10px'}}></View>
-        <View style={{marginTop: 'auto', marginBottom: 'auto'}}>
-          <Text style={{fontSize: '12px'}}>Date: <Text style={{fontSize: '10px'}}>{data?.date}</Text></Text>
-          <Text style={{fontSize: '12px'}}>Site: <Text style={{fontSize: '10px'}}>{data?.site}</Text></Text>
-          <Text style={{fontSize: '12px'}}>Protocol: <Text style={{fontSize: '10px'}}>{data?.protocol}</Text></Text>
+        <View style={{marginTop: 'auto', marginBottom: 'auto', display: 'flex', flexDirection: 'column', gap: '2px'}}>
+          <Text style={{fontSize: '10px',  color: '#404040'}}>Date: <Text style={{fontSize: '10px', color: 'black'}}>{data?.date}</Text></Text>
+          <Text style={{fontSize: '10px', color: '#404040'}}>Site: <Text style={{fontSize: '10px', color: 'black'}}>{data?.site}</Text></Text>
+          <Text style={{fontSize: '10px', color: '#404040'}}>Protocol: <Text style={{fontSize: '10px', color: 'black'}}>{data?.protocol}</Text></Text>
         </View>
       </View>        
     </View>
@@ -164,16 +167,16 @@ const ReportTable = ({ title, data, primaryColor}: any) => {
   }
 
   return (
-    <View>
+    <View wrap={false} >
       <Text style={{ fontSize:'10px', color: primaryColor, marginBottom: '8px' }}>{title} | <Text style={{ color: 'black'}}> Identifiers matched closely enough that the odds are less than 1 in 10 million to occur by chance</Text> </Text>
       <View>
         {/* header */}
         <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-around', fontSize: '11px', padding: '3px'}}>
           <Text>Visit Information</Text>
-          <Text>Identifiers Reported</Text>
+          <Text style={{ paddingLeft: '10px'}}>Identifiers Reported</Text>
           <Text>Site Information</Text>
         </View>
-        <View style={{ display: 'flex', flexDirection: 'row', backgroundColor: primaryColor === 'red' ? '#f9e5e6' : '#5581c9', padding: '3px', border: '1px', borderColor: 'red'}}>
+        <View style={{ display: 'flex', flexDirection: 'row', backgroundColor: primaryColor === 'red' ? '#f9e5e6' : '#EEF6FB', padding: '3px', border: '1px', borderColor: primaryColor === 'red' ? 'red' : 'blue' }}>
           <View style={{ width: '70px'}}>
             <Text style={{ fontSize: '10px', margin: 'auto'}}>Initial Visit</Text>
           </View>
