@@ -1,18 +1,12 @@
 import { Suspense, useEffect, useMemo, useState } from "react";
 import ListHeader from "./list-header";
 import ListTable from "./table/listTable";
-import { Indication, IndicationQuery } from "@/model/indication";
+import { IndicationQuery } from "@/model/indication";
 import Pagination from "@/components/pagination";
-import { getIndicationCodeTypes, getIndications } from "@/service/indication-service";
 import { SortingState } from "@tanstack/react-table";
-
-import { DropDownItem, SelectOptionType } from "@/model/drop-down-list";
 import { DEFAULT_PAGE_SIZE } from "@/constants/common";
-import { useQuery } from "react-query";
-import { MainContainer } from "@/components/style-container";
 import { useGetIndications } from "@/hooks/rq-hooks/indication-hooks";
-import { rejectChangeRequest } from '@/service/change-request-service';
-import Loading from "@/components/loader";
+
 
 const IndicationList = () => {
 
