@@ -31,7 +31,7 @@ const ListHeader = ({ setQueryData }: any) => {
       sponsor:value?.sponsor?.value,
       UserType: value?.userType?.value,
       SuppressMatchType: value?.SuppressMatchType?.value,
-      Site: value?.site?.value
+      Site: value?.Site?.value
     }
     //delete params.date;
     //console.log(params);
@@ -56,7 +56,7 @@ const ListHeader = ({ setQueryData }: any) => {
             Search Users
           </h4>
           <div className="">
-          <SearchForm isAdvancedOpen={isChecked} form={form}/>
+          <SearchForm isAdvancedOpen={isChecked} form={form} setQueryData={setQueryData} />
           </div>
           <Toggle
             prefixLabel="More: "
@@ -68,6 +68,7 @@ const ListHeader = ({ setQueryData }: any) => {
         <hr className="" />
         {isChecked && <AdvanceSearchForm 
               form={form} 
+              setQueryData={setQueryData}
               userTypeOptions={userTypeOptions} 
               sponsorOptions={sponsorOptions} 
               suprressMatchTypeOptions={suppressMatchTypeOptions} 

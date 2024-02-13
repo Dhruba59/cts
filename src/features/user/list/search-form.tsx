@@ -3,11 +3,14 @@ import Input from "@/components/ui/input";
 import Label from "@/components/ui/label";
 import Select from "@/components/ui/select";
 import { SelectOptionType } from "@/model/drop-down-list";
+import { IndicationQuery } from "@/model/indication";
+import { Dispatch, SetStateAction } from "react";
 import { Controller, UseFormReturn } from "react-hook-form";
 
 interface SearchFormProps {
   isAdvancedOpen: boolean;
   form: UseFormReturn;
+  setQueryData: Dispatch<SetStateAction<IndicationQuery>>;
 }
 
 interface AdvanceSearchFormProps {
@@ -16,13 +19,21 @@ interface AdvanceSearchFormProps {
   sponsorOptions: SelectOptionType[];
   siteOptions: SelectOptionType[];
   suprressMatchTypeOptions: SelectOptionType[];
+  setQueryData: Dispatch<SetStateAction<IndicationQuery>>;
 }
 
 export function SearchForm({
   isAdvancedOpen,
-  form
+  form,
+  setQueryData
 }: SearchFormProps) {
   const { register, control, reset } = form;
+
+  const onReset = () => {
+    reset();
+    setQueryData({});
+  };
+
   return (
     <div className="flex items-end gap-3 md:gap-6 p-4 md:p-0">
       <div className="grid lg:flex lg:items-center gap-2 flex-1 md:flex-none">
@@ -52,7 +63,7 @@ export function SearchForm({
         <Button type="submit" className="!h-10 mb-[1px]">
           Search
         </Button>
-        <Button type="submit" variant="outline" onClick={() => reset()}>
+        <Button type="submit" variant="outline" onClick={() => onReset()}>
           Reset
         </Button>
       </div>
@@ -60,8 +71,14 @@ export function SearchForm({
   );
 }
 
-export function AdvanceSearchForm({ form, userTypeOptions, sponsorOptions, siteOptions, suprressMatchTypeOptions }: AdvanceSearchFormProps) {
+export function AdvanceSearchForm({ form, userTypeOptions, sponsorOptions, siteOptions, suprressMatchTypeOptions, setQueryData }: AdvanceSearchFormProps) {
   const { register, control, reset } = form;
+  
+  const onReset = () => {
+    reset();
+    setQueryData({});
+  };
+
   return (
     <div className="hidden lg:block px-6 py-4 space-y-4">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 lg:gap-6">
@@ -192,7 +209,7 @@ export function AdvanceSearchForm({ form, userTypeOptions, sponsorOptions, siteO
       </div>
       <div className="flex items-center justify-end gap-4 !mt-10">
         <Button className="" type="submit">Search</Button>
-        <Button className="px-8" variant="outline" onClick={() => reset()}>
+        <Button className="px-8" variant="outline" onClick={() => onReset()}>
           reset
         </Button>
       </div>

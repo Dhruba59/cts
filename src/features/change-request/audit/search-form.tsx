@@ -18,6 +18,7 @@ interface SearchFormProps {
   Controller: any;
   control: any;
   reset: any;
+  setQueryData: any;
 }
 export function SearchForm({
   isAdvancedOpen,
@@ -25,16 +26,19 @@ export function SearchForm({
   register,
   Controller,
   control,
-  reset
+  reset,
+  setQueryData
 }: SearchFormProps) {
 
   const [requestTypeOptions, setRequestTypeOptions] = useState<SelectOptionType[]>([]);
 
-  //console.log(codeTypeDropDown);
+  const onReset = () => {
+    reset();
+    setQueryData();
+  }
+
   useEffect(() => {
-
     setRequestTypeOptions(requestTypeDropDown);
-
   }, [requestTypeDropDown])
 
   return (
@@ -61,7 +65,7 @@ export function SearchForm({
         <Button type="submit" className="!h-10 mb-[1px]">
           Search
         </Button>
-        <Button type="submit" variant="outline" onClick={() => reset()}>
+        <Button type="submit" variant="outline" onClick={() => onReset()}>
           Reset
         </Button>
       </div>
@@ -69,12 +73,23 @@ export function SearchForm({
   );
 }
 
-export function AdvanceSearchForm({ register, Controller, control, reset }: any) {
-  const defaultValues = {
+export function AdvanceSearchForm({ register, Controller, control, reset, setQueryData }: any) {
 
-    codeType: { value: "", label: "Select " },
-
-  };
+  const onReset = () => {
+    reset({
+      requestStatus: '',
+      sponsorSubjectId: '',
+      fromDate: {
+        startDate: null,
+        endDate: null
+      },
+      toDate: {
+        startDate: null,
+        endDate: null
+      },
+    });
+    setQueryData();
+  }
 
   return (
     <div className="hidden lg:block p-6 pt-2 space-y-4">
@@ -116,7 +131,7 @@ export function AdvanceSearchForm({ register, Controller, control, reset }: any)
           <Button type="submit" className="!h-10 mb-[1px]">
             Search
           </Button>
-          <Button type="submit" variant="outline" onClick={() => reset()}>
+          <Button type="submit" variant="outline" onClick={() => onReset()}>
             Reset
           </Button>
         </div>
