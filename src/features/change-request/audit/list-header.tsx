@@ -38,8 +38,8 @@ const ListHeader = ({ setQueryData }: any) => {
     const params = {
       ...value,
       requestStatus: value?.requestStatus?.value,
-      fromDate:  value?.fromDate?.value ?? null,
-      toDate:  value?.toDate?.value ?? null,
+      fromDate:  value?.fromDate?.startDate ?? null,
+      toDate:  value?.toDate?.startDate ?? null,
     }
     console.log(params);
     setQueryData(params);
@@ -56,13 +56,13 @@ const ListHeader = ({ setQueryData }: any) => {
       <Breadcrumbs title="Change Request Audit" subTitle="Change Request Audit List" />
       <form className="" onSubmit={handleSubmit(onSubmit)}>
         <div className="md:hidden">
-          <SearchForm  isAdvancedOpen={isChecked} requestTypeDropDown={requestTypeOptions} register={register} Controller={Controller} control={control}  reset={reset}/>
+          <SearchForm isAdvancedOpen={isChecked} requestTypeDropDown={requestTypeOptions} register={register} Controller={Controller} control={control}  reset={reset} setQueryData={setQueryData}/>
         </div>
         <section className="hidden md:block wrapper">
           <div className="flex flex-row items-center justify-between px-2 py-3">
             <h4 className=" text-neutral-black">Search Request Audit</h4>
             <div className="">
-              <SearchForm isAdvancedOpen={isChecked}  requestTypeDropDown={requestTypeOptions}  register={register} Controller={Controller} control={control} reset={reset}/>
+              <SearchForm isAdvancedOpen={isChecked}  requestTypeDropDown={requestTypeOptions}  register={register} Controller={Controller} control={control} reset={reset} setQueryData={setQueryData}/>
             </div>
             <Toggle
               prefixLabel="More: "
@@ -72,7 +72,7 @@ const ListHeader = ({ setQueryData }: any) => {
             />
           </div>
           <hr />
-          {isChecked && <AdvanceSearchForm  register={register} Controller={Controller} control={control} reset={reset}/>}
+          {isChecked && <AdvanceSearchForm  register={register} Controller={Controller} control={control} reset={reset} setQueryData={setQueryData}/>}
         </section>
       </form>
     </div>
