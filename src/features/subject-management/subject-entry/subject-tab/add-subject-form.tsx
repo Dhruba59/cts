@@ -163,7 +163,7 @@ const AddSubjectForm = ({ dropdowns, protocolId, subjectIdFormat, restSubjectIdF
       saveSubjectChangeRequest(payload, {
         onSuccess: (data) => {
           toast.success(data.data.details);
-          router.push('/last-subject-reprint');
+          router.push('/change-request/dashboard');
         },
         onError: (error: any) => {
           toast.error(error.response.data.detail);
@@ -176,7 +176,11 @@ const AddSubjectForm = ({ dropdowns, protocolId, subjectIdFormat, restSubjectIdF
         onSuccess: (data) => {
           toast.success(data.data.details);
           reset();
-          reset({ dateOfBirth: { startDate: null, endDate: null }});
+          reset({ 
+            dateOfBirth: { startDate: null, endDate: null },
+            heightUnit: heightUnitOptions?.[0].value ?? '',
+            weightUnit: weightUnitOptions?.[0].value ?? ''
+          });
           openMatchReportModal({
             SubjectId: data?.data?.data?.subjectId,
             NationalTypeId: payload?.idType

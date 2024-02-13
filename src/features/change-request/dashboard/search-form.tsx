@@ -20,6 +20,7 @@ interface SearchFormProps {
   Controller: any;
   control: any;
   reset: any;
+  setQueryData: any;
 }
 export function SearchForm({
   isAdvancedOpen,
@@ -28,12 +29,18 @@ export function SearchForm({
   Controller,
   control,
   reset,
+  setQueryData
 }: SearchFormProps) {
   const [protocolOptions, setProtocolOptions] = useState<SelectOptionType[]>([]);
   const [userTypeOptions, setUserTypeOptions] = useState<SelectOptionType[]>([]);
   const { data: session } = useSession();
   // @ts-ignore
   const isAdmin = session?.user?.currentRole?.roleId == USER_ROLE_ENUM.SYSTEM_ADMIN;
+
+  const onReset = () => {
+    reset();
+    setQueryData();
+  }
 
   useEffect(() => {
     setProtocolOptions(convertTypeToSelectOption(dropDown?.protocols));
@@ -80,7 +87,7 @@ export function SearchForm({
         <Button type="submit" className="!h-10 mb-[1px]">
           Search
         </Button>
-        <Button type="submit" variant="outline" onClick={() => reset()}>
+        <Button type="submit" variant="outline" onClick={() => onReset()}>
           Reset
         </Button>
       </div>
@@ -94,6 +101,7 @@ export function AdvanceSearchForm({
   Controller,
   control,
   reset,
+  setQueryData
 }: any) {
   const defaultValues = {
     codeType: { value: "", label: "Select " },
@@ -106,6 +114,21 @@ export function AdvanceSearchForm({
       convertTypeToSelectOption(dropDown?.requestStatuses)
     );
   }, [dropDown]);
+
+  const onReset = () => {
+    reset({
+      fromDate: {
+        startDate: null,
+        endDate: null
+      },
+      toDate: {
+        startDate: null,
+        endDate: null
+      },
+    });
+    setQueryData();
+  }
+
   return (
     <div className="hidden lg:block p-6 pt-2 space-y-4">
       <div className="grid grid-col-1 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-x-4 gap-y-2">
@@ -159,7 +182,7 @@ export function AdvanceSearchForm({
           <Button type="submit" className="!h-10 mb-[1px]">
             Search
           </Button>
-          <Button type="submit" variant="outline" onClick={() => reset()}>
+          <Button type="submit" variant="outline" onClick={() => onReset()}>
             Reset
           </Button>
         </div>
