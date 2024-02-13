@@ -52,8 +52,8 @@ const LastSubjectContactModal = ({ data, studyId, onUpdateSubject }: any) => {
     reset();
     reset({
       lastSubjectEntryDate: {
-        startDate: null,
-        endDate: null
+        startDate: new Date(),
+        endDate: new Date()
       }
     })
   }
