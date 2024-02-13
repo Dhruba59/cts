@@ -167,64 +167,151 @@ const ReportTable = ({ title, data, primaryColor}: any) => {
   }
 
   return (
-    <View wrap={false} >
-      <Text style={{ fontSize:'10px', color: primaryColor === 'red' ? 'red' : '#5581c9', marginBottom: '8px' }}>{title} | <Text style={{ color: 'black'}}> Identifiers matched closely enough that the odds are less than 1 in 10 million to occur by chance</Text> </Text>
+    <View wrap={false}>
+      <Text
+        style={{
+          fontSize: "10px",
+          color: primaryColor === "red" ? "red" : "#5581c9",
+          marginBottom: "8px",
+        }}>
+        {title} |{" "}
+        <Text style={{ color: "black" }}>
+          {" "}
+          Identifiers matched closely enough that the odds are less than 1 in 10
+          million to occur by chance
+        </Text>{" "}
+      </Text>
       <View>
         {/* header */}
-        <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-around', fontSize: '11px', padding: '3px'}}>
+        <View
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "space-around",
+            fontSize: "11px",
+            padding: "3px",
+          }}>
           <Text>Visit Information</Text>
-          <Text style={{ paddingLeft: '10px'}}>Identifiers Reported</Text>
+          <Text style={{ paddingLeft: "10px" }}>Identifiers Reported</Text>
           <Text>Site Information</Text>
         </View>
-        <View style={{ display: 'flex', flexDirection: 'row', backgroundColor: primaryColor === 'red' ? '#f9e5e6' : '#EEF6FB', padding: '3px', border: '1px', borderColor: primaryColor === 'red' ? 'red' : 'blue' }}>
-          <View style={{ width: '60px'}}>
-            <Text style={{ fontSize: '9px', margin: 'auto'}}>Initial Visit</Text>
+        <View
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            backgroundColor: primaryColor === "red" ? "#f9e5e6" : "#EEF6FB",
+            padding: "3px",
+            border: "1px",
+            borderColor: primaryColor === "red" ? "red" : "blue",
+          }}>
+          <View style={{ width: "60px" }}>
+            <Text style={{ fontSize: "9px", margin: "auto" }}>
+              Initial Visit
+            </Text>
           </View>
-          <View style={{ width: '120px'}}>
-            <Text style={{ fontSize: '9px', margin: 'auto'}}>Indication</Text>
+          <View style={{ width: "120px" }}>
+            <Text style={{ fontSize: "9px", margin: "auto" }}>Indication</Text>
           </View>
-          <View style={{ width: '70px'}}>
-            <Text style={{ fontSize: '9px', margin: 'auto'}}>Last Status</Text>
+          <View style={{ width: "70px" }}>
+            <Text style={{ fontSize: "9px", margin: "auto" }}>Last Status</Text>
           </View>
-          <View style={{ width: '40px'}}>
-            <Text style={{ fontSize: '9px', margin: 'auto'}}>Initials</Text>
+          <View style={{ width: "40px" }}>
+            <Text style={{ fontSize: "9px", margin: "auto" }}>Initials</Text>
           </View>
-          <View style={{ width: '70px'}}>
-            <Text style={{ fontSize: '9px', margin: 'auto'}}>DOB</Text>
+          <View style={{ width: "70px" }}>
+            <Text style={{ fontSize: "9px", margin: "auto" }}>DOB</Text>
           </View>
-          <View style={{ width: '40px'}}>
-            <Text style={{ fontSize: '9px', margin: 'auto'}}>ID Match</Text>
+          <View style={{ width: "40px" }}>
+            <Text style={{ fontSize: "9px", margin: "auto" }}>ID Match</Text>
           </View>
-          <View style={{ width: '110px'}}>
-            <Text style={{ fontSize: '9px', margin: 'auto'}}>Site Name</Text>
+          <View style={{ width: "110px" }}>
+            <Text style={{ fontSize: "9px", margin: "auto" }}>Site Name</Text>
           </View>
-          <View style={{ width: '50px'}}>
-            <Text style={{ fontSize: '9px', margin: 'auto'}}>Site Zip</Text>
+          <View style={{ width: "50px" }}>
+            <Text style={{ fontSize: "9px", margin: "auto" }}>Site Zip</Text>
           </View>
-          <View style={{ width: '70px'}}>
-            <Text style={{ fontSize: '9px', margin: 'auto'}}>Site Phone</Text>
+          <View style={{ width: "70px" }}>
+            <Text style={{ fontSize: "9px", margin: "auto" }}>Site Phone</Text>
           </View>
         </View>
-        {/* table body */}    
-        <View>                
+        {/* table body */}
+        <View>
           {data?.map((item: any, index: number) => (
-            <View style={{ display: 'flex', flexDirection: 'row', fontSize: '8px', borderLeft: '1px', borderRight:'1px', borderBottom: '1px' }} key={index}>
-              <Text style={{ width: '60px', padding: '2px', textAlign: 'center' }}>{item?.initialVisit}</Text>
-              <Text style={{ width: '120px', padding: '2px',textAlign: 'center' }}>{item?.indications?.join(', ')}</Text>
-              <Text style={{ width: '70px', padding: '2px', textAlign: 'center' }}>{item?.lastStatus}</Text>
-              <Text style={{ width: '40px', padding: '2px', borderLeft: '1px', borderColor: primaryColor === 'red' ? 'red' : '#5581c9', textAlign: 'center' }}>{item?.initials}</Text>
-              <Text style={{ width: '70px', padding: '2px', textAlign: 'center' }}>{item?.dob}</Text>
-              <Text style={{ width: '40px', padding: '2px', borderRight: '1px', borderColor: primaryColor === 'red' ? 'red' : '#5581c9', textAlign: 'center' }}>
-                {/* eslint-disable-next-line jsx-a11y/alt-text */}
-                <Image style={{ width: '10px' , height: '10px'}}  src={item?.idMatch ? matchIcon : noMatchIcon} />
+            <View
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                fontSize: "8px",
+                borderLeft: "1px",
+                borderRight: "1px",
+                borderBottom: "1px",
+              }}
+              key={index}>
+              <Text
+                style={{ width: "60px", padding: "2px", textAlign: "center" }}>
+                {item?.initialVisit}
               </Text>
-              <Text style={{ width: '110px', padding: '2px', textAlign: 'left' }}>{item?.siteName}</Text>
-              <Text style={{ width: '50px', padding: '2px', textAlign: 'center' }}>{item?.siteZip}</Text>
-              <Text style={{ width: '70px', padding: '2px', textAlign: 'center' }}>{item?.sitePhone}</Text>
+              <Text
+                style={{ width: "120px", padding: "2px", textAlign: "center" }}>
+                {item?.indications}
+              </Text>
+              <Text
+                style={{ width: "70px", padding: "2px", textAlign: "center" }}>
+                {item?.lastStatus}
+              </Text>
+              <Text
+                style={{
+                  width: "40px",
+                  padding: "2px",
+                  borderLeft: "1px",
+                  borderColor: primaryColor === "red" ? "red" : "#5581c9",
+                  textAlign: "center",
+                }}>
+                {item?.initials}
+              </Text>
+              <Text
+                style={{ width: "70px", padding: "2px", textAlign: "center" }}>
+                {item?.dob}
+              </Text>
+              <Text
+                style={{
+                  width: "40px",
+                  padding: "2px",
+                  borderRight: "1px",
+                  borderColor: primaryColor === "red" ? "red" : "#5581c9",
+                  textAlign: "center",
+                }}>
+                {item?.idMatch ? (
+                  /* eslint-disable-next-line jsx-a11y/alt-text */
+                   <Image
+                    style={{ width: "10px", height: "10px"}}
+                    src={matchIcon}
+                  />
+                ) : (
+                  /* eslint-disable-next-line jsx-a11y/alt-text */
+                  <Image
+                    style={{ width: "7px", height: "7px"}}
+                    src={noMatchIcon}
+                  />
+                )}
+                {/* <Image style={{ width: '8px' , height: '8px'}}  src={item?.idMatch ? matchIcon : noMatchIcon} /> */}
+              </Text>
+              <Text
+                style={{ width: "110px", padding: "2px", textAlign: "left" }}>
+                {item?.siteName}
+              </Text>
+              <Text
+                style={{ width: "50px", padding: "2px", textAlign: "center" }}>
+                {item?.siteZip}
+              </Text>
+              <Text
+                style={{ width: "70px", padding: "2px", textAlign: "center" }}>
+                {item?.sitePhone}
+              </Text>
             </View>
           ))}
         </View>
       </View>
     </View>
-  )
+  );
 }

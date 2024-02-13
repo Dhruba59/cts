@@ -54,13 +54,13 @@ const ListHeader = ({ setQueryData }: any) => {
       <Breadcrumbs title="Change Request Dashboard" subTitle="Change Request Dashboard List" />
       <form className="" onSubmit={handleSubmit(onSubmit)}>
         <div className="wrapper py-2 md:hidden">
-          <SearchForm  isAdvancedOpen={isChecked} dropDown={_dropDown?.data} register={register} Controller={Controller} control={control}  reset={reset}/>
+          <SearchForm  isAdvancedOpen={isChecked} dropDown={_dropDown?.data} register={register} Controller={Controller} control={control}  reset={reset} setQueryData={setQueryData}/>
         </div>
         <section className="hidden md:block wrapper">
           <div className="flex flex-row items-center justify-between px-3 py-3">
             <h4 className=" text-neutral-black">Search Change Request</h4>
             <div className="">
-              <SearchForm isAdvancedOpen={isChecked}  dropDown={_dropDown?.data}  register={register} Controller={Controller} control={control} reset={reset}/>
+              <SearchForm isAdvancedOpen={isChecked}  dropDown={_dropDown?.data}  register={register} Controller={Controller} control={control} reset={reset} setQueryData={setQueryData}/>
             </div>
             <Toggle
               prefixLabel="More: "
@@ -70,7 +70,7 @@ const ListHeader = ({ setQueryData }: any) => {
             />
           </div>
           <hr />
-          {isChecked && <AdvanceSearchForm  dropDown={_dropDown?.data} register={register} Controller={Controller} control={control} reset={reset}/>}
+          {isChecked && <AdvanceSearchForm  dropDown={_dropDown?.data} register={register} Controller={Controller} control={control} reset={reset} setQueryData={setQueryData}/>}
         </section>
       </form>
     </div>

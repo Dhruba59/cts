@@ -24,6 +24,7 @@ interface Props {
   titleClassName?: string;
   isLoading?: boolean;
   type?: MODAL_TYPE_ENUM;
+  maskClosable?: boolean;
   renderFooter?: {
     onSave?: () => void;
     onReject?: () => void;
@@ -47,6 +48,7 @@ const Modal = ({
   renderFooter,
   isLoading,
   children,
+  maskClosable=true,
   type = MODAL_TYPE_ENUM.DEFAULT,
 }: Props) => {
   const [visible, setVisible] = useState(open);
@@ -56,6 +58,13 @@ const Modal = ({
     setOpen?.(false);
     onClose?.();
   };
+
+  const handleMaskClick = () => {
+    if(maskClosable) {
+      handleModalClose();
+    }
+    return;
+  }
 
   const handleModalSave = () => {
     renderFooter?.onSave?.();
@@ -165,7 +174,7 @@ const Modal = ({
       <div
         className={`fixed inset-0 flex items-center justify-center transition-colors duration-200 ease-in z-[100] ${visible ? "bg-black/50" : "invisible"
           }`}
-        onClick={handleModalClose}>
+        onClick={handleMaskClick}>
         <main
           className={cn(
             `bg-white rounded-lg shadow transition-all duration-200 ease-in-out max-h-[80vh] w-[80vw] sm:w-[70vw] lg:w-[50vw] ${visible ? "scale-100 opacity-100" : "scale-75 opacity-0"
