@@ -113,3 +113,14 @@ export interface Protocol {
     SubjectId: string | number;
     NationalTypeId: string | number;
   }
+
+  export interface SubjectFieldValidationPayloadType {
+    sponsorSubjectId: string | number;
+    subjectId: string | number | null;
+    studyId: string | number;
+    dob: string;
+    height: string | number;
+    weight: string | number;
+    heightUnit: string;
+    weightUnit: string;
+  }
