@@ -1,4 +1,4 @@
-import { addNewSubject, checkDetailRequirement, getLastSubjectReport, getVisitTypes, updateVisitInfo, validateSponsorSubjectId, verifySocialCode } from "@/service/subject-service";
+import { addNewSubject, checkDetailRequirement, getLastSubjectReport, getVisitTypes, updateVisitInfo, validateAgeBmi, validateSponsorSubjectId, verifySocialCode } from "@/service/subject-service";
 import { useMutation, useQuery } from "react-query";
 
 export const useAddSubjectMutation = () => useMutation({
@@ -19,6 +19,10 @@ export const useIsDetailsRequired = () => useMutation({
 
 export const useVerifySocialCode = () => useMutation({
   mutationFn: verifySocialCode,
+})
+
+export const useValidateAgeBmi = () => useMutation({
+  mutationFn: validateAgeBmi,
 })
 
 export const useUpdateVisitInfo = () => useMutation({

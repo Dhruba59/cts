@@ -5,7 +5,7 @@ import Label from "@/components/ui/label";
 import Select from "@/components/ui/select";
 import Textarea from "@/components/ui/textarea";
 import { useGetChangeReqSubjectDetails, useSaveChangeRequest } from "@/hooks/rq-hooks/change-request-hooks";
-import { useAddSubjectMutation, useIsDetailsRequired, useValidateSponsorSubjectId, useVerifySocialCode } from "@/hooks/rq-hooks/subject-hooks";
+import { useAddSubjectMutation, useIsDetailsRequired, useValidateAgeBmi, useValidateSponsorSubjectId, useVerifySocialCode } from "@/hooks/rq-hooks/subject-hooks";
 import { ChangeReqSubjectIdProps } from "@/model/change-request";
 import { DropDownItem, SelectOptionType } from "@/model/drop-down-list";
 import { checkDetailRequirement } from "@/service/subject-service";
@@ -20,7 +20,7 @@ import Modal from "@/components/modal";
 import { useRouter } from "next/navigation";
 import InputFieldWithRegexValidation from "@/components/ui/inputfield-with-regex";
 import ReprintPdf from "@/features/change-request/pdf/reprint-pdf";
-import { MatchReportQueryParams } from "@/model/subject";
+import { MatchReportQueryParams, SubjectFieldValidationPayloadType } from "@/model/subject";
 import { useQuery } from "react-query";
 import { getSubjectMatchReport } from "@/service/report-service";
 import { PDFViewer } from "@react-pdf/renderer";
@@ -30,6 +30,12 @@ import Spinner from "@/components/ui/spinner";
 enum NATIONAL_ID_TYPE {
   PASSPORT = '2',
   SOCIAL_SECURITY = '1'
+}
+
+interface AgeBmiWarningDataType {
+  submitPayload: any;
+  message: string | null | undefined;
+  isModalOpen: boolean;
 }
 
 interface AddSubjectFormProps {
@@ -71,12 +77,19 @@ const AddSubjectForm = ({ dropdowns, protocolId, subjectIdFormat, restSubjectIdF
   const [matchReportQueryParams, setMatchReportQueryParams] =
     useState<MatchReportQueryParams>();
 
+  const [ageBmiWarningData, setAgeBmiWarningData] = useState<AgeBmiWarningDataType>({
+    isModalOpen: false,
+    message: '',
+    submitPayload: {}
+  })
+
   const [studyId, setStudyId] = useState<string>('');
   const { mutate: addSubject, isLoading: isSubjectAddLoading } = useAddSubjectMutation();
   const { mutate: saveSubjectChangeRequest, isLoading: isLoadingChangeRequest } = useSaveChangeRequest();
   const { mutate: validateSponsor } = useValidateSponsorSubjectId();
   const { mutate: validateDetailRequirement } = useIsDetailsRequired();
   const { mutate: verifySocialCode } = useVerifySocialCode();
+  const { mutate: validateFields } = useValidateAgeBmi();
 
   const { data: subjectMatchReport, isLoading: isLoadingSubjectMatchReport } =
     useQuery({
@@ -133,6 +146,89 @@ const AddSubjectForm = ({ dropdowns, protocolId, subjectIdFormat, restSubjectIdF
     }
   }
 
+  function CheckHeight(height: number, heightUnit: 'IN' | 'CM') {
+    let high = 213.36, low = 91.44;
+    var tempHeight = height;
+    if (heightUnit == "IN") {
+        tempHeight = tempHeight * 2.54;
+    }
+  
+    if (tempHeight > high) {
+      setError('height', { type: 'custom', message: "Max height 7' (213.36 CM)" });
+      return false;
+    }
+    else if (tempHeight < low) {
+      setError('height', { type: 'custom', message: "Min height 3' (91.44 CM)" });
+      return false;
+    }
+    else {
+      clearErrors('height');
+      return true;
+    }
+  }
+  
+  function CheckWeight(weight: number, weightUnit: 'KG' | 'LBS') {
+    let high = 200, low = 35;
+    var tempWeight = weight;
+    if (weightUnit == "LBS") {
+      tempWeight = tempWeight / 2.2;
+    }
+  
+    if (tempWeight > high) {
+      setError('weight', { type: 'custom', message: "Max weight 200 Kgs (440 Lbs)" });
+      return false;
+    }
+    else if (tempWeight < low) {
+      setError('weight', { type: 'custom', message: "Min weight 35 Kgs (77 Lbs)" });
+      return false;
+    }
+    else {
+      clearErrors('weight');
+      return true;
+    }
+  }
+
+  const saveSubject = (payload: any) => {
+    saveSubjectChangeRequest(payload, {
+      onSuccess: (data) => {
+        toast.success(data.data.details);
+        router.push('/change-request/dashboard');
+      },
+      onError: (error: any) => {
+        toast.error(error.response.data.detail);
+      }
+    });
+  };
+  
+  const addNewSubject = (payload: any) => {
+    addSubject(payload, {
+      onSuccess: (data) => {
+        toast.success(data.data.details);
+        reset();
+        reset({ 
+          dateOfBirth: { startDate: null, endDate: null },
+          heightUnit: heightUnitOptions?.[0].value ?? '',
+          weightUnit: weightUnitOptions?.[0].value ?? ''
+        });
+        openMatchReportModal({
+          SubjectId: data?.data?.data?.subjectId,
+          NationalTypeId: payload?.idType
+        });
+      },
+      onError: (error: any) => {
+        toast.error(error.response.data.details);
+      }
+    })
+  };
+
+  const submitData = (subjectPayload: any) => {
+    if (ids) {
+      saveSubject(subjectPayload);
+      return;
+    }
+    addNewSubject(subjectPayload);
+  }
+
   const verifyId = () => {
     const id = getValues('partialID');
     if(!!id) {
@@ -154,43 +250,6 @@ const AddSubjectForm = ({ dropdowns, protocolId, subjectIdFormat, restSubjectIdF
   };
 
   const onSubmit = async (values: any) => {
-    const validationPayload = {
-      studyId: protocolId ?? '-1',
-      sponsorSubjectId: values.sponsorSubjectID
-    }
-
-    const saveSubject = (payload: any) => {
-      saveSubjectChangeRequest(payload, {
-        onSuccess: (data) => {
-          toast.success(data.data.details);
-          router.push('/change-request/dashboard');
-        },
-        onError: (error: any) => {
-          toast.error(error.response.data.detail);
-        }
-      });
-    };
-    
-    const addNewSubject = (payload: any) => {
-      addSubject(payload, {
-        onSuccess: (data) => {
-          toast.success(data.data.details);
-          reset();
-          reset({ 
-            dateOfBirth: { startDate: null, endDate: null },
-            heightUnit: heightUnitOptions?.[0].value ?? '',
-            weightUnit: weightUnitOptions?.[0].value ?? ''
-          });
-          openMatchReportModal({
-            SubjectId: data?.data?.data?.subjectId,
-            NationalTypeId: payload?.idType
-          });
-        },
-        onError: (error: any) => {
-          toast.error(error.response.data.details);
-        }
-      })
-    };
 
     if(!values?.middleNameInitials || values?.middleNameInitials.length === 0) {
       setError('middleNameInitials', {type: 'custom', message:  'If you have not middle name then put a "-" on the field' });
@@ -223,30 +282,46 @@ const AddSubjectForm = ({ dropdowns, protocolId, subjectIdFormat, restSubjectIdF
       payload.dateOfBirth = `${values?.dateOfBirth}-01-01T00:00:00.000Z`;
     }
 
+    const validationPayload: SubjectFieldValidationPayloadType = {
+      sponsorSubjectId: payload?.sponsorSubjectID,
+      subjectId: ids?.subjectId ?? null,
+      studyId: payload.studyId,
+      dob: payload?.dateOfBirth,
+      height: payload?.height,
+      weight: payload?.weight,
+      heightUnit: payload?.heightUnit,
+      weightUnit: payload?.weightUnit
+    }
 
-    if(ids && subjectDetail.sponsorSubjectId === values?.sponsorSubjectID) {
-      saveSubject(payload);
+    const isValidHeight = CheckHeight(payload?.height, payload?.heightUnit);
+    const isValidWeight = CheckWeight(payload?.weight, payload?.weightUnit);
+
+    if(!isValidHeight || !isValidWeight ){
       return;
     }
-    validateSponsor(validationPayload, {
+
+    validateFields(validationPayload, {
       onSuccess: (data) => {
-        if (data.data.isValid) {
-          clearErrors('sponsorSubjectID');
-          if (ids) {
-            saveSubject(payload);
-            return;
-          }
-          addNewSubject(payload);
+        if(data?.data?.sponsorSubjectId?.isValid === false) {
+          setError('sponsorSubjectID', { type: 'custom', message: data?.data?.sponsorSubjectId?.message });
+          return;
         }
         else {
-          setError('sponsorSubjectID', { type: 'custom', message: data.data.message });
+          clearErrors('sponsorSubjectID');
         }
-      },
-      onError: (error: any) => {
-        setError('sponsorSubjectID', { type: 'required', message: error?.response.data.details });
+        if(data?.data?.ageAndBmi?.isValid === false ) {
+          setAgeBmiWarningData({
+            submitPayload: payload,
+            message: data?.data?.ageAndBmi?.message,
+            isModalOpen: true
+          })
+        } else {
+          submitData(payload); 
+        }
       }
-    });
+    })
   };
+
 
   const handleReset = () => {
     if(ids) {
@@ -297,21 +372,6 @@ const AddSubjectForm = ({ dropdowns, protocolId, subjectIdFormat, restSubjectIdF
     }
   }, [protocolId]);
 
-  // useEffect(() => {
-  //   function handleClickOutside(event: MouseEvent) {
-  //     //@ts-ignore
-  //     if (wrapperRef.current && !wrapperRef.current.contains(event.target as any)) {
-  //       // alert("You clicked outside of me!");
-  //       validateId();
-  //     }
-  //   }
-  //   document.addEventListener("mousedown", handleClickOutside);
-  //   return () => {
-  //     // Unbind the event listener on clean up
-  //     document.removeEventListener("mousedown", handleClickOutside);
-  //   };
-  // }, [wrapperRef])
-
   const updateFieldsWithSubjectData = () => {
     if (subjectDetail) {
       setVisitTypeOptions(convertTypeToSelectOption(subjectData?.data?.visitTypes));
@@ -334,7 +394,7 @@ const AddSubjectForm = ({ dropdowns, protocolId, subjectIdFormat, restSubjectIdF
         zip: subjectDetail.zipCode,
         height: subjectDetail.height,
         heightUnit: subjectDetail.heightUnit,
-        Weight: subjectDetail.weight,
+        weight: subjectDetail.weight,
         weightUnit: subjectDetail.weightUnit,
         indicationDetails: subjectDetail.indicationDetail,
         visitTypeId: subjectDetail.visitTypeId,
@@ -741,12 +801,12 @@ const AddSubjectForm = ({ dropdowns, protocolId, subjectIdFormat, restSubjectIdF
               type="number"
               step="0.01"
               placeholder="Enter weight"
-              {...register("Weight", { required: "Weight is required." })}
+              {...register("weight", { required: "Weight is required." })}
               disabled={!protocolId && !ids}
             />
-            {errors.Weight && (
+            {errors.weight && (
               <span className="text-red-500 -mt-10">
-                {errors.Weight.message as string}
+                {errors.weight.message as string}
               </span>
             )}
           </div>
@@ -954,6 +1014,27 @@ const AddSubjectForm = ({ dropdowns, protocolId, subjectIdFormat, restSubjectIdF
           )}
         </div>
       </Modal>
+      <Modal
+        // triggerProp={<Edit />}
+        open={ageBmiWarningData.isModalOpen}
+        // setOpen={(data: boolean) => setAgeBmiWarningData((val: AgeBmiWarningDataType) => ({...val, isModalOpen: data}))}
+        title="Alert!"
+        renderFooter={{
+          onSave: () => {
+            setAgeBmiWarningData((val: AgeBmiWarningDataType) => ({...val, isModalOpen: false}));
+            submitData(ageBmiWarningData.submitPayload);
+          },
+          // onReject: () => setFocus('partialID'),
+          submitButtonName: "OK",
+          cancelButtonName: "Cancel",
+        }}
+        onClose={() => {
+          // setIsAgeBmiWarningModalOpen(false);
+          setAgeBmiWarningData((val: AgeBmiWarningDataType) => ({...val, isModalOpen: false}));
+        }}>
+        {ageBmiWarningData.message}
+      </Modal>
+      
     </>
   );
 };

@@ -1,6 +1,7 @@
 import { API_ROUTE_CONSTANT } from "@/constants/api-route";
 import { request } from "./axios-config";
 import { AddUpdateStudyPayload, GetIndicationListParams, StudyDeletePayload } from "@/model/study";
+import { SubjectFieldValidationPayloadType } from "@/model/subject";
 
 interface NewSubjectPayload {
   UserId: string,
@@ -77,6 +78,10 @@ export const validateSponsorSubjectId = (data: ValidateSponsorSubjectPayload) =>
 
 export const verifySocialCode = (data: VerifySocialCode) => {
   return request({ url: `${API_ROUTE_CONSTANT.SUBJECT}/verify-social-code`, method: "post", data });
+};
+
+export const validateAgeBmi = (data: SubjectFieldValidationPayloadType) => {
+  return request({ url: `${API_ROUTE_CONSTANT.SUBJECT}/pre-submit-validation`, method: "post", data });
 };
 
 export const updateVisitInfo = (data: UpdateVisitInfo) => {
