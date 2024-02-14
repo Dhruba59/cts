@@ -48,7 +48,7 @@ const Modal = ({
   renderFooter,
   isLoading,
   children,
-  maskClosable=true,
+  maskClosable=false,
   type = MODAL_TYPE_ENUM.DEFAULT,
 }: Props) => {
   const [visible, setVisible] = useState(open);
