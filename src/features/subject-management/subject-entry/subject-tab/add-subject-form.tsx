@@ -796,7 +796,7 @@ const AddSubjectForm = ({ dropdowns, protocolId, subjectIdFormat, restSubjectIdF
 
         <div className="grid grid-cols-2 gap-x-6">
           <div>
-            <Label label="weight" className="inline-block mb-2" />
+            <Label label="Weight" className="inline-block mb-2" />
             <Input
               type="number"
               step="0.01"
