@@ -15,9 +15,8 @@ import { MatchReportQueryParams } from "@/model/subject";
 
 type ChangeRequestReprintListColumnsProps = {
   onOpenChangeRequestModal: (subjectId: number | undefined, nationalTypeId: number | undefined, visitTypeId: number | undefined, isPreScreen: boolean | undefined) => void;
-  onDelete: (id: any) => void;
 }
-export const ChangeRequestReprintListColumns = ({ onOpenChangeRequestModal, onDelete }
+export const ChangeRequestReprintListColumns = ({ onOpenChangeRequestModal }
   : ChangeRequestReprintListColumnsProps): ColumnDef<ChangeRequestReprintModel>[] => {
   return ([
 

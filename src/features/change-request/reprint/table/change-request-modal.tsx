@@ -25,9 +25,10 @@ enum SEND_REQ_OPERATION_TYPE_ENUM {
   DELETE_LAST_VISIT_ENTRY = 2
 }
 
-const ChangeRequestModal = ({ id, visitTypeId, isPreScreen, onPrintClick, onHideChangeRequestModal }: any) => {
+const ChangeRequestModal = ({ id, visitTypeId, isPreScreen, onPrintClick, onHideChangeRequestModal, refetchList }: any) => {
   const [open, setOpen] = useState<boolean>(true);
   const [selectedOperation, setSelectedOperation] = useState();
+  const [showError, setShowError] = useState<boolean>(false);
   const [visitTypeOption, setVisitTypeOption] = useState<SelectOptionType[]>([]);
   const { data: session } = useSession();
   const router = useRouter();
@@ -49,9 +50,14 @@ const ChangeRequestModal = ({ id, visitTypeId, isPreScreen, onPrintClick, onHide
 
   const handleRadioChange = (event: any) => {
     setSelectedOperation(event.target.value);
+    setShowError(false);
   };
 
   const onSubmit = (values: any) => {
+    if(!selectedOperation) {
+      setShowError(true);
+      return;
+    }
     if (selectedOperation == SEND_REQ_OPERATION_TYPE_ENUM.EDIT_SUBJECT) {
       router.push(`/study-subject-edit/${id}`);
     }
@@ -75,6 +81,7 @@ const ChangeRequestModal = ({ id, visitTypeId, isPreScreen, onPrintClick, onHide
           toast.success(data?.data.details);
           setOpen(false);
           onHideChangeRequestModal();
+          refetchList();
         },
         onError: (error: any) => {
           toast.error(error?.response?.data.detail);
@@ -190,6 +197,8 @@ const ChangeRequestModal = ({ id, visitTypeId, isPreScreen, onPrintClick, onHide
             />
           </div>
         )}
+        
+        {showError && <span className="text-red-500">Select a operation</span>}
       </form>
     </Modal>
   );
