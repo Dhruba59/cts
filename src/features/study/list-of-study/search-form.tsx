@@ -45,13 +45,13 @@ const SearchForm: React.FC<SearchFormProps> = ({ isAdvancedOpen, register, reset
     <div className="flex justify-start gap-3 md:gap-6">
       <div className="flex lg:flex lg:items-center gap-2 flex-1 md:flex-none">
         <Label label="Study Name: " className="hidden xl:block" />
-        <Input {...register('StudyName')} placeholder="Study name"/>
+        <Input {...register('StudyName')} placeholder="Study name" />
       </div>
       <div className="flex lg:flex lg:items-center gap-2 flex-1">
         <Label label="Protocol: " className="hidden xl:block" />
-        <Input {...register('ProtocolNumber')} placeholder="Protocol"  />
+        <Input {...register('ProtocolNumber')} placeholder="Protocol" />
       </div>
-      <Button className={`mb-[1px] w-fit ${isAdvancedOpen ? 'hidden' : 'block'}`} type="submit">Search</Button> 
+      <Button className={`mb-[1px] w-fit ${isAdvancedOpen ? 'hidden' : 'block'}`} type="submit">Search</Button>
     </div>
   );
 };
@@ -81,7 +81,7 @@ const AdvanceSearchForm = ({ dropDownList, register, Controller, control, reset 
           control={control}
           name='SponsorId'
           render={({ field: { onChange, onBlur, value } }: any) => (
-            <Select onChange={onChange} label="Sponsor Name" options={sponsorOptions} value={value}/>
+            <Select onChange={onChange} label="Sponsor Name" options={sponsorOptions} value={value} />
           )}
         />
 
@@ -89,7 +89,7 @@ const AdvanceSearchForm = ({ dropDownList, register, Controller, control, reset 
           control={control}
           name='Phase'
           render={({ field: { onChange, onBlur, value } }: any) => (
-            <Select onChange={onChange} label="Phase Name" placeholder="Pre screen phase" options={phaseOptions} value={value}/>
+            <Select onChange={onChange} label="Phase Name" placeholder="Pre screen phase" options={phaseOptions} value={value} />
           )}
         />
 
@@ -147,15 +147,14 @@ const AdvanceSearchForm = ({ dropDownList, register, Controller, control, reset 
           </div>
 
         </div>
-        <div className="flex items-center justify-center gap-4 ">
-          <Button className="" type="submit">Search</Button>
-          <Button className="px-8" variant="outline" onClick={() => reset(initialSearchFormValues)}>
-            Reset
-          </Button>
-        </div>
       </div>
 
-
+      <div className="flex items-center justify-end gap-4 mt-8 md:mt-14">
+        <Button type="submit" className="px-8">Search</Button>
+        <Button className="px-8" variant="outline" onClick={() => reset()}>
+          Reset
+        </Button>
+      </div>
     </div>
   );
 };
