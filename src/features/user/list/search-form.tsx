@@ -207,7 +207,7 @@ export function AdvanceSearchForm({ form, userTypeOptions, sponsorOptions, siteO
             </div> */}
 
       </div>
-      <div className="flex items-center justify-end gap-4 !mt-10">
+      <div className="flex items-center justify-end gap-4 mt-8 md:mt-14">
         <Button className="" type="submit">Search</Button>
         <Button className="px-8" variant="outline" onClick={() => onReset()}>
           reset
