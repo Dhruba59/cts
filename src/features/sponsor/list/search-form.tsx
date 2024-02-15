@@ -57,35 +57,43 @@ export function AdvanceSearchForm({ register, Controller, control, reset }: any)
 
   return (
     <div className="hidden lg:block p-6 pt-2 space-y-4">
-      <div className="flex flex-row items-center gap-5">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
+        <div>
         <Input
           name="city"
           label="City"
           placeholder="Enter city"
-          className="md:w-72"
+          className=""
           {...register("city")}
         />
+        </div>
+        <div>
         <Input
           name="state"
           label="State"
           placeholder="Enter state"
-          wrapperClassName="md:w-full"
+          wrapperClassName=""
           {...register("state")}
         />
+        </div>
+        <div>
+           <Textarea label="Address One" placeholder="Enter address one"  {...register("address1",{
+              })} />
+        </div>
+        <div>
+           <Textarea label="Address Two" placeholder="Enter address two"  {...register("address2",{
+              })} />
+        </div>
       </div>
 
-      <div className="flex flex-row items-center gap-5">
-      <Textarea  label="Address One"/>
-      <Textarea label="Address Two"/>
-      </div>
-      <div className="flex gap-3">
-          <Button type="submit" className="!h-10 mb-[1px]">
+      <div className="flex items-center justify-end gap-4 mt-8 md:mt-14">
+          <Button type="submit" className="px-8">
             Search
           </Button>
-          <Button type="submit" variant="outline" onClick={() => reset()}>
+          <Button type="submit" className="px-8" variant="outline" onClick={() => reset()}>
             Reset
           </Button>
-        </div>
+      </div>
     </div>
   );
 }

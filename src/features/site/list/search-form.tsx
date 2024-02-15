@@ -212,8 +212,8 @@ export function AdvanceSearchForm({ frequencyDropDown, register, Controller, con
           <Label label="Partial Date Allowed" />
         </div>
       </div>
-      <div className="flex justify-center gap-4 mt-8 md:mt-14">
-        <Button type="submit" className="px-8">Submit</Button>
+      <div className="flex items-center justify-end gap-4 mt-8 md:mt-14">
+        <Button type="submit" className="px-8">Search</Button>
         <Button className="px-8" variant="outline" onClick={() => reset()}>
           Reset
         </Button>

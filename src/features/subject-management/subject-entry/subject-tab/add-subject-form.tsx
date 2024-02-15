@@ -608,6 +608,7 @@ const AddSubjectForm = ({ dropdowns, protocolId, subjectIdFormat, restSubjectIdF
               }}
               render={({ field: { onChange, onBlur, value } }: any) => (
                 <Datepicker
+                  startFrom={new Date()}
                   popoverDirection="down"
                   value={value}
                   asSingle

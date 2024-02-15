@@ -55,7 +55,7 @@ export function SearchForm({
             name="codeType"
             isClearable
             render={({ field: { onChange, onBlur, value } }: any) =>
-              <Select onChange={onChange} options={codeTypeOptions}  value={value}/>}
+              <Select onChange={onChange} options={codeTypeOptions} value={value} />}
           />
         </div>
       </div>
@@ -77,44 +77,45 @@ export function AdvanceSearchForm({ register, Controller, control, reset }: any)
     codeType: { value: "", label: "Select " },
 
   };
-  
+
   return (
     <div className="hidden lg:block p-6 pt-2 space-y-4">
       <div className="flex flex-row items-center gap-5">
-        <Input
-          name="indicationName"
-          label="Indication name"
-          placeholder="Enter Indication name"
-          className="md:w-72"
-          {...register("indicationName")}
-        />
-        <Input
-          name="description"
-          label="Description"
-          placeholder="Enter description"
-          wrapperClassName="md:w-full"
-          {...register("description")}
-        />
-      </div>
-
-      <div className="flex flex-grow justify-between">
-        <div className="flex flex-row items-center -mt-6">
-          <Controller
-            name="isRequireDetails"
-            control={control}
-            render={({ field: { onChange, onBlur, value } }: any) =>
-              <Checkbox className="" onChange={onChange} />}
+        <div>
+          <Input
+            name="indicationName"
+            label="Indication name"
+            placeholder="Enter Indication name"
+            className="md:w-72"
+            {...register("indicationName")}
           />
-          <Label label="Require Details" className="-mt-1" />
         </div>
-        <div className="flex gap-3">
-          <Button type="submit" className="!h-10 mb-[1px]">
-            Search
-          </Button>
-          <Button type="submit" variant="outline" onClick={() => reset()}>
-            Reset
-          </Button>
+        <div>
+          <Input
+            name="description"
+            label="Description"
+            placeholder="Enter description"
+            wrapperClassName="md:w-full"
+            {...register("description")}
+          />
         </div>
+
+        <div className="flex flex-col justify-start gap-2 items-start md:items-center h-full">
+          <Label label="Require Details"/>
+            <Controller
+              name="isRequireDetails"
+              control={control}
+              render={({ field: { onChange, onBlur, value } }: any) =>
+                <Checkbox className="" onChange={onChange} />}
+            />
+         
+        </div>
+      </div>
+      <div className="flex items-center justify-end gap-4 mt-8 md:mt-14">
+        <Button type="submit" className="px-8">Search</Button>
+        <Button className="px-8" variant="outline" onClick={() => reset()}>
+          Reset
+        </Button>
       </div>
     </div>
   );
