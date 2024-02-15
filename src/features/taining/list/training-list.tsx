@@ -10,11 +10,40 @@ import { useGetStudyProtocols } from "@/hooks/rq-hooks/training-material-hooks";
 import { TrainingMaterialQuery } from "@/model/training-material";
 import { json } from "stream/consumers";
 import { DownloadCertificateIcon, QuizIcon } from "@/assets/icons";
+import Modal from "@/components/modal";
+import Spinner from "@/components/ui/spinner";
+import { PDFViewer } from "@react-pdf/renderer";
+import CertificatePdf from "@/features/taining-material/certificate/pdf";
+import { TrainingCertificateQueryParams } from "@/model/training";
+import { getUserTrainingCertificate } from "@/service/user-training-service";
+import { useQuery } from "react-query";
 
 
 const TrainingList = ({ item, trainingId, setTrainingId,selected, setSelected, setVideoUrl, setLoadQuiz, setShowResult, diableQuizes }: any) => {
 
+  const [isCertificateModalOpen, setIsCertificateModalOpen] = useState<boolean>(false);
+  const [certificateQueryParams, setCertificateQueryParams] =
+  useState<TrainingCertificateQueryParams>();
   const [subItem, setSubItem] = useState<string>('module');
+
+  const { data: certificateData, isLoading: isLoadingCertificate } =
+  useQuery({
+    queryFn: getUserTrainingCertificate,
+    queryKey: ["user-training-certificate", certificateQueryParams],
+    enabled: !!certificateQueryParams,
+  });
+
+  const showCertificate = (id: number) => {
+    setIsCertificateModalOpen(true);
+    setCertificateQueryParams({
+      TrainingId: id
+    });
+  }
+
+  const onCloseModal = () => {
+    setIsCertificateModalOpen(false);
+  };
+  
   useEffect(() => {
     //setVideoUrl(item[0]?.filePath);
     //console.log(item[0]?.filePath);
@@ -71,10 +100,10 @@ const TrainingList = ({ item, trainingId, setTrainingId,selected, setSelected, s
                     className={`px-2 text-left py-1 border border-sky-900 rounded-sm  text-black   shadow-inner leading-tight ${trainingId === item.trainingId &&  subItem === 'certificate'? 'bg-red-100 border-red-700 shadow-red-300/50' : 'border-red-500 shadow-red-300/50'}`}
                     type="button"
                     onClick={() => {
-                      alert('downloading..');
                       setSelected(item.studyId);
                       setTrainingId(item.trainingId);
                       setSubItem('certificate');
+                      showCertificate(item?.trainingId);
                     }}
                   >
                     {'Download Certificate'}
@@ -84,6 +113,26 @@ const TrainingList = ({ item, trainingId, setTrainingId,selected, setSelected, s
             </div>
           </div>
         </details>
+        <Modal
+          containerClassName="bg-transparent max-h-full !h-full top-0 max-w-full !w-full"
+          closeBtnClassName="bg-white rounded-full hover:scale-125 transition-all duration-200 right-8"
+          open={isCertificateModalOpen}
+          setOpen={setIsCertificateModalOpen}
+          onClose={() => onCloseModal}>
+          <div className="h-full w-full mt-6">
+            {isLoadingCertificate ? (
+              <div className="h-[85vh] flex items-center justify-center">
+                <Spinner size="large" />{" "}
+              </div>
+            ) : (
+              <PDFViewer className="w-full h-[85vh]">
+                <CertificatePdf
+                  data={certificateData?.data}
+                />
+              </PDFViewer>
+            )}
+          </div>
+        </Modal>
     </div>
   );
 };

@@ -56,3 +56,7 @@ export interface TrainingQuizAnswer {
     displayOrder: number;
     active: boolean;
 }
+
+export interface TrainingCertificateQueryParams {
+    TrainingId: number | string;
+}
