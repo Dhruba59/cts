@@ -100,7 +100,6 @@ const TrainingList = ({ item, trainingId, setTrainingId,selected, setSelected, s
                     className={`px-2 text-left py-1 border border-sky-900 rounded-sm  text-black   shadow-inner leading-tight ${trainingId === item.trainingId &&  subItem === 'certificate'? 'bg-red-100 border-red-700 shadow-red-300/50' : 'border-red-500 shadow-red-300/50'}`}
                     type="button"
                     onClick={() => {
-                      alert('downloading..');
                       setSelected(item.studyId);
                       setTrainingId(item.trainingId);
                       setSubItem('certificate');

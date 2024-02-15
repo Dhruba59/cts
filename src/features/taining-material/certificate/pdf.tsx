@@ -1,5 +1,4 @@
 import { CTS_LOGO_BASE64 } from "@/assets/image/base64-image";
-import { formatDate } from "@/utils/helpers";
 import { Document, Image, Page, StyleSheet, Text, View } from "@react-pdf/renderer";
 import dayjs from "dayjs";
 
@@ -20,9 +19,8 @@ const styles = StyleSheet.create({
 });
 
 const CertificatePdf = ({ data }: any) => {
-  console.log(data);
   const attendDate = dayjs(data?.data?.quizAttendDate).format("MMM DD, YYYY");
-  // const printTime = dayjs(new Date()).format("DD-MMM-YY HH:mm A");
+
   return (
     <Document style={{}}>
       <Page size="A4" orientation="landscape" style={styles.page}>
@@ -52,32 +50,3 @@ const CertificatePdf = ({ data }: any) => {
 }
 
 export default CertificatePdf;
-
-
-
-
-
-
-
-
-// <Header data={data?.headerInfo}/>
-// {/* horizontal bar */}
-// <View style={{  height: "3px", backgroundColor: '#5581c9', width: '100%' }}></View>
-// <SearchInfo data={data?.searchInfo} />
-// <View style={{ display: 'flex', flexDirection: 'column', gap: '25px', width: '100%'}}>
-//   <ReportTable title='Virtually Certain Matches' primaryColor="red" data={data?.certainMatches}/>
-//   <ReportTable title='Possible  Matches' primaryColor="blue" data={data?.possibleMatches}/>
-//   <ReportTable title='Probable  Matches' primaryColor="blue" data={data?.probableMatches}/>
-// </View>
-// <StatusDisclaimer data={data}/>
-// <Comment comment={data?.comments} />
-// <View wrap={false} style={{ width: '100%,', margin: 'auto', display:"flex", justifyContent:"center", alignItems: 'center' }}>
-//   <View style={{ width: '80%,', marginTop: '10px', marginBottom: '10px', display: 'flex', flexDirection: 'column', gap:'1px', alignItems: 'center', borderTop: '1px', borderBottom: '1px', padding: '10px 0px' }}>
-//     <Text style={{fontSize: '10px'}}>PS = Prescreen, EOT = End Of Treatment</Text>
-//     <Text style={{fontSize: '10px'}}>Please print a copy of subject file</Text>
-//     <Text style={{fontSize: '8px'}}>If any of above information is incorrect, please contact us at support@ctsdatabase.com</Text>
-//     <Text style={{fontSize: '8px'}}>or 1-855 CTS-CTSd(1-855-287-2873)</Text>
-//   </View>
-// </View>
-
-// <Footer printTime={printTime}/>  
