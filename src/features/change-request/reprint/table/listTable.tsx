@@ -50,7 +50,7 @@ const onOpenChangeRequestModal = (subjectId: number | undefined, nationalTypeId:
     NationalTypeId: nationalTypeId ?? ''
   }
   setViewChangeRequestModal(
-    <ChangeRequestModal id={subjectId + '_' + nationalTypeId} visitTypeId={visitTypeId} isPreScreen={isPreScreen} onPrintClick={() => onPrintClick(subjectInfo)} onHideChangeRequestModal={onHideChangeRequestModal}/>
+    <ChangeRequestModal id={subjectId + '_' + nationalTypeId} visitTypeId={visitTypeId} isPreScreen={isPreScreen} onPrintClick={() => onPrintClick(subjectInfo)} onHideChangeRequestModal={onHideChangeRequestModal} refetchList={refetch}/>
   );
 }
 
@@ -99,7 +99,7 @@ const onDelete = (id: number) => {
   setOpen(true);
 }
 
-const columns = useMemo(() => ChangeRequestReprintListColumns({ onOpenChangeRequestModal, onDelete }), []);
+const columns = useMemo(() => ChangeRequestReprintListColumns({ onOpenChangeRequestModal }), []);
 
 return (
   <div className="sm:wrapper">

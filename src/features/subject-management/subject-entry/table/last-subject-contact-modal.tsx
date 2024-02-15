@@ -111,6 +111,7 @@ const LastSubjectContactModal = ({ data, studyId, onUpdateSubject }: any) => {
       open={open}
       setOpen={setOpen}
       onClose={() => onHandelReset()}
+      isLoading={isUpdatingVisitInfo}
     >
       <form className="space-y-6 h-80">
         <div className="flex items-center justify-center gap-2">
