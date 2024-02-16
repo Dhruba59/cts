@@ -21,6 +21,7 @@ import SponsorUserSettings from "./sponsor-user-settings";
 import { useRouter } from "next/navigation";
 import { apiResponseToast } from "@/utils/toast";
 import { RESPONSE_TYPE_ENUM } from "@/model/enum";
+import { toast } from "react-toastify";
 
 interface AddUserProps {
   id?: string;
@@ -314,18 +315,18 @@ const AddUser = ({ id }: AddUserProps) => {
       }
       editUser({ userId: id, ...payload }, {
         onSuccess: (data) => {
-          apiResponseToast(data?.data?.details, data?.data?.type);
+          apiResponseToast(data?.data);
           router.push('/user/list');
         },
         onError: (error: any) => {
-          apiResponseToast(error?.response?.data?.detail, RESPONSE_TYPE_ENUM.ERROR);
+          toast.error(error?.response?.data?.detail);
         }
       });
     }
     else {
       addUser(payload, {
         onSuccess: (data) => {
-          apiResponseToast(data?.data?.details,data?.data?.type);
+          apiResponseToast(data?.data);
           reset();
           setSiteUserDndData(initialSiteUserDndValue);
           setTrainingDndData(initialTrainingDndValue);
@@ -333,7 +334,7 @@ const AddUser = ({ id }: AddUserProps) => {
           setAdminDndData(initialAdminDndValue);
         },
         onError: (error: any) => {
-          apiResponseToast(error?.response?.data?.detail, RESPONSE_TYPE_ENUM.ERROR);
+          toast.error(error?.response?.data?.detail);
         }
       });
     }

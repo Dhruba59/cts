@@ -10,6 +10,7 @@ import { useDeleteDormantUsers, useDeleteUser } from "@/hooks/rq-hooks/user-hook
 import { useTableRowsSelection } from "@/hooks/table-rows-selection-hooks";
 import { UserQuery } from "@/model/user";
 import { apiResponseToast } from "@/utils/toast";
+import { toast } from "react-toastify";
 
 
 export function ListTable({ data, pageSize, totalPages, sorting, setSorting, refetch, isLoading }: any) {
@@ -31,13 +32,13 @@ export function ListTable({ data, pageSize, totalPages, sorting, setSorting, ref
       onSuccess: (data) => {
         setId(0);
         setOpen(false);
-        apiResponseToast(data?.data?.details, data?.data?.type);
+        apiResponseToast(data?.data);
         refetch();
       },
       onError: (error: any) => {
         setId(0);
         setOpen(false);
-        apiResponseToast(error?.response?.data?.title, RESPONSE_TYPE_ENUM.ERROR);
+        toast.error(error?.response?.data?.title);
         refetch();
       }
     });

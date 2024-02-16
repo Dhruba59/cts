@@ -7,6 +7,7 @@ import Button from "@/components/ui/button";
 import { useAddQuizAnswer, useGetQuizByTrainingId } from "@/hooks/rq-hooks/user-training-hooks";
 import { apiResponseToast } from "@/utils/toast";
 import { RESPONSE_TYPE_ENUM } from "@/model/enum";
+import { toast } from "react-toastify";
 
 
 interface Answer {
@@ -120,7 +121,7 @@ const TrainingQuiz = ({ trainigId, setDiableQuizes, showResult, setShowResult, r
             details: `${data.message} ${data.details}`
           }
         })
-        apiResponseToast(data?.message, data?.type);
+        apiResponseToast(data);
         if (data.message === "3rd Failed Attempt!") {
           setDiableQuizes((prev: any) => {
             return [
@@ -134,7 +135,7 @@ const TrainingQuiz = ({ trainigId, setDiableQuizes, showResult, setShowResult, r
         //refetch();
       },
       onError: (err: any) => {
-        apiResponseToast(err?.response?.data?.title, RESPONSE_TYPE_ENUM.ERROR);
+        toast.error(err?.response?.data?.title);
         setShowResult(true);
       }
     })

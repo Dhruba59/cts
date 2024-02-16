@@ -15,6 +15,7 @@ import { useRouter } from 'next/navigation';
 import { apiResponseToast } from "@/utils/toast";
 import { RESPONSE_TYPE_ENUM } from "@/model/enum";
 import { convertTypeToSelectOption } from "@/utils/helpers";
+import { toast } from "react-toastify";
 
 
 const AddNationalIdType = ({ id }: AddNationalIdTypeProps) => {
@@ -73,21 +74,21 @@ const AddNationalIdType = ({ id }: AddNationalIdTypeProps) => {
             ...payload
           }
           reset(newFieldValues as any);
-          apiResponseToast(data?.message, data?.type);
+          apiResponseToast(data);
         },
         onError: (err: any) => {
-          apiResponseToast(err?.response?.data?.title, RESPONSE_TYPE_ENUM.ERROR);
+          toast.error(err?.response?.data?.title);
         }
       });
     } else {
       AddNationalIdType(payload, {
         onSuccess: ({ data }: any) => {
           reset();
-          apiResponseToast(data?.message, data?.type);
+          apiResponseToast(data);
           refetch();
         },
         onError: (err: any) => {
-          apiResponseToast(err?.response?.data?.title, RESPONSE_TYPE_ENUM.ERROR);
+          toast.error(err?.response?.data?.title);
         }
       })
     };

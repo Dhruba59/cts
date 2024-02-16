@@ -21,6 +21,7 @@ import { Controller, useForm } from "react-hook-form";
 import { useRouter } from 'next/navigation';
 import { apiResponseToast } from "@/utils/toast";
 import { RESPONSE_TYPE_ENUM } from "@/model/enum";
+import { toast } from "react-toastify";
 
 const AddTrainingMaterial = ({ id }: AddTrainingMaterialProps) => {
   const router = useRouter();
@@ -91,21 +92,21 @@ const AddTrainingMaterial = ({ id }: AddTrainingMaterialProps) => {
             ...payload,
           };
           reset(newFieldValues as any);
-          apiResponseToast(data?.message, data?.type);
+          apiResponseToast(data);
         },
         onError: (err: any) => {
-          apiResponseToast(err?.response?.data?.title, RESPONSE_TYPE_ENUM.ERROR);
+          toast.error(err?.response?.data?.title);
         },
       });
     } else {
       AddTrainingMaterial(payload, {
         onSuccess: ({ data }: any) => {
           reset();
-          apiResponseToast(data?.message, data?.type);
+          apiResponseToast(data);
           refetch();
         },
         onError: (err: any) => {
-          apiResponseToast(err?.response?.data?.title, RESPONSE_TYPE_ENUM.ERROR);
+          toast.error(err?.response?.data?.title);
         },
       });
     }

@@ -9,6 +9,7 @@ import { ListTableProps } from "@/model/study";
 import { MODAL_TYPE_ENUM, RESPONSE_TYPE_ENUM } from "@/model/enum";
 import TableTopWithAddButtin from "@/components/table/table-top-with-add-button";
 import { apiResponseToast } from "@/utils/toast";
+import { toast } from "react-toastify";
 
 const ListTable = ({ data, sorting, setSorting }: ListTableProps) => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
@@ -20,10 +21,10 @@ const ListTable = ({ data, sorting, setSorting }: ListTableProps) => {
       deleteStudy({ studyId: studyDeleteId }, {
         onSuccess: (data) => {
           setIsDeleteModalOpen(false);
-          apiResponseToast(data?.data?.details, data?.data?.type);
+          apiResponseToast(data?.data?.details);
         },
         onError: (error: any) => {
-          apiResponseToast(error?.response?.data?.detail, RESPONSE_TYPE_ENUM.ERROR)
+          toast.error(error?.response?.data?.detail)
         }
       });
     }

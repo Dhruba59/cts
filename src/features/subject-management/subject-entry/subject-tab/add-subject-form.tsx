@@ -26,6 +26,7 @@ import { PDFViewer } from "@react-pdf/renderer";
 import Spinner from "@/components/ui/spinner";
 import { apiResponseToast } from "@/utils/toast";
 import { RESPONSE_TYPE_ENUM } from "@/model/enum";
+import { toast } from "react-toastify";
 
 
 enum NATIONAL_ID_TYPE {
@@ -192,11 +193,11 @@ const AddSubjectForm = ({ dropdowns, protocolId, subjectIdFormat, restSubjectIdF
   const saveSubject = (payload: any) => {
     saveSubjectChangeRequest(payload, {
       onSuccess: (data) => {
-        apiResponseToast(data?.data?.details, data?.data?.type);
+        apiResponseToast(data?.data);
         router.push('/change-request/dashboard');
       },
       onError: (error: any) => {
-        apiResponseToast(error.response.data.detail, RESPONSE_TYPE_ENUM.ERROR);
+        toast.error(error.response.data.detail);
       }
     });
   };
@@ -204,7 +205,7 @@ const AddSubjectForm = ({ dropdowns, protocolId, subjectIdFormat, restSubjectIdF
   const addNewSubject = (payload: any) => {
     addSubject(payload, {
       onSuccess: (data) => {
-        apiResponseToast(data.data.details, data.data?.type);
+        apiResponseToast(data.data);
         reset();
         reset({ 
           dateOfBirth: { startDate: null, endDate: null },
@@ -217,7 +218,7 @@ const AddSubjectForm = ({ dropdowns, protocolId, subjectIdFormat, restSubjectIdF
         });
       },
       onError: (error: any) => {
-        apiResponseToast(error.response.data.details, RESPONSE_TYPE_ENUM.ERROR);
+        toast.error(error.response.data.details);
       }
     })
   };
@@ -244,7 +245,7 @@ const AddSubjectForm = ({ dropdowns, protocolId, subjectIdFormat, restSubjectIdF
           }
         },
         onError: (error: any) => {
-          apiResponseToast(error.response.data.details, RESPONSE_TYPE_ENUM.ERROR);
+          toast.error(error.response.data.details);
         }
       })
     }

@@ -14,6 +14,7 @@ import { convertTypeToSelectOption } from "@/utils/helpers";
 import { apiResponseToast } from "@/utils/toast";
 import React, { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 
 type AddIndicationProps = {
   id?: string
@@ -74,21 +75,22 @@ const AddIndication = ({ id }: AddIndicationProps) => {
             ...payload
           }
           reset(newFieldValues as any);
-          apiResponseToast(data?.message, data?.type);
+          apiResponseToast(data);
         },
         onError: (err: any) => {
-          apiResponseToast(err?.response?.data?.title, RESPONSE_TYPE_ENUM.ERROR);
+          toast.error(err?.response?.data?.title);
+          
         }
       });
     } else {
       AddIndication(payload, {
         onSuccess: ({ data }: any) => {
           reset();
-          apiResponseToast(data?.message, data?.type);
+          apiResponseToast(data);
           refetch();
         },
         onError: (err: any) => {
-          apiResponseToast(err?.response?.data?.title, RESPONSE_TYPE_ENUM.ERROR);
+          toast.error(err?.response?.data?.title);
         }
       })
     };

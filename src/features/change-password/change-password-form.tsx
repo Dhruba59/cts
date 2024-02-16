@@ -8,6 +8,7 @@ import { signOut } from "next-auth/react";
 import Breadcrumbs from "@/components/ui/breadcrumbs";
 import { apiResponseToast } from "@/utils/toast";
 import { RESPONSE_TYPE_ENUM } from "@/model/enum";
+import { toast } from "react-toastify";
 
 const ChangePasswordForm = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -55,11 +56,12 @@ const ChangePasswordForm = () => {
     changePasswordMutation(payload, {
       onSuccess: ({ data }: any) => {
         reset();
-        apiResponseToast(data?.message, data?.type);
+        apiResponseToast(data);
         signOut();
       },
       onError: (err: any) => {
-        apiResponseToast(err?.response?.data?.detail, RESPONSE_TYPE_ENUM.ERROR);
+        toast.error(err?.response?.data?.detai);
+        
       },
       onSettled: () => {
         setIsLoading(false);

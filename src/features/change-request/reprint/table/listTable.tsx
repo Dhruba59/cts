@@ -15,6 +15,7 @@ import { getSubjectMatchReport } from "@/service/report-service";
 import { useQuery } from "react-query";
 import { MatchReportQueryParams } from "@/model/subject";
 import { apiResponseToast } from "@/utils/toast";
+import { toast } from "react-toastify";
 
 
 export function ListTable({ data, sorting, setSorting, refetch, isLoading }: any) {
@@ -73,13 +74,13 @@ const onDeleteConfirm = () => {
     onSuccess: (data) => {
       setId(0);
       setOpen(false);
-      apiResponseToast(data?.data?.details, data?.data?.type);
+      apiResponseToast(data?.data);
       refetch();
     },
     onError: (error: any) => {
       setId(0);
       setOpen(false);
-      apiResponseToast(error?.response?.data?.title, RESPONSE_TYPE_ENUM.ERROR);
+      toast.error(error?.response?.data?.title);
       refetch();
     }
   });
