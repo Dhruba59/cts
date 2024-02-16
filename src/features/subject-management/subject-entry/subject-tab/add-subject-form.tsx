@@ -89,7 +89,7 @@ const AddSubjectForm = ({ dropdowns, protocolId, subjectIdFormat, restSubjectIdF
   const { mutate: validateSponsor } = useValidateSponsorSubjectId();
   const { mutate: validateDetailRequirement } = useIsDetailsRequired();
   const { mutate: verifySocialCode } = useVerifySocialCode();
-  const { mutate: validateFields } = useValidateAgeBmi();
+  const { mutate: validateFields, isLoading: isValidatingFields } = useValidateAgeBmi();
 
   const { data: subjectMatchReport, isLoading: isLoadingSubjectMatchReport } =
     useQuery({
@@ -961,8 +961,8 @@ const AddSubjectForm = ({ dropdowns, protocolId, subjectIdFormat, restSubjectIdF
           <Button
             className="px-8"
             type="submit"
-            loading={isSubjectAddLoading || isLoadingChangeRequest}
-            disabled={isSubjectAddLoading || isLoadingChangeRequest}>
+            loading={isSubjectAddLoading || isLoadingChangeRequest || isValidatingFields}
+            disabled={isSubjectAddLoading || isLoadingChangeRequest || isValidatingFields}>
             Submit
           </Button>
           {/* <Button className="px-8" variant="secondary" onClick={handleReset}>

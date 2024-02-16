@@ -33,8 +33,8 @@ export function ListTable({ data, sorting, setSorting, refetch, isLoading }: any
   const [openAccept, setOpenAccept] = useState<boolean>(false);
   const [openReject, setOpenReject] = useState<boolean>(false);
   const [requestId, setRequestId] = useState<number>(0);
-  const { mutate: acceptChangeRequest } = useAcceptChangeRequest();
-  const { mutate: rejectChangeRequest } = useRejectChangeRequest();
+  const { mutate: acceptChangeRequest, isLoading: isLoadingAcceptRequest } = useAcceptChangeRequest();
+  const { mutate: rejectChangeRequest, isLoading: isLoadingRejectRequest } = useRejectChangeRequest();
   const { data: session } = useSession();
   // @ts-ignore
   const isSysAdmin = session?.user?.currentRole?.roleId === USER_ROLE_ENUM.SYSTEM_ADMIN;
@@ -167,6 +167,7 @@ export function ListTable({ data, sorting, setSorting, refetch, isLoading }: any
           submitButtonName: "Confirm",
           cancelButtonName: "Cancel"
         }}
+        isLoading={isLoadingRejectRequest}
       >
         <div className="text-black text-base px-6 py-2">
           <p>Do you want to reject?</p>
@@ -183,6 +184,7 @@ export function ListTable({ data, sorting, setSorting, refetch, isLoading }: any
           submitButtonName: "Confirm",
           cancelButtonName: "Cancel"
         }}
+        isLoading={isLoadingAcceptRequest}
       >
         <div className="text-black text-base px-6 py-2">
           <p>Do you want to accept?</p>
