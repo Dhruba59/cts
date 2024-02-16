@@ -2,14 +2,11 @@
 import ExpandableTable from "@/components/table/expandableTable";
 import SimpleTable from "@/components/table/simpleTable";
 import { useMemo, useState } from "react";
-import { toast } from "react-toastify";
 import Modal from "@/components/modal";
 import { useForm } from "react-hook-form";
 import { useDeleteIndication } from "@/hooks/rq-hooks/indication-hooks";
-import { number } from 'yup';
-import { MODAL_TYPE_ENUM } from "@/model/enum";
+import { MODAL_TYPE_ENUM, RESPONSE_TYPE_ENUM } from "@/model/enum";
 import { ChangeRequestReprintListColumns } from "./columns";
-import { useGetChangeReqVisitTypes } from "@/hooks/rq-hooks/change-request-hooks";
 import Spinner from "@/components/ui/spinner";
 import { PDFViewer } from "@react-pdf/renderer";
 import ChangeRequestModal from "./change-request-modal";
@@ -17,6 +14,7 @@ import ReprintPdf from "../../pdf/reprint-pdf";
 import { getSubjectMatchReport } from "@/service/report-service";
 import { useQuery } from "react-query";
 import { MatchReportQueryParams } from "@/model/subject";
+import { apiResponseToast } from "@/utils/toast";
 
 
 export function ListTable({ data, sorting, setSorting, refetch, isLoading }: any) {
@@ -75,13 +73,13 @@ const onDeleteConfirm = () => {
     onSuccess: (data) => {
       setId(0);
       setOpen(false);
-      toast.success(data?.data.details, { position: "top-center" });
+      apiResponseToast(data?.data?.details, data?.data?.type);
       refetch();
     },
     onError: (error: any) => {
       setId(0);
       setOpen(false);
-      toast.error(error?.response?.data.title, { position: "top-center" });
+      apiResponseToast(error?.response?.data?.title, RESPONSE_TYPE_ENUM.ERROR);
       refetch();
     }
   });

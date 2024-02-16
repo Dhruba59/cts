@@ -1,26 +1,20 @@
 'use client'
-import { IndicationIcon } from "@/assets/icons";
-import { MainContainer } from "@/components/style-container";
 import Breadcrumbs from "@/components/ui/breadcrumbs";
 import Button from "@/components/ui/button";
-import Checkbox from "@/components/ui/checkbox";
 import Input from "@/components/ui/input";
-import Label from "@/components/ui/label";
 import Select from "@/components/ui/select";
 import Textarea from "@/components/ui/textarea";
 import {
   useAddNationalIdType, useEditNationalIdType, useGetFrequencyTypes, useGetNationalIdTypeById
 } from "@/hooks/rq-hooks/national-id-type-hooks";
-import { DropDownItem, SelectOptionType } from "@/model/drop-down-list";
-import { AddNationalIdTypeProps, NationalIdType, NationalIdTypeQuery } from "@/model/national-id-type";
-import { getNationalIdTypeById, } from "@/service/national-id-type-service";
-import { convertTypeToSelectOption } from "@/utils/helpers";
+import { SelectOptionType } from "@/model/drop-down-list";
+import { AddNationalIdTypeProps, NationalIdTypeQuery } from "@/model/national-id-type";
 import React, { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { useQuery } from "react-query";
-import { toast } from "react-toastify";
-import { number } from "yup";
 import { useRouter } from 'next/navigation';
+import { apiResponseToast } from "@/utils/toast";
+import { RESPONSE_TYPE_ENUM } from "@/model/enum";
+import { convertTypeToSelectOption } from "@/utils/helpers";
 
 
 const AddNationalIdType = ({ id }: AddNationalIdTypeProps) => {
@@ -79,21 +73,21 @@ const AddNationalIdType = ({ id }: AddNationalIdTypeProps) => {
             ...payload
           }
           reset(newFieldValues as any);
-          toast.success(data.message, { position: "top-center" });
+          apiResponseToast(data?.message, data?.type);
         },
         onError: (err: any) => {
-          toast.warn(err?.response?.data?.title, { position: "top-center" });
+          apiResponseToast(err?.response?.data?.title, RESPONSE_TYPE_ENUM.ERROR);
         }
       });
     } else {
       AddNationalIdType(payload, {
         onSuccess: ({ data }: any) => {
           reset();
-          toast.success(data.message, { position: "top-center" });
+          apiResponseToast(data?.message, data?.type);
           refetch();
         },
         onError: (err: any) => {
-          toast.warn(err?.response?.data?.title, { position: "top-center" });
+          apiResponseToast(err?.response?.data?.title, RESPONSE_TYPE_ENUM.ERROR);
         }
       })
     };

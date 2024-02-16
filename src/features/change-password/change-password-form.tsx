@@ -1,5 +1,4 @@
 'use client';
-import { toast } from "react-toastify";
 import Button from "@/components/ui/button";
 import Input from "@/components/ui/input";
 import { useChangePasswordMutation, useMatchPasswordMutation } from "@/hooks/rq-hooks/self-hooks";
@@ -7,6 +6,8 @@ import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { signOut } from "next-auth/react";
 import Breadcrumbs from "@/components/ui/breadcrumbs";
+import { apiResponseToast } from "@/utils/toast";
+import { RESPONSE_TYPE_ENUM } from "@/model/enum";
 
 const ChangePasswordForm = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -54,11 +55,11 @@ const ChangePasswordForm = () => {
     changePasswordMutation(payload, {
       onSuccess: ({ data }: any) => {
         reset();
-        toast.success(data.message, { position: "top-center" });
+        apiResponseToast(data?.message, data?.type);
         signOut();
       },
       onError: (err: any) => {
-        toast.warn(err?.response?.data?.detail, { position: "top-center" });
+        apiResponseToast(err?.response?.data?.detail, RESPONSE_TYPE_ENUM.ERROR);
       },
       onSettled: () => {
         setIsLoading(false);

@@ -54,7 +54,7 @@ const LoginForm = () => {
           localStorage.setItem(STORAGE_KEY.ROLE, payload.role.toString());
           toast.success("Successfully logged in!", { position: "top-center" });
         } else if (res.error) {
-          toast.warn(res.error, { position: "top-center" });
+          toast.error(res.error, { position: "top-center" });
         }
         setIsLoading(false);
       })

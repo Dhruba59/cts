@@ -27,9 +27,10 @@ interface SelectionTabProps {
   userId: number | null;
   setUserId: Dispatch<SetStateAction<number | null>>;
   protocolList: any;
+  isLoadingSearch: boolean;
 }
 
-const SubjectEntrySelectionTab = ({ currentTab, setCurrentTab, isPreScreen, subjectEntryFormat, protocolId, setSelectedProtocol,protocolList, dropdowns, setQueryParams, ids, setStudyType, userId, setUserId }
+const SubjectEntrySelectionTab = ({ currentTab, setCurrentTab, isPreScreen, subjectEntryFormat, protocolId, setSelectedProtocol,protocolList, dropdowns, setQueryParams, ids, setStudyType, userId, setUserId, isLoadingSearch }
   : SelectionTabProps) => {
 
   const { data: session } = useSession();
@@ -74,7 +75,7 @@ const SubjectEntrySelectionTab = ({ currentTab, setCurrentTab, isPreScreen, subj
           </div>
           <div className="my-6">
             {currentTab === "add" ? <AddSubjectForm dropdowns={dropdowns} protocolId={protocolId} subjectIdFormat={subjectEntryFormat} setSelectedProtocol={setSelectedProtocol} protocolList={protocolList} ids={ids} setStudyType={setStudyType} userId={userId} setUserId={setUserId}/>
-              : <SearchSubjectForm setQueryParams={setQueryParams} protocolId={protocolId} />
+              : <SearchSubjectForm setQueryParams={setQueryParams} protocolId={protocolId} isLoadingSearch={isLoadingSearch}/>
             }
           </div>
         {/* </> */}

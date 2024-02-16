@@ -1,31 +1,18 @@
 "use client";
 import ExpandableTable from "@/components/table/expandableTable";
 import SimpleTable from "@/components/table/simpleTable";
-import { DataTableProps } from "@/model/common";
 import { useMemo, useState } from "react";
 import { ChangeRequestDashboardListColumns } from "./columns";
-import { useGetStudyDelete } from "@/hooks/rq-hooks/study-hooks";
-import { toast } from "react-toastify";
-import { getColumns } from "@/features/study/list-of-study/list-table/columns";
 import Modal from "@/components/modal";
 import { useForm } from "react-hook-form";
-import { useDeleteIndication } from "@/hooks/rq-hooks/indication-hooks";
-import { number } from 'yup';
-import { MODAL_TYPE_ENUM } from "@/model/enum";
+import { MODAL_TYPE_ENUM, RESPONSE_TYPE_ENUM } from "@/model/enum";
 import { useAcceptChangeRequest, useRejectChangeRequest } from "@/hooks/rq-hooks/change-request-hooks";
 import { useSession } from "next-auth/react";
 import { USER_ROLE_ENUM } from "@/model/enum";
 import ChangeRequestDashboardModal from "./detail/change-request-dashboard-modal";
+import { apiResponseToast } from "@/utils/toast";
 
 export function ListTable({ data, sorting, setSorting, refetch, isLoading }: any) {
-
-  const {
-    handleSubmit,
-    formState: { errors },
-    reset,
-    register
-  } = useForm();
-
   
   const [childModal, setChildModal] = useState<React.ReactNode>(null);
   const [openViewDetail, setOpenViewDetail] = useState<boolean>(false);
@@ -44,13 +31,13 @@ export function ListTable({ data, sorting, setSorting, refetch, isLoading }: any
       onSuccess: (data) => {
         setRequestId(0);
         setOpenReject(false);
-        toast.success(data?.data.details, { position: "top-center" });
+        apiResponseToast(data?.data?.details, data?.data?.type);
         refetch();
       },
       onError: (error: any) => {
         setRequestId(0);
         setOpenReject(false);
-        toast.error(error?.response?.data.title, { position: "top-center" });
+        apiResponseToast(error?.response?.data?.title, RESPONSE_TYPE_ENUM.ERROR);
         refetch();
       }
     });
@@ -62,13 +49,13 @@ export function ListTable({ data, sorting, setSorting, refetch, isLoading }: any
       onSuccess: (data) => {
         setRequestId(0);
         setOpenAccept(false);
-        toast.success(data?.data.message, { position: "top-center" });
+        apiResponseToast(data?.data?.message, data?.data?.type);
         refetch();
       },
       onError: (error: any) => {
         setRequestId(0);
         setOpenAccept(false);
-        toast.error(error?.response?.data.detail, { position: "top-center" });
+        apiResponseToast(error?.response?.data.detail, RESPONSE_TYPE_ENUM.ERROR);
         refetch();
       }
     });

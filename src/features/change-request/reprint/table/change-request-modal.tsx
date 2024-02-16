@@ -1,21 +1,18 @@
-import Edit from "@/components/icons/edit";
 import Modal from "@/components/modal";
 import Datepicker from "@/components/ui/datepicker";
-import Input from "@/components/ui/input";
 import Label from "@/components/ui/label";
 import { RadioButton, RadioGroup } from "@/components/ui/radio";
 import Select from "@/components/ui/select";
 import Textarea from "@/components/ui/textarea";
 import { useChangeRequestChangeOperation, useGetChangeReqVisitTypes } from "@/hooks/rq-hooks/change-request-hooks";
 import { SelectOptionType } from "@/model/drop-down-list";
-import { USER_ROLE_ENUM } from "@/model/enum";
-import { MatchReportQueryParams } from "@/model/subject";
+import { RESPONSE_TYPE_ENUM, USER_ROLE_ENUM } from "@/model/enum";
 import { convertTypeToSelectOption } from "@/utils/helpers";
+import { apiResponseToast } from "@/utils/toast";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { toast } from "react-toastify";
 
 enum SEND_REQ_OPERATION_TYPE_ENUM {
   PRINT_SUBJECT = 5,
@@ -78,13 +75,13 @@ const ChangeRequestModal = ({ id, visitTypeId, isPreScreen, onPrintClick, onHide
       }
       postChangeOperation(payload, {
         onSuccess: (data) => {
-          toast.success(data?.data.details);
+          apiResponseToast(data?.data?.details, data?.data?.type);
           setOpen(false);
           onHideChangeRequestModal();
           refetchList();
         },
         onError: (error: any) => {
-          toast.error(error?.response?.data.detail);
+          apiResponseToast(error?.response?.data.detail, RESPONSE_TYPE_ENUM.ERROR);
         }
       });
     };

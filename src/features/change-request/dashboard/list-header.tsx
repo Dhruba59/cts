@@ -4,7 +4,6 @@ import Toggle from "@/components/ui/toggle";
 
 import { useEffect, useState } from "react";
 import { SearchForm, AdvanceSearchForm } from "./search-form";
-import { DropDownItem, SelectOptionType } from "@/model/drop-down-list";
 import { Controller, useForm } from "react-hook-form";
 import { ChangeRequestDashboardQuery } from "@/model/change-request";
 import { useDashboardDropdown } from "@/hooks/rq-hooks/change-request-hooks";

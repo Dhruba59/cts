@@ -1,17 +1,13 @@
 "use client";
 import ExpandableTable from "@/components/table/expandableTable";
 import SimpleTable from "@/components/table/simpleTable";
-import { DataTableProps } from "@/model/common";
 import { useMemo, useState } from "react";
-import { useGetStudyDelete } from "@/hooks/rq-hooks/study-hooks";
-import { toast } from "react-toastify";
-import { getColumns } from "@/features/study/list-of-study/list-table/columns";
 import Modal from "@/components/modal";
 import { useForm } from "react-hook-form";
 import { useDeleteTrainingMaterial } from "@/hooks/rq-hooks/training-material-hooks";
-import { number } from 'yup';
-import { MODAL_TYPE_ENUM } from "@/model/enum";
+import { MODAL_TYPE_ENUM, RESPONSE_TYPE_ENUM } from "@/model/enum";
 import { TrainingMaterialListColumns } from "./columns";
+import { apiResponseToast } from "@/utils/toast";
 
 
 export function ListTable({ data, sorting, setSorting, refetch, isLoading }: any) {
@@ -32,13 +28,13 @@ export function ListTable({ data, sorting, setSorting, refetch, isLoading }: any
       onSuccess: (data) => {
         setId(0);
         setOpen(false);
-        toast.success(data?.data.details ,{position:"top-center"});
+        apiResponseToast(data?.data?.details, data?.data?.type);
         refetch();
       },
       onError: (error: any) => {
         setId(0);
         setOpen(false);
-        toast.error(error?.response?.data.title ,{position:"top-center"});
+        apiResponseToast(error?.response?.data?.title, RESPONSE_TYPE_ENUM.ERROR);
         refetch();
       }
     });

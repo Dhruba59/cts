@@ -10,3 +10,9 @@ export enum MODAL_TYPE_ENUM {
   ERROR = 'error',
   DEFAULT = 'default'
 }
+
+export enum RESPONSE_TYPE_ENUM {
+  SUCCESS= 1,
+  ERROR= 2,
+  WARNING= 3,
+};

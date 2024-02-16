@@ -1,16 +1,12 @@
 'use client'
 
-import ReactPlayer from 'react-player';
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import TrainingList from "./training-list";
-import { MainContainer } from "@/components/style-container";
 import { useGetUserTrainings } from "@/hooks/rq-hooks/user-training-hooks";
-import { DownloadCertificateIcon, QuizIcon } from '@/assets/icons';
 import Breadcrumbs from '@/components/ui/breadcrumbs';
 import TrainingVideo from './training-video';
 import TrainingQuiz from './training-quiz';
-import { useParams, useSearchParams } from 'next/navigation';
-import { toast } from 'react-toastify';
+import { useSearchParams } from 'next/navigation';
 
 const UserTrainings = () => {
 

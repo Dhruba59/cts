@@ -7,7 +7,9 @@ import Label from "@/components/ui/label";
 import Select from "@/components/ui/select";
 import { useGetVisitTypes, useUpdateVisitInfo } from "@/hooks/rq-hooks/subject-hooks";
 import { DropDownItem, SelectOptionType } from "@/model/drop-down-list";
+import { RESPONSE_TYPE_ENUM } from "@/model/enum";
 import { convertTypeToSelectOption } from "@/utils/helpers";
+import { apiResponseToast } from "@/utils/toast";
 
 import React, { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
@@ -71,12 +73,12 @@ const LastSubjectContactModal = ({ data, studyId, onUpdateSubject }: any) => {
     };
     updateVisitInfo(payload, {
       onSuccess: (response) => {
-        toast.success(response.data.details);
+        apiResponseToast(response.data.details, response.data.type);
         setOpen(false);
         onUpdateSubject(data);
       },
       onError: (error: any) => {
-        toast.error(error.response.data.detail);
+        apiResponseToast(error.response.data.detail, RESPONSE_TYPE_ENUM.ERROR);
       }
     })
     // setIsLoading(true);

@@ -4,11 +4,11 @@ import SimpleTable from "@/components/table/simpleTable";
 import { useMemo, useState } from "react";
 import { getColumns } from "./columns";
 import { useGetStudyDelete } from "@/hooks/rq-hooks/study-hooks";
-import { toast } from "react-toastify";
 import Modal from "@/components/modal";
 import { ListTableProps } from "@/model/study";
-import { MODAL_TYPE_ENUM } from "@/model/enum";
+import { MODAL_TYPE_ENUM, RESPONSE_TYPE_ENUM } from "@/model/enum";
 import TableTopWithAddButtin from "@/components/table/table-top-with-add-button";
+import { apiResponseToast } from "@/utils/toast";
 
 const ListTable = ({ data, sorting, setSorting }: ListTableProps) => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
@@ -20,10 +20,10 @@ const ListTable = ({ data, sorting, setSorting }: ListTableProps) => {
       deleteStudy({ studyId: studyDeleteId }, {
         onSuccess: (data) => {
           setIsDeleteModalOpen(false);
-          toast.success(data?.data.details, { position: "top-center" });
+          apiResponseToast(data?.data?.details, data?.data?.type);
         },
         onError: (error: any) => {
-          toast.error(error?.response?.data.detail, { position: "top-center" });
+          apiResponseToast(error?.response?.data?.detail, RESPONSE_TYPE_ENUM.ERROR)
         }
       });
     }
