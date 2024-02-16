@@ -73,12 +73,12 @@ const LastSubjectContactModal = ({ data, studyId, onUpdateSubject }: any) => {
     };
     updateVisitInfo(payload, {
       onSuccess: (response) => {
-        apiResponseToast(response.data.details, response.data.type);
+        apiResponseToast(response.data);
         setOpen(false);
         onUpdateSubject(data);
       },
       onError: (error: any) => {
-        apiResponseToast(error.response.data.detail, RESPONSE_TYPE_ENUM.ERROR);
+        toast.error(error.response.data.detail);
       }
     })
     // setIsLoading(true);

@@ -10,6 +10,7 @@ import { ChangeTrainingStatusPayload } from "@/model/user";
 import { useForm } from "react-hook-form";
 import { apiResponseToast } from "@/utils/toast";
 import { RESPONSE_TYPE_ENUM } from "@/model/enum";
+import { toast } from "react-toastify";
 
 export const searchTrainingIndexById = (data: CompletedTraining[], id: number) => {
   return data?.findIndex((item: CompletedTraining) => item.userTrainingId == id);
@@ -44,12 +45,12 @@ export function ListTable({ data, setCompletedTrainings, refetchUser }: any) {
     }
     updateTraining(payload, {
       onSuccess: (data) => {
-        apiResponseToast(data?.data?.message, data?.data?.type);
+        apiResponseToast(data?.data);
         refetchUser();
         clearErrors();
       },
       onError: (err: any) => {
-        apiResponseToast(err?.response?.data?.detail, RESPONSE_TYPE_ENUM.ERROR);
+        toast.error(err?.response?.data?.detail);
       }
     });
   }

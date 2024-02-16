@@ -13,6 +13,7 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 
 enum SEND_REQ_OPERATION_TYPE_ENUM {
   PRINT_SUBJECT = 5,
@@ -75,13 +76,13 @@ const ChangeRequestModal = ({ id, visitTypeId, isPreScreen, onPrintClick, onHide
       }
       postChangeOperation(payload, {
         onSuccess: (data) => {
-          apiResponseToast(data?.data?.details, data?.data?.type);
+          apiResponseToast(data?.data);
           setOpen(false);
           onHideChangeRequestModal();
           refetchList();
         },
         onError: (error: any) => {
-          apiResponseToast(error?.response?.data.detail, RESPONSE_TYPE_ENUM.ERROR);
+          toast.error(error?.response?.data?.detail);
         }
       });
     };

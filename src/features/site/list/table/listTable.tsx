@@ -9,6 +9,7 @@ import { useDeleteSite } from "@/hooks/rq-hooks/site-hooks";
 import { MODAL_TYPE_ENUM, RESPONSE_TYPE_ENUM } from "@/model/enum";
 import TableTopWithAddButtin from "@/components/table/table-top-with-add-button";
 import { apiResponseToast } from "@/utils/toast";
+import { toast } from "react-toastify";
 
 export function ListTable({ data, sorting, setSorting, isLoading, refetch }: any) {
 
@@ -30,13 +31,13 @@ export function ListTable({ data, sorting, setSorting, isLoading, refetch }: any
       onSuccess: (data) => {
         setId(0);
         setOpen(false);
-        apiResponseToast(data?.data?.details, data?.data?.type);
+        apiResponseToast(data?.data);
         refetch();
       },
       onError: (error: any) => {
         setId(0);
         setOpen(false);
-        apiResponseToast(error?.response?.data?.title, RESPONSE_TYPE_ENUM.ERROR);
+        toast.error(error?.response?.data?.title);
         refetch();
       }
     });

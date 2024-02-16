@@ -13,6 +13,7 @@ import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useQuery } from "react-query";
+import { toast } from "react-toastify";
 
 
 const AddSponsor = ({ id }: AddSponsorProps) => {
@@ -72,20 +73,20 @@ const AddSponsor = ({ id }: AddSponsorProps) => {
             ...payload
           }
           reset(newFieldValues as any);
-          apiResponseToast(data?.message, data?.type);
+          apiResponseToast(data);
         },
         onError: (err: any) => {
-          apiResponseToast(err?.response?.data?.title, RESPONSE_TYPE_ENUM.ERROR);
+          toast.error(err?.response?.data?.title);
         }
       });
     } else {
       AddIndication(payload, {
         onSuccess: ({ data }: any) => {
           reset();
-          apiResponseToast(data.message, data?.type);
+          apiResponseToast(data);
         },
         onError: (err: any) => {
-          apiResponseToast(err?.response?.data?.title, RESPONSE_TYPE_ENUM.ERROR);
+          toast.error(err?.response?.data?.title);
         }
       })
     };

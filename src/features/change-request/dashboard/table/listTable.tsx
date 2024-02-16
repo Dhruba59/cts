@@ -11,6 +11,7 @@ import { useSession } from "next-auth/react";
 import { USER_ROLE_ENUM } from "@/model/enum";
 import ChangeRequestDashboardModal from "./detail/change-request-dashboard-modal";
 import { apiResponseToast } from "@/utils/toast";
+import { toast } from "react-toastify";
 
 export function ListTable({ data, sorting, setSorting, refetch, isLoading }: any) {
   
@@ -31,13 +32,13 @@ export function ListTable({ data, sorting, setSorting, refetch, isLoading }: any
       onSuccess: (data) => {
         setRequestId(0);
         setOpenReject(false);
-        apiResponseToast(data?.data?.details, data?.data?.type);
+        apiResponseToast(data?.data);
         refetch();
       },
       onError: (error: any) => {
         setRequestId(0);
         setOpenReject(false);
-        apiResponseToast(error?.response?.data?.title, RESPONSE_TYPE_ENUM.ERROR);
+        toast.error(error?.response?.data?.title);
         refetch();
       }
     });
@@ -49,13 +50,13 @@ export function ListTable({ data, sorting, setSorting, refetch, isLoading }: any
       onSuccess: (data) => {
         setRequestId(0);
         setOpenAccept(false);
-        apiResponseToast(data?.data?.message, data?.data?.type);
+        apiResponseToast(data?.data);
         refetch();
       },
       onError: (error: any) => {
         setRequestId(0);
         setOpenAccept(false);
-        apiResponseToast(error?.response?.data.detail, RESPONSE_TYPE_ENUM.ERROR);
+        toast.error(error?.response?.data.detail);
         refetch();
       }
     });

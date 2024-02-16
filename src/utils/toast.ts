@@ -1,8 +1,16 @@
 import { RESPONSE_TYPE_ENUM } from '@/model/enum';
 import { toast } from 'react-toastify';
 
-export const apiResponseToast = (message: string, type?: RESPONSE_TYPE_ENUM) => {
-  switch (type) {
+interface Response {
+  data: any;
+  type: number;
+  message: string;
+  details: string;
+}
+
+export const apiResponseToast = (response: Response) => {
+  const message = response.message + ' ' + response.details;
+  switch (response.type) {
     case RESPONSE_TYPE_ENUM.SUCCESS:
       toast.success(message);
       break;

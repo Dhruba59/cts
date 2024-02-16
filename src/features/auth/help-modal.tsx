@@ -9,6 +9,7 @@ import { useHelpMutation } from "@/hooks/rq-hooks/help-hooks";
 import { useSession } from "next-auth/react";
 import { apiResponseToast } from "@/utils/toast";
 import { RESPONSE_TYPE_ENUM } from "@/model/enum";
+import { toast } from "react-toastify";
 
 interface HelpModalProps {
   open: boolean;
@@ -42,10 +43,11 @@ const HelpModal = ({ open, setOpen }: HelpModalProps) => {
       onSuccess: ({ data }: any) => {
         reset();
         setOpen(false);
-        apiResponseToast(data?.message, data?.type);
+        apiResponseToast(data);
       },
       onError: (err: any) => {
-        apiResponseToast(err?.response.data?.title, RESPONSE_TYPE_ENUM.ERROR);
+        toast.error(err?.response.data?.title);
+        
       },
       onSettled: () => {
         setIsLoading(false);
