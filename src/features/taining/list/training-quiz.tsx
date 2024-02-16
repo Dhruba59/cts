@@ -1,21 +1,12 @@
 "use client";
-import Breadcrumbs from "@/components/ui/breadcrumbs";
-import Toggle from "@/components/ui/toggle";
-
 import { useEffect, useState } from "react";
-import { DropDownItem, SelectOptionType } from "@/model/drop-down-list";
-import { Controller, useForm } from "react-hook-form";
-import { IndicationQuery } from "@/model/indication";
-import { useGetStudyProtocols } from "@/hooks/rq-hooks/training-material-hooks";
-import { TrainingMaterialQuery } from "@/model/training-material";
-import { json } from "stream/consumers";
-import { CheckmarkDoneOutlineIcon, DownloadCertificateIcon, QuizIcon } from "@/assets/icons";
-import ReactPlayer from "react-player";
+import { CheckmarkDoneOutlineIcon } from "@/assets/icons";
 import LeftArrowIcon from "@/components/icons/leftArrowIcon";
 import RightArrowIcon from "@/components/icons/rightArrowIcon";
 import Button from "@/components/ui/button";
 import { useAddQuizAnswer, useGetQuizByTrainingId } from "@/hooks/rq-hooks/user-training-hooks";
-import { toast } from "react-toastify";
+import { apiResponseToast } from "@/utils/toast";
+import { RESPONSE_TYPE_ENUM } from "@/model/enum";
 
 
 interface Answer {
@@ -129,7 +120,7 @@ const TrainingQuiz = ({ trainigId, setDiableQuizes, showResult, setShowResult, r
             details: `${data.message} ${data.details}`
           }
         })
-        toast.success(data.message, { position: "top-center" });
+        apiResponseToast(data?.message, data?.type);
         if (data.message === "3rd Failed Attempt!") {
           setDiableQuizes((prev: any) => {
             return [
@@ -143,7 +134,7 @@ const TrainingQuiz = ({ trainigId, setDiableQuizes, showResult, setShowResult, r
         //refetch();
       },
       onError: (err: any) => {
-        toast.warn(err?.response?.data?.title, { position: "top-center" });
+        apiResponseToast(err?.response?.data?.title, RESPONSE_TYPE_ENUM.ERROR);
         setShowResult(true);
       }
     })

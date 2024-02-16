@@ -3,14 +3,13 @@ import ExpandableTable from "@/components/table/expandableTable";
 import SimpleTable from "@/components/table/simpleTable";
 import { ChangeEvent, useCallback, useMemo, useState } from "react";
 import { getColumns } from "./columns";
-import Datepicker, { DateValueType } from "react-tailwindcss-datepicker";
+import { DateValueType } from "react-tailwindcss-datepicker";
 import { useChangeTrainingStatus, useEditUser } from "@/hooks/rq-hooks/user-hooks";
-import { toast } from "react-toastify";
-import { useParams } from "next/navigation";
 import { CompletedTraining } from "../../training";
-import { searchByIds } from "../../..";
 import { ChangeTrainingStatusPayload } from "@/model/user";
-import { set, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
+import { apiResponseToast } from "@/utils/toast";
+import { RESPONSE_TYPE_ENUM } from "@/model/enum";
 
 export const searchTrainingIndexById = (data: CompletedTraining[], id: number) => {
   return data?.findIndex((item: CompletedTraining) => item.userTrainingId == id);
@@ -45,12 +44,12 @@ export function ListTable({ data, setCompletedTrainings, refetchUser }: any) {
     }
     updateTraining(payload, {
       onSuccess: (data) => {
-        toast.success(data.data.message);
+        apiResponseToast(data?.data?.message, data?.data?.type);
         refetchUser();
         clearErrors();
       },
       onError: (err: any) => {
-        toast.error(err.response.data.detail);
+        apiResponseToast(err?.response?.data?.detail, RESPONSE_TYPE_ENUM.ERROR);
       }
     });
   }

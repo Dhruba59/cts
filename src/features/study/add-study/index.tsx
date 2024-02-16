@@ -5,17 +5,18 @@ import AssignSite from "./assign-site";
 import CriticalSetup from "./critical-setup";
 import Button from "@/components/ui/button";
 import { useForm, Controller } from "react-hook-form"
-import { DndDataItem, DndDataType } from "@/types/common";
+import { DndDataType } from "@/types/common";
 import { useAddStudyMutation, useGetStudyDropdownsList, useUpdateStudyMutation } from "@/hooks/rq-hooks/study-hooks";
 import { DropDownItem } from "@/model/drop-down-list";
-import { toast } from "react-toastify";
-import { AddUpdateStudyPayload, CriticalDataType, CriticalDndDataType, CriticalDndItem } from "@/model/study";
+import { AddUpdateStudyPayload, CriticalDndDataType, CriticalDndItem } from "@/model/study";
 import { getUpdatedCriticalDndData, getUpdatedDndData, initialAssignedData, initialCriticalDndData, initialFormValues } from "@/utils/study";
 import { MainContainer } from "@/components/style-container";
 import { useQuery } from "react-query";
 import { getStudiyById } from "@/service/study-service";
 import { calculateDaysBetweenDates } from "@/utils/helpers";
 import { useRouter } from 'next/navigation';
+import { apiResponseToast } from "@/utils/toast";
+import { RESPONSE_TYPE_ENUM } from "@/model/enum";
 interface AddStudyProps {
   id?: string;
 }
@@ -101,10 +102,10 @@ const AddStudy = ({ id }: AddStudyProps) => {
             }
           }
           reset(newFieldValues as any);
-          toast.success(data.message, { position: "top-center" });
+            apiResponseToast(data?.message, data?.type);
         },
         onError: (err: any) => {
-          toast.warn(err?.response?.data?.title, { position: "top-center" });
+          apiResponseToast(err?.response?.data?.title, RESPONSE_TYPE_ENUM.ERROR);
         }
       });
     } else {
@@ -114,10 +115,10 @@ const AddStudy = ({ id }: AddStudyProps) => {
           setAssignedData(initialAssignedData);
           setCriticalDndData(initialCriticalDndData);
           refetch();
-          toast.success(data.message, { position: "top-center" });
+          apiResponseToast(data?.message, data?.type);
         },
         onError: (err: any) => {
-          toast.warn(err?.response?.data?.title, { position: "top-center" });
+          apiResponseToast(err?.response?.data?.title, RESPONSE_TYPE_ENUM.ERROR);
         }
       });
     }

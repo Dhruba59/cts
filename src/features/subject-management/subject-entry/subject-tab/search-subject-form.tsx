@@ -11,6 +11,7 @@ import { useQuery } from "react-query";
 interface SearchSubjectFormProps {
   protocolId: string | undefined;
   setQueryParams: Dispatch<SetStateAction<SearchLastSubjectsParams>>;
+  isLoadingSearch: boolean;
 }
 
 const initialValue = {
@@ -32,7 +33,7 @@ const initialValue = {
   }
 }
 
-const SearchSubjectForm = ({ setQueryParams, protocolId }: SearchSubjectFormProps) => {
+const SearchSubjectForm = ({ setQueryParams, protocolId, isLoadingSearch }: SearchSubjectFormProps) => {
 
   const {
     register,
@@ -240,7 +241,7 @@ const SearchSubjectForm = ({ setQueryParams, protocolId }: SearchSubjectFormProp
         )}
       />
       <div className="flex items-center justify-center !mt-10 gap-4 col-span-full">
-        <Button className="px-8" type="submit">
+        <Button className="px-8" type="submit" loading={isLoadingSearch} disabled={isLoadingSearch}>
           Search
         </Button>
         <Button className="px-8" variant="outline" onClick={() => onReset()}>

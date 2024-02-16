@@ -4,11 +4,11 @@ import SimpleTable from "@/components/table/simpleTable";
 import { useMemo, useState } from "react";
 import { StudyCompoundListColumns } from "./columns";
 import { useDeleteStudyCompound } from "@/hooks/rq-hooks/study-compound-hooks";
-import { toast } from "react-toastify";
 import Modal from "@/components/modal";
 import { useForm } from "react-hook-form";
-import { MODAL_TYPE_ENUM } from "@/model/enum";
+import { MODAL_TYPE_ENUM, RESPONSE_TYPE_ENUM } from "@/model/enum";
 import TableTopWithAddButtin from "@/components/table/table-top-with-add-button";
+import { apiResponseToast } from "@/utils/toast";
 
 export function ListTable({ data, sorting, setSorting, isLoading, refetch }: any) {
 
@@ -21,23 +21,20 @@ export function ListTable({ data, sorting, setSorting, isLoading, refetch }: any
   
   const [open, setOpen] = useState<boolean>(false);
   const [id, setId] = useState<number>(0);
-  const { mutate: deleteIndication } = useDeleteStudyCompound();
+  const { mutate: deleteStudyCompound, isLoading: isDeleting } = useDeleteStudyCompound();
 
   const onDeleteConfirm = () => {
-
-     console.log('onDelete called')
-     deleteIndication({id} , {
+     deleteStudyCompound({id} , {
       onSuccess: (data) => {
-        //console.log(data);
         setId(0);
         setOpen(false);
-        toast.success(data?.data.details ,{position:"top-center"});
+        apiResponseToast(data?.data.details, data?.data?.type);
         refetch();
       },
       onError: (error: any) => {
         setId(0);
         setOpen(false);
-        toast.error(error?.response?.data.title ,{position:"top-center"});
+        apiResponseToast(error?.response?.data.title, RESPONSE_TYPE_ENUM.ERROR);
         refetch();
       }
     });
@@ -83,6 +80,7 @@ export function ListTable({ data, sorting, setSorting, isLoading, refetch }: any
           submitButtonName: "Confirm",
           cancelButtonName: "Cancel"
         }}
+        isLoading={isDeleting}
       >
         <div className="text-black text-base px-6 py-2">
           <p>Do you want to delete?</p>

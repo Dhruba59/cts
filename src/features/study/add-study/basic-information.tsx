@@ -80,7 +80,7 @@ const BasicInformation = ({ dropdownList, register, setValue, errors, control, C
               })}
             />
             {errors.subjectIdentryFormat && (
-              <span className="text-red-500 -mt-10">{errors.study_id_format.message as string}</span>
+              <span className="text-red-500 -mt-10">{errors.subjectIdentryFormat.message as string}</span>
             )}
           </div>
           <div>

@@ -1,13 +1,14 @@
 "use client";
 import { useEffect, useState } from "react";
-import { toast } from "react-toastify";
-import { useForm, useWatch } from "react-hook-form";
+import { useForm } from "react-hook-form";
 
 import Modal from "@/components/modal";
 import Input from "@/components/ui/input";
 import Textarea from "@/components/ui/textarea";
 import { useHelpMutation } from "@/hooks/rq-hooks/help-hooks";
 import { useSession } from "next-auth/react";
+import { apiResponseToast } from "@/utils/toast";
+import { RESPONSE_TYPE_ENUM } from "@/model/enum";
 
 interface HelpModalProps {
   open: boolean;
@@ -29,11 +30,6 @@ const HelpModal = ({ open, setOpen }: HelpModalProps) => {
     setValue
   } = useForm();
 
-  // const emailField = useWatch({
-  //   control,
-  //   name: 'email'
-  // });
-
   useEffect(() => {
     if(email){
       setValue('email', email);
@@ -46,10 +42,10 @@ const HelpModal = ({ open, setOpen }: HelpModalProps) => {
       onSuccess: ({ data }: any) => {
         reset();
         setOpen(false);
-        toast.success(data?.message, { position: "top-center" });
+        apiResponseToast(data?.message, data?.type);
       },
       onError: (err: any) => {
-        toast.warn(err?.response.data?.title, { position: "top-center" });
+        apiResponseToast(err?.response.data?.title, RESPONSE_TYPE_ENUM.ERROR);
       },
       onSettled: () => {
         setIsLoading(false);

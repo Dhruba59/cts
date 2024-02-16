@@ -13,7 +13,6 @@ import { convertTypeToSelectOption } from "@/utils/helpers";
 import { watch } from "fs";
 import React, { Dispatch, RefObject, SetStateAction, useEffect, useRef, useState } from "react";
 import { Controller, UseFormReturn, useForm } from "react-hook-form";
-import { toast } from "react-toastify";
 // import { getSiteStudyIdByStudyId } from "..";
 import Alert from "@/components/ui/alert";
 import Modal from "@/components/modal";
@@ -25,6 +24,8 @@ import { useQuery } from "react-query";
 import { getSubjectMatchReport } from "@/service/report-service";
 import { PDFViewer } from "@react-pdf/renderer";
 import Spinner from "@/components/ui/spinner";
+import { apiResponseToast } from "@/utils/toast";
+import { RESPONSE_TYPE_ENUM } from "@/model/enum";
 
 
 enum NATIONAL_ID_TYPE {
@@ -89,7 +90,7 @@ const AddSubjectForm = ({ dropdowns, protocolId, subjectIdFormat, restSubjectIdF
   const { mutate: validateSponsor } = useValidateSponsorSubjectId();
   const { mutate: validateDetailRequirement } = useIsDetailsRequired();
   const { mutate: verifySocialCode } = useVerifySocialCode();
-  const { mutate: validateFields } = useValidateAgeBmi();
+  const { mutate: validateFields, isLoading: isValidatingFields } = useValidateAgeBmi();
 
   const { data: subjectMatchReport, isLoading: isLoadingSubjectMatchReport } =
     useQuery({
@@ -191,11 +192,11 @@ const AddSubjectForm = ({ dropdowns, protocolId, subjectIdFormat, restSubjectIdF
   const saveSubject = (payload: any) => {
     saveSubjectChangeRequest(payload, {
       onSuccess: (data) => {
-        toast.success(data.data.details);
+        apiResponseToast(data?.data?.details, data?.data?.type);
         router.push('/change-request/dashboard');
       },
       onError: (error: any) => {
-        toast.error(error.response.data.detail);
+        apiResponseToast(error.response.data.detail, RESPONSE_TYPE_ENUM.ERROR);
       }
     });
   };
@@ -203,7 +204,7 @@ const AddSubjectForm = ({ dropdowns, protocolId, subjectIdFormat, restSubjectIdF
   const addNewSubject = (payload: any) => {
     addSubject(payload, {
       onSuccess: (data) => {
-        toast.success(data.data.details);
+        apiResponseToast(data.data.details, data.data?.type);
         reset();
         reset({ 
           dateOfBirth: { startDate: null, endDate: null },
@@ -216,7 +217,7 @@ const AddSubjectForm = ({ dropdowns, protocolId, subjectIdFormat, restSubjectIdF
         });
       },
       onError: (error: any) => {
-        toast.error(error.response.data.details);
+        apiResponseToast(error.response.data.details, RESPONSE_TYPE_ENUM.ERROR);
       }
     })
   };
@@ -243,7 +244,7 @@ const AddSubjectForm = ({ dropdowns, protocolId, subjectIdFormat, restSubjectIdF
           }
         },
         onError: (error: any) => {
-          toast.error(error.response.data.details);
+          apiResponseToast(error.response.data.details, RESPONSE_TYPE_ENUM.ERROR);
         }
       })
     }
@@ -961,8 +962,8 @@ const AddSubjectForm = ({ dropdowns, protocolId, subjectIdFormat, restSubjectIdF
           <Button
             className="px-8"
             type="submit"
-            loading={isSubjectAddLoading || isLoadingChangeRequest}
-            disabled={isSubjectAddLoading || isLoadingChangeRequest}>
+            loading={isSubjectAddLoading || isLoadingChangeRequest || isValidatingFields}
+            disabled={isSubjectAddLoading || isLoadingChangeRequest || isValidatingFields}>
             Submit
           </Button>
           {/* <Button className="px-8" variant="secondary" onClick={handleReset}>

@@ -1,6 +1,4 @@
 'use client'
-import { IndicationIcon } from "@/assets/icons";
-import { MainContainer } from "@/components/style-container";
 import Breadcrumbs from "@/components/ui/breadcrumbs";
 import Button from "@/components/ui/button";
 import Checkbox from "@/components/ui/checkbox";
@@ -8,24 +6,21 @@ import Input from "@/components/ui/input";
 import Label from "@/components/ui/label";
 import Select from "@/components/ui/select";
 import Textarea from "@/components/ui/textarea";
-import { useAddIndication, useEditIndication, useGetIndicationById, useGetIndicationCodeTypes } from "@/hooks/rq-hooks/indication-hooks";
-import { DropDownItem, SelectOptionType } from "@/model/drop-down-list";
-import { Indication, IndicationQuery } from "@/model/indication";
-import { getIndicationById, getIndicationCodeTypes } from "@/service/indication-service";
+import { SelectOptionType } from "@/model/drop-down-list";
 import { convertTypeToSelectOption } from "@/utils/helpers";
-import React, { Suspense, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import Tab from "../user-tab";
 import { useAddUser, useEditUser, useGetUserById, useGetUserDropdowns, useValidateUserName } from "@/hooks/rq-hooks/user-hooks";
-import DragNDrop from "@/components/dnd";
 import { DndDataItem, DndDataType } from "@/types/common";
 import SiteUserSettings from "./site-user-settings";
 import Training, { CompletedTraining, filterDndData } from "./training/training";
-import { CompletedTrainingEditableStatus, User } from "@/model/user";
-import { toast } from "react-toastify";
+import { User } from "@/model/user";
 import SysAdminUserSettings from "./sys-admin-user-settings";
 import SponsorUserSettings from "./sponsor-user-settings";
 import { useRouter } from "next/navigation";
+import { apiResponseToast } from "@/utils/toast";
+import { RESPONSE_TYPE_ENUM } from "@/model/enum";
 
 interface AddUserProps {
   id?: string;
@@ -319,18 +314,18 @@ const AddUser = ({ id }: AddUserProps) => {
       }
       editUser({ userId: id, ...payload }, {
         onSuccess: (data) => {
-          toast.success(data?.data.details);
+          apiResponseToast(data?.data?.details, data?.data?.type);
           router.push('/user/list');
         },
         onError: (error: any) => {
-          toast.error(error.response.data.detail);
+          apiResponseToast(error?.response?.data?.detail, RESPONSE_TYPE_ENUM.ERROR);
         }
       });
     }
     else {
       addUser(payload, {
         onSuccess: (data) => {
-          toast.success(data?.data.details);
+          apiResponseToast(data?.data?.details,data?.data?.type);
           reset();
           setSiteUserDndData(initialSiteUserDndValue);
           setTrainingDndData(initialTrainingDndValue);
@@ -338,7 +333,7 @@ const AddUser = ({ id }: AddUserProps) => {
           setAdminDndData(initialAdminDndValue);
         },
         onError: (error: any) => {
-          toast.error(error.response.data.detail);
+          apiResponseToast(error?.response?.data?.detail, RESPONSE_TYPE_ENUM.ERROR);
         }
       });
     }
