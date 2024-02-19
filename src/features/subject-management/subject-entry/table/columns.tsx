@@ -188,6 +188,10 @@ type GetListColumnProps = {
 export const getListColumn = ({studyId, onViewDetail}: GetListColumnProps) :ColumnDef<List>[] => {
   return ([
     {
+      header: "User",
+      accessorKey: "userName",
+    },
+    {
       header: "Protocol",
       accessorKey: "protocolNumber",
     },
