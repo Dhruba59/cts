@@ -12,6 +12,8 @@
   },
   "dependencies": {
     "@hookform/resolvers": "^3.3.1",
+    "@microsoft/applicationinsights-react-js": "^17.1.0",
+    "@microsoft/applicationinsights-web": "^3.1.0",
     "@microsoft/signalr": "^7.0.12",
     "@react-pdf/renderer": "^3.3.4",
     "@tanstack/match-sorter-utils": "^8.8.4",

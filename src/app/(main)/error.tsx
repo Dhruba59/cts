@@ -1,6 +1,7 @@
 'use client' // Error components must be Client Components
  
 import Button from '@/components/ui/button'
+import { appInsights } from '@/service/appInsights-service'
 import { useEffect } from 'react'
  
 export default function Error({
@@ -14,7 +15,9 @@ export default function Error({
   // need to implement application insight
   useEffect(() => {
     // Log the error to an error reporting service
-    console.error(error)
+    //TrackTrace
+    appInsights.trackException({ error: error, severityLevel: 1 })
+    console.table(error)
   }, [error])
  
   return (
