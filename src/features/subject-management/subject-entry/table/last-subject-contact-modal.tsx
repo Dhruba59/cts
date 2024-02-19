@@ -15,7 +15,7 @@ import React, { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 
-const LastSubjectContactModal = ({ data, studyId, onUpdateSubject }: any) => {
+const LastSubjectContactModal = ({ data, studyId, onUpdateSubject, onHideDetail }: any) => {
   const {
     register,
     handleSubmit,
@@ -31,7 +31,7 @@ const LastSubjectContactModal = ({ data, studyId, onUpdateSubject }: any) => {
   // const [lastSubjectEntryDate, setLastSubjectEntryDate] = useState<string>(currentDate);
   const { data: visitTypes, error, isLoading: visitLoading, refetch } = useGetVisitTypes();
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [open, setOpen] = useState<boolean>(false);
+  const [open, setOpen] = useState<boolean>(true);
   const { mutate: updateVisitInfo, isLoading:isUpdatingVisitInfo} = useUpdateVisitInfo();
 
   useEffect(() => {
@@ -50,7 +50,7 @@ const LastSubjectContactModal = ({ data, studyId, onUpdateSubject }: any) => {
   const onHandelReset = async () => {
     setIsLoading(true);
     setOpen(false);
-    // setLastSubjectEntryDate(currentDate);
+    onHideDetail();
     reset();
     reset({
       lastSubjectEntryDate: {
@@ -61,7 +61,7 @@ const LastSubjectContactModal = ({ data, studyId, onUpdateSubject }: any) => {
   }
 
   const onSubmit = async (values: any) => {
-    console.log(values);
+    //console.log(values);
     const payload = {
       studyId: studyId,
       protocolNumber: data.protocolNumber,
@@ -75,35 +75,16 @@ const LastSubjectContactModal = ({ data, studyId, onUpdateSubject }: any) => {
       onSuccess: (response) => {
         apiResponseToast(response.data);
         setOpen(false);
+        onHideDetail();
         onUpdateSubject(data);
       },
       onError: (error: any) => {
         toast.error(error.response.data.detail);
       }
     })
-    // setIsLoading(true);
-    // setOpen(false);
-    // setLastSubjectEntryDate(currentDate);
-    // reset();
-    
-
-    // mutate(data, {
-    //   onSuccess: ({ data }: any) => {
-    //     reset();
-    //     setOpen(false);
-    //     toast.success(data?.message, { position: "top-center" });
-    //   },
-    //   onError: (err: any) => {
-    //     toast.warn(err?.response.data?.title, { position: "top-center" });
-    //   },
-    //   onSettled: () => {
-    //     setIsLoading(false);
-    //   }
-    // });
   };
   return (
     <Modal
-      triggerProp={<Edit />}
       title="Select Visit Type and Submit"
       renderFooter={{
         onSave: handleSubmit(onSubmit),
