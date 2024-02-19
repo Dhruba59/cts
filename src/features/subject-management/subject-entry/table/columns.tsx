@@ -2,6 +2,7 @@ import { ColumnDef } from "@tanstack/react-table";
 import PrintSubjectModal from "./print-subject-modal";
 import { formateTableDate, formateTableDateTime } from "@/utils/helpers";
 import LastSubjectContactModal from "./last-subject-contact-modal";
+import Edit from "@/components/icons/edit";
 
 export type List = {
   // user_name: string;
@@ -180,7 +181,11 @@ export const getColumns = (): ColumnDef<List>[] => {
 //   },
 // ];
 
-export const getListColumn = (studyId: number, onUpdateSubject: (data: any) => void) :ColumnDef<List>[] => {
+type GetListColumnProps = {
+  studyId: number | undefined,
+  onViewDetail: (data: any | undefined,subjectId: number | undefined) => void
+}
+export const getListColumn = ({studyId, onViewDetail}: GetListColumnProps) :ColumnDef<List>[] => {
   return ([
     {
       header: "Protocol",
@@ -256,7 +261,12 @@ export const getListColumn = (studyId: number, onUpdateSubject: (data: any) => v
       cell: ({ row }: any) => {
         return (
           <div className="flex items-center gap-6">
-            <LastSubjectContactModal data={row.original} studyId={studyId} onUpdateSubject={onUpdateSubject}/>
+           <Edit
+            onClick={() =>
+              onViewDetail(row.original,studyId)
+            }
+          />
+            {/* <LastSubjectContactModal data={row.original} studyId={studyId} onUpdateSubject={onUpdateSubject}/> */}
           </div>
         );
       },

@@ -1,6 +1,7 @@
-import React from "react";
+import React, { SVGAttributes } from "react";
 
-const Edit = () => (
+// export const DeleteOutlined = ({ width = "16", height = "16", fill = 'none', ...rest }: SVGAttributes<SVGElement>) => 
+const Edit = ({ width = "16", height = "16", fill = 'none', ...rest }: SVGAttributes<SVGElement>) => (
   <svg
     width={16}
     height={16}
@@ -8,6 +9,7 @@ const Edit = () => (
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
     className="cursor-pointer"
+    {...rest}
   >
     <g clipPath="url(#clip0_279_16244)">
       <path

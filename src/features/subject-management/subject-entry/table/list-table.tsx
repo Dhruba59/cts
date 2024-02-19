@@ -10,6 +10,7 @@ import LastContactSubjectsPdf from "../../pdf/contact-subject-pdf";
 import { PDFViewer } from "@react-pdf/renderer";
 import Spinner from "@/components/ui/spinner";
 import Modal from "@/components/modal";
+import LastSubjectContactModal from "./last-subject-contact-modal";
 
 const ListTable = ({ data, isLoading, protocolId, onUpdateSubject }: any) => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -31,7 +32,7 @@ const ListTable = ({ data, isLoading, protocolId, onUpdateSubject }: any) => {
   const updateSubjectAndPdfModal = (data: any) => {
     onUpdateSubject();
     console.log('subject update', data);
-    const subjectInfo: LastSubjectPrintQueryParams= {
+    const subjectInfo: LastSubjectPrintQueryParams = {
       UserName: data?.userName,
       StudyId: protocolId,
       SubjectId: data?.subjectID,
@@ -42,16 +43,8 @@ const ListTable = ({ data, isLoading, protocolId, onUpdateSubject }: any) => {
     setLastSubjectQueryParams(subjectInfo);
   }
 
-  // const onPrintClick = (subjectInfo: LastSubjectPrintQueryParams) => {
-  //   setLastSubjectQueryParams(subjectInfo);
-  //   setIsModalOpen(true);
-  // };
-
-  const columns = getListColumn(protocolId, updateSubjectAndPdfModal);
-  // const data = useMemo(() => LIST_DATA, []);
-
   const [currentPage, setCurrentPage] = useState(1);
-  //console.log(data);
+
   useEffect(() => {
     setPdfData({
       sponsorSubjectId: lastSubjectData?.data.sponsorSubjectId,
@@ -64,6 +57,20 @@ const ListTable = ({ data, isLoading, protocolId, onUpdateSubject }: any) => {
       lastSubjectContactType: lastSubjectData?.data?.visitTypeName,
     });
   }, [lastSubjectData]);
+
+  const [viewDetailModal, setViewDetailModal] = useState<React.ReactNode>(null);
+  const onViewDetail = (data: any | undefined, studyId: number | undefined) => {
+    console.log('onViewDetail',data);
+    setViewDetailModal(
+      <LastSubjectContactModal data={data} studyId={studyId} onUpdateSubject={onUpdateSubject} onHideDetail={onHideDetail} />
+    );
+  }
+
+  const onHideDetail = () => {
+    setViewDetailModal(null);
+  }
+
+  const columns = getListColumn({ studyId: protocolId, onViewDetail });
 
   return (
     <div className="sm:wrapper">
@@ -81,16 +88,7 @@ const ListTable = ({ data, isLoading, protocolId, onUpdateSubject }: any) => {
           listTitleKey="user_name"
         />
       </div>
-      {/* <div className="my-8 flex items-center justify-center md:justify-normal md:pl-14">
-        <Pagination
-          currentPage={currentPage}
-          lastPage={5}
-          pageSize={5}
-          setPageSize={() => {}}
-          maxLength={7}
-          setCurrentPage={setCurrentPage}
-        />
-      </div> */}
+      {viewDetailModal}
       <Modal
         containerClassName="bg-transparent max-h-full !h-full top-0 max-w-full !w-full"
         closeBtnClassName="bg-white rounded-full hover:scale-125 transition-all duration-200 right-8"
