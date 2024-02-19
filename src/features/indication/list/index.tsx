@@ -40,6 +40,7 @@ const IndicationList = () => {
   }
 
   useEffect(() => {
+
     setQueryData((data) => {
       if (data) {
         return {
