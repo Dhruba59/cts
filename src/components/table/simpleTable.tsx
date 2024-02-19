@@ -106,7 +106,7 @@ export function SimpleTable<TData, TValue>({
                     }[header.column.getIsSorted() as string] ?? ''}
 
                     {index > 0 && (
-                      <div className="absolute left-0 top-3.5 w-[1px] h-[22px] bg-divider" />
+                      <div className="absolute left-0 top-3.5 w-[1px] h-[22px] dark:bg-white/40 bg-divider" />
                     )}
                   </div>
                 </TableHead>

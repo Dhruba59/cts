@@ -212,7 +212,7 @@ const TrainingQuiz = ({ trainigId, setDiableQuizes, showResult, setShowResult, r
               <li
                 onClick={() => onAnswerSelected(index, obj.answerId)}
                 key={index}
-                className={`w-full border border-blue-300 rounded p-2 my-2 cursor-pointer ${givenAnswers[activeQuestion]?.answerIndexes?.includes(index) ? 'border-red-700 bg-red-200' : null}`}>
+                className={`w-full border border-blue-300 rounded p-2 my-2 cursor-pointer ${givenAnswers[activeQuestion]?.answerIndexes?.includes(index) ? 'border-red-700 bg-red-200 dark:bg-slate-900' : null}`}>
                 {obj.answer}
               </li>
             ))}

@@ -34,7 +34,7 @@ const UserTrainings = () => {
     <main>
       <div className="wrapper mt-1">
         <Breadcrumbs title="Training List" subTitle="Training List" />
-        <h4 className=" text-neutral-black px-3 py-4">Training Modules</h4>
+        <h4 className="px-3 py-4">Training Modules</h4>
         <div className="flex flex-row gap-1">
           <div className="flex-none w-1/6 gap-1">           
             <div className='flex flex-col gap-1'>

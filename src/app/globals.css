@@ -29,7 +29,7 @@ body {
     @apply h-[calc(100vh_-_127px)];
   }
   .wrapper {
-    @apply bg-white m-0 md:ml-4 md:mr-3 md:mt-4 md:mb-4 border rounded-lg;
+    @apply bg-white m-0 md:ml-4 md:mr-3 md:mt-4 md:mb-4 border dark:border-none rounded-lg dark:bg-dark-lightBlue dark:text-white/90;
   }
   .subject-entry {
     @apply px-8 py-3.5 h-20 text-center bg-white border-2 text-primary border-primary rounded-sm leading-tight;

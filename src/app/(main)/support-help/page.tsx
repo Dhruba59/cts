@@ -16,7 +16,7 @@ export default function SupporHelp() {
           <h5 className="mt-10 mb-4">Do you need any help ?</h5>
           <div className="flex gap-4 items-center">
             <div
-              className="px-8 py-3.5 h-80 md:h-40 lg:h-24 text-center bg-white border-2 text-primary border-orange-400 rounded-sm leading-tight"
+              className="px-8 py-3.5 h-80 md:h-40 lg:h-24 text-center bg-white dark:bg-dark-lightBlue border-2 text-primary border-orange-400 rounded-sm leading-tight"
             >
               <p>If you need any help regarding our services, please contact our Customer Service team at any time. They will attempt to resolve your concerns fairly and in a timely manner.</p>
             </div>

@@ -50,7 +50,7 @@ const ListHeader = ({ setQueryData }: any) => {
       <form onSubmit={handleSubmit(onSubmit)}>
         <Breadcrumbs title="Study Information" subTitle="Reprint List" />
         <div className="flex justify-between items-center px-0 sm:px-6 py-3">
-          <h4 className=" text-neutral-black">Search</h4>
+          <h4 className="">Search</h4>
           <div className="flex items-center">
             <div className="flex flex-row justify-end items-center gap-2 ">
               {/* <h4 className=" text-neutral-black">Search for Request & Reprint</h4> */}
