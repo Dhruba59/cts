@@ -40,6 +40,9 @@ const IndicationList = () => {
   }
 
   useEffect(() => {
+
+    //throw new Error("This is a generic error for testing purposes");
+
     setQueryData((data) => {
       if (data) {
         return {

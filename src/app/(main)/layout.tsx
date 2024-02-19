@@ -6,6 +6,8 @@ import AuthManager from "@/components/auth/auth-manager";
 import MainBody from "@/components/main/main-body";
 import { Suspense } from "react";
 import Loading from "./loading";
+import Error from "./error";
+
 
 
 
@@ -22,9 +24,9 @@ export default function RootLayout({
         <div className="flex h-auto max-md:">
           <Sidebar />
           <MainBody>
-            <Suspense fallback={<Loading/>}>
-              {children}
-           </Suspense> 
+              <Suspense fallback={<Loading/>}>
+                {children}
+            </Suspense>    
           </MainBody>
         </div>
         <Footer />
