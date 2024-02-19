@@ -60,7 +60,7 @@ const ListTable = ({ data, isLoading, protocolId, onUpdateSubject }: any) => {
 
   const [viewDetailModal, setViewDetailModal] = useState<React.ReactNode>(null);
   const onViewDetail = (data: any | undefined, studyId: number | undefined) => {
-    console.log('onViewDetail',data);
+    //console.log('onViewDetail',data);
     setViewDetailModal(
       <LastSubjectContactModal data={data} studyId={studyId} onUpdateSubject={onUpdateSubject} onHideDetail={onHideDetail} />
     );
