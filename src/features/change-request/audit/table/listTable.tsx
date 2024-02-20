@@ -19,9 +19,9 @@ export function ListTable({ data, sorting, setSorting, refetch, isLoading }: any
   const [viewDetailModal, setViewDetailModal] = useState<React.ReactNode>(null);
   const [id, setId] = useState<number>(0);
 
-  const onViewDetail = (subjectId: number | undefined, regionGroupsId: number | undefined) => {
+  const onViewDetail = (subjectId: number | undefined, requestId: number | undefined, regionGroupsId: number | undefined) => {
     setViewDetailModal(
-      <ChangeRequestAuditDetailModal subjectId={subjectId} regionGroupsId={regionGroupsId} onHideDetail={onHideDetail}/>
+      <ChangeRequestAuditDetailModal subjectId={subjectId} requestId={requestId} regionGroupsId={regionGroupsId} onHideDetail={onHideDetail}/>
     );
   }
 

@@ -14,11 +14,12 @@ import Pagination from "@/components/pagination";
 import { useChangeRequestAuditDetail } from "@/hooks/rq-hooks/change-request-hooks";
 import AuditDetailListTable from "./audit-detail-list-table";
 
-const ChangeRequestAuditDetailModal = ({ subjectId, regionGroupsId, onHideDetail}: any) => {
+const ChangeRequestAuditDetailModal = ({ subjectId, requestId, regionGroupsId, onHideDetail}: any) => {
 
   const [open, setOpen] = useState<boolean>(true);
   const [queryData, setQueryData] = useState<ChangeRequestAuditDetailQuery>({
     subjectId: subjectId,
+    RequestId: requestId,
     regionGroupsId: regionGroupsId
   });
   const [pageSize, setPageSize] = useState<number>(DEFAULT_PAGE_SIZE);

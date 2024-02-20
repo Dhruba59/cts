@@ -353,8 +353,10 @@ const AddSubjectForm = ({ dropdowns, protocolId, subjectIdFormat, restSubjectIdF
     setValue('zip', dropdowns?.zipCode);
     setWeightUnitOptions(convertTypeToSelectOption(dropdowns?.weightUnits));
     setHeightUnitOptions(convertTypeToSelectOption(dropdowns?.heightUnits));
-    setIdOptions(convertTypeToSelectOption(dropdowns?.idTypes));
     setGenderOptions(convertTypeToSelectOption(dropdowns?.genders));
+    if(!ids) {
+      setIdOptions(convertTypeToSelectOption(dropdowns?.idTypes));
+    }
   }, [dropdowns]);
 
   useEffect(() => {
@@ -423,8 +425,11 @@ const AddSubjectForm = ({ dropdowns, protocolId, subjectIdFormat, restSubjectIdF
   }
 
   useEffect(() => {
-    updateFieldsWithSubjectData();
-  }, [subjectDetail]);
+    if(subjectDetail && subjectData) {
+      updateFieldsWithSubjectData();
+      setIdOptions(convertTypeToSelectOption(subjectData?.data?.idTypes));
+    }
+  }, [subjectDetail, subjectData]);
 
 
   useEffect(() => {
