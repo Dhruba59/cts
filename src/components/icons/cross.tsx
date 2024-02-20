@@ -14,7 +14,7 @@ function Cross(props: React.SVGProps<SVGSVGElement>) {
         <g
           fill="none"
           fillRule="evenodd"
-          stroke="currentColor"
+          stroke="#EC1C24"
           strokeLinecap="round"
           strokeLinejoin="round"
         >

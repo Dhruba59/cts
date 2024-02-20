@@ -53,7 +53,7 @@ const ListHeader = ({ setQueryData }: any) => {
         </div>
         <section className="hidden md:block wrapper">
           <div className="flex flex-row items-center justify-between px-3 py-3">
-            <h4 className=" text-neutral-black">Search Indication</h4>
+            <h4 className="">Search Indication</h4>
             <div className="">
               <SearchForm isAdvancedOpen={isChecked}  codeTypeDropDown={codeTypeDropDown?.data}  register={register} Controller={Controller} control={control} reset={reset}/>
             </div>

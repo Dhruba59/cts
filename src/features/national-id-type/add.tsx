@@ -113,7 +113,7 @@ const AddNationalIdType = ({ id }: AddNationalIdTypeProps) => {
     <div className="w-full">
       <Breadcrumbs title="NID Type" subTitle="Add NID Type" />
       <section className="wrapper">
-        <h4 className=" text-neutral-black px-6 py-4">
+        <h4 className="px-6 py-4">
           NID Type Information
         </h4>
         <hr />

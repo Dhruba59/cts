@@ -102,7 +102,7 @@ const columns = useMemo(() => ChangeRequestReprintListColumns({ onOpenChangeRequ
 
 return (
   <div className="sm:wrapper">
-    <h4 className="hidden md:block font-semibold py-4 px-6 text-dark-900">
+    <h4 className="hidden md:block font-semibold py-4 px-6 text-dark-900 dark:text-white/90 dark:bg-dark-lightBlue">
       Change Request & Re-Print
     </h4>
     <div className="hidden sm:block">

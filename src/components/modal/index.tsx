@@ -98,10 +98,10 @@ const Modal = ({
 
   const renderModalHeader = () => {
     return title ? (
-      <header className="flex items-center justify-between md:px-6 px-4 py-4 border-b">
+      <header className="flex items-center justify-between md:px-6 px-4 py-4 border-b dark:bg-dark-lightBlue">
         <div className="flex gap-3">
           {renderModalIcon()}
-          <h5 className={cn("text-black/90", titleClassName)}>{title}</h5>
+          <h5 className={cn("text-black/90 dark:text-white/90", titleClassName)}>{title}</h5>
         </div>
 
         <CloseIcon onClick={handleModalClose} className={closeBtnClassName} />
@@ -110,7 +110,7 @@ const Modal = ({
       <button
         className={cn("absolute top-4 right-4 p-1", closeBtnClassName)}
         onClick={handleModalClose}>
-        <CloseIcon />
+        <CloseIcon fill="black"/>
       </button>
     );
   };
@@ -172,12 +172,12 @@ const Modal = ({
     <>
       {triggerProp && <div onClick={handleTrigger}>{triggerProp}</div>}
       <div
-        className={`fixed inset-0 flex items-center justify-center transition-colors duration-200 ease-in z-[100] ${visible ? "bg-black/50" : "invisible"
+        className={`fixed inset-0 text-black dark:text-white flex items-center justify-center transition-colors duration-200 ease-in z-[100]  ${visible ? "bg-black/50" : "invisible"
           }`}
         onClick={handleMaskClick}>
         <main
           className={cn(
-            `bg-white rounded-lg shadow transition-all duration-200 ease-in-out max-h-[80vh] w-[80vw] sm:w-[70vw] lg:w-[50vw] ${visible ? "scale-100 opacity-100" : "scale-75 opacity-0"
+            `bg-white dark:bg-dark-lightBlue rounded-lg shadow transition-all duration-200 ease-in-out max-h-[80vh] w-[80vw] sm:w-[70vw] lg:w-[50vw] ${visible ? "scale-100 opacity-100" : "scale-75 opacity-0"
             }`,
             containerClassName
           )}

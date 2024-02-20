@@ -12,7 +12,7 @@ const TableTopWithAddButtin = ({ headerText, addButtonLink, children }: {
     const router = useRouter();
     return (
         <div className="hidden sm:flex justify-between item-center py-3 px-2">
-            <h4 className="font-semibold  text-dark-900">
+            <h4 className="font-semibold">
                 {headerText}
             </h4>
             <Button variant="secondary" size="small"

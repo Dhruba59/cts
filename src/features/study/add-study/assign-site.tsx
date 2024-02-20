@@ -45,7 +45,7 @@ const AssignSite = ({ assignedData, setAssignedData }: AssignSiteProps) => {
   const components: DndCustomComponentType[] = [
     {
       groupIndex: 0,
-      component: <div className="sticky top-0 p-4 pb-1 bg-white">
+      component: <div className="sticky top-0 p-4 pb-1 bg-white dark:bg-dark-lightBlue">
         <SearchBox onChange={filterData} />
       </div>,
     },
@@ -85,7 +85,7 @@ const AssignSite = ({ assignedData, setAssignedData }: AssignSiteProps) => {
 
   return (
     <section className="wrapper my-8">
-      <h4 className=" text-neutral-black px-6 py-4">Assign Sites</h4>
+      <h4 className="px-6 py-4">Assign Sites</h4>
       <hr />
       <DragNDrop
         onDragFinish={onDragFinish}

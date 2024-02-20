@@ -177,7 +177,7 @@ const SubjectEntryEditForm = ({ ids }: SubjectEntryEditForm) => {
     <main>
       <Breadcrumbs title="Subject Management" subTitle="Entry Study Subject" />
       <div className="wrapper" >
-        <h4 className=" text-neutral-black px-6 py-4">{ids ? 'Update Subject' : userRole == USER_ROLE_ENUM.SYSTEM_ADMIN ? 'Subject Entry /  Last Subject Contact' : 'Subject Entry'}</h4>
+        <h4 className="px-6 py-4">{ids ? 'Update Subject' : userRole == USER_ROLE_ENUM.SYSTEM_ADMIN ? 'Subject Entry /  Last Subject Contact' : 'Subject Entry'}</h4>
         <hr />
         <div className="w-full px-6 py-8">
           <div className="flex gap-x-10 mb-4 justify-between">

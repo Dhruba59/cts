@@ -69,7 +69,7 @@ const ListTable = ({ data, sorting, setSorting }: ListTableProps) => {
           cancelButtonName: "Cancel"
         }}
       >
-        <div className="text-black text-base">
+        <div className="text-base">
           Do you want to delete this study?
         </div>
       </Modal>

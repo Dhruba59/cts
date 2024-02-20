@@ -26,7 +26,7 @@ const Datepicker = ({
           containerClassName
         )}
         inputClassName={cn(
-          "w-full h-10 px-3 rounded-[4px] border border-neutral-500 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-secondary focus-visible:ring-offset-1 text-black/90 text-sm",
+          "w-full h-10 px-3 rounded-[4px] dark:bg-dark-inputField border border-neutral-500 dark:border-dark-border focus-visible:outline-none focus-visible:ring-secondary focus-visible:ring-[0.5px] text-black/90 dark:text-white/80 text-sm",
           inputClassName
         )}
       />

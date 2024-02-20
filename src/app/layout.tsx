@@ -39,7 +39,7 @@ export default async function RootLayout({
 
   return (
     <html lang="en">
-      <body>
+      <body className="bg-[#F3F2F1] dark:bg-dark-darkBlue">
         <ReactQueryClientProvider>
           <AuthSessionProvider session={session}>
             <AuthManager>

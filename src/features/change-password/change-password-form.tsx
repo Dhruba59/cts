@@ -88,8 +88,8 @@ const ChangePasswordForm = () => {
     <div className="w-full">
     <Breadcrumbs title="Change Password" subTitle="Change Password" />
     <section className="wrapper">
-      <h4 className=" text-neutral-black px-6 py-4">
-      Change/Reset Password
+      <h4 className="px-6 py-4">
+        Change/Reset Password
       </h4>
       <hr />
       <div className="w-[450px] p-10">

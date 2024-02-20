@@ -47,7 +47,7 @@ const Pagination = ({
           <RightArrowIcon className="-mt-0.5 md:mt-0 " />
         </PageLink>
         <select
-          className="-mt-0.5 md:mt-0 ml-2 md:ml-3 border-solid border border-gray-300 rounded h-7 lg:h-9 dark:text-black"
+          className="-mt-0.5 md:mt-0 ml-2 md:ml-3 border-solid border border-gray-300 rounded h-7 lg:h-9 dark:text-white/80 dark:bg-dark-lightBlue"
           value={pageSize}
           onChange={(e) => {
             setPageSize(Number(e.target.value));

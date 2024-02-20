@@ -155,37 +155,36 @@ export const SettingsIcon2 = ({ width = "20", height = "20", fill = 'none', ...r
   </svg>
 );
 
-export const CloseIcon = ({ width = "16", height = "16", fill = 'none', ...rest }: SVGAttributes<SVGElement>) => (
+export const CloseIcon = ({ width = "16", height = "16", fill = '#B8B8B8', opacity = '0.45', ...rest }: SVGAttributes<SVGElement>) => (
   <svg
     width={width}
     height={height}
     viewBox="0 0 16 16"
-    fill={fill}
     {...rest}
     className="cursor-pointer"
   >
     <path
       d="M8.92473 7.99916L13.6122 2.41166C13.6908 2.31881 13.6247 2.17773 13.5033 2.17773H12.0783C11.9944 2.17773 11.914 2.21523 11.8587 2.27952L7.99258 6.88845L4.12651 2.27952C4.07294 2.21523 3.99258 2.17773 3.90687 2.17773H2.48187C2.36044 2.17773 2.29437 2.31881 2.37294 2.41166L7.06044 7.99916L2.37294 13.5867C2.35534 13.6074 2.34405 13.6327 2.3404 13.6596C2.33676 13.6865 2.34092 13.7139 2.35239 13.7386C2.36386 13.7632 2.38216 13.784 2.40511 13.7985C2.42806 13.8131 2.4547 13.8207 2.48187 13.8206H3.90687C3.9908 13.8206 4.07115 13.7831 4.12651 13.7188L7.99258 9.10988L11.8587 13.7188C11.9122 13.7831 11.9926 13.8206 12.0783 13.8206H13.5033C13.6247 13.8206 13.6908 13.6795 13.6122 13.5867L8.92473 7.99916Z"
-      fill="black"
-      fillOpacity="0.45"
+      fill={fill}
+      fillOpacity={opacity}
     />
   </svg>
 );
 
 
-export const RightArrowIcon = ({ width = "16", height = "16", fill = 'none', ...rest }: SVGAttributes<SVGElement>) => (
+export const RightArrowIcon = ({ width = "16", height = "16", fill = '#134563', ...rest }: SVGAttributes<SVGElement>) => (
   <svg width={width} height={height} xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 64 64" viewBox="0 0 64 64" id="arrow"{...rest}>
     <g transform="translate(28 328)">
-      <path fill="#134563" d="M4-272.1c-13.2 0-23.9-10.7-23.9-23.9S-9.2-319.9 4-319.9s23.9 10.7 23.9 23.9S17.2-272.1 4-272.1zm0-45.2c-11.7 0-21.3 9.6-21.3 21.3s9.6 21.3 21.3 21.3 21.3-9.6 21.3-21.3-9.6-21.3-21.3-21.3z"></path>
-      <path fill="#134563" d="m3.5-282.3-1.8-1.9L13.4-296 1.7-307.8l1.8-1.9L17.2-296 3.5-282.3"></path>
-      <path fill="#134563" d="M15.3-294.6h-24v-2.8h24z"></path>
+      <path fill={fill} d="M4-272.1c-13.2 0-23.9-10.7-23.9-23.9S-9.2-319.9 4-319.9s23.9 10.7 23.9 23.9S17.2-272.1 4-272.1zm0-45.2c-11.7 0-21.3 9.6-21.3 21.3s9.6 21.3 21.3 21.3 21.3-9.6 21.3-21.3-9.6-21.3-21.3-21.3z"></path>
+      <path fill={fill} d="m3.5-282.3-1.8-1.9L13.4-296 1.7-307.8l1.8-1.9L17.2-296 3.5-282.3"></path>
+      <path fill={fill} d="M15.3-294.6h-24v-2.8h24z"></path>
     </g>
   </svg>
 );
 
-export const LeftArrowIcon = ({ width = "16", height = "16", fill = 'none', ...rest }: SVGAttributes<SVGElement>) => (
+export const LeftArrowIcon = ({ width = "16", height = "16", fill = "#134563", ...rest }: SVGAttributes<SVGElement>) => (
   <svg width={width} height={height} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" id="arrow" {...rest}>
-    <g fill="#134563">
+    <g fill={fill}>
       <path d="M32 55.9C18.8 55.9 8.1 45.2 8.1 32S18.8 8.1 32 8.1 55.9 18.8 55.9 32 45.2 55.9 32 55.9zm0-45.2c-11.7 0-21.3 9.6-21.3 21.3S20.3 53.3 32 53.3 53.3 43.7 53.3 32 43.7 10.7 32 10.7z"></path>
       <path d="M32.5 45.7 18.8 32l13.7-13.7 1.8 1.9L22.6 32l11.7 11.8-1.8 1.9"></path>
       <path d="M20.7 30.6h24v2.8h-24z"></path>

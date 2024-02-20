@@ -63,7 +63,7 @@ const ListTable = ({
 
   return (
     <div className="sm:wrapper">
-      <h4 className="hidden md:block font-semibold py-4 px-6 text-dark-900">
+      <h4 className="hidden md:block font-semibold py-4 px-6">
         List of Last Contact Subjects
       </h4>
       <div className="hidden sm:block">

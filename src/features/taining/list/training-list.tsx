@@ -52,7 +52,7 @@ const TrainingList = ({ item, trainingId, setTrainingId,selected, setSelected, s
 
   return (
     <div key={item.trainingId}
-      className={`flex flex-col gap-1 ml-2 p-1  border rounded ${selected === item.studyId ? ' border-red-700 shadow-red-300/50' : 'border-red-500 shadow-red-300/50'} shadow-inner leading-tight`}>
+      className={`flex flex-col gap-1 ml-2 p-1  border rounded ${selected === item.studyId ? ' border-red-700  shadow-red-300/50' : 'border-red-500 dark:border-white/50 shadow-red-300/50'} shadow-inner leading-tight`}>
         <details className="group" open ={selected === item.studyId ? true : false}>
           <summary className="font-medium cursor-pointer list-none">
             <div className="flex justify-between items-center font-medium cursor-pointer list-none">
@@ -66,7 +66,7 @@ const TrainingList = ({ item, trainingId, setTrainingId,selected, setSelected, s
           <div className="text-neutral-600 mt-3 group-open:animate-fadeIn">
             <div className="flex flex-col gap-1">
               <button
-                className={`px-2 text-left py-1 border border-sky-900 rounded-sm  text-black  shadow-inner leading-tight ${trainingId === item.trainingId &&  subItem === 'module'? 'bg-red-100 border-red-700 shadow-red-300/50' : 'border-red-500 shadow-red-300/50'}`}
+                className={`px-2 text-left py-1 border border-sky-900 dark:border-white/50 rounded-sm shadow-inner leading-tight ${trainingId === item.trainingId &&  subItem === 'module'? 'bg-red-100 dark:bg-slate-900 border-red-700 shadow-red-300/50' : 'border-red-500 shadow-red-300/50'}`}
                 type="button"
                 onClick={() => { 
                   setVideoUrl(item.filePath); 
@@ -80,7 +80,7 @@ const TrainingList = ({ item, trainingId, setTrainingId,selected, setSelected, s
               {item.hasQuizAccess && !diableQuizes?.includes(item.trainingId) ?
 
                 <button
-                  className={`px-2 text-left py-1 border border-sky-900 rounded-sm subItem  text-black  shadow-inner leading-tight ${trainingId === item.trainingId &&  subItem === 'quiz'? 'bg-red-100 border-red-700 shadow-red-300/50' : 'border-red-500 shadow-red-300/50'}`}
+                  className={`px-2 text-left py-1 border border-sky-900 rounded-sm subItem dark:border-white/50 shadow-inner leading-tight ${trainingId === item.trainingId &&  subItem === 'quiz'? 'bg-red-100 dark:bg-slate-900 border-red-700 shadow-red-300/50' : 'border-red-500 shadow-red-300/50'}`}
                   type="button"
                   onClick={() => {
                     setLoadQuiz(true);
@@ -97,7 +97,7 @@ const TrainingList = ({ item, trainingId, setTrainingId,selected, setSelected, s
                 item.canDownloadCertificate ?
 
                   <button
-                    className={`px-2 text-left py-1 border border-sky-900 rounded-sm  text-black   shadow-inner leading-tight ${trainingId === item.trainingId &&  subItem === 'certificate'? 'bg-red-100 border-red-700 shadow-red-300/50' : 'border-red-500 shadow-red-300/50'}`}
+                    className={`px-2 text-left py-1 border border-sky-900 rounded-sm dark:border-white/50 shadow-inner leading-tight ${trainingId === item.trainingId &&  subItem === 'certificate'? 'bg-red-100 dark:bg-slate-900 border-red-700 shadow-red-300/50' : 'border-red-500 shadow-red-300/50'}`}
                     type="button"
                     onClick={() => {
                       setSelected(item.studyId);

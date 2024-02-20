@@ -563,7 +563,7 @@ const AddUser = ({ id }: AddUserProps) => {
         <Breadcrumbs title="User" subTitle="Add User" />
         <form onSubmit={handleSubmit(onSubmit)} className="">
           <section className="wrapper">
-            <h4 className=" text-neutral-black px-6 py-4">
+            <h4 className="px-6 py-4">
               {id ? 'Update User' : 'Create New User'}
             </h4>
             <hr />

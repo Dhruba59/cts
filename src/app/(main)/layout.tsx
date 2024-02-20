@@ -19,7 +19,7 @@ export default function RootLayout({
 
   return (
     <SidebarContextProvider>
-      <main className="h-screen dark:text-white dark:bg-[#24303f]">
+      <main className="h-screen dark:text-white dark:bg-dark-darkBlue">
         <Header />
         <div className="flex h-auto max-md:">
           <Sidebar />

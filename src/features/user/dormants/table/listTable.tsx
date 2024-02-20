@@ -69,7 +69,7 @@ export function ListTable({ data, pageSize, totalPages, sorting, setSorting, ref
 
   return (
     <div className="sm:wrapper">
-      <h4 className="hidden md:block font-semibold py-4 px-6 text-dark-900">
+      <h4 className="hidden md:block font-semibold py-4 px-6">
         List of Dormant User
       </h4>
       <div className="hidden sm:block">
