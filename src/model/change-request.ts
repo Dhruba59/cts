@@ -70,6 +70,7 @@ export interface CodeType {
 
   export interface ChangeRequestAuditModel {
     subjectId?: number,
+    requestId?: number;
     nationalTypeId?: number,
     siteName?: string,
     studyName?: string,
@@ -89,6 +90,7 @@ export interface CodeType {
 
   export interface ChangeRequestAuditDetailQuery extends Query {
     subjectId?: number;
+    RequestId?: number;
     regionGroupsId?: string;
   }
 

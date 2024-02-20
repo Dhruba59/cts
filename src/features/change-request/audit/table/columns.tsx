@@ -13,7 +13,7 @@ import { formateTableDate, formateTableDateTime } from "@/utils/helpers";
 import ChangeRequestAuditDetailModal from "../detail/table/change-request-audit-detail-modal";
 
 type ChangeRequestAuditListColumnsProps = {
-  onViewDetail: (subjectId: number | undefined, regionGroupsId: number | undefined) => void
+  onViewDetail: (subjectId: number | undefined, requestId: number | undefined, regionGroupsId: number | undefined) => void
 }
 export const ChangeRequestAuditListColumns = ({ onViewDetail }: ChangeRequestAuditListColumnsProps)
 : ColumnDef<ChangeRequestAuditModel>[] => {
@@ -118,7 +118,7 @@ return [
           <View
             className="cursor-pointer"
             onClick={() =>
-              onViewDetail(row.original.subjectId, row.original.regionGroupsId)
+              onViewDetail(row.original.subjectId, row.original.requestId, row.original.regionGroupsId)
             }
           />
           {/* <ChangeRequestAuditDetailModal  subjectId={row.original.subjectId} regionGroupsId={row.original.regionGroupsId}/> */}
