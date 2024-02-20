@@ -64,7 +64,7 @@ const ListHeader = ({ setQueryData }: any) => {
         </div>
         <section className="hidden md:block wrapper">
           <div className="flex flex-row items-center justify-between px-3 py-3">
-            <h4 className=" text-neutral-black">Search Site</h4>
+            <h4 className="">Search Site</h4>
             <div className="">
               <SearchForm isAdvancedOpen={isChecked}  register={register} Controller={Controller} control={control} reset={reset}/>
             </div>

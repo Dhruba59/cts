@@ -99,7 +99,7 @@ const CriticalSetup = ({ criticalSetupData, setCriticalSetupData, register, erro
     {
       groupIndex: 1,
       component: (
-        <div className="sticky p-4 pb-1 bg-white top-0 flex flex-col xl:grid xl:grid-cols-5 gap-2 ">
+        <div className="sticky p-4 pb-1 bg-white dark:bg-dark-lightBlue top-0 flex flex-col xl:grid xl:grid-cols-5 gap-2 ">
           <div className="col-span-3">
             <SearchBox onChange={filterData} />
           </div>
@@ -119,7 +119,7 @@ const CriticalSetup = ({ criticalSetupData, setCriticalSetupData, register, erro
   return (
     <section className="wrapper my-8">
       <div className="flex justify-between items-start lg:items-center px-6 py-5">
-        <h4 className=" text-neutral-black min-w-[140px]">Critical Setup</h4>
+        <h4 className="min-w-[140px]">Critical Setup</h4>
         <div className="flex flex-col lg:flex-row justify-between items-center gap-4">
           <div className="flex gap-2 items-center">
             <Label label="DSLSP:" />

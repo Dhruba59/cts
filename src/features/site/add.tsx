@@ -138,7 +138,7 @@ const AddSite = ({ id }: AddSiteProps) => {
     <div className="w-full">
       <Breadcrumbs title="Site" subTitle="Add Site" />
       <section className="wrapper">
-        <h4 className=" text-neutral-black px-6 py-4">
+        <h4 className="px-6 py-4">
           Site Information
         </h4>
         <hr />

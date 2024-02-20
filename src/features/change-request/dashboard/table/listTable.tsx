@@ -174,7 +174,7 @@ export function ListTable({ data, sorting, setSorting, refetch, isLoading }: any
         }}
         isLoading={isLoadingAcceptRequest}
       >
-        <div className="text-black text-base px-6 py-2">
+        <div className="text-base px-6 py-2">
           <p>Do you want to accept?</p>
         </div>
       </Modal>

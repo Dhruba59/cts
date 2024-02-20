@@ -75,7 +75,7 @@ const ChangeRequestAuditDetailModal = ({ subjectId, regionGroupsId, onHideDetail
         onHideDetail();
       }} 
       title="Changed Request Audit Detail!"
-      containerClassName="flex flex-1 flex-col mx-10"
+      containerClassName="flex flex-1 flex-col mx-10 max-w-[1500px]"
       renderFooter={{
         cancelButtonName: "Close",
         cancelButtonOnly: true

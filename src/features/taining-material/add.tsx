@@ -131,7 +131,7 @@ const AddTrainingMaterial = ({ id }: AddTrainingMaterialProps) => {
     <div className="w-full">
       <Breadcrumbs title="Training Material" subTitle="Add Training Material" />
       <section className="wrapper">
-        <h4 className=" text-neutral-black px-6 py-4">
+        <h4 className="px-6 py-4">
           Training Material Information
         </h4>
         <hr />

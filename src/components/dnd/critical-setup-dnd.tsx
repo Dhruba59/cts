@@ -1,6 +1,8 @@
 "use client";
 import { DownArrowIcon, LeftArrowIcon, LightModeIcon, RightArrowIcon } from "@/assets/icons";
+import { useThemeContext } from "@/context/theme-context";
 import { cn } from "@/libs/utils";
+import { THEME_COLOR_ENUM } from "@/model/context";
 import { CriticalDndDataType } from "@/model/study";
 import { DndCustomComponentType, DndDataType } from "@/types/common";
 import React, { ComponentPropsWithoutRef, Fragment, useEffect, useRef, useState } from "react";
@@ -44,6 +46,8 @@ const CriticalDnd = ({
   const [isDragging, setIsDragging] = useState(false);
   const dragItem = useRef<any>();
   const currentDragNode = useRef<any>();
+  const { theme } = useThemeContext();
+  const isDarkMode = theme === THEME_COLOR_ENUM.DARK;
 
   useEffect(() => {
     setList(data);
@@ -221,7 +225,7 @@ const CriticalDnd = ({
             {/* <div className={`flex flex-col items-center sm:flex-row sm:justify-between flex-1 ${groupIndex === 1 ? 'flex-[1.5]' : 'flex-1'}
 `}> */}
               <div
-                className={`bg-light-200 rounded-md p-3 w-full`}
+                className={`bg-light-200 dark:bg-dark-darkBlue rounded-md p-3 w-full`}
                 key={groupIndex}
                 onDragEnter={
                   isDragging
@@ -229,8 +233,8 @@ const CriticalDnd = ({
                     : undefined
                 }
               >
-                <div className="text-dark-900 pb-4 pt-2">{group?.title}</div>
-                <div className="bg-white h-[290px] overflow-y-auto">
+                <div className="text-dark-900 dark:text-white/90 pb-4 pt-2">{group?.title}</div>
+                <div className="bg-white dark:bg-dark-lightBlue h-[290px] overflow-y-auto">
                   {renderCustomComponent(groupIndex)}
                   <div className="p-4 pt-0">
                     {group?.items?.map((item, itemIndex) => (
@@ -242,13 +246,13 @@ const CriticalDnd = ({
                         }
                         className={`${isDragging
                           ? getStyles({ groupIndex, itemIndex })
-                          : "dnd-item transition-all ease-in-out duration-300"
+                          : "dnd-item transition-all ease-in-out duration-300 dark:bg-cyan-900"
                           } ${selectedItems.some(
                             (selectedItem) =>
                               selectedItem.groupIndex === groupIndex &&
                               selectedItem.itemIndex === itemIndex
                           )
-                            ? '!bg-red-200'
+                            ? '!bg-red-200 dark:!bg-cyan-600'
                             : ''
                           }`}
                         key={itemIndex}
@@ -265,8 +269,8 @@ const CriticalDnd = ({
 
             {/* </div> */}
             {(groupIndex !== list.length - 1) && <div className="w-full lg:w-fit my-4 flex lg:flex-col items-center justify-center gap-4">
-              <RightArrowIcon onClick={() => handleMoveDataRight(groupIndex)} width={36} height={36} className="cursor-pointer rotate-90 lg:rotate-0" />
-              <LeftArrowIcon onClick={() => handleMoveDataLeft(groupIndex)} width={36} height={36} className="cursor-pointer rotate-90 lg:rotate-0" />
+              <RightArrowIcon onClick={() => handleMoveDataRight(groupIndex)} width={36} height={36} className="cursor-pointer rotate-90 lg:rotate-0" fill={isDarkMode ? '#5F79AB' : "#134563"}/>
+              <LeftArrowIcon onClick={() => handleMoveDataLeft(groupIndex)} width={36} height={36} className="cursor-pointer rotate-90 lg:rotate-0" fill={isDarkMode ? '#5F79AB' : "#134563"}/>
 
             </div>}
           </Fragment>

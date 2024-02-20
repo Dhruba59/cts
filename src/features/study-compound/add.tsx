@@ -102,7 +102,7 @@ const AddStudyCompound = ({ id }: AddStudyCompoundProps) => {
     <div className="w-full">
       <Breadcrumbs title="Study Compound" subTitle="Add Study Compound" />
       <section className="wrapper">
-        <h4 className=" text-neutral-black px-6 py-4">
+        <h4 className="px-6 py-4">
         Study Compound Information
         </h4>
         <hr />

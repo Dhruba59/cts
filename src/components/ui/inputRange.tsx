@@ -20,7 +20,7 @@ const InputRange = ({ values={minValue: 0, maxValue: 100}, onValuesChange, class
   return (
     <div
       className={cn(
-        "px-3 h-10 rounded-[4px] border border-neutral-500 flex items-center gap-4 w-fit text-black/90",
+        "px-3 h-10 rounded-[4px] border border-neutral-500 dark:border-dark-border flex items-center gap-4 w-fit text-black/90 dark:text-white/80 dark:bg-dark-inputField",
         className
       )}
     >

@@ -114,7 +114,7 @@ const AddIndication = ({ id }: AddIndicationProps) => {
     <div className="w-full">
       <Breadcrumbs title="Indication" subTitle="Add Indication" />
       <section className="wrapper">
-        <h4 className=" text-neutral-black px-6 py-4">
+        <h4 className="px-6 py-4">
           Indication Information
         </h4>
         <hr />

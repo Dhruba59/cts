@@ -83,7 +83,7 @@ export function ListTable({ data, sorting, setSorting, isLoading, refetch }: any
         }}
         isLoading={isDeleting}
       >
-        <div className="text-black text-base px-6 py-2">
+        <div className="text-base px-6 py-2">
           <p>Do you want to delete?</p>
         </div>
       </Modal>

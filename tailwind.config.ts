@@ -35,7 +35,10 @@ const config: Config = {
           darkBlue: "#1a222c",
           lightBlue: '#24303f',
           lightBlueForTableHeader: '#313d4a',
-          inputField: '#1d2a39'
+          inputField: '#1d2a39',
+          placeholder: '#CCCCCC',
+          border: '#3d4d60',
+          inputFieldRing: '#1890ff',
         },
         light: {
           100: "#fafafd",

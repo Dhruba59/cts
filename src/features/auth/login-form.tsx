@@ -61,7 +61,7 @@ const LoginForm = () => {
   };
 
   return (
-    <div className="border p-10 rounded-2xl bg-white w-[450px] shadow-2xl">
+    <div className="border p-10 rounded-2xl bg-white dark:bg-dark-lightBlue text-black dark:text-white/80 w-[450px] shadow-2xl">
       <h3 className="mb-6 mx-auto text-center">Welcome back</h3>
       <form className="space-y-6" onSubmit={onSubmit}>
         <Input label="Username" defaultValue={rememberMeData?.username} />
@@ -78,7 +78,7 @@ const LoginForm = () => {
           <RadioButton
             id="site-user"
             value={USER_ROLE_VALUE.site_user.toString()}
-            className="accent-primary text-black"
+            className="accent-primary"
             hoverClassName="hover:cursor-pointer"
           >
             Site User
@@ -94,7 +94,7 @@ const LoginForm = () => {
             Sponsor
           </RadioButton>
         </RadioGroup>
-        <div className="space-y-2 text-black">
+        <div className="space-y-2">
           <Checkbox checked={isRemember} onChange={() => setIsRemember(!isRemember)} id="remember" className="accent-primary" rootClassName="flex items-center" labelClassName="text-xs italic">
             Remember me
           </Checkbox>

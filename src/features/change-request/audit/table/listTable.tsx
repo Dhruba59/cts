@@ -32,7 +32,7 @@ export function ListTable({ data, sorting, setSorting, refetch, isLoading }: any
 
   return (
     <div className="sm:wrapper">
-      <h4 className="hidden md:block font-semibold py-4 px-6 text-dark-900">
+      <h4 className="hidden md:block font-semibold py-4 px-6">
         List of Change Request Audit
       </h4>
       <div className="hidden sm:block">
