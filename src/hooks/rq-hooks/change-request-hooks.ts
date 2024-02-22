@@ -15,7 +15,7 @@ export const useDashboardDropdown = () => useQuery({
 
 export const useGetChangeReqSubjectDetails = (queryData : SubjectDetailsParams) => useQuery({
   queryFn: getSubjectDetails,
-  queryKey: ['ChangeReqSubjectDetails', queryData],
+  queryKey: ['changeReqSubjectDetails', queryData],
   enabled: (!!queryData.SubjectId && !!queryData.NationalTypeId)
 });
 
@@ -26,7 +26,7 @@ export const useChangeRequestReprint = (queryData : any) => useQuery({
 
 export const useChangeRequestDashboard = (queryData : any) => useQuery({
   queryFn: getChangeRequestDashboard,
-  queryKey: ['sort', queryData],
+  queryKey: ['changeRequestDashboard', queryData],
 });
 
 export const useChangeRequestDashboardDropdowns = () => useQuery('changeRequestDashboardDropdowns', {
@@ -43,16 +43,16 @@ export const useChangeRequestReprintDropdowns = () => useQuery('changeRequestRep
 
 export const useChangeRequestAudit = (queryData : any) => useQuery({
   queryFn: getChangeRequestAudit,
-  queryKey: ['sort', queryData],
+  queryKey: ['changeRequestAudit', queryData],
 })
 export const useChangeRequestAuditDetail = (queryData : any) => useQuery({
   queryFn: getChangeRequestAuditDetail,
-  queryKey: ['sort', queryData],
+  queryKey: ['changeRequestAuditDetail', queryData],
 });
 
 export const useChangeRequestBySubject = (queryData : any) => useQuery({
   queryFn: getChangeRequestBySubject,
-  queryKey: ['sort', queryData],
+  queryKey: ['changeRequestBySubject', queryData],
 })
 
 // export const useGetIndicationById = (id :any) => useQuery({
@@ -84,5 +84,5 @@ export const useRejectChangeRequest = () => useMutation({
 
 export const useViewChangeRequestDetail = (queryData : any) => useQuery({
   queryFn: viewChangeRequestDetail,
-  queryKey: ['sort', queryData],
+  queryKey: ['viewChangeRequestDetail', queryData],
 })
