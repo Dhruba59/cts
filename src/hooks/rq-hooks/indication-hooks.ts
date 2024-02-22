@@ -8,7 +8,7 @@ import { UseQueryOptions, useMutation, useQuery } from "react-query";
 
 export const useGetIndications = (queryData : any) => useQuery({
   queryFn: getIndications,
-  queryKey: ['sort', queryData],
+  queryKey: ['indication', queryData],
 })
 export const useGetIndicationById = (id :any) => useQuery({
   queryFn: getIndicationById,

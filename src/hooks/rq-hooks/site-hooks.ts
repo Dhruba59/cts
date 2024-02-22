@@ -9,7 +9,7 @@ import { UseQueryOptions, useMutation, useQuery } from "react-query";
 
 export const useGetSites = (queryData: any) => useQuery({
   queryFn: getSites,
-  queryKey: ['sort', queryData],
+  queryKey: ['sites', queryData],
 })
 export const useGetSiteById = (id: any) => useQuery({
   queryFn: getSiteById,

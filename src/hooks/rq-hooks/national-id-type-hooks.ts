@@ -9,11 +9,11 @@ import { UseQueryOptions, useMutation, useQuery } from "react-query";
 
 export const useGetNationalIdTypes = (queryData: any) => useQuery({
   queryFn: getNationalIdTypes,
-  queryKey: ['sort', queryData],
+  queryKey: ['nationalIdType', queryData],
 })
 export const useGetNationalIdTypeById = (id: any) => useQuery({
   queryFn: getNationalIdTypeById,
-  queryKey: ['NationalIdType', { nationalTypeId: id }],
+  queryKey: ['nationalIdType', { nationalTypeId: id }],
   enabled: !!id
 })
 

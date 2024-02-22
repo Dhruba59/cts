@@ -9,7 +9,7 @@ import { UseQueryOptions, useMutation, useQuery } from "react-query";
 
 export const useGetStudyCompounds = (queryData: any) => useQuery({
   queryFn: getStudyCompounds,
-  queryKey: ['sort', queryData],
+  queryKey: ['study', queryData],
 })
 export const useGetStudyCompoundById = (id: any) => useQuery({
   queryFn: getStudyCompoundById,

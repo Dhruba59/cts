@@ -9,11 +9,11 @@ import { UseQueryOptions, useMutation, useQuery } from "react-query";
 
 export const useGetTrainingMaterials = (queryData : any) => useQuery({
   queryFn: getTrainingMaterials,
-  queryKey: ['sort', queryData],
+  queryKey: ['training', queryData],
 })
 export const useGetTrainingMaterialById = (id :any) => useQuery({
   queryFn: getTrainingMaterialById,
-  queryKey: ['TrainingId', { TrainingId: id }],
+  queryKey: ['trainingId', { TrainingId: id }],
   enabled: !!id
 })
 
