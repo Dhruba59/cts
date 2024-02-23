@@ -42,23 +42,30 @@ const initialSearchFormValues = {
 
 const SearchForm: React.FC<SearchFormProps> = ({ isAdvancedOpen, register, reset }) => {
   return (
-    <div className="flex justify-start gap-3 md:gap-6">
-      <div className="flex lg:flex lg:items-center gap-2 flex-1 md:flex-none">
+    <div className="flex items-end gap-3 md:gap-6 p-4 md:p-0">
+      <div className="grid lg:flex lg:items-center gap-2 flex-1 md:flex-none">
         <Label label="Study Name: " className="hidden xl:block" />
         <Input {...register('StudyName')} placeholder="Study name" />
       </div>
-      <div className="flex lg:flex lg:items-center gap-2 flex-1">
+      <div className="grid lg:flex lg:items-center gap-2 flex-1 md:flex-none">
         <Label label="Protocol: " className="hidden xl:block" />
         <Input {...register('ProtocolNumber')} placeholder="Protocol" />
       </div>
-      <Button className={`mb-[1px] w-fit ${isAdvancedOpen ? 'hidden' : 'block'}`} type="submit">Search</Button>
+      <div className={`flex gap-3 ${isAdvancedOpen ? 'hidden' : 'block'}`}>
+        <Button type="submit" className="!h-10 mb-[1px]">
+          Search
+        </Button>
+        <Button type="submit" variant="outline" onClick={() => reset()}>
+          Reset
+        </Button>
+      </div>
     </div>
   );
 };
 
 export default SearchForm;
 
-const AdvanceSearchForm = ({ dropDownList, register, Controller, control, reset }: AdvancedSearchFormProps) => {
+const AdvanceSearchForm = ({ dropDownList, register, reset, Controller, control }: AdvancedSearchFormProps) => {
   const [value, setValue] = useState<DateValueType>({
     startDate: new Date(),
     endDate: null,
@@ -151,7 +158,7 @@ const AdvanceSearchForm = ({ dropDownList, register, Controller, control, reset 
 
       <div className="flex items-center justify-end gap-4 mt-8 md:mt-14">
         <Button type="submit" className="px-8">Search</Button>
-        <Button className="px-8" variant="outline" onClick={() => reset()}>
+        <Button type="submit" className="px-8" variant="outline" onClick={() => reset()}>
           Reset
         </Button>
       </div>
