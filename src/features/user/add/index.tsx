@@ -421,6 +421,18 @@ const AddUser = ({ id }: AddUserProps) => {
             title: 'Site User Settings'
           },
           {
+            content: <Training
+              form={form}
+              dndData={trainingDndData}
+              setDndData={setTrainingDndData}
+              protocols={selectedProtocols}
+              prevTrainings={userData?.data.trainings}
+              completedTrainings={userData?.data.completedTrainings}
+              setCompletedTrainings={setCompletedTrainings}
+              refetchUser={refetchUser} />,
+            title: 'Training'
+          },
+          {
             content: <SysAdminUserSettings
               form={form}
               dndData={adminDndData}
