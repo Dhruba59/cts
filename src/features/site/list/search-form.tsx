@@ -70,7 +70,7 @@ export function AdvanceSearchForm({ frequencyDropDown, register, Controller, con
   return (
     <div className="hidden lg:block p-6 pt-2 space-y-4">
       <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 lg:gap-6">
-        <div>
+        {/* <div>
           <Input
             label="Site Name"
             placeholder="Enter site name"
@@ -88,14 +88,11 @@ export function AdvanceSearchForm({ frequencyDropDown, register, Controller, con
             })}
           />
 
-        </div>
+        </div> */}
         <div>
           <Controller
             control={control}
             name='frequencyTypeId'
-            rules={{
-              required: 'Country is required!',
-            }}
             render={({ field: { onChange, onBlur, value } }: any) => (
               <Select onChange={onChange} label="Country" options={frequencyTypeOptions} value={value} />
             )}
@@ -106,9 +103,7 @@ export function AdvanceSearchForm({ frequencyDropDown, register, Controller, con
           <Input
             label="City"
             placeholder="Enter city code"
-            {...register("city", {
-              required: "City is required!"
-            })}
+            {...register("city")}
           />
 
         </div>
@@ -116,9 +111,7 @@ export function AdvanceSearchForm({ frequencyDropDown, register, Controller, con
           <Input
             label="State"
             placeholder="Enter state code"
-            {...register("state", {
-              required: "State is required!"
-            })}
+            {...register("state")}
           />
 
         </div>
@@ -126,9 +119,7 @@ export function AdvanceSearchForm({ frequencyDropDown, register, Controller, con
           <Input
             label="State Zip"
             placeholder="Enter zip code"
-            {...register("siteZip", {
-              required: "Zip is required!"
-            })}
+            {...register("siteZip")}
           />
 
         </div>
@@ -136,9 +127,7 @@ export function AdvanceSearchForm({ frequencyDropDown, register, Controller, con
           <Input
             label="Address one"
             placeholder="Enter address one code"
-            {...register("address1", {
-              required: "Address one is required!"
-            })}
+            {...register("address1")}
           />
 
         </div>
@@ -146,9 +135,7 @@ export function AdvanceSearchForm({ frequencyDropDown, register, Controller, con
           <Input
             label="Address two"
             placeholder="Enter address two code"
-            {...register("address2", {
-              required: "Address two is required!"
-            })}
+            {...register("address2")}
           />
 
         </div>
@@ -156,9 +143,7 @@ export function AdvanceSearchForm({ frequencyDropDown, register, Controller, con
           <Input
             label="Primary Contact Phone"
             placeholder="Enter primary contact phone"
-            {...register("primaryContactPhone", {
-              required: "Primary contact phone is required!"
-            })}
+            {...register("primaryContactPhone")}
           />
 
         </div>
@@ -166,9 +151,7 @@ export function AdvanceSearchForm({ frequencyDropDown, register, Controller, con
           <Input
             label="Primary Contact Name"
             placeholder="Enter primary contact name"
-            {...register("primaryContactName", {
-              required: "Primary contact name is required!"
-            })}
+            {...register("primaryContactName")}
           />
 
         </div>
@@ -176,9 +159,7 @@ export function AdvanceSearchForm({ frequencyDropDown, register, Controller, con
           <Input
             label="Primary Contact Email"
             placeholder="Enter primary contact email"
-            {...register("primaryContactEmail", {
-              required: "Primary contact email is required!"
-            })}
+            {...register("primaryContactEmail")}
           />
 
         </div>
@@ -186,9 +167,7 @@ export function AdvanceSearchForm({ frequencyDropDown, register, Controller, con
           <Input
             label="Location ID"
             placeholder="Enter LocationID"
-            {...register("locationId", {
-              required: "LocationID is required!"
-            })}
+            {...register("locationId")}
           />
 
         </div>
@@ -196,9 +175,7 @@ export function AdvanceSearchForm({ frequencyDropDown, register, Controller, con
           <Input
             label="PI Name"
             placeholder="Enter PI name"
-            {...register("piname", {
-              required: "PI name is required!"
-            })}
+            {...register("piname")}
           />
 
         </div>
@@ -214,7 +191,7 @@ export function AdvanceSearchForm({ frequencyDropDown, register, Controller, con
       </div>
       <div className="flex items-center justify-end gap-4 mt-8 md:mt-14">
         <Button type="submit" className="px-8">Search</Button>
-        <Button className="px-8" variant="outline" onClick={() => reset()}>
+        <Button type="submit" className="px-8" variant="outline" onClick={() => reset()}>
           Reset
         </Button>
       </div>
