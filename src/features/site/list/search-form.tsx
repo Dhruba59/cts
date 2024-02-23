@@ -64,31 +64,11 @@ export function AdvanceSearchForm({ frequencyDropDown, register, Controller, con
     console.log(frequencyDropDown);
     setFrequencyTypeOptions(convertTypeToSelectOption(frequencyDropDown?.countries));
     console.log(frequencyTypeOptions);
-
   }, [frequencyDropDown])
 
   return (
     <div className="hidden lg:block p-6 pt-2 space-y-4">
       <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 lg:gap-6">
-        {/* <div>
-          <Input
-            label="Site Name"
-            placeholder="Enter site name"
-            {...register("siteName", {
-              required: "Site name is required!"
-            })}
-          />
-        </div>
-        <div>
-          <Input
-            label="Site Code"
-            placeholder="Enter site code"
-            {...register("siteCode", {
-              required: "Site code is required!"
-            })}
-          />
-
-        </div> */}
         <div>
           <Controller
             control={control}
@@ -97,7 +77,6 @@ export function AdvanceSearchForm({ frequencyDropDown, register, Controller, con
               <Select onChange={onChange} label="Country" options={frequencyTypeOptions} value={value} />
             )}
           />
-
         </div>
         <div>
           <Input
@@ -105,7 +84,6 @@ export function AdvanceSearchForm({ frequencyDropDown, register, Controller, con
             placeholder="Enter city code"
             {...register("city")}
           />
-
         </div>
         <div>
           <Input
@@ -113,7 +91,6 @@ export function AdvanceSearchForm({ frequencyDropDown, register, Controller, con
             placeholder="Enter state code"
             {...register("state")}
           />
-
         </div>
         <div>
           <Input
@@ -121,7 +98,6 @@ export function AdvanceSearchForm({ frequencyDropDown, register, Controller, con
             placeholder="Enter zip code"
             {...register("siteZip")}
           />
-
         </div>
         <div>
           <Input
@@ -129,7 +105,6 @@ export function AdvanceSearchForm({ frequencyDropDown, register, Controller, con
             placeholder="Enter address one code"
             {...register("address1")}
           />
-
         </div>
         <div>
           <Input
@@ -137,7 +112,6 @@ export function AdvanceSearchForm({ frequencyDropDown, register, Controller, con
             placeholder="Enter address two code"
             {...register("address2")}
           />
-
         </div>
         <div>
           <Input
@@ -145,7 +119,6 @@ export function AdvanceSearchForm({ frequencyDropDown, register, Controller, con
             placeholder="Enter primary contact phone"
             {...register("primaryContactPhone")}
           />
-
         </div>
         <div>
           <Input
@@ -153,7 +126,6 @@ export function AdvanceSearchForm({ frequencyDropDown, register, Controller, con
             placeholder="Enter primary contact name"
             {...register("primaryContactName")}
           />
-
         </div>
         <div>
           <Input
@@ -161,7 +133,6 @@ export function AdvanceSearchForm({ frequencyDropDown, register, Controller, con
             placeholder="Enter primary contact email"
             {...register("primaryContactEmail")}
           />
-
         </div>
         <div>
           <Input
@@ -169,7 +140,6 @@ export function AdvanceSearchForm({ frequencyDropDown, register, Controller, con
             placeholder="Enter LocationID"
             {...register("locationId")}
           />
-
         </div>
         <div>
           <Input
@@ -177,7 +147,6 @@ export function AdvanceSearchForm({ frequencyDropDown, register, Controller, con
             placeholder="Enter PI name"
             {...register("piname")}
           />
-
         </div>
         <div className="flex flex-row items-center">
           <Controller
