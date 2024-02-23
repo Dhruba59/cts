@@ -13,7 +13,7 @@ import AuthManager from "@/components/auth/auth-manager";
 
 import createHubConnection from "@/service/signalr-connection";
 import { EnvConfigProvider } from "@/context/env-config-context";
-// import { HubConnectionProvider } from "@/context/hub-connection-context";
+import { HubConnectionProvider } from "@/context/hub-connection-context";
 
 import { Metadata, Viewport } from "next";
 
@@ -45,9 +45,9 @@ export default async function RootLayout({
             <AuthManager>
               <ThemeContextProvider>
                 <MenuItemsContextProvider>
-                  {/* <HubConnectionProvider apiKey={apiKey} hubUrl={hubUrl}> */}
+                  <HubConnectionProvider apiKey={apiKey} hubUrl={hubUrl}>
                     {children}
-                  {/* </HubConnectionProvider> */}
+                  </HubConnectionProvider>
                   <ToastContainer />
                 </MenuItemsContextProvider>
               </ThemeContextProvider>
