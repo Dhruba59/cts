@@ -86,7 +86,7 @@ const BasicInformation = ({ dropdownList, register, setValue, errors, control, C
           <div>
             <Input
               label="Protocol"
-              placeholder="Example"
+              placeholder="Protocol"
               {...register("protocolNumber", {
                 required: "Protocol is required!"
               })}
