@@ -11,7 +11,7 @@ import TableTopWithAddButtin from "@/components/table/table-top-with-add-button"
 import { apiResponseToast } from "@/utils/toast";
 import { toast } from "react-toastify";
 
-const ListTable = ({ data, sorting, setSorting }: ListTableProps) => {
+const ListTable = ({ data, sorting, setSorting, isLoading }: any) => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
   const [studyDeleteId, setStudyDeleteId] = useState<number>();
   const { mutate: deleteStudy, isLoading: isDeleteLoading } = useGetStudyDelete();
@@ -54,7 +54,7 @@ const ListTable = ({ data, sorting, setSorting }: ListTableProps) => {
         />
       </div>
       <div className="hidden sm:block">
-        <SimpleTable data={data} columns={columns} sorting={sorting} setSorting={setSorting} />
+        <SimpleTable data={data} columns={columns} sorting={sorting} setSorting={setSorting} isLoading={isLoading} />
       </div>
       <Modal
         type={MODAL_TYPE_ENUM.WARNING}
