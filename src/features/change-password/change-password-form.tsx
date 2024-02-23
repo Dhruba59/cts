@@ -9,6 +9,7 @@ import Breadcrumbs from "@/components/ui/breadcrumbs";
 import { apiResponseToast } from "@/utils/toast";
 import { RESPONSE_TYPE_ENUM } from "@/model/enum";
 import { toast } from "react-toastify";
+import Alert from "@/components/ui/alert";
 
 const ChangePasswordForm = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -93,6 +94,9 @@ const ChangePasswordForm = () => {
       </h4>
       <hr />
       <div className="w-[450px] p-10">
+        <Alert variant='warning' className="mb-6 p-2">
+          Password length must be at least 8 characters, and must include at least one upper case letter, one lower case letter, and one numeric digit.
+        </Alert>
         <form className="space-y-6 flex flex-col" onSubmit={handleSubmit(onSubmit)}>
           <div>
             <Input
