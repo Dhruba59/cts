@@ -15,7 +15,7 @@ const StudyListFeature = () => {
   const [pageSize, setPageSize] = useState<number>(DEFAULT_PAGE_SIZE);
   const [sorting, setSorting] = useState<SortingState>([]);
 
-  const { data: studyData } = useQuery({
+  const { data: studyData, isLoading } = useQuery({
     queryFn: getStudyList,
     queryKey: ['sort', queryData],
   });
@@ -57,7 +57,7 @@ const StudyListFeature = () => {
   return (
     <main>
       <ListHeader setQueryData={setQueryData} />
-      <ListTable data={studyData?.data?.items} sorting={sorting} setSorting={setSorting} />
+      <ListTable data={studyData?.data?.items} sorting={sorting} setSorting={setSorting} isLoading={isLoading} />
       <Pagination
         currentPage={studyData?.data?.pageNumber ?? 1}
         setCurrentPage={setCurrentPageNumber}
