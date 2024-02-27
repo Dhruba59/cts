@@ -26,6 +26,7 @@ const AddStudy = ({ id }: AddStudyProps) => {
   const router = useRouter();
   const [assignedData, setAssignedData] = useState<DndDataType[]>(initialAssignedData);
   const [criticalDndData, setCriticalDndData] = useState<CriticalDndDataType[]>(initialCriticalDndData);
+  const [isPreScreen, setIsPreScreen] = useState<boolean>(false);
   const { data: dropdownList, error, isLoading, refetch } = useGetStudyDropdownsList();
   const { mutate: AddStudyMutation, isLoading: isAddStudyLoading } = useAddStudyMutation();
   const { mutate: UpdateStudyMutation, isLoading: isUpdateStudyLoading } = useUpdateStudyMutation();
@@ -43,6 +44,7 @@ const AddStudy = ({ id }: AddStudyProps) => {
     setValue,
     formState: { errors },
     reset,
+    clearErrors,
   } = useForm({
     defaultValues: initialFormValues
   });
@@ -94,7 +96,7 @@ const AddStudy = ({ id }: AddStudyProps) => {
       payload = { ...payload, studyId: parseInt(id) };
       UpdateStudyMutation(payload, {
         onSuccess: ({ data }: any) => {
-          const newFieldValues = { 
+          const newFieldValues = {
             ...payload,
             sponsor: payload.sponsorId,
             date: {
@@ -115,6 +117,7 @@ const AddStudy = ({ id }: AddStudyProps) => {
           reset(initialFormValues);
           setAssignedData(initialAssignedData);
           setCriticalDndData(initialCriticalDndData);
+          setIsPreScreen(false);
           refetch();
           apiResponseToast(data);
         },
@@ -134,8 +137,15 @@ const AddStudy = ({ id }: AddStudyProps) => {
   }
 
   useEffect(() => {
-    setCriticalDndData((data) => getUpdatedCriticalDndData(data, 'Indications', 'items', dropdownList?.data?.indications));
+    if(isPreScreen) {
+      clearErrors('subjectIdentryFormat');
+    }
+  },[isPreScreen]);
 
+  useEffect(() => {
+    setCriticalDndData((data) => getUpdatedCriticalDndData(data, 'Indications', 'items', dropdownList?.data?.indications));
+    setIsPreScreen(studyData?.data?.preScreen);
+    
     let selectedSites: any = [];
     setAssignedData((data) => getUpdatedDndData(data, 'Sites', 'items', dropdownList?.data?.sites));
     if (studyData) {
@@ -200,13 +210,14 @@ const AddStudy = ({ id }: AddStudyProps) => {
         },
         study_duration: calculateDaysBetweenDates(studyData?.data.studyStartDate, studyData?.data.studyEndDate) || 0
       });
+      
     }
   }, [studyData]);
 
   return (
     <>
       <form className="mb-20 w-full" onSubmit={handleSubmit(onSubmit)}>
-        <BasicInformation dropdownList={dropdownList?.data} register={register} setValue={setValue} errors={errors} Controller={Controller} control={control}/>
+        <BasicInformation dropdownList={dropdownList?.data} register={register} setValue={setValue} errors={errors} Controller={Controller} control={control} isPreScreen={isPreScreen} setIsPreScreen={setIsPreScreen} />
         <AssignSite assignedData={assignedData} setAssignedData={setAssignedData} />
         <CriticalSetup errors={errors} criticalSetupData={criticalDndData} setCriticalSetupData={setCriticalDndData} Controller={Controller} control={control} register={register}/>
         <div className="flex items-center justify-center gap-4 mt-16">

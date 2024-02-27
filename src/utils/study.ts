@@ -61,7 +61,7 @@ export const initialFormValues = {
   subjectIdentryFormat: '',
   protocolNumber: '',
   phase: '',
-  active: false,
+  active: true,
   studyCommentType: '',
   maxSubjects: '',
   sr: false,

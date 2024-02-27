@@ -27,6 +27,8 @@ import Spinner from "@/components/ui/spinner";
 import { apiResponseToast } from "@/utils/toast";
 import { RESPONSE_TYPE_ENUM } from "@/model/enum";
 import { toast } from "react-toastify";
+import dayjs from "dayjs";
+import utc from 'dayjs/plugin/utc';
 
 
 enum NATIONAL_ID_TYPE {
@@ -58,10 +60,11 @@ const getSiteStudyIdByStudyId = (data: any, studyId: number | string) => {
   return data?.find((item: any) => item?.studyId == studyId)?.siteStudyId ?? '';
 }
 
-const addOffsetToDate = (date: string) => {
-  const newDate = new Date(date);
-  return newDate.setMinutes(newDate.getMinutes() - newDate.getTimezoneOffset());
-}
+const addOffsetToDate = (date: string | Date) => {
+  dayjs.extend(utc);
+  return dayjs(date).utc(true).format('YYYY-MM-DD');
+  // return newDate.setMinutes(newDate.getMinutes() - newDate.getTimezoneOffset());
+  }
 
 const AddSubjectForm = ({ dropdowns, protocolId, subjectIdFormat, restSubjectIdFormat,
   setSelectedProtocol, protocolList,  ids, setStudyType, userId, setUserId }: AddSubjectFormProps) => {
