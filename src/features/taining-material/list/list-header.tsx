@@ -44,7 +44,7 @@ const ListHeader = ({ setQueryData }: any) => {
     //console.log(value);
     const params = {
       ...value,
-      trainingName: value?.trainingName?.value
+      trainingName: value?.trainingName?.label
     }
 
     setQueryData(params);
