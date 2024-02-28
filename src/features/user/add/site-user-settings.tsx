@@ -1,57 +1,55 @@
 import DragNDrop from '@/components/dnd';
 import Select from '@/components/ui/select';
-import { useGetSiteDetailWithProtocol } from '@/hooks/rq-hooks/user-hooks';
 import { DropDownItem, SelectOptionType } from '@/model/drop-down-list';
-import { DndDataItem, DndDataType } from '@/types/common';
+import { DndDataItem } from '@/types/common';
 import { convertTypeToSelectOption } from '@/utils/helpers';
 import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
-import { Controller, UseFormReturn, useWatch } from 'react-hook-form';
+import { Controller, UseFormReturn } from 'react-hook-form';
 import { searchByIds } from '.';
 import { filterDndData } from './training/training';
+import useProtocolListStore from '@/store';
 
 interface SiteUserSettingsProps {
   form: UseFormReturn;
-  dndData: any,
-  setDndData: any,
   sites: DropDownItem[];
   suppressMatchTypes: DropDownItem[];
-  setSelectedProtocols: Dispatch<SetStateAction<DndDataItem[]>>;
-  initialProtocolsIds?: string[] | undefined;
-  initialSiteId?: string;
+  setSiteUserSiteId: Dispatch<SetStateAction<string | undefined>>;
 }
 
-const SiteUserSettings = ({ form, sites, dndData, initialProtocolsIds, setDndData, suppressMatchTypes, setSelectedProtocols, initialSiteId }: SiteUserSettingsProps) => {
-  const { register, watch, control, setValue, formState: { errors } } = form;
+const SiteUserSettings = ({ form, sites, suppressMatchTypes, setSiteUserSiteId }: SiteUserSettingsProps) => {
+  const { control, setValue, formState: { errors } } = form;
   const [siteOptions, setSiteOptions] = useState<SelectOptionType[]>();
   const [matchTypeOptions, setMatchTypeOptions] = useState<SelectOptionType[]>();
-  const [selectedSiteId, setSelectedSiteId] = useState<number>();
-  const [siteDndItem, setSiteDndItem] = useState<DndDataType[]>([]);
-  const { data: siteDetail, isLoading: isSiteDetailLoading } = useGetSiteDetailWithProtocol({ SiteId: selectedSiteId?.toString() ?? initialSiteId });
+  // const [selectedSiteId, setSelectedSiteId] = useState<number>();
+  // const [siteDndItem, setSiteDndItem] = useState<DndDataType[]>([]);
+  // const setProtocols = useProtocolListStore((state) => state.setProtocols)
+  const storeSetSelectedProtocols = useProtocolListStore((state) => state.setSelectedProtocols)
 
+  const storeSiteDetail = useProtocolListStore((state) => state.siteDetail)
+  const storeSelectedProtocols = useProtocolListStore((state) => state.selectedProtocols)
+  const storeInitialSiteProtocolIds = useProtocolListStore((state) => state.initialSiteProtocolIds)
+  const storeDndData = useProtocolListStore((state) => state.dndData)
+  const storeSetDndData = useProtocolListStore((state) => state.setDndData)
 
-
-  const onDragFinish = (data: any) => {
-    setDndData(data);
-
-    // setSiteDndItem(data);
-    setSelectedProtocols(data[1].items);
+  const onDragFinish = (data: any) => {    
+    storeSetDndData(data)
+    storeSetSelectedProtocols(data[1].items);
     setValue('protocols', data[1].items);
   }
 
   useEffect(() => {
-    // setSiteDndItem(siteDetail?.data.protocols);
-
-    if (siteDetail) {
-      const items = siteDetail?.data?.protocols.map((item: any) => {
+    if (storeSiteDetail) {
+      const items = storeSiteDetail?.data?.protocols.map((item: any) => {
         return ({
           text: item.protocolNumber,
           value: item.protocolId
         });
       });
+      let newSelectedProtocolIds = storeSelectedProtocols ? storeSelectedProtocols.map(item => item.value) : [];
       let selectedItems: DndDataItem[] = [];
-      if (initialProtocolsIds) {
-        selectedItems = searchByIds(items, initialProtocolsIds);
-        setSelectedProtocols(selectedItems);
+      if (storeInitialSiteProtocolIds) {
+        selectedItems = searchByIds(items, newSelectedProtocolIds.length? newSelectedProtocolIds : storeInitialSiteProtocolIds);
+        storeSetSelectedProtocols(selectedItems);
         setValue('protocols', selectedItems);
       }
       const dndItems = [{
@@ -63,16 +61,14 @@ const SiteUserSettings = ({ form, sites, dndData, initialProtocolsIds, setDndDat
         items: selectedItems
       }
       ];
-      setDndData(filterDndData(dndItems));
 
-      // setSiteDndItem(dndItems);
-
-      setValue('city', siteDetail?.data?.city);
-      setValue('address1', siteDetail?.data?.address1);
-      setValue('state', siteDetail?.data?.state);
-      setValue('zip', siteDetail?.data?.zip);
+      storeSetDndData(filterDndData(dndItems) as any)
+      setValue('city', storeSiteDetail?.data?.city);
+      setValue('address1', storeSiteDetail?.data?.address1);
+      setValue('state', storeSiteDetail?.data?.state);
+      setValue('zip', storeSiteDetail?.data?.zip);
     }
-  }, [siteDetail, initialProtocolsIds]);
+  }, [storeSiteDetail, storeInitialSiteProtocolIds]);
 
   useEffect(() => {
     setSiteOptions(convertTypeToSelectOption(sites));
@@ -88,15 +84,13 @@ const SiteUserSettings = ({ form, sites, dndData, initialProtocolsIds, setDndDat
         <Controller
           control={control}
           name='site'
-          rules={{
-            // required: 'User type is required!',
-          }}
           render={({ field: { onChange, onBlur, value } }: any) => (
             <Select
               onChange={(option) => {
                 onChange(option);
-                setSelectedSiteId(option.value);
-                setSelectedProtocols([]);
+                setSiteUserSiteId(option.value);
+                // setSelectedProtocols([]);
+                storeSetSelectedProtocols([])
               }}
               label="Site Name"
               options={siteOptions}
@@ -110,8 +104,7 @@ const SiteUserSettings = ({ form, sites, dndData, initialProtocolsIds, setDndDat
 
       <DragNDrop
         onDragFinish={onDragFinish}
-        data={dndData}
-        // customComponents={components}
+        data={storeDndData}
         wrapperClassName=""
         className="flex flex-col gap-x-4 sm:flex-row"
       />
