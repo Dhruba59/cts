@@ -27,7 +27,8 @@ export const useGetUsers = (queryData : any) => useQuery({
 export const useGetUserById = (params: GetUserByIdParams) => useQuery({
   queryFn: getUserById,
   queryKey: ['userId', params],
-  enabled: !!params.UserId
+  enabled: !!params.UserId,
+  cacheTime: 0
 });
 
 export const useGetUserDropdowns = () => useQuery({
@@ -37,7 +38,8 @@ export const useGetUserDropdowns = () => useQuery({
 export const useGetSiteDetailWithProtocol = (params: SiteDetailWithProtocolQueryParams) => useQuery({
   queryKey: ['siteDetailWithProtocol', params],
   queryFn: getSiteDetailWithProtocol,
-  enabled: !!params.SiteId
+  enabled: !!params.SiteId,
+  cacheTime: 0
 }); 
 
 export const useGetTrainingsByProtocol = (params: getTraingingByProtocolParams) => useQuery({
