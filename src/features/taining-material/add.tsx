@@ -106,7 +106,7 @@ const AddTrainingMaterial = ({ id }: AddTrainingMaterialProps) => {
           refetch();
         },
         onError: (err: any) => {
-          toast.error(err?.response?.data?.title);
+          toast.error(err?.response?.data?.detail);
         },
       });
     }
