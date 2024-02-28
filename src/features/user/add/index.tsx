@@ -11,8 +11,8 @@ import { convertTypeToSelectOption } from "@/utils/helpers";
 import React, { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import Tab from "../user-tab";
-import { useAddUser, useEditUser, useGetUserById, useGetUserDropdowns, useValidateUserName } from "@/hooks/rq-hooks/user-hooks";
-import { DndDataItem, DndDataType } from "@/types/common";
+import { useAddUser, useEditUser, useGetSiteDetailWithProtocol, useGetUserById, useGetUserDropdowns, useValidateUserName } from "@/hooks/rq-hooks/user-hooks";
+import { AdminDndData, DndDataItem, DndDataType } from "@/types/common";
 import SiteUserSettings from "./site-user-settings";
 import Training, { CompletedTraining, filterDndData } from "./training/training";
 import { User } from "@/model/user";
@@ -22,14 +22,10 @@ import { useRouter } from "next/navigation";
 import { apiResponseToast } from "@/utils/toast";
 import { RESPONSE_TYPE_ENUM } from "@/model/enum";
 import { toast } from "react-toastify";
+import useProtocolListStore from "@/store";
 
 interface AddUserProps {
   id?: string;
-}
-
-interface AdminDndData {
-  matchTypes: DndDataType[];
-  sites: DndDataType[];
 }
 
 const initialSiteUserDndValue = [{
@@ -115,7 +111,7 @@ const constructPayload = (values: any, userType: USER_TYPE_ENUM, isUpdate: boole
     state: values.state,
     zip: values.zip,
     userTypeId: values.userType?.value ?? values.userType,
-    sponsorId: values.sponsor.value ?? values.sponsor,
+    sponsorId: values?.sponsor?.value ?? values.sponsor,
     systemLogin: values.systemLogin
   }
 
@@ -170,7 +166,7 @@ const AddUser = ({ id }: AddUserProps) => {
   const [selectedSponsorId, setSelectedSponsorId] = useState<string>('');
   const [initialSponsorProtocolIds, setInitialSponsorProtocolIds] = useState<string[]>();
   const [initialSiteProtocolIds, setInitialSiteProtocolIds] = useState<string[]>();
-  const [siteUserSiteId, setSiteUserSiteId] = useState<string>();
+  const [siteUserSiteId, setSiteUserSiteId] = useState<string | undefined>();
   const [completedTrainings, setCompletedTrainings] = useState<CompletedTraining[]>([]);
 
   const { data: dropdowns, isLoading: isDropdownDataLoading } = useGetUserDropdowns();
@@ -183,6 +179,13 @@ const AddUser = ({ id }: AddUserProps) => {
   const [trainingDndData, setTrainingDndData] = useState<DndDataType[]>(initialTrainingDndValue);
   const [sponsorDndData, setSponsorDndData] = useState<DndDataType[]>(initialSponsorDndValue);
   const [adminDndData, setAdminDndData] = useState<AdminDndData>(initialAdminDndValue);
+  const storeSetDndData = useProtocolListStore((state) => state.setDndData)
+  const setSiteDetail = useProtocolListStore((state) => state.setSiteDetail)
+  const setStoreInitialSiteProtocolIds = useProtocolListStore((state) => state.setInitialSiteProtocolIds)
+  const { data: siteDetail} = useGetSiteDetailWithProtocol({ SiteId: siteUserSiteId });
+  setSiteDetail(siteDetail)
+  const storeSetAdminDndData = useProtocolListStore((state) => state.setAdminDndData)
+
   const router = useRouter();
 
   const form = useForm();
@@ -227,6 +230,7 @@ const AddUser = ({ id }: AddUserProps) => {
       if (user.userTypeId == USER_TYPE_ENUM.SITE_USER) {
         // setSiteUserDndData();
         setInitialSiteProtocolIds(user?.protocolIds?.map((id: number) => id.toString()));
+        setStoreInitialSiteProtocolIds(user?.protocolIds?.map((id: number) => id.toString()))
         setSiteUserSiteId(user?.siteId);
         const trainings = user?.trainings?.map((item: any) => ({
           value: item?.trainingId, protocolId: item?.protocolId, text: item.trainingName,
@@ -240,7 +244,7 @@ const AddUser = ({ id }: AddUserProps) => {
         setValue('notificationSites', adminNotificationSites);
         setValue('matchTypes', adminMatchTypes);
 
-        setAdminDndData({
+        storeSetAdminDndData({
           matchTypes: filterDndData([{
             title: 'Match Type',
             items: dropdowns?.data?.matchTypes
@@ -257,8 +261,7 @@ const AddUser = ({ id }: AddUserProps) => {
             title: 'selected',
             items: adminNotificationSites
           }])
-        });
-
+        })
       }
 
       else if (user.userTypeId == USER_TYPE_ENUM.SPONSOR) {
@@ -268,38 +271,42 @@ const AddUser = ({ id }: AddUserProps) => {
       else if (user.userTypeId == USER_TYPE_ENUM.BOTH_USER_TYPE) {
         // setSiteUserDndData();
         setInitialSiteProtocolIds(user?.protocolIds?.map((id: number) => id.toString()));
+        setStoreInitialSiteProtocolIds(user?.protocolIds?.map((id: number) => id.toString()))
         setSiteUserSiteId(user?.siteId);
         // setTrainingDndData();
         // setAdminDndData();
+
         const adminMatchTypes = searchByIds(dropdowns?.data?.matchTypes, user?.matchTypeIds);
         const adminNotificationSites = searchByIds(dropdowns?.data?.sites, user?.notificationSiteIds);
-        setAdminDndData({
-          matchTypes: filterDndData([{
-            title: 'Match Type',
-            items: dropdowns?.data?.matchTypes
-          },
-          {
-            title: 'selected',
-            items: adminMatchTypes
-          }]),
-          sites: filterDndData([{
-            title: 'Site',
-            items: dropdowns?.data?.sites
-          },
-          {
-            title: 'selected',
-            items: adminNotificationSites
-          }])
-        });
+
+        if (adminMatchTypes.length && adminNotificationSites.length) {
+          storeSetAdminDndData({
+            matchTypes: filterDndData([{
+              title: 'Match Type',
+              items: dropdowns?.data?.matchTypes
+            },
+            {
+              title: 'selected',
+              items: adminMatchTypes
+            }]),
+            sites: filterDndData([{
+              title: 'Site',
+              items: dropdowns?.data?.sites
+            },
+            {
+              title: 'selected',
+              items: adminNotificationSites
+            }])
+          })
+        }
       }
     }
-
   }
 
   useEffect(() => {
     if (userData) {
       const user = userData?.data;
-      updateFieldsWithUserData(user);
+      updateFieldsWithUserData(user);      
     }
   }, [userData]);
 
@@ -328,10 +335,11 @@ const AddUser = ({ id }: AddUserProps) => {
         onSuccess: (data) => {
           apiResponseToast(data?.data);
           reset();
-          setSiteUserDndData(initialSiteUserDndValue);
+          storeSetDndData(initialSiteUserDndValue as any)
+          // setSiteUserDndData(initialSiteUserDndValue);
           setTrainingDndData(initialTrainingDndValue);
           setSponsorDndData(initialSponsorDndValue);
-          setAdminDndData(initialAdminDndValue);
+          storeSetAdminDndData(initialAdminDndValue);
         },
         onError: (error: any) => {
           toast.error(error?.response?.data?.detail);
@@ -348,13 +356,9 @@ const AddUser = ({ id }: AddUserProps) => {
             {
               content: <SiteUserSettings
                 form={form}
-                dndData={siteUserDndData}
-                setDndData={setSiteUserDndData}
                 sites={dropdowns?.data?.sites}
                 suppressMatchTypes={dropdowns?.data?.suppressMatchTypes}
-                setSelectedProtocols={setSelectedProtocols}
-                initialSiteId={siteUserSiteId}
-                initialProtocolsIds={initialSiteProtocolIds}
+                setSiteUserSiteId={setSiteUserSiteId}
               />,
               title: 'Site User Settings'
             },
@@ -377,8 +381,6 @@ const AddUser = ({ id }: AddUserProps) => {
           {
             content: <SysAdminUserSettings
               form={form}
-              dndData={adminDndData}
-              setDndData={setAdminDndData}
               matchTypes={dropdowns?.data?.matchTypes}
               sites={dropdowns?.data?.sites}
             />,
@@ -392,13 +394,9 @@ const AddUser = ({ id }: AddUserProps) => {
           {
             content: <SiteUserSettings
               form={form}
-              dndData={siteUserDndData}
-              setDndData={setSiteUserDndData}
               sites={dropdowns?.data?.sites}
               suppressMatchTypes={dropdowns?.data?.suppressMatchTypes}
-              setSelectedProtocols={setSelectedProtocols}
-              initialSiteId={siteUserSiteId}
-              initialProtocolsIds={initialSiteProtocolIds}
+              setSiteUserSiteId={setSiteUserSiteId}
             />,
             title: 'Site User Settings'
           },
@@ -410,13 +408,9 @@ const AddUser = ({ id }: AddUserProps) => {
           {
             content: <SiteUserSettings
               form={form}
-              dndData={siteUserDndData}
-              setDndData={setSiteUserDndData}
               sites={dropdowns?.data?.sites}
               suppressMatchTypes={dropdowns?.data?.suppressMatchTypes}
-              setSelectedProtocols={setSelectedProtocols}
-              initialSiteId={siteUserSiteId}
-              initialProtocolsIds={initialSiteProtocolIds}
+              setSiteUserSiteId={setSiteUserSiteId}
             />,
             title: 'Site User Settings'
           },
@@ -435,8 +429,6 @@ const AddUser = ({ id }: AddUserProps) => {
           {
             content: <SysAdminUserSettings
               form={form}
-              dndData={adminDndData}
-              setDndData={setAdminDndData}
               matchTypes={dropdowns?.data?.matchTypes}
               sites={dropdowns?.data?.sites}
             />,
@@ -465,13 +457,9 @@ const AddUser = ({ id }: AddUserProps) => {
           {
             content: <SiteUserSettings
               form={form}
-              dndData={siteUserDndData}
-              setDndData={setSiteUserDndData}
               sites={dropdowns?.data?.sites}
               suppressMatchTypes={dropdowns?.data?.suppressMatchTypes}
-              setSelectedProtocols={setSelectedProtocols}
-              initialSiteId={siteUserSiteId}
-              initialProtocolsIds={initialSiteProtocolIds}
+              setSiteUserSiteId={setSiteUserSiteId}
             />,
             title: 'Site User Settings'
           },
@@ -502,7 +490,8 @@ const AddUser = ({ id }: AddUserProps) => {
   //   setSiteUserDndData(initialSiteUserDndValue);
   //   setTrainingDndData(initialTrainingDndValue);  
   //   setSponsorDndData(initialSponsorDndValue);
-  //   setAdminDndData(initialAdminDndValue);
+      // setAdminDndData(initialAdminDndValue);
+  //   storeSetAdminDndData(initialAdminDndValue);
   //   setSelectedProtocols([]);
   // }
 
@@ -547,7 +536,7 @@ const AddUser = ({ id }: AddUserProps) => {
       setSponsorOptions(convertTypeToSelectOption(dropdowns?.data?.sponsors));
 
       if (!id) {
-        setAdminDndData({
+        storeSetAdminDndData({
           matchTypes: [{
             title: 'Match Type',
             items: dropdowns?.data?.matchTypes
