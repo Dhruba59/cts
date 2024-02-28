@@ -105,7 +105,8 @@ const AddStudy = ({ id }: AddStudyProps) => {
             }
           }
           reset(newFieldValues as any);
-            apiResponseToast(data);
+          apiResponseToast(data);
+          router.push("/study/list");
         },
         onError: (err: any) => {
           toast.error(err?.response?.data?.title);
@@ -120,6 +121,7 @@ const AddStudy = ({ id }: AddStudyProps) => {
           setIsPreScreen(false);
           refetch();
           apiResponseToast(data);
+          router.push("/study/list");
         },
         onError: (err: any) => {
           toast.error(err?.response?.data?.title);
