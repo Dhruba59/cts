@@ -11,6 +11,13 @@ import { useForm } from "react-hook-form";
 import { apiResponseToast } from "@/utils/toast";
 import { RESPONSE_TYPE_ENUM } from "@/model/enum";
 import { toast } from "react-toastify";
+import Modal from "@/components/modal";
+import { getUserTrainingCertificate } from "@/service/user-training-service";
+import { useQuery } from "react-query";
+import { TrainingCertificateQueryParams } from "@/model/training";
+import Spinner from "@/components/ui/spinner";
+import { PDFViewer } from "@react-pdf/renderer";
+import CertificatePdf from "@/features/taining-material/certificate/pdf";
 
 export const searchTrainingIndexById = (data: CompletedTraining[], id: number) => {
   return data?.findIndex((item: CompletedTraining) => item.userTrainingId == id);
@@ -19,10 +26,26 @@ export const searchTrainingIndexById = (data: CompletedTraining[], id: number) =
 
 export function ListTable({ data, setCompletedTrainings, refetchUser }: any) {
 
+  const [isCertificateModalOpen, setIsCertificateModalOpen] = useState<boolean>(false);
+  const [certificateQueryParams, setCertificateQueryParams] =
+  useState<TrainingCertificateQueryParams>();
   const form = useForm();
   const { getValues, setError, setValue, clearErrors, reset } = form;
   const { mutate: updateTraining } = useChangeTrainingStatus();
-  const onDownload = () => {};
+
+  const { data: certificateData, isLoading: isLoadingCertificate } =
+  useQuery({
+    queryFn: getUserTrainingCertificate,
+    queryKey: ["training-certificate", certificateQueryParams],
+    enabled: !!certificateQueryParams,
+  });
+
+  const onDownload = (trainingId: number | string) => {
+    setCertificateQueryParams({
+      TrainingId: trainingId
+    });
+    setIsCertificateModalOpen(true);
+  };
 
   const onUpdateTraining = (row: any, checked: boolean) => {
     console.log(getValues(`overriddenDate${row.original.userTrainingId}`));
@@ -67,7 +90,10 @@ export function ListTable({ data, setCompletedTrainings, refetchUser }: any) {
       setCompletedTrainings(newData);
     }
   }, [data, setCompletedTrainings]); 
- 
+
+  const onCloseModal = () => {
+    setIsCertificateModalOpen(false);
+  };
 
   const onOverrideCheckboxChange = useCallback((e: ChangeEvent<HTMLInputElement>, id: number) => {
     const index = searchTrainingIndexById(data, id);
@@ -122,6 +148,26 @@ export function ListTable({ data, setCompletedTrainings, refetchUser }: any) {
           listTitleKey="training_status"
         />
       </div>
+      <Modal
+          containerClassName="bg-transparent max-h-full !h-full top-0 max-w-full !w-full"
+          closeBtnClassName="bg-white rounded-full hover:scale-125 transition-all duration-200 right-8"
+          open={isCertificateModalOpen}
+          setOpen={setIsCertificateModalOpen}
+          onClose={() => onCloseModal}>
+          <div className="h-full w-full mt-6">
+            {isLoadingCertificate ? (
+              <div className="h-[85vh] flex items-center justify-center">
+                <Spinner size="large" />{" "}
+              </div>
+            ) : (
+              <PDFViewer className="w-full h-[85vh]">
+                <CertificatePdf
+                  data={certificateData?.data}
+                />
+              </PDFViewer>
+            )}
+          </div>
+        </Modal>
     </div>
   );
 };
