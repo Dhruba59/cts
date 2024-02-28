@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { DndDataItem, DndDataType } from './types/common';
+import { AdminDndData, DndDataItem, DndDataType } from './types/common';
 
 type protocolListStore = {
     protocols?: any;
@@ -7,6 +7,7 @@ type protocolListStore = {
     initialSponsorProtocolIds?: any
     selectedProtocols: DndDataItem[]
     dndData?: any;
+    adminDndData?: any;
     siteDetail?: any;
     addProtocols: (newList: any[]) => void;
     setProtocols: (newList: number[]) => void;
@@ -14,7 +15,8 @@ type protocolListStore = {
     setSelectedProtocols: (newList: DndDataItem[]) => void;
     setDndData: (newDndData: DndDataType[]) => void;
     setSiteDetail: (newSiteDetail: any) => void;
-
+    addAdminDndData: (newAdminDndData: AdminDndData) => void;
+    setAdminDndData: (newAdminDndData: AdminDndData) => void;
 }
 
 const useProtocolListStore = create<protocolListStore>((set) => ({
@@ -23,6 +25,7 @@ const useProtocolListStore = create<protocolListStore>((set) => ({
     initialSponsorProtocolIds: [],
     selectedProtocols: [],
     dndData:[],
+    adminDndData:{matchTypes: [], sites: []},
     siteDetail: {},
 
     addProtocols: (newList) => set((state) => ({ protocols: newList })),
@@ -31,6 +34,8 @@ const useProtocolListStore = create<protocolListStore>((set) => ({
     setSelectedProtocols: (newSelectedProtocols) => set({ selectedProtocols: newSelectedProtocols }),
     setDndData: (newDndData) => set({ dndData: [...newDndData] }),
     setSiteDetail: (newSiteDetail) => set({ siteDetail: newSiteDetail }),
+    addAdminDndData: (newAdminDndData) => set((state) => ({ dndData: {...state.adminDndData, matchTypes: newAdminDndData} })),
+    setAdminDndData: (newAdminDndData) => set({ dndData: {...newAdminDndData} }),
 }));
 
 
