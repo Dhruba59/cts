@@ -111,7 +111,7 @@ const constructPayload = (values: any, userType: USER_TYPE_ENUM, isUpdate: boole
     state: values.state,
     zip: values.zip,
     userTypeId: values.userType?.value ?? values.userType,
-    sponsorId: values.sponsor.value ?? values.sponsor,
+    sponsorId: values?.sponsor?.value ?? values.sponsor,
     systemLogin: values.systemLogin
   }
 
