@@ -67,10 +67,12 @@ const Training = ({ form, protocols, dndData, setDndData, completedTrainings, se
   const [suppressOptions, setSuppressOptions] = useState<SelectOptionType[]>();
   const [trainingDndItem, setTrainingDndItem] = useState<DndDataType[]>(initialDndItem);
   const [selectedProtocol, setSelectedProtocol] = useState<string>();
-  const { data: trainings, isLoading: isTrainingsLoading } = useGetTrainingsByProtocol({ ProtocolIds: protocols?.map((item: DndDataItem) => item.value).join(',') });
+  const storeSelectedProtocols = useProtocolListStore((state) => state.selectedProtocols)
+  const { data: trainings, isLoading: isTrainingsLoading } = useGetTrainingsByProtocol({ ProtocolIds: storeSelectedProtocols?.map((item: DndDataItem) => item.value).join(',') });
+  const storeDndData = useProtocolListStore((state) => state.dndData)
+
   const { id } = useParams();
 
-  const storeSelectedProtocols = useProtocolListStore((state) => state.selectedProtocols)
   
   // const onDragFinish = (data: any) => {
   //   setDndData(filterDndData(data));
@@ -124,20 +126,25 @@ const Training = ({ form, protocols, dndData, setDndData, completedTrainings, se
   }, [trainings]);
 
   const renderTraining = () => {
+    return storeDndData[1]?.items?.map((item: any) => (
+      <li className='p-1 w-fit border rounded-md list-none' key={item.value}>
+        {item?.text}
+      </li>
+    ));
 
-    if(id) {
-      return prevTrainings?.map((item: any) => (
-        <li className='p-1 w-fit border rounded-md list-none' key={item.trainingId}>
-          {item?.trainingName}
-        </li>
-      ));
-    } else {
-      return trainings?.data?.trainings.map((item: any) => (
-        <li className='p-1 w-fit border rounded-md list-none' key={item.trainingId}>
-          {item?.trainingName}
-        </li>
-      ))
-    }
+    // if(id) {
+    //   return prevTrainings?.map((item: any) => (
+    //     <li className='p-1 w-fit border rounded-md list-none' key={item.trainingId}>
+    //       {item?.trainingName}
+    //     </li>
+    //   ));
+    // } else {
+    //   return trainings?.data?.trainings.map((item: any) => (
+    //     <li className='p-1 w-fit border rounded-md list-none' key={item.trainingId}>
+    //       {item?.trainingName}
+    //     </li>
+    //   ))
+    // }
   }
 
   return (
