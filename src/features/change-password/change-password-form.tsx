@@ -2,17 +2,17 @@
 import Button from "@/components/ui/button";
 import Input from "@/components/ui/input";
 import { useChangePasswordMutation, useMatchPasswordMutation } from "@/hooks/rq-hooks/self-hooks";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { signOut } from "next-auth/react";
 import Breadcrumbs from "@/components/ui/breadcrumbs";
 import { apiResponseToast } from "@/utils/toast";
-import { RESPONSE_TYPE_ENUM } from "@/model/enum";
 import { toast } from "react-toastify";
 import Alert from "@/components/ui/alert";
 
 const ChangePasswordForm = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [prePassErrorMsg, setPrePassErrorMsg] = useState<string>('');
   const { mutate: changePasswordMutation } = useChangePasswordMutation();
   const { mutate: checkOldPassword } = useMatchPasswordMutation();
 
@@ -21,9 +21,12 @@ const ChangePasswordForm = () => {
     handleSubmit,
     setError,
     clearErrors,
-    formState: { errors },
-    reset
+    formState: { errors, dirtyFields  },
+    reset,
+    watch
   } = useForm();
+
+  const watchAllPasswordFields = watch(['old_password', 'password', 'retype_password']);
 
   const onSubmit: SubmitHandler<any> = async (value) => {
     setIsLoading(true);
@@ -49,6 +52,15 @@ const ChangePasswordForm = () => {
       return;
     }
 
+    if (prePassErrorMsg) {
+      setError("old_password", {
+        type: "manual",
+        message: prePassErrorMsg,
+      });
+      setIsLoading(false);
+      return;
+    }
+
     const payload = {
       newPassword: value.password.trim() as string,
       confirmationPassword: value.retype_password.trim() as string,
@@ -61,7 +73,7 @@ const ChangePasswordForm = () => {
         signOut();
       },
       onError: (err: any) => {
-        toast.error(err?.response?.data?.detai);
+        toast.error(err?.response?.data?.detail);
         
       },
       onSettled: () => {
@@ -74,16 +86,28 @@ const ChangePasswordForm = () => {
     checkOldPassword({ password: e.target.value.trim() as string }, {
       onSuccess: ({ data }: any) => {
         if (!data?.isValidPassword) {
+          setPrePassErrorMsg(data.message);
           setError("old_password", {
             type: "manual",
             message: data.message,
-          })
+          });
         } else if (data?.isValidPassword) {
+          setPrePassErrorMsg('');
           clearErrors("old_password");
         }
       }
     });
   };
+
+  useEffect(() => {
+    const [oldPass, newPass, reTypeNewPass] = watchAllPasswordFields;
+    if(newPass === reTypeNewPass) {
+      clearErrors('retype_password');
+    }
+    if(oldPass !== newPass) {
+      clearErrors('password');
+    }
+  }, [watch]);
 
   return (
     <div className="w-full">
@@ -106,7 +130,7 @@ const ChangePasswordForm = () => {
               {...register("old_password", {
                 required: "Old password is required!"
               })}
-              onChange={onChangeOldPassword}
+              onBlur={onChangeOldPassword}
             />
             {errors.old_password && (
               <span className="text-red-500 -mt-10">{errors.old_password.message as string}</span>
@@ -120,7 +144,7 @@ const ChangePasswordForm = () => {
               {...register("password", {
                 required: "New Password is required!",
                 pattern: {
-                  value: /^.*(?=.{8,})(?=.*\d)(?=.*[a-zA-Z])(?=.*[@#$%^&+=]).*$/,
+                  value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$%^&+=]).{8,}$/,
                   message: "Password must be 8 characters with atleast one digit, one uppercase, one lowercase and one special character!"
                 }
               })} />
@@ -135,9 +159,13 @@ const ChangePasswordForm = () => {
               placeholder="Re-enter new password"
               {...register("retype_password", {
                 required: "Confirmation password is required!",
-                pattern: {
-                  value: /^.*(?=.{8,})(?=.*\d)(?=.*[a-zA-Z])(?=.*[@#$%^&+=]).*$/,
-                  message: "Password must be 8 characters with atleast one digit, one uppercase, one lowercase and one special character!"
+                validate: (value) => {
+                  const newPassword = watch("password");
+                  if (value === newPassword) {
+                    clearErrors("retype_password");
+                    return true;
+                  }
+                  return "Passwords do not match";
                 }
               })}
             />{errors.retype_password && (

@@ -30,8 +30,8 @@ const AddTrainingMaterial = ({ id }: AddTrainingMaterialProps) => {
     studyId: null,
     trainingId: 0,
     trainingName: "",
-    passMarks: 0,
-    displayOrder: 0,
+    passMarks: 1,
+    displayOrder: 1,
     materialId: 0,
     fileName: "",
     filePath: "",
@@ -77,7 +77,7 @@ const AddTrainingMaterial = ({ id }: AddTrainingMaterialProps) => {
   };
 
   const onSubmit = (payload: any) => {
-    //console.log(payload);
+    console.log(payload);
 
     payload = {
       ...payload,
@@ -143,7 +143,7 @@ const AddTrainingMaterial = ({ id }: AddTrainingMaterialProps) => {
                 disabled
                 placeholder="Enter Name"
                 {...register("trainingName", {
-                  required: "Pass Mark is required!",
+                  required: "Training Name is required!",
                 })}
               />
               {errors.trainingName && (
@@ -216,9 +216,9 @@ const AddTrainingMaterial = ({ id }: AddTrainingMaterialProps) => {
                   required: "File name is required!",
                 })}
               />
-              {errors.passMarks && (
+              {errors.fileName && (
                 <span className="text-red-500 -mt-10">
-                  {errors.passMarks.message as string}
+                  {errors.fileName.message as string}
                 </span>
               )}
             </div>
@@ -227,12 +227,12 @@ const AddTrainingMaterial = ({ id }: AddTrainingMaterialProps) => {
                 label="File Path"
                 placeholder="Enter file path"
                 {...register("filePath", {
-                  required: "Pass Mark is required!",
+                  required: "File Path is required!",
                 })}
               />
-              {errors.passMarks && (
+              {errors.filePath && (
                 <span className="text-red-500 -mt-10">
-                  {errors.passMarks.message as string}
+                  {errors.filePath.message as string}
                 </span>
               )}
             </div>
