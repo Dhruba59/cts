@@ -180,11 +180,12 @@ const AddUser = ({ id }: AddUserProps) => {
   const [sponsorDndData, setSponsorDndData] = useState<DndDataType[]>(initialSponsorDndValue);
   const [adminDndData, setAdminDndData] = useState<AdminDndData>(initialAdminDndValue);
   const storeSetDndData = useProtocolListStore((state) => state.setDndData)
-  const setSiteDetail = useProtocolListStore((state) => state.setSiteDetail)
-  const setStoreInitialSiteProtocolIds = useProtocolListStore((state) => state.setInitialSiteProtocolIds)
+  const storeSetSiteDetail = useProtocolListStore((state) => state.setSiteDetail)
+  const storeSetInitialSiteProtocolIds = useProtocolListStore((state) => state.setInitialSiteProtocolIds)
   const { data: siteDetail} = useGetSiteDetailWithProtocol({ SiteId: siteUserSiteId });
-  setSiteDetail(siteDetail)
+  storeSetSiteDetail(siteDetail)
   const storeSetAdminDndData = useProtocolListStore((state) => state.setAdminDndData)
+  const storeSetSelectedProtocols = useProtocolListStore((state) => state.setSelectedProtocols)
 
   const router = useRouter();
 
@@ -230,7 +231,7 @@ const AddUser = ({ id }: AddUserProps) => {
       if (user.userTypeId == USER_TYPE_ENUM.SITE_USER) {
         // setSiteUserDndData();
         setInitialSiteProtocolIds(user?.protocolIds?.map((id: number) => id.toString()));
-        setStoreInitialSiteProtocolIds(user?.protocolIds?.map((id: number) => id.toString()))
+        storeSetInitialSiteProtocolIds(user?.protocolIds?.map((id: number) => id.toString()))
         setSiteUserSiteId(user?.siteId);
         const trainings = user?.trainings?.map((item: any) => ({
           value: item?.trainingId, protocolId: item?.protocolId, text: item.trainingName,
@@ -271,7 +272,7 @@ const AddUser = ({ id }: AddUserProps) => {
       else if (user.userTypeId == USER_TYPE_ENUM.BOTH_USER_TYPE) {
         // setSiteUserDndData();
         setInitialSiteProtocolIds(user?.protocolIds?.map((id: number) => id.toString()));
-        setStoreInitialSiteProtocolIds(user?.protocolIds?.map((id: number) => id.toString()))
+        storeSetInitialSiteProtocolIds(user?.protocolIds?.map((id: number) => id.toString()))
         setSiteUserSiteId(user?.siteId);
         // setTrainingDndData();
         // setAdminDndData();
@@ -309,6 +310,41 @@ const AddUser = ({ id }: AddUserProps) => {
       updateFieldsWithUserData(user);      
     }
   }, [userData]);
+
+  // cleanup befor destroy
+  useEffect(() => {
+    return () => {
+      storeSetInitialSiteProtocolIds([]);
+      storeSetSelectedProtocols([]);
+      storeSetDndData([{
+          title: 'Protocols',
+          items: []
+        },
+        {
+          title: 'selected',
+          items: []
+      }])
+      storeSetSiteDetail({})
+      storeSetAdminDndData({
+        matchTypes: [{
+          title: 'Match Type',
+          items: []
+        },
+        {
+          title: 'selected',
+          items: []
+        }],
+        sites: [{
+          title: 'Site',
+          items: []
+        },
+        {
+          title: 'selected',
+          items: []
+        }]
+      })
+    };
+  }, []);
 
   const onSubmit = (values: any) => {
     let payload = constructPayload(values, selectedUserType, !!id);
