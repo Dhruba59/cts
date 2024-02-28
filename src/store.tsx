@@ -24,8 +24,32 @@ const useProtocolListStore = create<protocolListStore>((set) => ({
     initialSiteProtocolIds: [],
     initialSponsorProtocolIds: [],
     selectedProtocols: [],
-    dndData:[],
-    adminDndData:{matchTypes: [], sites: []},
+    dndData:[{
+        title: 'Protocols',
+        items: []
+      },
+      {
+        title: 'selected',
+        items: []
+    }],
+    adminDndData:{
+        matchTypes: [{
+          title: 'Match Type',
+          items: []
+        },
+        {
+          title: 'selected',
+          items: []
+        }],
+        sites: [{
+          title: 'Site',
+          items: []
+        },
+        {
+          title: 'selected',
+          items: []
+        }]
+    },
     siteDetail: {},
 
     addProtocols: (newList) => set((state) => ({ protocols: newList })),
@@ -34,8 +58,8 @@ const useProtocolListStore = create<protocolListStore>((set) => ({
     setSelectedProtocols: (newSelectedProtocols) => set({ selectedProtocols: newSelectedProtocols }),
     setDndData: (newDndData) => set({ dndData: [...newDndData] }),
     setSiteDetail: (newSiteDetail) => set({ siteDetail: newSiteDetail }),
-    addAdminDndData: (newAdminDndData) => set((state) => ({ dndData: {...state.adminDndData, matchTypes: newAdminDndData} })),
-    setAdminDndData: (newAdminDndData) => set({ dndData: {...newAdminDndData} }),
+    addAdminDndData: (newAdminDndData) => set((state) => ({ adminDndData: {...state.adminDndData, matchTypes: newAdminDndData} })),
+    setAdminDndData: (newAdminDndData) => set({ adminDndData: {...newAdminDndData} }),
 }));
 
 
