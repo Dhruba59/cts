@@ -33,3 +33,8 @@ export interface TabElement {
   name: string;
   content: React.ReactNode;
 }
+
+export interface AdminDndData {
+  matchTypes: DndDataType[];
+  sites: DndDataType[];
+}

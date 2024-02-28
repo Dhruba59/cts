@@ -3,12 +3,13 @@ import Select from '@/components/ui/select';
 import { useGetTrainingsByProtocol } from '@/hooks/rq-hooks/user-hooks';
 import { SelectOptionType } from '@/model/drop-down-list';
 import { DndDataItem, DndDataType } from '@/types/common';
-import { convertTypeToSelectOption } from '@/utils/helpers';
+// import { convertTypeToSelectOption } from '@/utils/helpers';
 import React, { Dispatch, SetStateAction, useEffect, useMemo, useState } from 'react';
-import { Controller, UseFormReturn } from 'react-hook-form';
+import { UseFormReturn } from 'react-hook-form';
 import { initialTrainingDndValue } from '..';
 import ListTable from './status/table/listTable';
 import { useParams } from 'next/navigation';
+import useProtocolListStore from '@/store';
 
 export interface CompletedTraining {
   completionDate: string;
@@ -69,19 +70,21 @@ const Training = ({ form, protocols, dndData, setDndData, completedTrainings, se
   const { data: trainings, isLoading: isTrainingsLoading } = useGetTrainingsByProtocol({ ProtocolIds: protocols?.map((item: DndDataItem) => item.value).join(',') });
   const { id } = useParams();
 
-  const onDragFinish = (data: any) => {
-    setDndData(filterDndData(data));
+  const storeSelectedProtocols = useProtocolListStore((state) => state.selectedProtocols)
+  
+  // const onDragFinish = (data: any) => {
+  //   setDndData(filterDndData(data));
 
-    // setTrainingDndItem(data);
-    setValue('training', data[1].items);
-    // setSelectedProtocols(data[1].items);
-  }
+  //   // setTrainingDndItem(data);
+  //   setValue('training', data[1].items);
+  //   // setSelectedProtocols(data[1].items);
+  // }
 
   useEffect(() => {
-    setProtocolOptions(convertTypeToSelectOption(protocols));
+    // setProtocolOptions(convertTypeToSelectOption(storeSelectedProtocols));
     resetField('protocol');
     setDndData(initialTrainingDndValue);
-  }, [protocols]);
+  }, [storeSelectedProtocols]);
 
   useEffect(() => {
     // setTrainingDndItem(trainings?.data.trainings);
