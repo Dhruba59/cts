@@ -101,6 +101,7 @@ const ChangePasswordForm = () => {
           <div>
             <Input
               label="Previous Password"
+              type="password"
               placeholder="Enter Previous password"
               {...register("old_password", {
                 required: "Old password is required!"
@@ -114,6 +115,7 @@ const ChangePasswordForm = () => {
           <div>
             <Input
               label="New Password"
+              type="password"
               placeholder="Enter new password"
               {...register("password", {
                 required: "New Password is required!",
@@ -129,6 +131,7 @@ const ChangePasswordForm = () => {
           <div>
             <Input
               label="Re-enter New Password"
+              type="password"
               placeholder="Re-enter new password"
               {...register("retype_password", {
                 required: "Confirmation password is required!",

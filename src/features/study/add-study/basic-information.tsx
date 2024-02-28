@@ -8,7 +8,7 @@ import Label from "@/components/ui/label";
 import Select from "@/components/ui/select";
 import { DropDownItem, SelectOptionType } from "@/model/drop-down-list";
 import { calculateDaysBetweenDates } from "@/utils/helpers";
-import { useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { DateValueType } from "react-tailwindcss-datepicker";
 
 type DropdownList = {
@@ -22,9 +22,11 @@ interface BasicInformationFormProps {
   control: any;
   dropdownList: DropdownList;
   setValue: any;
+  isPreScreen: boolean;
+  setIsPreScreen: Dispatch<SetStateAction<boolean>>;
 }
 
-const BasicInformation = ({ dropdownList, register, setValue, errors, control, Controller }: BasicInformationFormProps) => {
+const BasicInformation = ({ dropdownList, register, setValue, errors, control, isPreScreen, setIsPreScreen, Controller }: BasicInformationFormProps) => {
   const [commentOptions, setCommentOptions] = useState<SelectOptionType[]>([]);
   const [phaseOptions, setPhaseOptions] = useState<SelectOptionType[]>([]);
   const [sponsorOptions, setSponsorOptions] = useState<SelectOptionType[]>([]);
@@ -50,7 +52,7 @@ const BasicInformation = ({ dropdownList, register, setValue, errors, control, C
     setPhaseOptions(convertTypeToSelectOption(dropdownList?.phases));
     setStudyCompoundOptions(convertTypeToSelectOption(dropdownList?.studyCompounds));
     setSponsorOptions(convertTypeToSelectOption(dropdownList?.sponsors));
-  }, [dropdownList])
+  }, [dropdownList]);
 
   return (
     <section>
@@ -76,7 +78,7 @@ const BasicInformation = ({ dropdownList, register, setValue, errors, control, C
               label="Study ID Entry Format"
               placeholder="Enter study format"
               {...register("subjectIdentryFormat", {
-                required: "Study id format is required!"
+                required: isPreScreen ? false : "Study id format is required!"
               })}
             />
             {errors.subjectIdentryFormat && (
@@ -205,7 +207,14 @@ const BasicInformation = ({ dropdownList, register, setValue, errors, control, C
                 name="preScreen"
                 control={control}
                 render={({ field: { onChange, onBlur, value } }: any) => (
-                  <Checkbox className="" onChange={onChange} value={value} checked={value} />
+                  <Checkbox 
+                    onChange={(e) => {
+                      onChange(e);
+                      setIsPreScreen(e.target.checked);
+                    }} 
+                    value={value} 
+                    checked={value} 
+                  />
                 )}
               />
             </div>
