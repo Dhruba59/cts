@@ -59,4 +59,5 @@ export interface TrainingQuizAnswer {
 
 export interface TrainingCertificateQueryParams {
     TrainingId: number | string;
+    UserId?: number | string | null;
 }

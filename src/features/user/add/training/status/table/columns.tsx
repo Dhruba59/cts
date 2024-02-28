@@ -137,7 +137,7 @@ export const getColumns = ({ onDownload, onUpdateTraining, form }: StatusListCol
       accessorKey: "certificate",
       cell: ({ row }) => {
         const handleDownload = () => {
-          onDownload(row.original.userTrainingId);
+          onDownload(row.original.trainingId);
         }
         return (
           <div>

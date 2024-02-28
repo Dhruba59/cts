@@ -24,7 +24,7 @@ export const searchTrainingIndexById = (data: CompletedTraining[], id: number) =
 }
 
 
-export function ListTable({ data, setCompletedTrainings, refetchUser }: any) {
+export function ListTable({ data, setCompletedTrainings, refetchUser, userId }: any) {
 
   const [isCertificateModalOpen, setIsCertificateModalOpen] = useState<boolean>(false);
   const [certificateQueryParams, setCertificateQueryParams] =
@@ -42,9 +42,11 @@ export function ListTable({ data, setCompletedTrainings, refetchUser }: any) {
 
   const onDownload = (trainingId: number | string) => {
     setCertificateQueryParams({
-      TrainingId: trainingId
+      TrainingId: trainingId,
+      UserId: userId 
     });
     setIsCertificateModalOpen(true);
+
   };
 
   const onUpdateTraining = (row: any, checked: boolean) => {

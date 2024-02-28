@@ -401,6 +401,7 @@ const AddUser = ({ id }: AddUserProps) => {
             {
               content: <Training
                 form={form}
+                userId={id ?? ''}
                 dndData={trainingDndData}
                 setDndData={setTrainingDndData}
                 protocols={selectedProtocols}
@@ -453,6 +454,7 @@ const AddUser = ({ id }: AddUserProps) => {
           {
             content: <Training
               form={form}
+              userId={id ?? ''}
               dndData={trainingDndData}
               setDndData={setTrainingDndData}
               protocols={selectedProtocols}
@@ -502,6 +504,7 @@ const AddUser = ({ id }: AddUserProps) => {
           {
             content: <Training
               form={form}
+              userId={id ?? ''}
               dndData={trainingDndData}
               setDndData={setTrainingDndData}
               protocols={selectedProtocols}

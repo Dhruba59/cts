@@ -20,6 +20,7 @@ export interface CompletedTraining {
   overriddenBy: string;
   protocolNumber: string;
   status: string;
+  trainingId: string | number;
   userTrainingId: number;
 }
 
@@ -38,6 +39,7 @@ interface TrainingProps {
   prevTrainings: Training[];
   setCompletedTrainings: Dispatch<SetStateAction<CompletedTraining[]>>;
   refetchUser: () => void;
+  userId: string | number;
 }
 
 const initialDndItem = [{
@@ -61,7 +63,7 @@ export function filterDndData(data: DndDataType[]) {
   return data;
 }
 
-const Training = ({ form, protocols, dndData, setDndData, completedTrainings, setCompletedTrainings, prevTrainings, refetchUser }: TrainingProps) => {
+const Training = ({ form, userId, protocols, dndData, setDndData, completedTrainings, setCompletedTrainings, prevTrainings, refetchUser }: TrainingProps) => {
   const { register, control, setValue, resetField, formState: { errors } } = form;
   const [protocolOptions, setProtocolOptions] = useState<SelectOptionType[]>();
   const [suppressOptions, setSuppressOptions] = useState<SelectOptionType[]>();
@@ -154,7 +156,7 @@ const Training = ({ form, protocols, dndData, setDndData, completedTrainings, se
           renderTraining() && renderTraining()?.length > 0 ? renderTraining() : 'No Trainings'
         }
       </div>
-      {id && <ListTable form={form} data={completedTrainings} setCompletedTrainings={setCompletedTrainings} refetchUser={refetchUser}/>}
+      {id && <ListTable form={form} data={completedTrainings} setCompletedTrainings={setCompletedTrainings} refetchUser={refetchUser} userId={userId}/>}
 
       {/* <div>
         <Controller
