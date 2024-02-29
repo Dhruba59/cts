@@ -349,7 +349,7 @@ const AddSubjectForm = ({ dropdowns, protocolId, subjectIdFormat, restSubjectIdF
   }
 
   const handleCancel = () => {
-    router.push('/last-subject-reprint');
+    router.push('/change-request/reprint');
   }
 
   useEffect(() => {

@@ -31,7 +31,6 @@ const ListTable = ({ data, isLoading, protocolId, onUpdateSubject }: any) => {
 
   const updateSubjectAndPdfModal = (data: any) => {
     onUpdateSubject();
-    console.log('subject update', data);
     const subjectInfo: LastSubjectPrintQueryParams = {
       UserName: data?.userName,
       StudyId: protocolId,
@@ -62,7 +61,7 @@ const ListTable = ({ data, isLoading, protocolId, onUpdateSubject }: any) => {
   const onViewDetail = (data: any | undefined, studyId: number | undefined) => {
     //console.log('onViewDetail',data);
     setViewDetailModal(
-      <LastSubjectContactModal data={data} studyId={studyId} onUpdateSubject={onUpdateSubject} onHideDetail={onHideDetail} />
+      <LastSubjectContactModal data={data} studyId={studyId} onUpdateSubject={updateSubjectAndPdfModal} onHideDetail={onHideDetail} />
     );
   }
 

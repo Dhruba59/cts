@@ -52,7 +52,7 @@ const ListHeader = ({ setQueryData }: any) => {
       <Breadcrumbs title="Users" subTitle="Users List" />
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="flex flex-row items-center justify-between gap-2 md:px-6 py-3">
-          <h4 className="hidden lg:block text-neutral-black">
+          <h4 className="hidden lg:block">
             Search Users
           </h4>
           <div className="">

@@ -392,6 +392,7 @@ const AddUser = ({ id }: AddUserProps) => {
                 sites={dropdowns?.data?.sites}
                 suppressMatchTypes={dropdowns?.data?.suppressMatchTypes}
                 setSiteUserSiteId={setSiteUserSiteId}
+                isSiteFieldDisabled={!!id && !userData?.data?.isSiteModifiable}
               />,
               title: 'Site User Settings'
             },
@@ -431,6 +432,7 @@ const AddUser = ({ id }: AddUserProps) => {
               sites={dropdowns?.data?.sites}
               suppressMatchTypes={dropdowns?.data?.suppressMatchTypes}
               setSiteUserSiteId={setSiteUserSiteId}
+              isSiteFieldDisabled={!!id && !userData?.data?.isSiteModifiable}
             />,
             title: 'Site User Settings'
           },
@@ -445,6 +447,7 @@ const AddUser = ({ id }: AddUserProps) => {
               sites={dropdowns?.data?.sites}
               suppressMatchTypes={dropdowns?.data?.suppressMatchTypes}
               setSiteUserSiteId={setSiteUserSiteId}
+              isSiteFieldDisabled={!!id && !userData?.data?.isSiteModifiable}
             />,
             title: 'Site User Settings'
           },
@@ -495,6 +498,7 @@ const AddUser = ({ id }: AddUserProps) => {
               sites={dropdowns?.data?.sites}
               suppressMatchTypes={dropdowns?.data?.suppressMatchTypes}
               setSiteUserSiteId={setSiteUserSiteId}
+              isSiteFieldDisabled={!!id && !userData?.data?.isSiteModifiable}
             />,
             title: 'Site User Settings'
           },

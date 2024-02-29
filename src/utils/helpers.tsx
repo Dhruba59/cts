@@ -134,11 +134,11 @@ export const formateTableDate = (date?: string) => {
   return dayjs(date).format("DD-MMM-YYYY");
 };
 
-export const formateTableDateTime = (date?: string) => {
+export const formateTableDateTime = (date?: string | Date) => {
   if(!date){
     return '-';
   }
-  return dayjs(date).format("DD-MMM-YYYY HH:mm:ss A");
+  return dayjs(date).format("DD-MMM-YYYY hh:mm:ss A");
 };
 export const formatDate = (date: string | Date) => {
   const dateOptions = { day: '2-digit' as '2-digit' };
