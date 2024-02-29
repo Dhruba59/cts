@@ -17,7 +17,7 @@ interface SiteUserSettingsProps {
 }
 
 const SiteUserSettings = ({ form, sites, suppressMatchTypes, setSiteUserSiteId }: SiteUserSettingsProps) => {
-  const { control, setValue, formState: { errors } } = form;
+  const { control, setValue, formState: { errors }, getValues } = form;
   const [siteOptions, setSiteOptions] = useState<SelectOptionType[]>();
   const [matchTypeOptions, setMatchTypeOptions] = useState<SelectOptionType[]>();
   // const [selectedSiteId, setSelectedSiteId] = useState<number>();
@@ -64,7 +64,8 @@ const SiteUserSettings = ({ form, sites, suppressMatchTypes, setSiteUserSiteId }
 
       storeSetDndData(filterDndData(dndItems) as any)
       setValue('city', storeSiteDetail?.data?.city);
-      setValue('address1', storeSiteDetail?.data?.address1);
+      const address1 = getValues('address1')
+      setValue('address1', storeSiteDetail?.data?.address1 || address1);
       setValue('state', storeSiteDetail?.data?.state);
       setValue('zip', storeSiteDetail?.data?.zip);
     }
