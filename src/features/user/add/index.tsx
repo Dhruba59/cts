@@ -306,8 +306,7 @@ const AddUser = ({ id }: AddUserProps) => {
 
   useEffect(() => {
     if (userData) {
-      const user = userData?.data;
-      updateFieldsWithUserData(user);      
+      updateFieldsWithUserData( userData?.data);      
     }
   }, [userData]);
 
@@ -794,7 +793,7 @@ const AddUser = ({ id }: AddUserProps) => {
             <Tab tabItems={getTabItems(selectedUserType)} titleClassname="my-2 px-2" />
           </section>
           <div className="flex justify-center gap-4 mt-8 md:mt-14">
-            <Button type="submit" className="px-8">Submit</Button>
+            <Button type="submit" className="px-8" loading={isCreatingUser || isEditingUser} >Submit</Button>
             {/* <Button type="button" className="px-8" variant="secondary" onClick={handleReset} >
             Reset
           </Button> */}
