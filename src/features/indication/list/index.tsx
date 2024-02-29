@@ -1,4 +1,4 @@
-import { Suspense, useEffect, useMemo, useState } from "react";
+import { Suspense, useEffect, useMemo, useState, useRef } from "react";
 import ListHeader from "./list-header";
 import ListTable from "./table/listTable";
 import { IndicationQuery } from "@/model/indication";
@@ -10,21 +10,21 @@ import { useGetIndications } from "@/hooks/rq-hooks/indication-hooks";
 
 const IndicationList = () => {
 
-  const [queryData, setQueryData] = useState<IndicationQuery>();
   const [pageSize, setPageSize] = useState<number>(DEFAULT_PAGE_SIZE);
+  const [queryData, setQueryData] = useState<IndicationQuery>();
   const [sorting, setSorting] = useState<SortingState>([
     //{ id: "indicationName", desc: false }
   ]);
 
+  const isMounted = useRef(false);
+
   const { data: studyData, error, isLoading, refetch
   } = useGetIndications(queryData);
 
-  //console.log(studyData);
 
-  // const { data: studyData } = useQuery({
-  //   queryFn: getIndications,
-  //   queryKey: ['sort', queryData],
-  // });
+  useEffect(() => {
+    isMounted.current = false;
+  }, []);
 
   const setCurrentPageNumber = (page: number) => {
     setQueryData((data) => {
@@ -39,21 +39,40 @@ const IndicationList = () => {
     });
   }
 
-  useEffect(() => {
-
-    //throw new Error("This is a generic error for testing purposes");
-
-    setQueryData((data) => {
-      if (data) {
-        return {
-          ...data,
-          PageSize: pageSize
+  const setCurrentPageSize = (size: number) => {
+    if (isMounted.current) {
+      setQueryData((data) => {
+        if (data) {
+          return {
+            ...data,
+            PageSize: size
+          }
+        } else {
+          return { PageSize: size };
         }
-      } else {
-        return { PageSize: pageSize };
-      };
-    });
-  }, [pageSize]);
+      });
+    } else {
+      isMounted.current = true
+    }
+  }
+  // useEffect(() => {
+  //   if(isMounted.current){
+  //     setQueryData((data) => {
+  //       if (data) {
+  //         return {
+  //           ...data,
+  //           PageSize: pageSize
+  //         }
+  //       } else {
+  //         return { PageSize: pageSize };
+  //       };
+  //     });
+  //   }else{
+  //     isMounted.current = true;
+  //   }
+
+  // }, [pageSize]);
+
 
   useEffect(() => {
     const orderby: any = sorting.map((s) => `${s.id} ${s.desc ? 'desc' : 'asc'}`).join(',');
@@ -65,16 +84,16 @@ const IndicationList = () => {
 
   return (
     <main>
-        <ListHeader setQueryData={setQueryData} />
-        <ListTable data={studyData?.data?.items} sorting={sorting} setSorting={setSorting} isLoading={isLoading} />
-        <Pagination
-          currentPage={studyData?.data?.pageNumber}
-          setCurrentPage={setCurrentPageNumber}
-          lastPage={studyData?.data?.totalPages}
-          pageSize={pageSize}
-          setPageSize={setPageSize}
-          maxLength={7}
-        />
+      <ListHeader setQueryData={setQueryData} />
+      <ListTable data={studyData?.data?.items} sorting={sorting} setSorting={setSorting} isLoading={isLoading} />
+      <Pagination
+        currentPage={studyData?.data?.pageNumber}
+        setCurrentPage={setCurrentPageNumber}
+        lastPage={studyData?.data?.totalPages}
+        pageSize={studyData?.data?.pageSize}
+        setPageSize={setCurrentPageSize}
+        maxLength={7}
+      />
     </main>
   );
 };
