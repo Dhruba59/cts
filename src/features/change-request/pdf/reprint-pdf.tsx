@@ -9,6 +9,7 @@ import { CTS_LOGO_BASE64, matchIcon, noMatchIcon } from '@/assets/image/base64-i
 import Check from '@/components/icons/check';
 import { Cross } from 'recharts';
 import dayjs from 'dayjs';
+import { formateTableDateTime } from '@/utils/helpers';
 // import logo from '../../assets/image/cts-logo.png'
 
 const Br = () => "\n";
@@ -55,7 +56,7 @@ interface FooterProps {
 }
 
 const ReprintPdf = ({ data }: ReprintPdfProps) => {
-  const printTime = dayjs(new Date()).format("DD-MMM-YY HH:mm A");
+  const printTime = formateTableDateTime(new Date());
   return (
     <Document style={{ }}>
     <Page size="A4" style={styles.page} >

@@ -6,6 +6,7 @@ import { BookIcon } from '@/assets/icons';
 import logo from '@/assets/image/cts-logo.png';
 import Spinner from '@/components/ui/spinner';
 import { LastSubjectPdfData } from '@/model/subject';
+import { formateTableDate, formateTableDateTime } from '@/utils/helpers';
 // import logo from '../../assets/image/cts-logo.png'
 
 const Br = () => "\n";
@@ -32,7 +33,7 @@ interface LastContactSubjectsPdfProps {
 
 // Create Document Component
 const LastContactSubjectsPdf = ({ data }: LastContactSubjectsPdfProps) => {
-
+  const printTime = formateTableDateTime(new Date());
   return (
     <Document style={{ }}>
     <Page size="A4" style={styles.page} >
@@ -81,7 +82,7 @@ const LastContactSubjectsPdf = ({ data }: LastContactSubjectsPdfProps) => {
               <Text>Report Run Time (GMT)</Text>
             </View>
             <View style={{ border: '1px', padding: '4px 0px 4px 4px', borderBottomRightRadius: '4px', borderTopRightRadius: '4px', fontWeight: 'medium', flexGrow: 1,}}>
-              <Text>{data?.reportRunTime}</Text>
+              <Text>{formateTableDateTime(data?.reportRunTime)}</Text>
             </View>
           </View>
           <View style={{ display: 'flex', flexDirection: 'row', width: '49%'}}>
@@ -97,7 +98,7 @@ const LastContactSubjectsPdf = ({ data }: LastContactSubjectsPdfProps) => {
               <Text>Date of Birth</Text>
             </View>
             <View style={{ border: '1px', padding: '4px 0px 4px 4px', borderBottomRightRadius: '4px', borderTopRightRadius: '4px', fontWeight: 'medium', flexGrow: 1,}}>
-              <Text>{data?.dob}</Text>
+              <Text>{formateTableDate(data?.dob)}</Text>
             </View>
           </View>
           <View style={{ display: 'flex', flexDirection: 'row', width: '49%'}}>
@@ -118,7 +119,7 @@ const LastContactSubjectsPdf = ({ data }: LastContactSubjectsPdfProps) => {
               <Text>Last Subject Contact Date</Text>
             </View>
             <View style={{ border: '1px', borderBottomRightRadius: '4px', borderTopRightRadius: '4px', padding: '4px', fontWeight: 'extralight', flexGrow: 1, fontSize: '10px'}}>
-              <Text>{data?.lastSubjectContactDate}</Text>
+              <Text>{formateTableDate(data?.lastSubjectContactDate)}</Text>
             </View>
           </View>
           <View style={{ display: 'flex', flexDirection: 'row' }}>
@@ -141,7 +142,7 @@ const LastContactSubjectsPdf = ({ data }: LastContactSubjectsPdfProps) => {
           Disclaimer: These are statistical estimates only. It is possible that a subject may be a database match and yet not have participated in the studies described above.
           All dates and times are in GMT
         </Text>
-        <Text style={{ fontSize: '10px' }}>Printed on {'     '} 1/23/2024 9:10 AM</Text>
+        <Text style={{ fontSize: '10px' }}>Printed on {'     '} {printTime}</Text>
       </View>
     </Page>
   </Document>
