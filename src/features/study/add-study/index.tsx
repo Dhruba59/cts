@@ -121,7 +121,6 @@ const AddStudy = ({ id }: AddStudyProps) => {
           setIsPreScreen(false);
           refetch();
           apiResponseToast(data);
-          router.push("/study/list");
         },
         onError: (err: any) => {
           toast.error(err?.response?.data?.title);

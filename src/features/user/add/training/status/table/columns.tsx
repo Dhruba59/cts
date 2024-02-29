@@ -136,9 +136,12 @@ export const getColumns = ({ onDownload, onUpdateTraining, form }: StatusListCol
       header: "Certificate",
       accessorKey: "certificate",
       cell: ({ row }) => {
+        const handleDownload = () => {
+          onDownload(row.original.trainingId);
+        }
         return (
           <div>
-            {row.original.isCertificateAvailable ? <div className="cursor-pointer text-blue-500">Download</div> : <div>Not available</div>}
+            {row.original.isCertificateAvailable ? <div className="cursor-pointer text-blue-500" onClick={handleDownload} >Download</div> : <div>Not available</div>}
           </div>
         );
       }
