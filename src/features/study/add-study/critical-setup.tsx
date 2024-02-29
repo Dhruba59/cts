@@ -134,7 +134,7 @@ const CriticalSetup = ({ criticalSetupData, setCriticalSetupData, register, erro
           <div className="flex gap-2 items-center">
             <Label label="BMI:" />
             <div className="relative">
-              <InputRange minInputProps={{...register('minBmi', { required: 'Required' })}} maxInputProps={{...register('maxBmi', { required: 'Required' })}} />
+              <InputRange minInputProps={{...register('minBmi', { required: 'Required' })}} maxInputProps={{...register('maxBmi', { required: 'Required' }), min: 1}} />
               {(errors.minBmi || errors.maxBmi) && (
                 <span className="absolute -bottom-5 text-red-500 -mt-10">{'BMI required'}</span>
               )}
@@ -144,7 +144,7 @@ const CriticalSetup = ({ criticalSetupData, setCriticalSetupData, register, erro
           <div className="flex gap-2 items-center">
             <Label label="AGE:" />
             <div className="relative">
-              <InputRange minInputProps={{...register('minAge', { required: 'Required' })}} maxInputProps={{...register('maxAge', { required: 'Required' })}} />
+              <InputRange minInputProps={{...register('minAge', { required: 'Required' })}} maxInputProps={{...register('maxAge', { required: 'Required' }), min: 1}} />
               {(errors.minAge || errors.maxAge) && (
                 <span className="absolute -bottom-5 text-red-500 -mt-10">{'Age required'}</span>
               )}
