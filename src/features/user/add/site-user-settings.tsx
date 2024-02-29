@@ -14,9 +14,10 @@ interface SiteUserSettingsProps {
   sites: DropDownItem[];
   suppressMatchTypes: DropDownItem[];
   setSiteUserSiteId: Dispatch<SetStateAction<string | undefined>>;
+  isSiteFieldDisabled?: boolean;
 }
 
-const SiteUserSettings = ({ form, sites, suppressMatchTypes, setSiteUserSiteId }: SiteUserSettingsProps) => {
+const SiteUserSettings = ({ form, sites, suppressMatchTypes, setSiteUserSiteId, isSiteFieldDisabled=false }: SiteUserSettingsProps) => {
   const { control, setValue, formState: { errors }, getValues } = form;
   const [siteOptions, setSiteOptions] = useState<SelectOptionType[]>();
   const [matchTypeOptions, setMatchTypeOptions] = useState<SelectOptionType[]>();
@@ -93,6 +94,7 @@ const SiteUserSettings = ({ form, sites, suppressMatchTypes, setSiteUserSiteId }
                 // setSelectedProtocols([]);
                 storeSetSelectedProtocols([])
               }}
+              isDisabled={isSiteFieldDisabled}
               label="Site Name"
               options={siteOptions}
               value={value} />
