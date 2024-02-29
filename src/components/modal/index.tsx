@@ -104,10 +104,11 @@ const Modal = ({
           <h5 className={cn("text-black/90 dark:text-white/90", titleClassName)}>{title}</h5>
         </div>
 
-        <CloseIcon onClick={handleModalClose} className={closeBtnClassName} />
+        <CloseIcon type="button" onClick={handleModalClose} className={closeBtnClassName} />
       </header>
     ) : (
       <button
+        type="button"
         className={cn("absolute top-4 right-4 p-1", closeBtnClassName)}
         onClick={handleModalClose}>
         <CloseIcon fill="black"/>

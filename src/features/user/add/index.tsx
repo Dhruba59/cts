@@ -280,7 +280,7 @@ const AddUser = ({ id }: AddUserProps) => {
         const adminMatchTypes = searchByIds(dropdowns?.data?.matchTypes, user?.matchTypeIds);
         const adminNotificationSites = searchByIds(dropdowns?.data?.sites, user?.notificationSiteIds);
 
-        if (adminMatchTypes.length && adminNotificationSites.length) {
+        if (adminMatchTypes.length || adminNotificationSites.length) {
           storeSetAdminDndData({
             matchTypes: filterDndData([{
               title: 'Match Type',
