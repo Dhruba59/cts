@@ -136,7 +136,7 @@ export function ListTable({ data, setCompletedTrainings, refetchUser, userId }: 
 
   return (
     <div className="sm:wrapper">
-      <h4 className="hidden md:block font-semibold py-4 px-6 text-dark-900">
+      <h4 className="hidden md:block font-semibold py-4 px-4">
         Status
       </h4>
       <div className="hidden sm:block">
