@@ -32,6 +32,7 @@ export const useGetUserById = (params: GetUserByIdParams) => useQuery({
 });
 
 export const useGetUserDropdowns = () => useQuery({
+  queryKey: ['userDropdowns'],
   queryFn: getUserDropdown,
 })
 

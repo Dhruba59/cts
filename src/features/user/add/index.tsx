@@ -170,10 +170,10 @@ const AddUser = ({ id }: AddUserProps) => {
   const [completedTrainings, setCompletedTrainings] = useState<CompletedTraining[]>([]);
 
   const { data: dropdowns, isLoading: isDropdownDataLoading } = useGetUserDropdowns();
-  const { data: userData, isLoading: isUserDataLoading, refetch: refetchUser } = useGetUserById({ UserId: id! });
   const { mutate: addUser, isLoading: isCreatingUser } = useAddUser();
   const { mutate: editUser, isLoading: isEditingUser } = useEditUser();
   const { mutate: validateUsername } = useValidateUserName();
+  const { data: userData, isLoading: isUserDataLoading, refetch: refetchUser } = useGetUserById({ UserId: id! });
 
   const [siteUserDndData, setSiteUserDndData] = useState<DndDataType[]>(initialSiteUserDndValue);
   const [trainingDndData, setTrainingDndData] = useState<DndDataType[]>(initialTrainingDndValue);
@@ -280,7 +280,6 @@ const AddUser = ({ id }: AddUserProps) => {
         const adminMatchTypes = searchByIds(dropdowns?.data?.matchTypes, user?.matchTypeIds);
         const adminNotificationSites = searchByIds(dropdowns?.data?.sites, user?.notificationSiteIds);
 
-        if (adminMatchTypes.length || adminNotificationSites.length) {
           storeSetAdminDndData({
             matchTypes: filterDndData([{
               title: 'Match Type',
@@ -299,16 +298,15 @@ const AddUser = ({ id }: AddUserProps) => {
               items: adminNotificationSites
             }])
           })
-        }
       }
     }
   }
 
   useEffect(() => {
-    if (userData) {
+    if (dropdowns && userData) {
       updateFieldsWithUserData( userData?.data);      
     }
-  }, [userData]);
+  }, [userData, dropdowns]);
 
   // cleanup befor destroy
   useEffect(() => {
