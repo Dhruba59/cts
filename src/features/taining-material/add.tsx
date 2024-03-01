@@ -22,6 +22,8 @@ import { useRouter } from 'next/navigation';
 import { apiResponseToast } from "@/utils/toast";
 import { RESPONSE_TYPE_ENUM } from "@/model/enum";
 import { toast } from "react-toastify";
+import Label from "@/components/ui/label";
+import Checkbox from "@/components/ui/checkbox";
 
 const AddTrainingMaterial = ({ id }: AddTrainingMaterialProps) => {
   const router = useRouter();
@@ -36,7 +38,7 @@ const AddTrainingMaterial = ({ id }: AddTrainingMaterialProps) => {
     fileName: "",
     filePath: "",
     preScreen: undefined,
-    active: undefined,
+    active: true,
   };
   const {
     register,
@@ -236,6 +238,15 @@ const AddTrainingMaterial = ({ id }: AddTrainingMaterialProps) => {
                 </span>
               )}
             </div>
+            <div className="flex flex-col gap-2 items-start justify-between py-1 pb-4">
+                <Label label="Is User Active" />
+                <Controller
+                  name="active"
+                  control={control}
+                  render={({ field: { onChange, onBlur, value } }: any) =>
+                    <Checkbox onChange={onChange} checked={id ? value : true} disabled={!id} />}
+                />
+              </div>
             {/* <div className="flex flex-row items-center sm:col-span-1 md:col-span-2">
               <Controller
                 name="preScreen"
