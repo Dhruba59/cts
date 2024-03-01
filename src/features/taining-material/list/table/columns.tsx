@@ -82,7 +82,7 @@ return ([
         <div className="flex items-center gap-6">
           {/* <View /> */}
           <Link href={`/training-material/${row.original.trainingId}/edit`}><Edit/></Link>
-          <DeleteOutlined className="cursor-pointer" onClick={() => onDelete(row.original.trainingId)}/>
+          {/* <DeleteOutlined className="cursor-pointer" onClick={() => onDelete(row.original.trainingId)}/> */}
         </div>
       );
     }
