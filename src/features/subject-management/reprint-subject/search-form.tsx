@@ -68,7 +68,6 @@ const SearchForm = ({ isAdvancedOpen, form, onResetSearchFields }: SearchFormPro
   });
 
   const onFilter = (val: string) => {
-    console.log(val);
     setUserParams((data) => ({
       ...data,
       SearchParameter: val
@@ -81,7 +80,6 @@ const SearchForm = ({ isAdvancedOpen, form, onResetSearchFields }: SearchFormPro
   }
 
   useEffect(() => {
-    console.log(protocolList?.data);
     setProtocolOptions(convertTypeToSelectOption(protocolList?.data));
   }, [protocolList]);
 

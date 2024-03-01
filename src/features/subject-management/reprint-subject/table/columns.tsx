@@ -93,7 +93,6 @@ export const getColumns = ({ onPrintClick }: ColumnsProps): ColumnDef<List>[] =>
         header: "Action",
         size: 100,
         cell: ({ row }) => {
-          console.log(row);
           const subjectInfo: LastSubjectPrintQueryParams = {
             NationalTypeId: row.original.nationalTypeId,
             SponsorSubjectId: row.original.sponsorSubjectId,

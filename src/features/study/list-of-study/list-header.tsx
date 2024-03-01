@@ -35,7 +35,6 @@ const ListHeader = ({ setQueryData }: ListHeaderProps) => {
       Phase: value?.Phase?.value
     }
     delete params.date;
-    console.log(params);
     setQueryData(params);
   }
 

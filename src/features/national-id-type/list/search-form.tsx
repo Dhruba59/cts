@@ -31,7 +31,6 @@ export function SearchForm({
 
  
   useEffect(() => {
-    console.log(frequencyTypeDropDown);
     setFrequencyTypeOptions(convertTypeToSelectOption(frequencyTypeDropDown?.countries));
 
   }, [frequencyTypeDropDown])

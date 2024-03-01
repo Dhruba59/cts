@@ -26,8 +26,6 @@ const ChangeRequestReprintList = () => {
   const { data: _data, error, isLoading, refetch: refetch
   } = useChangeRequestReprint(queryData);
   
-
-  console.log(queryData);
   const setCurrentPageNumber = (page: number) => {
     setQueryData((data) => {
       if (data) {

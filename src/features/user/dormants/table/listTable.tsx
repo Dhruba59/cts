@@ -46,7 +46,6 @@ export function ListTable({ data, pageSize, totalPages, sorting, setSorting, ref
   }
 
   const onDeleteCancel = () => {
-    console.log('onDelete Cancel')
     setId(0);
     setOpen(false);
   }
@@ -64,7 +63,7 @@ export function ListTable({ data, pageSize, totalPages, sorting, setSorting, ref
   }), []);
 
   useEffect(() => {
-    console.log(selectedRows);
+    // console.log(selectedRows);
   }, [selectedRows])
 
   return (

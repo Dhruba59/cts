@@ -61,9 +61,7 @@ export function AdvanceSearchForm({ frequencyDropDown, register, Controller, con
 
   const [frequencyTypeOptions, setFrequencyTypeOptions] = useState<SelectOptionType[]>([]);
   useEffect(() => {
-    console.log(frequencyDropDown);
     setFrequencyTypeOptions(convertTypeToSelectOption(frequencyDropDown?.countries));
-    console.log(frequencyTypeOptions);
   }, [frequencyDropDown])
 
   return (

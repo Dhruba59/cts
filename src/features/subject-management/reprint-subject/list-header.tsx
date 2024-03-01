@@ -41,7 +41,6 @@ const ListHeader = ({ setQueryData }: ListHeaderProps) => {
   const { handleSubmit } = form;
 
   const onSubmit = (values: any) => {
-    console.log(values);
     const params: Omit<LastReprintSubjectsParams, 'PageSize' | 'OrderBy'> = {
       //UserId: values?.user?.value,
       UserName: values?.user?.label,

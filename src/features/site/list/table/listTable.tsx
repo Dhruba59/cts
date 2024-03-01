@@ -25,8 +25,6 @@ export function ListTable({ data, sorting, setSorting, isLoading, refetch }: any
   const { mutate: deleteIndication } = useDeleteSite();
 
   const onDeleteConfirm = () => {
-
-     console.log('onDelete called')
      deleteIndication({id} , {
       onSuccess: (data) => {
         setId(0);
@@ -45,7 +43,6 @@ export function ListTable({ data, sorting, setSorting, isLoading, refetch }: any
   }
 
   const onDeleteCancel = () => {
-    console.log('onDelete Cancel')
     setId(0);
     setOpen(false);
  }

@@ -79,7 +79,6 @@ const AddTrainingMaterial = ({ id }: AddTrainingMaterialProps) => {
   };
 
   const onSubmit = (payload: any) => {
-    console.log(payload);
 
     payload = {
       ...payload,
@@ -122,7 +121,6 @@ const AddTrainingMaterial = ({ id }: AddTrainingMaterialProps) => {
   }, [studyProtocolsDropdown, trainingMaterialData]);
 
   useEffect(() => {
-    console.log(trainingMaterialData);
     if (trainingMaterialData) {
       reset({
         ...trainingMaterialData?.data,

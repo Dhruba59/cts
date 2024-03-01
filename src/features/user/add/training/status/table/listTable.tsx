@@ -50,7 +50,6 @@ export function ListTable({ data, setCompletedTrainings, refetchUser, userId }: 
   };
 
   const onUpdateTraining = (row: any, checked: boolean) => {
-    console.log(getValues(`overriddenDate${row.original.userTrainingId}`));
     if(getValues(`overriddenDate${row.original.userTrainingId}`) === undefined && checked) {
         setError(`overriddenDate${row.original.userTrainingId}`, { type: 'error', message: 'Select Date!'});
         setValue(`isOverridden${row.original.userTrainingId}`, false);

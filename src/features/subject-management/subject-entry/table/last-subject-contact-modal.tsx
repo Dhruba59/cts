@@ -36,7 +36,6 @@ const LastSubjectContactModal = ({ data, studyId, onUpdateSubject, onHideDetail 
 
   useEffect(() => {
     const date = new Date();
-    console.log(date);
     setValue('lastSubjectEntryDate', {
       startDate: date ,
       endDate: date 

@@ -41,7 +41,6 @@ const ListHeader = ({ setQueryData }: any) => {
       fromDate:  value?.fromDate?.startDate ?? null,
       toDate:  value?.toDate?.startDate ?? null,
     }
-    console.log(params);
     setQueryData(params);
   }
 

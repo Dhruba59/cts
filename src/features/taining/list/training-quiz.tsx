@@ -107,7 +107,6 @@ const TrainingQuiz = ({ trainigId, setDiableQuizes, showResult, setShowResult, r
       trainingId: trainigId,
       givenQuizAnswers: newList
     }
-    console.log('quizAns', quizAns);
 
     //AddQuizAnswer
     AddQuizAnswer(quizAns, {
