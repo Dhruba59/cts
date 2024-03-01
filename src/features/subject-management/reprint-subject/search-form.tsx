@@ -310,7 +310,7 @@ const AdvanceSearchForm = ({ form, onResetSearchFields }: AdvanceSearchFormProps
         <Button className="" type="submit">
           Search
         </Button>
-        <Button className="px-8" variant="outline" onClick={onReset}>
+        <Button className="px-8" type="button" variant="outline" onClick={onReset}>
           reset
         </Button>
       </div>

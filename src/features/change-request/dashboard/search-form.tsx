@@ -87,7 +87,7 @@ export function SearchForm({
         <Button type="submit" className="!h-10 mb-[1px]">
           Search
         </Button>
-        <Button type="submit" variant="outline" onClick={() => onReset()}>
+        <Button type="button" variant="outline" onClick={() => onReset()}>
           Reset
         </Button>
       </div>
@@ -182,7 +182,7 @@ export function AdvanceSearchForm({
           <Button type="submit" className="!h-10 mb-[1px]">
             Search
           </Button>
-          <Button type="submit" variant="outline" onClick={() => onReset()}>
+          <Button type="button" variant="outline" onClick={() => onReset()}>
             Reset
           </Button>
         </div>

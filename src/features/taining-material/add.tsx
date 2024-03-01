@@ -95,6 +95,7 @@ const AddTrainingMaterial = ({ id }: AddTrainingMaterialProps) => {
           };
           reset(newFieldValues as any);
           apiResponseToast(data);
+          router.push("/training-material/list");
         },
         onError: (err: any) => {
           toast.error(err?.response?.data?.title);
