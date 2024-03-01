@@ -9,11 +9,12 @@ import { DEFAULT_PAGE_SIZE } from "@/constants/common";
 import { useQuery } from "react-query";
 import { MainContainer } from "@/components/style-container";
 import { useGetDormantUsers, useGetUsers } from "@/hooks/rq-hooks/user-hooks";
+import { initialDefaultQuery } from "@/utils/helpers";
 
 
 const DormantUserList = () => {
 
-  const [queryData, setQueryData] = useState<UserQuery>();
+  const [queryData, setQueryData] = useState<UserQuery>(initialDefaultQuery);
   const [pageSize, setPageSize] = useState<number>(DEFAULT_PAGE_SIZE);
   const [sorting, setSorting] = useState<SortingState>([
     //{ id: "UserName", desc: false }
@@ -40,10 +41,10 @@ const DormantUserList = () => {
       if (data) {
         return {
           ...data,
-          PageSize: pageSize
+          pageSize: pageSize
         }
       } else {
-        return { PageSize: pageSize };
+        return { pageSize: pageSize };
       };
     });
   }, [pageSize]);
@@ -52,7 +53,7 @@ const DormantUserList = () => {
     const orderby: any = sorting.map((s) => `${s.id} ${s.desc ? 'desc' : 'asc'}`).join(',');
     setQueryData((data) => ({
       ...data,
-      OrderBy: typeof orderby != 'undefined' && orderby ? orderby : null
+      orderBy: typeof orderby != 'undefined' && orderby ? orderby : null
     }));
   }, [sorting]);
 

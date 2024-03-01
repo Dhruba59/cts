@@ -12,14 +12,13 @@ import { useQuery } from "react-query";
 import { MainContainer } from "@/components/style-container";
 import { useChangeRequestDashboard } from "@/hooks/rq-hooks/change-request-hooks";
 import { ChangeRequestDashboardQuery } from "@/model/change-request";
+import { initialDefaultQuery } from "@/utils/helpers";
 
 const ChangeRequestDashboardList = () => {
 
-  const [queryData, setQueryData] = useState<ChangeRequestDashboardQuery>();
+  const [queryData, setQueryData] = useState<ChangeRequestDashboardQuery>(initialDefaultQuery);
   const [pageSize, setPageSize] = useState<number>(DEFAULT_PAGE_SIZE);
-  const [sorting, setSorting] = useState<SortingState>([
-    //{ id: "indicationName", desc: false }
-  ]);
+  const [sorting, setSorting] = useState<SortingState>([]);
 
   const { data: _data, error, isLoading, refetch: refetch
   } = useChangeRequestDashboard(queryData);
@@ -45,10 +44,10 @@ const ChangeRequestDashboardList = () => {
       if (data) {
         return {
           ...data,
-          PageSize: pageSize
+          pageSize: pageSize
         }
       } else {
-        return { PageSize: pageSize };
+        return { pageSize: pageSize };
       };
     });
   }, [pageSize]);
@@ -57,7 +56,7 @@ const ChangeRequestDashboardList = () => {
     const orderby: any = sorting.map((s) => `${s.id} ${s.desc ? 'desc' : 'asc'}`).join(',');
     setQueryData((data) => ({
       ...data,
-      OrderBy: typeof orderby != 'undefined' && orderby ? orderby : null
+      orderBy: typeof orderby != 'undefined' && orderby ? orderby : null
     }));
   }, [sorting]);
 

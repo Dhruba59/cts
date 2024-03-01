@@ -9,25 +9,15 @@ import { SortingState } from "@tanstack/react-table";
 import { DEFAULT_PAGE_SIZE } from "@/constants/common";
 import { MainContainer } from "@/components/style-container";
 import { useGetUsers } from "@/hooks/rq-hooks/user-hooks";
+import { initialDefaultQuery } from "@/utils/helpers";
 
 const UserList = () => {
 
-  const [queryData, setQueryData] = useState<IndicationQuery>();
+  const [queryData, setQueryData] = useState<IndicationQuery>(initialDefaultQuery);
   const [pageSize, setPageSize] = useState<number>(DEFAULT_PAGE_SIZE);
-  const [sorting, setSorting] = useState<SortingState>([
-    //{ id: "indicationName", desc: false }
-  ]);
+  const [sorting, setSorting] = useState<SortingState>([]);
   const { data: usersData, error, isLoading: isLoading, refetch: refetch
   } = useGetUsers(queryData);
-
-
-  
-  //console.log(studyData);
-
-  // const { data: studyData } = useQuery({
-  //   queryFn: getIndications,
-  //   queryKey: ['sort', queryData],
-  // });
 
   const setCurrentPageNumber = (page: number) => {
     setQueryData((data) => {
@@ -47,10 +37,10 @@ const UserList = () => {
       if (data) {
         return {
           ...data,
-          PageSize: pageSize
+          pageSize: pageSize
         }
       } else {
-        return { PageSize: pageSize };
+        return { pageSize: pageSize };
       };
     });
   }, [pageSize]);
@@ -59,7 +49,7 @@ const UserList = () => {
     const orderby: any = sorting.map((s) => `${s.id} ${s.desc ? 'desc' : 'asc'}`).join(',');
     setQueryData((data) => ({
       ...data,
-      OrderBy: typeof orderby != 'undefined' && orderby ? orderby : null
+      orderBy: typeof orderby != 'undefined' && orderby ? orderby : null
     }));
   }, [sorting]);
 

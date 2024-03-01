@@ -1,7 +1,7 @@
 'use client';
 import dayjs from "dayjs";
 import { ArrowSwapHorizontal, ChangeRequestIcon, DashboardIcon, IdIcon, IndicationIcon, SettingsIcon, SettingsIcon2, SiteIcon, SponsorIcon, StudyCompoundIcon, StudyInformationIcon, SubjectManagementIcon, UserIcon } from "@/assets/icons";
-import { USER_ROLE_VALUE } from "@/constants/common";
+import { DEFAULT_PAGE_SIZE, USER_ROLE_VALUE } from "@/constants/common";
 import { STORAGE_KEY } from "@/constants/storage-constant";
 import { DropDownItem, SelectOptionType } from "@/model/drop-down-list";
 import { MenuItem } from "@/model/menu-items";
@@ -153,3 +153,8 @@ export const formatDate = (date: string | Date) => {
 
   return `${day}-${month}-${year}`;
 };
+
+export const initialDefaultQuery = {
+  orderBy: null,
+  pageSize: DEFAULT_PAGE_SIZE
+}

@@ -97,9 +97,7 @@ export interface CriticalDndDataType {
   items: Array<CriticalDndItem>;
 }
 
-export interface StudyListQueryData {
-  PageNumber?: number;
-  PageSize?: number;
+export interface StudyListQueryData extends Query {
   ProtocolNumber?: string;
   StudyName?: string;
   StudyStartDate?: string;
@@ -111,7 +109,6 @@ export interface StudyListQueryData {
   Active?: boolean;
   SubjectIdentryFormat?: string;
   Sr?: boolean;
-  OrderBy?: string;
 }
 
 export interface StudyDeletePayload {

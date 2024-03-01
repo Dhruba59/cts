@@ -8,10 +8,11 @@ import { useQuery } from "react-query";
 import { MainContainer } from "@/components/style-container";
 import { SponsorQuery } from "@/model/sponsor";
 import { getSponsors } from "@/service/sponsor-service";
+import { initialDefaultQuery } from "@/utils/helpers";
 
 const SponsorList = () => {
 
-  const [queryData, setQueryData] = useState<SponsorQuery>();
+  const [queryData, setQueryData] = useState<SponsorQuery>(initialDefaultQuery);
   const [pageSize, setPageSize] = useState<number>(DEFAULT_PAGE_SIZE);
   const [sorting, setSorting] = useState<SortingState>([
   ]);
@@ -34,25 +35,26 @@ const SponsorList = () => {
     });
   }
 
+  console.log(queryData);
+
   useEffect(() => {
     setQueryData((data) => {
       if (data) {
         return {
           ...data,
-          PageSize: pageSize
+          pageSize: pageSize
         }
       } else {
-        return { PageSize: pageSize };
+        return { pageSize: pageSize };
       };
     });
   }, [pageSize]);
 
   useEffect(() => {
     const orderby: any = sorting.map((s) => `${s.id} ${s.desc ? 'desc' : 'asc'}`).join(',');
-    
     setQueryData((data) => ({
       ...data,
-      OrderBy: typeof orderby != 'undefined' && orderby ? orderby : null
+      orderBy: typeof orderby != 'undefined' && orderby ? orderby : null
     }));
   }, [sorting]);
 

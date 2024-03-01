@@ -8,7 +8,7 @@ import { LastReprintSubjectsParams, SearchLastSubjectsParams } from "@/model/sub
 import { useSession } from "next-auth/react";
 
 interface ListHeaderProps {
-  setQueryData: Dispatch<SetStateAction<LastReprintSubjectsParams | undefined>>;
+  setQueryData: Dispatch<SetStateAction<LastReprintSubjectsParams>>;
 }
 
 

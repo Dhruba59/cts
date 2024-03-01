@@ -12,10 +12,11 @@ import { useQuery } from "react-query";
 import { MainContainer } from "@/components/style-container";
 import { useGetIndications } from "@/hooks/rq-hooks/indication-hooks";
 import { useChangeRequestAudit } from "@/hooks/rq-hooks/change-request-hooks";
+import { initialDefaultQuery } from "@/utils/helpers";
 
 const ChangeRequestAuditList = () => {
 
-  const [queryData, setQueryData] = useState<ChangeRequestAuditQuery>();
+  const [queryData, setQueryData] = useState<ChangeRequestAuditQuery>(initialDefaultQuery);
   const [pageSize, setPageSize] = useState<number>(DEFAULT_PAGE_SIZE);
   const [sorting, setSorting] = useState<SortingState>([
     //{ id: "indicationName", desc: false }
@@ -42,10 +43,10 @@ const ChangeRequestAuditList = () => {
       if (data) {
         return {
           ...data,
-          PageSize: pageSize
+          pageSize: pageSize
         }
       } else {
-        return { PageSize: pageSize };
+        return { pageSize: pageSize };
       };
     });
   }, [pageSize]);
@@ -54,7 +55,7 @@ const ChangeRequestAuditList = () => {
     const orderby: any = sorting.map((s) => `${s.id} ${s.desc ? 'desc' : 'asc'}`).join(',');
     setQueryData((data) => ({
       ...data,
-      OrderBy: typeof orderby != 'undefined' && orderby ? orderby : null
+      orderBy: typeof orderby != 'undefined' && orderby ? orderby : null
     }));
   }, [sorting]);
 

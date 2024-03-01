@@ -9,9 +9,10 @@ import { useQuery } from "react-query";
 import Pagination from "@/components/pagination";
 import { getLastReprintSubjects } from "@/service/subject-service";
 import { LastReprintSubjectsParams } from "@/model/subject";
+import { initialDefaultQuery } from "@/utils/helpers";
 
 const SubjectReprint = () => {
-  const [queryData, setQueryData] = useState<LastReprintSubjectsParams>();
+  const [queryData, setQueryData] = useState<LastReprintSubjectsParams>(initialDefaultQuery);
   const [pageSize, setPageSize] = useState<number>(DEFAULT_PAGE_SIZE);
   const [sorting, setSorting] = useState<SortingState>([]);
 
@@ -37,7 +38,7 @@ const SubjectReprint = () => {
     const orderby: any = sorting.map((s) => `${s.id} ${s.desc ? 'desc' : 'asc'}`).join(',');
     setQueryData((data) => ({
       ...data as any,
-      OrderBy: typeof orderby != 'undefined' && orderby ? orderby : null
+      orderBy: typeof orderby != 'undefined' && orderby ? orderby : null
     }));
   }, [sorting]);
 
@@ -51,7 +52,7 @@ const SubjectReprint = () => {
   useEffect(() => {
     setQueryData((data) => ({
       ...data as any,
-      PageSize: pageSize
+      pageSize: pageSize
     }));
   }, [pageSize]);
 

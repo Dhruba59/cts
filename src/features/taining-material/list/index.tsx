@@ -12,10 +12,11 @@ import { useQuery } from "react-query";
 import { MainContainer } from "@/components/style-container";
 import { useGetTrainingMaterials } from "@/hooks/rq-hooks/training-material-hooks";
 import { TrainingMaterialQuery } from "@/model/training-material";
+import { initialDefaultQuery } from "@/utils/helpers";
 
 const TrainingMaterialList = () => {
 
-  const [queryData, setQueryData] = useState<TrainingMaterialQuery>();
+  const [queryData, setQueryData] = useState<TrainingMaterialQuery>(initialDefaultQuery);
   const [pageSize, setPageSize] = useState<number>(DEFAULT_PAGE_SIZE);
   const [sorting, setSorting] = useState<SortingState>([
     //{ id: "indicationName", desc: false }
@@ -42,10 +43,10 @@ const TrainingMaterialList = () => {
       if (data) {
         return {
           ...data,
-          PageSize: pageSize
+          pageSize: pageSize
         }
       } else {
-        return { PageSize: pageSize };
+        return { pageSize: pageSize };
       };
     });
   }, [pageSize]);
@@ -54,7 +55,7 @@ const TrainingMaterialList = () => {
     const orderby: any = sorting.map((s) => `${s.id} ${s.desc ? 'desc' : 'asc'}`).join(',');
     setQueryData((data) => ({
       ...data,
-      OrderBy: typeof orderby != 'undefined' && orderby ? orderby : null
+      orderBy: typeof orderby != 'undefined' && orderby ? orderby : null
     }));
   }, [sorting]);
 
