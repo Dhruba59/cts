@@ -31,7 +31,6 @@ export function SearchForm({
 
  
   useEffect(() => {
-    console.log(frequencyTypeDropDown);
     setFrequencyTypeOptions(convertTypeToSelectOption(frequencyTypeDropDown?.countries));
 
   }, [frequencyTypeDropDown])
@@ -63,7 +62,7 @@ export function SearchForm({
         <Button type="submit" className="!h-10 mb-[1px]">
           Search
         </Button>
-        <Button type="submit" variant="outline" onClick={() => reset()}>
+        <Button type="button" variant="outline" onClick={() => reset()}>
           Reset
         </Button>
       </div>
@@ -111,7 +110,7 @@ export function AdvanceSearchForm({ register, Controller, control, reset }: any)
           <Button type="submit" className="!h-10 mb-[1px]">
             Search
           </Button>
-          <Button type="submit" variant="outline" onClick={() => reset()}>
+          <Button type="button" variant="outline" onClick={() => reset()}>
             Reset
           </Button>
         </div>

@@ -88,7 +88,6 @@ const onDeleteConfirm = () => {
 }
 
 const onDeleteCancel = () => {
-  console.log('onDelete Cancel')
   setId(0);
   setOpen(false);
 }

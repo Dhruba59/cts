@@ -79,7 +79,6 @@ const AddTrainingMaterial = ({ id }: AddTrainingMaterialProps) => {
   };
 
   const onSubmit = (payload: any) => {
-    console.log(payload);
 
     payload = {
       ...payload,
@@ -95,6 +94,7 @@ const AddTrainingMaterial = ({ id }: AddTrainingMaterialProps) => {
           };
           reset(newFieldValues as any);
           apiResponseToast(data);
+          router.push("/training-material/list");
         },
         onError: (err: any) => {
           toast.error(err?.response?.data?.title);
@@ -121,7 +121,6 @@ const AddTrainingMaterial = ({ id }: AddTrainingMaterialProps) => {
   }, [studyProtocolsDropdown, trainingMaterialData]);
 
   useEffect(() => {
-    console.log(trainingMaterialData);
     if (trainingMaterialData) {
       reset({
         ...trainingMaterialData?.data,

@@ -63,7 +63,7 @@ export function SearchForm({
         <Button type="submit" className="!h-10 mb-[1px]">
           Search
         </Button>
-        <Button type="submit" variant="outline" onClick={() => onReset()}>
+        <Button type="button" variant="outline" onClick={() => onReset()}>
           Reset
         </Button>
       </div>
@@ -209,7 +209,7 @@ export function AdvanceSearchForm({ form, userTypeOptions, sponsorOptions, siteO
       </div>
       <div className="flex items-center justify-end gap-4 mt-8 md:mt-14">
         <Button className="" type="submit">Search</Button>
-        <Button className="px-8" variant="outline" onClick={() => onReset()}>
+        <Button className="px-8" type="button" variant="outline" onClick={() => onReset()}>
           reset
         </Button>
       </div>

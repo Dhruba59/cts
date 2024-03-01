@@ -16,7 +16,7 @@ import ReactPlayer from "react-player";
 const TrainingVideo = ({ videoUrl }: any) => {
 
   useEffect(() => {
-    console.log(videoUrl);
+    // console.log(videoUrl);
   }, [videoUrl])
 
 

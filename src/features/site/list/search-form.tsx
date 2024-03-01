@@ -49,7 +49,7 @@ export function SearchForm({
         <Button type="submit" className="!h-10 mb-[1px]">
           Search
         </Button>
-        <Button type="submit" variant="outline" onClick={() => reset()}>
+        <Button type="button" variant="outline" onClick={() => reset()}>
           Reset
         </Button>
       </div>
@@ -61,9 +61,7 @@ export function AdvanceSearchForm({ frequencyDropDown, register, Controller, con
 
   const [frequencyTypeOptions, setFrequencyTypeOptions] = useState<SelectOptionType[]>([]);
   useEffect(() => {
-    console.log(frequencyDropDown);
     setFrequencyTypeOptions(convertTypeToSelectOption(frequencyDropDown?.countries));
-    console.log(frequencyTypeOptions);
   }, [frequencyDropDown])
 
   return (
@@ -160,7 +158,7 @@ export function AdvanceSearchForm({ frequencyDropDown, register, Controller, con
       </div>
       <div className="flex items-center justify-end gap-4 mt-8 md:mt-14">
         <Button type="submit" className="px-8">Search</Button>
-        <Button type="submit" className="px-8" variant="outline" onClick={() => reset()}>
+        <Button type="button" className="px-8" variant="outline" onClick={() => reset()}>
           Reset
         </Button>
       </div>

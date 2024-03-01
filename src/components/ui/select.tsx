@@ -34,7 +34,6 @@ const Select = <
         let tempValue = value.map(val => val.toString());
         return memoizedOptions.filter((option: any) => tempValue.includes(option.value));
       } else if (!Array.isArray(value)) {
-        //console.log(value, options);
         return memoizedOptions.filter((option: any) => option.value === value?.toString())
       }
     })

@@ -20,20 +20,16 @@ const ChangeRequestAuditDetailModal = ({ subjectId, requestId, regionGroupsId, o
   const [queryData, setQueryData] = useState<ChangeRequestAuditDetailQuery>({
     subjectId: subjectId,
     RequestId: requestId,
-    regionGroupsId: regionGroupsId
+    regionGroupsId: regionGroupsId,
+    orderBy: null,
+    pageSize: DEFAULT_PAGE_SIZE
   });
   const [pageSize, setPageSize] = useState<number>(DEFAULT_PAGE_SIZE);
-  const [sorting, setSorting] = useState<SortingState>([
-    //{ id: "indicationName", desc: false }
-  ]);
+  const [sorting, setSorting] = useState<SortingState>([]);
 
   const { data: _data, error, isLoading, refetch: refetch
   } = useChangeRequestAuditDetail(queryData);
 
-  // useEffect(() => {
-  //   //console.log(_data);
-  //   //console.log(open);
-  // }, [subjectId])
   const setCurrentPageNumber = (page: number) => {
     setQueryData((data) => {
       if (data) {
@@ -52,10 +48,10 @@ const ChangeRequestAuditDetailModal = ({ subjectId, requestId, regionGroupsId, o
       if (data) {
         return {
           ...data,
-          PageSize: pageSize
+          pageSize: pageSize
         }
       } else {
-        return { PageSize: pageSize };
+        return { pageSize: pageSize };
       };
     });
   }, [pageSize]);
@@ -64,7 +60,7 @@ const ChangeRequestAuditDetailModal = ({ subjectId, requestId, regionGroupsId, o
     const orderby: any = sorting.map((s) => `${s.id} ${s.desc ? 'desc' : 'asc'}`).join(',');
     setQueryData((data) => ({
       ...data,
-      OrderBy: typeof orderby != 'undefined' && orderby ? orderby : null
+      orderBy: typeof orderby != 'undefined' && orderby ? orderby : null
     }));
   }, [sorting]);
 

@@ -6,6 +6,7 @@ import { AdvanceSearchForm, SearchForm } from "./search-form";
 import { StudyListQueryData } from "@/model/study";
 import { Controller, useForm } from "react-hook-form";
 import { useGetStudyDropdownsList } from "@/hooks/rq-hooks/study-hooks";
+import { initialDefaultQuery } from "@/utils/helpers";
 
 interface ListHeaderProps {
   setQueryData: Dispatch<SetStateAction<StudyListQueryData>>;
@@ -34,8 +35,12 @@ const ListHeader = ({ setQueryData }: ListHeaderProps) => {
       Phase: value?.Phase?.value
     }
     delete params.date;
-    console.log(params);
     setQueryData(params);
+  }
+
+  const onReset = () => {
+    reset();
+    setQueryData(initialDefaultQuery);
   }
 
   return (
@@ -47,7 +52,7 @@ const ListHeader = ({ setQueryData }: ListHeaderProps) => {
             Search Study
           </h4>
           <div className="">
-            <SearchForm isAdvancedOpen={isChecked} register={register} reset={reset} Controller={Controller} control={control} />
+            <SearchForm isAdvancedOpen={isChecked} register={register} reset={onReset} Controller={Controller} control={control} />
           </div>
           <Toggle
             prefixLabel="More: "
@@ -57,7 +62,7 @@ const ListHeader = ({ setQueryData }: ListHeaderProps) => {
           />
         </div>
         <hr className="" />
-        {isChecked && <AdvanceSearchForm dropDownList={StudydropdownList?.data} register={register} reset={reset} Controller={Controller} control={control} />}
+        {isChecked && <AdvanceSearchForm dropDownList={StudydropdownList?.data} register={register} reset={onReset} Controller={Controller} control={control} />}
       </form>
     </div>
   );

@@ -43,7 +43,6 @@ export function ListTable({ data, sorting, setSorting, refetch, isLoading }: any
   }
 
   const onDeleteCancel = () => {
-    console.log('onDelete Cancel')
     setId(0);
     setOpen(false);
  }

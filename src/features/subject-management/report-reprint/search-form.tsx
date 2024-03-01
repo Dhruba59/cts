@@ -129,7 +129,7 @@ const AdvanceSearchForm = ({
         <Button className="" type="submit">
           Search
         </Button>
-        <Button className="px-8" variant="outline" onClick={resetForm}>
+        <Button className="px-8" type="button" variant="outline" onClick={resetForm}>
           Reset
         </Button>
       </div>

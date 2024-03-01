@@ -15,11 +15,11 @@ const ChangeRequestReviewDetailModal = ({ requestId, onAccept, onReject, isSysAd
   } = useViewChangeRequestDetail(queryData);
 
   useEffect(() => {
-    console.log(`RequestId: ${requestId}`);
+    // console.log(`RequestId: ${requestId}`);
   }, [requestId])
   
   useEffect(() => {
-    console.log(_data);
+    // console.log(_data);
   }, [_data])
 
 

@@ -244,7 +244,7 @@ const SearchSubjectForm = ({ setQueryParams, protocolId, isLoadingSearch }: Sear
         <Button className="px-8" type="submit" loading={isLoadingSearch} disabled={isLoadingSearch}>
           Search
         </Button>
-        <Button className="px-8" variant="outline" onClick={() => onReset()}>
+        <Button className="px-8" type="button" variant="outline" onClick={() => onReset()}>
           Reset
         </Button>
       </div>

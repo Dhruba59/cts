@@ -16,11 +16,8 @@ const InputFieldWithRegexValidation = React.forwardRef<HTMLInputElement, InputPr
 
     const [inputValue, setInputValue] = React.useState('');
 
-    console.log('regex',value);
-
     const handleInputChange = (e: any) => {
       const tmpValue = e.target.value;
-      console.log('regex', tmpValue)
       // Check if the input matches the supported characters
       if (regex.test(tmpValue)) {
         // Limit the input to the specified maxLength

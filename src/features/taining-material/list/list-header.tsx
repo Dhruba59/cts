@@ -9,6 +9,7 @@ import { Controller, useForm } from "react-hook-form";
 import { IndicationQuery } from "@/model/indication";
 import { useGetStudyProtocols } from "@/hooks/rq-hooks/training-material-hooks";
 import { TrainingMaterialQuery } from "@/model/training-material";
+import { initialDefaultQuery } from "@/utils/helpers";
 
 
 const ListHeader = ({ setQueryData }: any) => {
@@ -50,12 +51,17 @@ const ListHeader = ({ setQueryData }: any) => {
     setQueryData(params);
   }
 
+  const onReset = () => {
+    reset();
+    setQueryData(initialDefaultQuery);
+  }
+
   return (
     <div>
       <Breadcrumbs title="Training Meterial" subTitle="Training Meterial List" />
       <form className="" onSubmit={handleSubmit(onSubmit)}>
         <div className="md:hidden">
-          <SearchForm isAdvancedOpen={isChecked} studyProtocolDropDown={studyProtocolDropDown?.data} register={register} Controller={Controller} control={control} reset={reset} />
+          <SearchForm isAdvancedOpen={isChecked} studyProtocolDropDown={studyProtocolDropDown?.data} register={register} Controller={Controller} control={control} reset={onReset} />
         </div>
         <section className="hidden md:block wrapper">
           <div className="flex flex-row items-center justify-between gap-1 px-2 py-2">
@@ -63,7 +69,7 @@ const ListHeader = ({ setQueryData }: any) => {
               <h4 className="">Search Training Meterial</h4>
             </div>
             <div className="md:flex-none">
-              <SearchForm isAdvancedOpen={isChecked} studyProtocolDropDown={studyProtocolDropDown?.data} register={register} Controller={Controller} control={control} reset={reset} />
+              <SearchForm isAdvancedOpen={isChecked} studyProtocolDropDown={studyProtocolDropDown?.data} register={register} Controller={Controller} control={control} reset={onReset} />
             </div>
             <div className="flex-none w-22  hidden lg:block">
               <Toggle
@@ -75,7 +81,7 @@ const ListHeader = ({ setQueryData }: any) => {
             </div>
           </div>
           <hr />
-          {isChecked && <AdvanceSearchForm register={register} Controller={Controller} control={control} reset={reset} />}
+          {isChecked && <AdvanceSearchForm register={register} Controller={Controller} control={control} reset={onReset} />}
         </section>
       </form>
     </div>

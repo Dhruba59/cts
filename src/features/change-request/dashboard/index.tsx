@@ -24,7 +24,7 @@ const ChangeRequestDashboardList = () => {
   } = useChangeRequestDashboard(queryData);
   
   useEffect(() => {
-    console.log(_data);
+    // console.log(_data);
   }, [_data])
   const setCurrentPageNumber = (page: number) => {
     setQueryData((data) => {

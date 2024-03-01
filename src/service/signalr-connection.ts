@@ -10,7 +10,7 @@ export const createHubConnection = (apiKey: string, hubaddress: string) => {
 
     connection.on("ConnectionStatus", (message) => {
         // just confirm the connection
-        console.log(message);
+        // console.log(message);
     });
 
     connection.start().catch((error) => {

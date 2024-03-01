@@ -30,7 +30,6 @@ const ListHeader = ({ setQueryData }: ListHeaderProps) => {
   const { handleSubmit } = form;
 
   const onSubmit = (values: any) => {
-    console.log(values);
     const params: ReprintMatchReportsType = {
       Protocol: values?.protocol?.value,
       SponsorSubjectId: values.subjectId,

@@ -35,8 +35,6 @@ const SponsorList = () => {
     });
   }
 
-  console.log(queryData);
-
   useEffect(() => {
     setQueryData((data) => {
       if (data) {
