@@ -49,7 +49,7 @@ const ListTable = ({ data, sorting, setSorting, isLoadingTableData }: ListTableP
         List of Subjects for Re-Print
       </h4>
       <div className="hidden sm:block">
-        <SimpleTable data={data} columns={columns} isLoading={isLoadingTableData}/>
+        <SimpleTable data={data} columns={columns} sorting={sorting} setSorting={setSorting} isLoading={isLoadingTableData}/>
       </div>
       <div className="block sm:hidden">
         <ExpandableTable

@@ -1,4 +1,4 @@
-import { Suspense, useEffect, useMemo, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import ListHeader from "./list-header";
 import ListTable from "./table/listTable";
 import { IndicationQuery } from "@/model/indication";
@@ -6,19 +6,14 @@ import Pagination from "@/components/pagination";
 import { SortingState } from "@tanstack/react-table";
 import { DEFAULT_PAGE_SIZE } from "@/constants/common";
 import { useGetIndications } from "@/hooks/rq-hooks/indication-hooks";
-
+import { initialDefaultQuery } from "@/utils/helpers";
 
 const IndicationList = () => {
-
+  
   const [pageSize, setPageSize] = useState<number>(DEFAULT_PAGE_SIZE);
-  const [queryData, setQueryData] = useState<IndicationQuery>();
+  const [queryData, setQueryData] = useState<IndicationQuery>(initialDefaultQuery);
   const [sorting, setSorting] = useState<SortingState>([]);
-  const { data: studyData, error, isLoading, refetch } = useGetIndications(queryData);
-  const isMounted = useRef(false);
-
-  useEffect(() => {
-    isMounted.current = false;
-  }, []);
+  const { data: studyData, isLoading } = useGetIndications(queryData);
 
   const setCurrentPageNumber = (page: number) => {
     setQueryData((data) => {
@@ -31,52 +26,28 @@ const IndicationList = () => {
         return { PageNumber: page };
       }
     });
-  }
+  };
 
-  const setCurrentPageSize = (size: number) => {
-    if (isMounted.current) {
+  useEffect(() => {
       setQueryData((data) => {
         if (data) {
           return {
             ...data,
-            PageSize: size
+            pageSize: pageSize
           }
         } else {
-          return { PageSize: size };
-        }
+          return { pageSize: pageSize };
+        };
       });
-    } else {
-      isMounted.current = true
-    }
-  }
-  // useEffect(() => {
-  //   if(isMounted.current){
-  //     setQueryData((data) => {
-  //       if (data) {
-  //         return {
-  //           ...data,
-  //           PageSize: pageSize
-  //         }
-  //       } else {
-  //         return { PageSize: pageSize };
-  //       };
-  //     });
-  //   }else{
-  //     isMounted.current = true;
-  //   }
-
-  // }, [pageSize]);
-
+  }, [pageSize]);
 
   useEffect(() => {
-    if (sorting.length) {
-      const orderby: any = sorting.map((s) => `${s.id} ${s.desc ? 'desc' : 'asc'}`).join(',');
-      setQueryData((data) => ({
-        ...data,
-        OrderBy: typeof orderby != 'undefined' && orderby ? orderby : null
-      }));
-    }
-  }, [sorting]);
+    const orderby: any = sorting.map((s) => `${s.id} ${s.desc ? 'desc' : 'asc'}`).join(',');
+    setQueryData((data) => ({
+      ...data,
+      orderBy: typeof orderby != 'undefined' && orderby ? orderby : null
+    }));
+  }, [sorting])
 
   return (
     <main>
@@ -86,8 +57,8 @@ const IndicationList = () => {
         currentPage={studyData?.data?.pageNumber}
         setCurrentPage={setCurrentPageNumber}
         lastPage={studyData?.data?.totalPages}
-        pageSize={studyData?.data?.pageSize}
-        setPageSize={setCurrentPageSize}
+        pageSize={pageSize}
+        setPageSize={setPageSize}
         maxLength={7}
       />
     </main>

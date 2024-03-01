@@ -11,10 +11,11 @@ import { DEFAULT_PAGE_SIZE } from "@/constants/common";
 import { useQuery } from "react-query";
 import { MainContainer } from "@/components/style-container";
 import { useGetStudyCompounds } from "@/hooks/rq-hooks/study-compound-hooks";
+import { initialDefaultQuery } from "@/utils/helpers";
 
 const StudyCompoundList = () => {
 
-  const [queryData, setQueryData] = useState<StudyCompoundQuery>();
+  const [queryData, setQueryData] = useState<StudyCompoundQuery>(initialDefaultQuery);
   const [pageSize, setPageSize] = useState<number>(DEFAULT_PAGE_SIZE);
   const [sorting, setSorting] = useState<SortingState>([
     //{ id: "indicationName", desc: false }
@@ -40,10 +41,10 @@ const StudyCompoundList = () => {
       if (data) {
         return {
           ...data,
-          PageSize: pageSize
+          pageSize: pageSize
         }
       } else {
-        return { PageSize: pageSize };
+        return { pageSize: pageSize };
       };
     });
   }, [pageSize]);
@@ -54,7 +55,7 @@ const StudyCompoundList = () => {
 
     setQueryData((data) => ({
       ...data,
-      OrderBy: typeof orderby != 'undefined' && orderby ? orderby : null
+      orderBy: typeof orderby != 'undefined' && orderby ? orderby : null
     }));
   }, [sorting]);
 

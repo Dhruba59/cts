@@ -8,7 +8,7 @@ import { Controller, useForm } from "react-hook-form";
 import { useGetStudyDropdownsList } from "@/hooks/rq-hooks/study-hooks";
 
 interface ListHeaderProps {
-  setQueryData: Dispatch<SetStateAction<StudyListQueryData | undefined>>;
+  setQueryData: Dispatch<SetStateAction<StudyListQueryData>>;
 }
 
 const ListHeader = ({ setQueryData }: ListHeaderProps) => {

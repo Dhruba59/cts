@@ -9,9 +9,10 @@ import { DEFAULT_PAGE_SIZE } from '@/constants/common'
 import { StudyListQueryData } from '@/model/study'
 import { SortingState } from '@tanstack/react-table';
 import { MainContainer } from '@/components/style-container';
+import { initialDefaultQuery } from '@/utils/helpers';
 
 const StudyListFeature = () => {
-  const [queryData, setQueryData] = useState<StudyListQueryData>();
+  const [queryData, setQueryData] = useState<StudyListQueryData>(initialDefaultQuery);
   const [pageSize, setPageSize] = useState<number>(DEFAULT_PAGE_SIZE);
   const [sorting, setSorting] = useState<SortingState>([]);
 
@@ -25,10 +26,10 @@ const StudyListFeature = () => {
       if (data) {
         return {
           ...data,
-          PageNumber: page
+          pageNumber: page
         }
       } else {
-        return { PageNumber: page };
+        return { pageNumber: page };
       }
     });
   }
@@ -38,10 +39,10 @@ const StudyListFeature = () => {
       if (data) {
         return {
           ...data,
-          PageSize: pageSize
+          pageSize: pageSize
         }
       } else {
-        return { PageSize: pageSize };
+        return { pageSize: pageSize };
       };
     });
   }, [pageSize]);
@@ -50,7 +51,7 @@ const StudyListFeature = () => {
     const orderby: any = sorting.map((s) => `${s.id} ${s.desc ? 'desc' : 'asc'}`).join(',');
     setQueryData((data) => ({
       ...data,
-      OrderBy: typeof orderby != 'undefined' && orderby ? orderby : null
+      orderBy: typeof orderby != 'undefined' && orderby ? orderby : null
     }));
   }, [sorting]);
 

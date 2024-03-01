@@ -13,10 +13,11 @@ import { MainContainer } from "@/components/style-container";
 import { useGetIndications } from "@/hooks/rq-hooks/indication-hooks";
 import { ChangeRequestReprintQuery } from "@/model/change-request";
 import { useChangeRequestReprint } from "@/hooks/rq-hooks/change-request-hooks";
+import { initialDefaultQuery } from "@/utils/helpers";
 
 const ChangeRequestReprintList = () => {
 
-  const [queryData, setQueryData] = useState<ChangeRequestReprintQuery>();
+  const [queryData, setQueryData] = useState<ChangeRequestReprintQuery>(initialDefaultQuery);
   const [pageSize, setPageSize] = useState<number>(DEFAULT_PAGE_SIZE);
   const [sorting, setSorting] = useState<SortingState>([
     //{ id: "indicationName", desc: false }
@@ -45,10 +46,10 @@ const ChangeRequestReprintList = () => {
       if (data) {
         return {
           ...data,
-          PageSize: pageSize
+          pageSize: pageSize
         }
       } else {
-        return { PageSize: pageSize };
+        return { pageSize: pageSize };
       };
     });
   }, [pageSize]);
@@ -57,7 +58,7 @@ const ChangeRequestReprintList = () => {
     const orderby: any = sorting.map((s) => `${s.id} ${s.desc ? 'desc' : 'asc'}`).join(',');
     setQueryData((data) => ({
       ...data,
-      OrderBy: typeof orderby != 'undefined' && orderby ? orderby : null
+      orderBy: typeof orderby != 'undefined' && orderby ? orderby : null
     }));
   }, [sorting]);
 

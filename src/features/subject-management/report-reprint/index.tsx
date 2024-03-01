@@ -8,11 +8,10 @@ import { DEFAULT_PAGE_SIZE } from "@/constants/common";
 import { getReprintMatchReports, searchLastSubjects } from "@/service/subject-service";
 import { useQuery } from "react-query";
 import Pagination from "@/components/pagination";
+import { initialDefaultQuery } from "@/utils/helpers";
+import { Query } from "@/model/query";
 
-export interface ReprintMatchReportsType {
-  PageNumber?: number;
-  PageSize?: number;
-  OrderBy?: string;
+export interface ReprintMatchReportsType extends Query {
   Protocol?: number;
   SponsorSubjectId?: string;
   FromDate?: string;
@@ -20,7 +19,7 @@ export interface ReprintMatchReportsType {
 }
 
 const ReprintReport = () => {
-  const [queryData, setQueryData] = useState<ReprintMatchReportsType>();
+  const [queryData, setQueryData] = useState<ReprintMatchReportsType>(initialDefaultQuery);
   const [pageSize, setPageSize] = useState<number>(DEFAULT_PAGE_SIZE);
   const [sorting, setSorting] = useState<SortingState>([]);
 
@@ -47,18 +46,26 @@ const ReprintReport = () => {
       if (data) {
         return {
           ...data,
-          PageSize: pageSize
+          pageSize: pageSize
         }
       } else {
-        return { PageSize: pageSize };
+        return { pageSize: pageSize };
       };
     });
   }, [pageSize]);
 
+  useEffect(() => {
+    const orderby: any = sorting.map((s) => `${s.id} ${s.desc ? 'desc' : 'asc'}`).join(',');
+    setQueryData((data) => ({
+      ...data,
+      orderBy: typeof orderby != 'undefined' && orderby ? orderby : null
+    }));
+  }, [sorting])
+
   return (
     <main>
       <ListHeader setQueryData={setQueryData} />
-      <ListTable data={reports?.data?.items} isLoadingTableData={isLoadingReports}/>
+      <ListTable data={reports?.data?.items} sorting={sorting} setSorting={setSorting} isLoadingTableData={isLoadingReports}/>
       <Pagination
         currentPage={reports?.data?.pageNumber ?? 1}
         lastPage={reports?.data?.totalPages ?? 0}
