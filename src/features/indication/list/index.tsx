@@ -12,15 +12,9 @@ const IndicationList = () => {
 
   const [pageSize, setPageSize] = useState<number>(DEFAULT_PAGE_SIZE);
   const [queryData, setQueryData] = useState<IndicationQuery>();
-  const [sorting, setSorting] = useState<SortingState>([
-    //{ id: "indicationName", desc: false }
-  ]);
-
+  const [sorting, setSorting] = useState<SortingState>([]);
+  const { data: studyData, error, isLoading, refetch } = useGetIndications(queryData);
   const isMounted = useRef(false);
-
-  const { data: studyData, error, isLoading, refetch
-  } = useGetIndications(queryData);
-
 
   useEffect(() => {
     isMounted.current = false;
@@ -75,11 +69,13 @@ const IndicationList = () => {
 
 
   useEffect(() => {
-    const orderby: any = sorting.map((s) => `${s.id} ${s.desc ? 'desc' : 'asc'}`).join(',');
-    setQueryData((data) => ({
-      ...data,
-      OrderBy: typeof orderby != 'undefined' && orderby ? orderby : null
-    }));
+    if (sorting.length) {
+      const orderby: any = sorting.map((s) => `${s.id} ${s.desc ? 'desc' : 'asc'}`).join(',');
+      setQueryData((data) => ({
+        ...data,
+        OrderBy: typeof orderby != 'undefined' && orderby ? orderby : null
+      }));
+    }
   }, [sorting]);
 
   return (
