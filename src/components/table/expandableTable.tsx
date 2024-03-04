@@ -22,8 +22,8 @@ const ExpandableTable = ({
   return (
     <div className="" {...props}>
       {tableTitle && (
-        <div className="flex justify-between item-center py-2 px-2 bg-white shadow rounded-t-md mb-2">
-          <h4 className=" text-neutral-black ">
+        <div className="flex justify-between item-center py-2 px-2 bg-white dark:text-white/80 dark:bg-dark-lightBlue shadow rounded-t-md mb-2">
+          <h4 className="">
             {tableTitle}
           </h4>
           <Button variant="secondary" size="small"
