@@ -61,7 +61,7 @@ const HelpModal = ({ open, setOpen }: HelpModalProps) => {
       onClose={() => setOpen(false)}
       title="Submit Query"
       isLoading={isLoading}
-      containerClassName="!w-[624px] overflow-auto"
+      containerClassName="!w-[624px] overflow-auto mx-4"
       renderFooter={{
         onSave: handleSubmit(onSubmit),
         submitButtonName: "Send",
@@ -69,7 +69,7 @@ const HelpModal = ({ open, setOpen }: HelpModalProps) => {
         privacyPolicyLink: true,
       }}
     >
-      <div className="text-black text-base px-1 md:px-3 lg:px-6 py-2">
+      <div className="text-base px-1 md:px-3 lg:px-6 py-2">
         <p>
           If you need any help regarding our services, please contact our
           Customer Service team at any time. They will attempt to resolve your
