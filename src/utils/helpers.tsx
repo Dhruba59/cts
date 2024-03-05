@@ -91,6 +91,29 @@ export const getAccessToken = () => {
   }
   return '';
 }
+export const getRefreshToken = () => {
+  let token = localStorage.getItem(STORAGE_KEY.AUTH_TOKEN);
+  if(token) token = JSON.parse(token ?? '');
+  if(token) {
+    return token[STORAGE_KEY.REFRESH_TOKEN as any]
+  }
+  return '';
+}
+
+export const setTokens = (tokenDetails: any) => {
+  console.log('new tokenDetails', tokenDetails);
+  
+  let token: any = localStorage.getItem(STORAGE_KEY.AUTH_TOKEN);
+  if(token) token = JSON.parse(token ?? '');
+  if(token) {
+    token.accessToken = tokenDetails.accessToken
+    token.issuedAt = tokenDetails.issuedAt
+    token.expiresAt = tokenDetails.expiresAt
+    token.refreshToken = tokenDetails.refreshToken
+    localStorage.removeItem(STORAGE_KEY.AUTH_TOKEN);
+    localStorage.setItem(STORAGE_KEY.AUTH_TOKEN, JSON.stringify(token));
+  }
+}
 
 export function calculateDaysBetweenDates(startDate: string | Date, endDate: string | Date) {
   const startDateTime = new Date(startDate).getTime();
