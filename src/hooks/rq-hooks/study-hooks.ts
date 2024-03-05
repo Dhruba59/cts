@@ -7,7 +7,7 @@ export interface getIndicationListProps {
   searchValue: string;
 }
 
-export const useGetStudyDropdownsList = () => useQuery({
+export const useGetStudyDropdownsList = () => useQuery('getStudyDropdownsList',{
   queryFn: getStudyDropDownsList,
   retry: false
 })

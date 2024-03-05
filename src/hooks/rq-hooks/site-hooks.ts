@@ -18,7 +18,7 @@ export const useGetSiteById = (id: any) => useQuery({
   retry: false
 })
 
-export const useGetFrequencyTypes = () => useQuery({
+export const useGetFrequencyTypes = () => useQuery('getFrequencyTypes',{
   queryFn: getFrequencyTypes,
   retry: false
 })

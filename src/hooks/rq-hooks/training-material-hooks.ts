@@ -18,7 +18,7 @@ export const useGetTrainingMaterialById = (id :any) => useQuery({
   retry: false
 })
 
-export const useGetStudyProtocols = () => useQuery({
+export const useGetStudyProtocols = () => useQuery('getStudyProtocols',{
   queryFn: getStudyProtocols,
   retry: false
 })

@@ -9,7 +9,7 @@ export const useRequestTypeDropdown = () => useQuery('requestTypeDropdown' ,{
   //queryKey: ['sort', queryData],
 })
 
-export const useDashboardDropdown = () => useQuery({
+export const useDashboardDropdown = () => useQuery('getDashboardDropdown',{
   queryFn: getDashboardDropdown,
   retry: false
   //queryKey: ['sort', queryData],

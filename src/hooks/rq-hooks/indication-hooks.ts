@@ -16,7 +16,7 @@ export const useGetIndicationById = (id :any) => useQuery({
   retry: false
 })
 
-export const useGetIndicationCodeTypes = () => useQuery({
+export const useGetIndicationCodeTypes = () => useQuery('getIndicationCodeTypes',{
   queryFn: getIndicationCodeTypes,
   retry: false
 })
