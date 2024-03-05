@@ -31,8 +31,10 @@ export const useUpdateVisitInfo = () => useMutation({
 
 export const useGetVisitTypes = () => useQuery({
   queryFn: getVisitTypes,
+  retry: false
 })
 
 export const useGetLastSubjectReport = () => useQuery({
   queryFn: getLastSubjectReport,
+  retry: false
 })

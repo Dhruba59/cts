@@ -2,32 +2,32 @@
 import { getTrainingMaterials, getTrainingMaterialById, 
   getStudyProtocols, addTrainingMaterial, editTrainingMaterial, deleteTrainingMaterial 
 } from "@/service/training-material-service";
-import { UseQueryOptions, useMutation, useQuery } from "react-query";
-
-
-
+import { useMutation, useQuery } from "react-query";
 
 export const useGetTrainingMaterials = (queryData : any) => useQuery({
   queryFn: getTrainingMaterials,
   queryKey: ['training', queryData],
+  retry: false
 })
+
 export const useGetTrainingMaterialById = (id :any) => useQuery({
   queryFn: getTrainingMaterialById,
   queryKey: ['trainingId', { TrainingId: id }],
-  enabled: !!id
+  enabled: !!id,
+  retry: false
+})
+
+export const useGetStudyProtocols = () => useQuery({
+  queryFn: getStudyProtocols,
+  retry: false
 })
 
 export const useAddTrainingMaterial = () => useMutation({
   mutationFn: addTrainingMaterial,
 })
 
-
 export const useEditTrainingMaterial = () => useMutation({
   mutationFn: editTrainingMaterial,
-})
-
-export const useGetStudyProtocols = () => useQuery({
-  queryFn: getStudyProtocols,
 })
 
 export const useDeleteTrainingMaterial = () => useMutation({
