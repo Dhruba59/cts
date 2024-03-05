@@ -1,4 +1,6 @@
-import { request } from "./axios-config";
+import { axiosApi } from "@/hooks/axiosApi";
+
+const requestAxios = axiosApi()
 
 export interface ChangePassPayload {
   oldPassword: string;
@@ -11,9 +13,9 @@ export interface MatchCurrentPassPayload {
 }
 
 export const change_password = (data: ChangePassPayload) => {
-  return request({url: 'User/change-password', method: 'post', data});
+  return requestAxios({url: 'User/change-password', method: 'post', data});
 }
 
 export const match_current_password = (data: MatchCurrentPassPayload) => {
-  return request({url: 'User/match-current-password', method: 'post', data});
+  return requestAxios({url: 'User/match-current-password', method: 'post', data});
 }

@@ -1,6 +1,8 @@
-import { request } from "./axios-config";
+import { axiosApi } from "@/hooks/axiosApi";
+
+const requestAxios = axiosApi()
 
 export const getSubjectMatchReport = ({queryKey}: any) => {
   const [key, params ] = queryKey as any;
-  return request({ url: `Report/get-subject-match-report`, method: "get", params });
+  return requestAxios({ url: `Report/get-subject-match-report`, method: "get", params });
 };

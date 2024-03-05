@@ -1,25 +1,26 @@
 import { DeleteSponsorPayload, Sponsor, SponsorQuery } from "@/model/sponsor";
-import { request } from "./axios-config";
+import { axiosApi } from "@/hooks/axiosApi";
 
+const requestAxios = axiosApi()
 
 export const getSponsorById = ({queryKey}: any) => {
   const [key, params ] = queryKey as any;
-  return request({url: 'Sponsor/GetById', method: 'GET', params});
+  return requestAxios({url: 'Sponsor/GetById', method: 'GET', params});
 }
 export const getSponsors = ({queryKey}: any) => {
   const [key, params ] = queryKey as any;
-  return request({url: 'Sponsor/Get', method: 'GET', params});
+  return requestAxios({url: 'Sponsor/Get', method: 'GET', params});
 }
 
 export const addSponsor = (data: Sponsor) => {
-  return request({url: 'Sponsor', method: 'POST', data});
+  return requestAxios({url: 'Sponsor', method: 'POST', data});
 }
 
 export const editSponsor = (data: Sponsor) => {
-  return request({url: 'Sponsor', method: 'PUT', data});
+  return requestAxios({url: 'Sponsor', method: 'PUT', data});
 } 
 
 
 export const deleteSponsor = (data: DeleteSponsorPayload) => {
-  return request({url: 'Sponsor', method: 'DELETE', data});
+  return requestAxios({url: 'Sponsor', method: 'DELETE', data});
 }
