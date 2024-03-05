@@ -51,6 +51,7 @@ export const useGetTrainingsByProtocol = (params: getTraingingByProtocolParams) 
   queryKey: ['getTraingingsByProtocol', params],
   queryFn: getTrainingsByProtocol,
   enabled: !!params.ProtocolIds,
+  cacheTime: 0,
   retry: false
 })
 
@@ -58,6 +59,7 @@ export const useGetProtocolsBySponsor = (params: getProtocolBySponsorParams) => 
   queryKey: ['getProtocolsBySponsor', params],
   queryFn: getProtocolBySponsor,
   enabled: !!params.SponsorId,
+  cacheTime: 0,
   retry: false
 })
 

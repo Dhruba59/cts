@@ -14,6 +14,7 @@ export const useGetSiteById = (id: any) => useQuery({
   queryFn: getSiteById,
   queryKey: ['siteId', { siteId: id }],
   enabled: !!id,
+  cacheTime: 0,
   retry: false
 })
 

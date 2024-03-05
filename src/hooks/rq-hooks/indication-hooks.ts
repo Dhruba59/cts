@@ -12,6 +12,7 @@ export const useGetIndicationById = (id :any) => useQuery({
   queryFn: getIndicationById,
   queryKey: ['indication', { indicationId: id }],
   enabled: !!id,
+  cacheTime: 0,
   retry: false
 })
 

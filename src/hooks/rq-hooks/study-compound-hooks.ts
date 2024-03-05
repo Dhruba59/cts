@@ -14,6 +14,7 @@ export const useGetStudyCompoundById = (id: any) => useQuery({
   queryFn: getStudyCompoundById,
   queryKey: ['studyCompound', { StudyCompoundId: id }],
   enabled: !!id,
+  cacheTime: 0,
   retry: false
 })
 

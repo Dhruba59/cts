@@ -14,6 +14,7 @@ export const useGetTrainingMaterialById = (id :any) => useQuery({
   queryFn: getTrainingMaterialById,
   queryKey: ['trainingId', { TrainingId: id }],
   enabled: !!id,
+  cacheTime: 0,
   retry: false
 })
 

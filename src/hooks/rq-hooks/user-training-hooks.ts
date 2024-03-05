@@ -20,6 +20,7 @@ export const useGetQuizByTrainingId = (trainigId :any) => useQuery({
   queryFn: getQuizByTrainingId,
   queryKey: ['trainigId', { TrainingId: trainigId }],
   enabled: !!trainigId,
+  cacheTime: 0,
   retry: false
 })
 

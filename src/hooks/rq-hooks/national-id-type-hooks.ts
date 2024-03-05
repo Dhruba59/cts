@@ -15,6 +15,7 @@ export const useGetNationalIdTypeById = (id: any) => useQuery({
   queryFn: getNationalIdTypeById,
   queryKey: ['nationalIdType', { nationalTypeId: id }],
   enabled: !!id,
+  cacheTime: 0,
   retry: false
 })
 

@@ -9,6 +9,7 @@ export const useGetSponsors = () => useQuery({
 
 export const useGetSponsorById = () => useQuery({
   queryFn: getSponsorById,
+  cacheTime: 0,
   retry: false
 })
 
