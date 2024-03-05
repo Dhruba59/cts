@@ -1,19 +1,17 @@
 import { API_ROUTE_CONSTANT } from "@/constants/api-route";
+import { request } from "./axios-config";
 import { AddUpdateStudyPayload, GetIndicationListParams, StudyDeletePayload } from "@/model/study";
-import { axiosApi } from "@/hooks/axiosApi";
-
-const requestAxios = axiosApi()
 
 export const addStudy = (data: AddUpdateStudyPayload) => {
-  return requestAxios({ url: API_ROUTE_CONSTANT.STUDY, method: "post", data });
+  return request({ url: API_ROUTE_CONSTANT.STUDY, method: "post", data });
 };
 
 export const updateStudy = (data: AddUpdateStudyPayload) => {
-  return requestAxios({ url: API_ROUTE_CONSTANT.STUDY, method: "put", data });
+  return request({ url: API_ROUTE_CONSTANT.STUDY, method: "put", data });
 };
 
 export const getStudyDropDownsList = () => {
-  return requestAxios({ url: `${API_ROUTE_CONSTANT.STUDY}/dropdowns`, method: "get" });
+  return request({ url: `${API_ROUTE_CONSTANT.STUDY}/dropdowns`, method: "get" });
 };
 
 export const getIndicationList = ({queryKey}: any) => {
@@ -22,19 +20,19 @@ export const getIndicationList = ({queryKey}: any) => {
     SearchField: parseInt(searchField),
     SearchValue: searchValue
   }
-  return requestAxios({ url: `${API_ROUTE_CONSTANT.STUDY}/indication-dropdowns`, method: "get", params });
+  return request({ url: `${API_ROUTE_CONSTANT.STUDY}/indication-dropdowns`, method: "get", params });
 };
 
 export const getStudyList = ({queryKey}: any) => {
   const [key, params ] = queryKey as any;
-  return requestAxios({ url: `${API_ROUTE_CONSTANT.STUDY}/studies`, method: "get", params });
+  return request({ url: `${API_ROUTE_CONSTANT.STUDY}/studies`, method: "get", params });
 };
 
 export const getStudiyById = ({queryKey}: any) => {
   const [key, params ] = queryKey as any;
-  return requestAxios({ url: API_ROUTE_CONSTANT.STUDY, method: "get", params });
+  return request({ url: API_ROUTE_CONSTANT.STUDY, method: "get", params });
 };
 
 export const deleteStudyById = (data: StudyDeletePayload) => {
-  return requestAxios({ url: API_ROUTE_CONSTANT.STUDY, method: "delete", data });
+  return request({ url: API_ROUTE_CONSTANT.STUDY, method: "delete", data });
 };

@@ -1,9 +1,7 @@
 import { API_ROUTE_CONSTANT } from "@/constants/api-route";
-import { AddUpdateStudyPayload, GetIndicationListParams, StudyDeletePayload } from "@/model/study";
+import { request } from "./axios-config";
+// import { AddUpdateStudyPayload, GetIndicationListParams, StudyDeletePayload } from "@/model/study";
 import { SubjectFieldValidationPayloadType } from "@/model/subject";
-import { axiosApi } from "@/hooks/axiosApi";
-
-const requestAxios = axiosApi()
 
 interface NewSubjectPayload {
   UserId: string,
@@ -44,78 +42,78 @@ interface UpdateVisitInfo {
 
 
 export const getStudyType = () => {
-  return requestAxios({ url: `${API_ROUTE_CONSTANT.SUBJECT}/get-study-types`, method: "get" });
+  return request({ url: `${API_ROUTE_CONSTANT.SUBJECT}/get-study-types`, method: "get" });
 };
 
 export const getProtocolsByStudyId = ({queryKey}: any) => {
   const [key, params ] = queryKey as any;
-  return requestAxios({ url: `${API_ROUTE_CONSTANT.SUBJECT}/get-protocols-by-study-type`, method: "get", params });
+  return request({ url: `${API_ROUTE_CONSTANT.SUBJECT}/get-protocols-by-study-type`, method: "get", params });
 };
 
 export const getAssignedProtocols = ({queryKey}: any) => {
   const [key, params ] = queryKey as any;
-  return requestAxios({ url: `${API_ROUTE_CONSTANT.SUBJECT}/GetAssignedProtocols`, method: "get", params });
+  return request({ url: `${API_ROUTE_CONSTANT.SUBJECT}/GetAssignedProtocols`, method: "get", params });
 };
 
 export const getProtocolByUserId = ({queryKey}: any) => {
   const [key, params ] = queryKey as any;
-  return requestAxios({ url: `${API_ROUTE_CONSTANT.SUBJECT}/GetProtocolByUserId`, method: "get", params });
+  return request({ url: `${API_ROUTE_CONSTANT.SUBJECT}/GetProtocolByUserId`, method: "get", params });
 };
 
 export const getSubjectDropdowns = () => {
-  return requestAxios({ url: `${API_ROUTE_CONSTANT.SUBJECT}/get-necessary-dropdowns`, method: "get" });
+  return request({ url: `${API_ROUTE_CONSTANT.SUBJECT}/get-necessary-dropdowns`, method: "get" });
 };
 
 export const addNewSubject = (data: NewSubjectPayload) => {
-  return requestAxios({ url: API_ROUTE_CONSTANT.SUBJECT, method: "post", data });
+  return request({ url: API_ROUTE_CONSTANT.SUBJECT, method: "post", data });
 };
 
 export const checkDetailRequirement = (data: DetailRequirementPayload) => {
-  return requestAxios({ url: `${API_ROUTE_CONSTANT.SUBJECT}/check-detail-requirement`, method: "post", data });
+  return request({ url: `${API_ROUTE_CONSTANT.SUBJECT}/check-detail-requirement`, method: "post", data });
 };
 
 export const validateSponsorSubjectId = (data: ValidateSponsorSubjectPayload) => {
-  return requestAxios({ url: `${API_ROUTE_CONSTANT.SUBJECT}/validate-sponsor-subject-id`, method: "post", data });
+  return request({ url: `${API_ROUTE_CONSTANT.SUBJECT}/validate-sponsor-subject-id`, method: "post", data });
 };
 
 export const verifySocialCode = (data: VerifySocialCode) => {
-  return requestAxios({ url: `${API_ROUTE_CONSTANT.SUBJECT}/verify-social-code`, method: "post", data });
+  return request({ url: `${API_ROUTE_CONSTANT.SUBJECT}/verify-social-code`, method: "post", data });
 };
 
 export const validateAgeBmi = (data: SubjectFieldValidationPayloadType) => {
-  return requestAxios({ url: `${API_ROUTE_CONSTANT.SUBJECT}/pre-submit-validation`, method: "post", data });
+  return request({ url: `${API_ROUTE_CONSTANT.SUBJECT}/pre-submit-validation`, method: "post", data });
 };
 
 export const updateVisitInfo = (data: UpdateVisitInfo) => {
-  return requestAxios({ url: `${API_ROUTE_CONSTANT.SUBJECT}/update-visit-info`, method: "post", data });
+  return request({ url: `${API_ROUTE_CONSTANT.SUBJECT}/update-visit-info`, method: "post", data });
 };
 
 export const searchLastSubjects = ({queryKey}: any) => {
   const [key, params ] = queryKey as any;
-  return requestAxios({ url: `${API_ROUTE_CONSTANT.SUBJECT}/search-last-subjects`, method: "get", params });
+  return request({ url: `${API_ROUTE_CONSTANT.SUBJECT}/search-last-subjects`, method: "get", params });
 };
 
 export const getReprintMatchReports = ({queryKey}: any) => {
   const [key, params ] = queryKey as any;
-  return requestAxios({ url: `${API_ROUTE_CONSTANT.SUBJECT}/GetReprintMatchReports`, method: "get", params });
+  return request({ url: `${API_ROUTE_CONSTANT.SUBJECT}/GetReprintMatchReports`, method: "get", params });
 };
 
 export const getLastReprintSubjects = ({queryKey}: any) => {
   const [key, params ] = queryKey as any;
-  return requestAxios({ url: `${API_ROUTE_CONSTANT.SUBJECT}/GetLastSubjectReprint`, method: "get", params });
+  return request({ url: `${API_ROUTE_CONSTANT.SUBJECT}/GetLastSubjectReprint`, method: "get", params });
 };
 
 export const getUsersDropdownList = ({queryKey}: any) => {
   const [key, params ] = queryKey as any;
-  return requestAxios({ url: `${API_ROUTE_CONSTANT.SUBJECT}/get-user-dropdown`, method: "get", params });
+  return request({ url: `${API_ROUTE_CONSTANT.SUBJECT}/get-user-dropdown`, method: "get", params });
 };
 
 export const getLastSubjectReport = ({queryKey}: any) => {
   const [key, params ] = queryKey as any;
-  return requestAxios({ url: `${API_ROUTE_CONSTANT.SUBJECT}/last-subject-report`, method: "get", params });
+  return request({ url: `${API_ROUTE_CONSTANT.SUBJECT}/last-subject-report`, method: "get", params });
 };
 
 // non pre-screen
 export const getVisitTypes = () => {
-  return requestAxios({ url: `${API_ROUTE_CONSTANT.SUBJECT}/visit-types`, method: "get" });
+  return request({ url: `${API_ROUTE_CONSTANT.SUBJECT}/visit-types`, method: "get" });
 }

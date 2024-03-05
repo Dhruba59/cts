@@ -1,32 +1,29 @@
-import { NationalIdType, NationalIdTypeQuery, DeleteNationalIdTypePayload 
+import { NationalIdType, DeleteNationalIdTypePayload 
 } from "@/model/national-id-type";
-import { axiosApi } from "@/hooks/axiosApi";
-
-const requestAxios = axiosApi()
+import { request } from "./axios-config";
 
 export const getNationalIdTypeById = ({queryKey}: any) => {
   const [key, params ] = queryKey as any;
-  return requestAxios({url: 'NationalIdType/GetById', method: 'GET', params});
+  return request({url: 'NationalIdType/GetById', method: 'GET', params});
 }
 
 export const getFrequencyTypes = () => {
-  return requestAxios({url: 'NationalIdType/country-dropdown', method: 'GET'});
+  return request({url: 'NationalIdType/country-dropdown', method: 'GET'});
 }
 
 export const getNationalIdTypes = ({queryKey}: any) => {
   const [key, params ] = queryKey as any;
-  return requestAxios({url: 'NationalIdType/Get', method: 'GET', params});
+  return request({url: 'NationalIdType/Get', method: 'GET', params});
 }
 
 export const addNationalIdType = (data: NationalIdType) => {
-  return requestAxios({url: 'NationalIdType', method: 'POST', data});
+  return request({url: 'NationalIdType', method: 'POST', data});
 }
 
 export const editNationalIdType = (data: NationalIdType) => {
-  return requestAxios({url: 'NationalIdType', method: 'PUT', data});
+  return request({url: 'NationalIdType', method: 'PUT', data});
 } 
 
-
 export const deleteNationalIdType = (data: DeleteNationalIdTypePayload) => {
-  return requestAxios({url: 'NationalIdType', method: 'DELETE', data});
+  return request({url: 'NationalIdType', method: 'DELETE', data});
 }

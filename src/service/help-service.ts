@@ -1,8 +1,6 @@
-import { axiosApi } from "@/hooks/axiosApi";
+import { request } from "./axios-config";
 import { HelpQueryPayload } from "@/model/help";
 
-const requestAxios = axiosApi()
-
 export const postHelpQuery = (data: HelpQueryPayload) => {
-  return requestAxios({url: 'Help/submit', method: 'post', data})
+  return request({url: 'Help/submit', method: 'post', data})
 }
