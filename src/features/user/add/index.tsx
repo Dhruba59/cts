@@ -367,7 +367,8 @@ const AddUser = ({ id }: AddUserProps) => {
       addUser(payload, {
         onSuccess: (data) => {
           apiResponseToast(data?.data);
-          reset();
+          reset()
+          reset({site: ''})
           storeSetDndData(initialSiteUserDndValue as any)
           // setSiteUserDndData(initialSiteUserDndValue);
           setTrainingDndData(initialTrainingDndValue);
@@ -390,7 +391,7 @@ const AddUser = ({ id }: AddUserProps) => {
               items: []
             }]
           })
-          storeSetSelectedProtocols([]);
+          storeSetSelectedProtocols([])
         },
         onError: (error: any) => {
           toast.error(error?.response?.data?.detail);
