@@ -372,7 +372,25 @@ const AddUser = ({ id }: AddUserProps) => {
           // setSiteUserDndData(initialSiteUserDndValue);
           setTrainingDndData(initialTrainingDndValue);
           setSponsorDndData(initialSponsorDndValue);
-          storeSetAdminDndData(initialAdminDndValue);
+          storeSetAdminDndData({
+            matchTypes: [{
+              title: 'Match Type',
+              items: dropdowns?.data?.matchTypes
+            },
+            {
+              title: 'selected',
+              items: []
+            }],
+            sites: [{
+              title: 'Site',
+              items: dropdowns?.data?.sites
+            },
+            {
+              title: 'selected',
+              items: []
+            }]
+          })
+          storeSetSelectedProtocols([]);
         },
         onError: (error: any) => {
           toast.error(error?.response?.data?.detail);
