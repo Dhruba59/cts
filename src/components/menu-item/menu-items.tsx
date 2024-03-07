@@ -8,8 +8,8 @@ const MenuList: React.FC<MenuListProps> = ({ menus, className }) => {
       {menus?.map((menu, index) => (
         <MenuItem
           key={index}
-          icon={menu.icon}
-          text={menu.text}
+          icon={menu?.icon}
+          content={menu.content}
           url={menu.url}
           onClick={menu.onClick}
         />

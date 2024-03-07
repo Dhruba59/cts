@@ -56,7 +56,7 @@ export function ListTable({ data, sorting, setSorting, refetch, isLoading }: any
 
   return (
     <div className="sm:wrapper">
-      <TableTopWithAddButtin headerText=" List of Training Material" addButtonLink="add"/>
+      <TableTopWithAddButtin headerText="Training Materials" addButtonLink="add"/>
       <div className="hidden sm:block">
         <SimpleTable data={data} columns={columns} sorting={sorting} setSorting={setSorting} isLoading={isLoading}/>
       </div>
@@ -64,8 +64,8 @@ export function ListTable({ data, sorting, setSorting, refetch, isLoading }: any
         <ExpandableTable
           data={data}
           columns={columns}
-          tableTitle=" List of Training Material"
-          addButtonLink="add"
+          // tableTitle="Training Materials"
+          // addButtonLink="add"
           listTitleKey="trainingName"
         />
       </div>

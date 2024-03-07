@@ -20,7 +20,7 @@ const SidebarItem = ({ item, showIconOnly = false }: SidebarItemProps) => {
 
   const menuItems = item?.child?.map((item: any) => ({
     icon: item?.icon,
-    text: item?.funtionality,
+    content: item?.funtionality,
     url: item?.url
   }));
 

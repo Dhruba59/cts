@@ -1,5 +1,6 @@
 import { ColumnDef, SortingState } from "@tanstack/react-table";
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, ReactNode, SetStateAction } from "react";
+import { UseFormReturn } from "react-hook-form";
 import { GroupBase, Props } from "react-select";
 
 export interface KeyValueType {
@@ -30,3 +31,15 @@ export interface DataTableProps<TData, TValue>
   containerClassName?: string;
 }
 
+
+export interface TabSearchBarProps {
+  /*
+    wrap each input field or elements using Fragment to get the default styles
+  */
+  formContent: ReactNode;
+  onReset: () => void;
+}
+
+export interface BasicTabSearchBarContentsProps {
+  form: UseFormReturn;
+}
