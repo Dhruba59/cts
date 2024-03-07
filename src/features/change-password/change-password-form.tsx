@@ -144,8 +144,8 @@ const ChangePasswordForm = () => {
               {...register("password", {
                 required: "New Password is required!",
                 pattern: {
-                  value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$%^&+=]).{8,}$/,
-                  message: "Password must be 8 characters with atleast one digit, one uppercase, one lowercase and one special character!"
+                  value: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,32}$/,
+                  message: "Password must be at least 8 characters with atleast one numeric digit, one uppercase, one lowercase letter!"
                 }
               })} />
             {errors.password && (
