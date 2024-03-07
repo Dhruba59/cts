@@ -19,7 +19,7 @@ export const getSiteDetailWithProtocol = ({queryKey}: any) => {
 
 export const getTrainingsByProtocol = ({queryKey}: any) => {
   const [key, params ] = queryKey as any;
-  return request({url: 'User//get-trainings-by-protocols', method: 'GET', params});
+  return request({url: 'User/get-trainings-by-protocols', method: 'GET', params});
 }
 
 export const getProtocolBySponsor = ({queryKey}: any) => {
@@ -47,7 +47,6 @@ export const validateUserName = (data: ValidateUsernamePayload) => {
 export const deleteUser = (data: DeleteUserPayload) => {
   return request({url: 'User', method: 'DELETE', data});
 }
-
 
 export const getDormantUsers = ({queryKey}: any) => {
   const [key, params ] = queryKey as any;

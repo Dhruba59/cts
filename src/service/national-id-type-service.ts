@@ -1,7 +1,6 @@
-import { NationalIdType, NationalIdTypeQuery, DeleteNationalIdTypePayload 
+import { NationalIdType, DeleteNationalIdTypePayload 
 } from "@/model/national-id-type";
 import { request } from "./axios-config";
-
 
 export const getNationalIdTypeById = ({queryKey}: any) => {
   const [key, params ] = queryKey as any;
@@ -24,7 +23,6 @@ export const addNationalIdType = (data: NationalIdType) => {
 export const editNationalIdType = (data: NationalIdType) => {
   return request({url: 'NationalIdType', method: 'PUT', data});
 } 
-
 
 export const deleteNationalIdType = (data: DeleteNationalIdTypePayload) => {
   return request({url: 'NationalIdType', method: 'DELETE', data});

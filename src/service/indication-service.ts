@@ -1,6 +1,5 @@
-import { Indication, IndicationQuery } from "@/model/indication";
+import { Indication } from "@/model/indication";
 import { request } from "./axios-config";
-
 
 export const getIndicationById = ({queryKey}: any) => {
   const [key, params ] = queryKey as any;
