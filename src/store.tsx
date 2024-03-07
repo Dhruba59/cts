@@ -56,11 +56,26 @@ const useProtocolListStore = create<protocolListStore>((set) => ({
     setProtocols: (newProtocols) => set({ protocols: newProtocols }),
     setInitialSiteProtocolIds: (newInitialSiteProtocolIds) => set({ initialSiteProtocolIds: newInitialSiteProtocolIds }),
     setSelectedProtocols: (newSelectedProtocols) => set({ selectedProtocols: newSelectedProtocols }),
-    setDndData: (newDndData) => set({ dndData: [...newDndData] }),
-    setSiteDetail: (newSiteDetail) => set({ siteDetail: newSiteDetail }),
+
+    setDndData: (newDndData) => set((state) => {
+      console.log('Old dndData:', state.dndData);
+      console.log('New dndData:', newDndData);
+      return { dndData: [...newDndData] };
+    }),
+
+    setSiteDetail: (newSiteDetail) => set({ siteDetail: {...newSiteDetail} }),
     addAdminDndData: (newAdminDndData) => set((state) => ({ adminDndData: {...state.adminDndData, matchTypes: newAdminDndData} })),
     setAdminDndData: (newAdminDndData) => set({ adminDndData: {...newAdminDndData} }),
 }));
 
 
 export default useProtocolListStore;
+
+
+/* 
+  setDndData: (newDndData) => set((state) => {
+    console.log('Old dndData:', state.dndData);
+    console.log('New dndData:', newDndData);
+    return { dndData: [...newDndData] };
+  }),
+*/
