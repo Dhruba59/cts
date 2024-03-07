@@ -10,6 +10,11 @@ export const getReactSelectCustomStyles = (isDarkMode: boolean) => {
           backgroundColor: isDarkMode ? "#121212" : "#DEF3FE",
         },
       }),
+
+      input: (base: any) => ({
+        ...base,
+        color: isDarkMode ? "#fff" : "#24303f",
+      }),
     
       control: (base: CSSObjectWithLabel, state: any) => ({
         ...base,

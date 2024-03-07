@@ -367,12 +367,38 @@ const AddUser = ({ id }: AddUserProps) => {
       addUser(payload, {
         onSuccess: (data) => {
           apiResponseToast(data?.data);
-          reset();
-          storeSetDndData(initialSiteUserDndValue as any)
-          // setSiteUserDndData(initialSiteUserDndValue);
-          setTrainingDndData(initialTrainingDndValue);
-          setSponsorDndData(initialSponsorDndValue);
-          storeSetAdminDndData(initialAdminDndValue);
+
+          setTimeout(() => {
+            if (typeof window !== "undefined") {
+              window.location.reload();
+            }
+          }, 700);
+          // reset()
+          // reset({site: ''})
+          // reset({suppressMatchType: ''})
+          // storeSetDndData(initialSiteUserDndValue as any)
+          // setSiteUserSiteId('')
+          // setTrainingDndData(initialTrainingDndValue);
+          // setSponsorDndData(initialSponsorDndValue);
+          // storeSetAdminDndData({
+          //   matchTypes: [{
+          //     title: 'Match Type',
+          //     items: dropdowns?.data?.matchTypes
+          //   },
+          //   {
+          //     title: 'selected',
+          //     items: []
+          //   }],
+          //   sites: [{
+          //     title: 'Site',
+          //     items: dropdowns?.data?.sites
+          //   },
+          //   {
+          //     title: 'selected',
+          //     items: []
+          //   }]
+          // })
+          // storeSetSelectedProtocols([])
         },
         onError: (error: any) => {
           toast.error(error?.response?.data?.detail);
