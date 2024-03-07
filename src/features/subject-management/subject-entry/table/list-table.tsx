@@ -12,7 +12,7 @@ import Spinner from "@/components/ui/spinner";
 import Modal from "@/components/modal";
 import LastSubjectContactModal from "./last-subject-contact-modal";
 
-const ListTable = ({ data, isLoading, protocolId, onUpdateSubject }: any) => {
+const ListTable = ({ data, isLoading, protocolId, sorting, setSorting, onUpdateSubject }: any) => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [lastSubjectQueryParams, setLastSubjectQueryParams] =
     useState<LastSubjectPrintQueryParams>();
@@ -77,7 +77,7 @@ const ListTable = ({ data, isLoading, protocolId, onUpdateSubject }: any) => {
         List of Last Subjects
       </h4>
       <div className="hidden sm:block">
-        <SimpleTable data={data} columns={columns} isLoading={isLoading} />
+        <SimpleTable data={data} columns={columns} isLoading={isLoading} sorting={sorting} setSorting={setSorting} />
       </div>
       <div className="block sm:hidden">
         <ExpandableTable
