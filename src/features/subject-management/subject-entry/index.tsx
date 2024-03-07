@@ -18,7 +18,8 @@ import { DEFAULT_PAGE_SIZE } from "@/constants/common";
 import Pagination from "@/components/pagination";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
-import useProtocolListStore from "@/store";
+// import useProtocolListStore from "@/store";
+import { SortingState } from "@tanstack/react-table";
 
 const getProtocolsDropdown = (data: Protocol[]) => {
   return data?.map((protocol) => ({ value: protocol.studyId.toString(), label: protocol.protocolNumber }))
@@ -39,6 +40,7 @@ const SubjectEntryEditForm = ({ ids }: SubjectEntryEditForm) => {
   const [currentTab, setCurrentTab] = useState<"add" | "last">("add");
   const [isPreScreen, setIsPreScreen] = useState<boolean>(false);
   const [subjectEntryFormat, setSubjectEntryFormat] = useState<string>('');
+  const [sorting, setSorting] = useState<SortingState>([]);
 
   const { data: session } = useSession();
   const router = useRouter();
@@ -173,6 +175,14 @@ const SubjectEntryEditForm = ({ ids }: SubjectEntryEditForm) => {
     });
   }, [pageSize]);
 
+  useEffect(() => {
+    const orderby: any = sorting.map((s) => `${s.id} ${s.desc ? 'desc' : 'asc'}`).join(',');
+    setQueryParams((data) => ({
+      ...data,
+      orderBy: typeof orderby != 'undefined' && orderby ? orderby : null
+    }));
+  }, [sorting])
+
   return (
     <main>
       <Breadcrumbs title="Subject Management" subTitle="Entry Study Subject" />
@@ -224,7 +234,7 @@ const SubjectEntryEditForm = ({ ids }: SubjectEntryEditForm) => {
       </div>
       {((userRole == USER_ROLE_ENUM.SYSTEM_ADMIN && selectedProtocol?.value && !ids)) &&
         <div>
-          <ListTable data={subjectList?.data.items} isLoading={isSubjectLoading || isRefetchingSubject} protocolId={selectedProtocol?.value} onUpdateSubject={onUpdateSubject}/>
+          <ListTable data={subjectList?.data.items} isLoading={isSubjectLoading || isRefetchingSubject} protocolId={selectedProtocol?.value} onUpdateSubject={onUpdateSubject} sorting={sorting} setSorting={setSorting} />
           <Pagination
             currentPage={subjectList?.data?.pageNumber ?? 1}
             lastPage={subjectList?.data?.totalPages ?? 0}
