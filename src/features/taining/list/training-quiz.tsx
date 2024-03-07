@@ -132,6 +132,11 @@ const TrainingQuiz = ({ trainigId, setDiableQuizes, showResult, setShowResult, r
 
         setShowResult(true);
         //refetch();
+        setTimeout(() => {
+          if (typeof window !== "undefined") {
+            window.location.reload();
+          }
+        }, 800);
       },
       onError: (err: any) => {
         toast.error(err?.response?.data?.title);
