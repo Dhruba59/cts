@@ -369,7 +369,9 @@ const AddUser = ({ id }: AddUserProps) => {
           apiResponseToast(data?.data);
           reset()
           reset({site: ''})
+          reset({suppressMatchType: ''})
           storeSetDndData(initialSiteUserDndValue as any)
+          setSiteUserSiteId('')
           // setSiteUserDndData(initialSiteUserDndValue);
           setTrainingDndData(initialTrainingDndValue);
           setSponsorDndData(initialSponsorDndValue);
