@@ -100,9 +100,7 @@ export const getRefreshToken = () => {
   return '';
 }
 
-export const setTokens = (tokenDetails: any) => {
-  console.log('new tokenDetails', tokenDetails);
-  
+export const setTokens = (tokenDetails: any) => {  
   let token: any = localStorage.getItem(STORAGE_KEY.AUTH_TOKEN);
   if(token) token = JSON.parse(token ?? '');
   if(token) {
