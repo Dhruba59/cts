@@ -1,5 +1,6 @@
 'use client';
 import { STORAGE_KEY } from "@/constants/storage-constant";
+import { getAccessToken } from "@/utils/helpers";
 import { signOut, useSession } from "next-auth/react";
 import { usePathname, useRouter } from 'next/navigation';
 import { useEffect } from "react";
@@ -27,7 +28,8 @@ const AuthManager = ({ children }: any) => {
           signOut()
         }
         if (status === 'authenticated') {
-          localStorage.setItem(STORAGE_KEY.AUTH_TOKEN, JSON.stringify(data?.user?.token));
+          if(!getAccessToken())
+            localStorage.setItem(STORAGE_KEY.AUTH_TOKEN, JSON.stringify(data?.user?.token));
           if (data?.user?.needToChangePassword) {
             router.push('/change-password');
           } else if (pathname.includes('auth')) {
