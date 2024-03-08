@@ -368,10 +368,9 @@ const AddUser = ({ id }: AddUserProps) => {
         onSuccess: (data) => {
           apiResponseToast(data?.data);
           reset()
-          reset({site: ''})
-          reset({suppressMatchType: ''})
-          storeSetDndData(initialSiteUserDndValue as any)
           setSiteUserSiteId('')
+          storeSetSelectedProtocols([])
+          storeSetDndData(initialSiteUserDndValue as any)
           setTrainingDndData(initialTrainingDndValue);
           setSponsorDndData(initialSponsorDndValue);
           storeSetAdminDndData({
@@ -392,7 +391,8 @@ const AddUser = ({ id }: AddUserProps) => {
               items: []
             }]
           })
-          storeSetSelectedProtocols([])
+          reset({suppressMatchTypeId: ''})
+          reset({site: ''})
         },
         onError: (error: any) => {
           toast.error(error?.response?.data?.detail);
@@ -699,7 +699,9 @@ const AddUser = ({ id }: AddUserProps) => {
                 <Controller
                   control={control}
                   name='userType'
-                  rules={{}}
+                  rules={{
+                    required: 'User type is required!',
+                  }}
                   render={({ field: { onChange, onBlur, value } }: any) => (
                     <Select
                       onChange={(option) => {
