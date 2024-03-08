@@ -189,7 +189,12 @@ const AddUser = ({ id }: AddUserProps) => {
 
   const router = useRouter();
 
-  const form = useForm();
+  const form = useForm({
+    defaultValues: {
+      site: '',
+      suppressMatchType: ''
+    } as any
+  });
   const {
     register,
     handleSubmit,
@@ -391,8 +396,6 @@ const AddUser = ({ id }: AddUserProps) => {
               items: []
             }]
           })
-          reset({suppressMatchTypeId: ''})
-          reset({site: ''})
         },
         onError: (error: any) => {
           toast.error(error?.response?.data?.detail);
