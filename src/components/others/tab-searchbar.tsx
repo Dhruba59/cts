@@ -3,10 +3,13 @@ import { TabSearchBarProps } from "@/model/common";
 import { useEffect, useState } from "react";
 import Button from "../ui/button";
 import { useShouldRenderComponentOnResize } from "@/hooks/resize-hook";
+import { useThemeContext } from "@/context/theme-context";
+import { THEME_COLOR_ENUM } from "@/model/context";
 
 export const TabSearchBar = ({ formContent, onReset }: TabSearchBarProps) => {
   const [isOpen, setIsOpen] = useState<boolean>();
   const shouldRender = useShouldRenderComponentOnResize({ minWidth: 0, maxWidth: 767 });
+  const { theme } = useThemeContext();
 
   if (!shouldRender) {
     return null;
@@ -16,7 +19,7 @@ export const TabSearchBar = ({ formContent, onReset }: TabSearchBarProps) => {
     <div className="flex wrapper flex-col md:hidden gap-2 rounded-md bg-white dark:bg-dark-lightBlue p-2">
       <div className="flex items-center justify-between" onClick={() => setIsOpen(!isOpen)}>
         <span className="font-semibold text-lg">Search</span>
-        <DownArrowIcon fill='white' className={`cursor-pointer ${isOpen ? 'rotate-180': 'rotate-0'}`}/>
+        <DownArrowIcon fill={theme === THEME_COLOR_ENUM.DARK ? 'white' : '#5C5E64'} className={`cursor-pointer ${isOpen ? 'rotate-180': 'rotate-0'}`}/>
       </div>
 
       <div className={`grid grid-cols-1 sm:grid-cols-2 gap-2 ${isOpen ? 'block': 'hidden'}`}>

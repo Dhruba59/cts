@@ -5,7 +5,7 @@ import { MenuListProps } from '@/model/menu-items';
 const MenuList: React.FC<MenuListProps> = ({ menus, className }) => {
   return (
     <div className={className}>
-      {menus?.map((menu, index) => (
+      {menus.length > 0 ? menus?.map((menu, index) => (
         <MenuItem
           key={index}
           icon={menu?.icon}
@@ -13,7 +13,7 @@ const MenuList: React.FC<MenuListProps> = ({ menus, className }) => {
           url={menu.url}
           onClick={menu.onClick}
         />
-      ))}
+      )) : <div className='w-16'>No Data</div>}
     </div>
   );
 };
