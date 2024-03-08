@@ -1,6 +1,5 @@
-import { Site, SiteQuery, DeleteSitePayload } from "@/model/site";
+import { Site, DeleteSitePayload } from "@/model/site";
 import { request } from "./axios-config";
-
 
 export const getSiteById = ({queryKey}: any) => {
   const [key, params ] = queryKey as any;

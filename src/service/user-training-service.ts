@@ -1,8 +1,5 @@
-import { TrainingMaterial 
-} from "@/model/training";
+// import { TrainingMaterial } from "@/model/training";
 import { request } from "./axios-config";
-
-
 
 export const getUserTrainings = () => {
   //const [key, params ] = queryKey as any;

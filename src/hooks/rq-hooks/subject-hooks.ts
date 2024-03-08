@@ -29,10 +29,12 @@ export const useUpdateVisitInfo = () => useMutation({
   mutationFn: updateVisitInfo,
 })
 
-export const useGetVisitTypes = () => useQuery({
+export const useGetVisitTypes = () => useQuery('getVisitTypes',{
   queryFn: getVisitTypes,
+  retry: false
 })
 
-export const useGetLastSubjectReport = () => useQuery({
+export const useGetLastSubjectReport = () => useQuery('getLastSubjectReport',{
   queryFn: getLastSubjectReport,
+  retry: false
 })

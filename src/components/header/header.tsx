@@ -19,6 +19,7 @@ import { getUserRoleFromValue } from "@/utils/helpers";
 const handleLogout = () => {
   // deleteSession();
   // deleteRemember();
+  localStorage.removeItem(STORAGE_KEY.AUTH_TOKEN);
   signOut();
 };
 

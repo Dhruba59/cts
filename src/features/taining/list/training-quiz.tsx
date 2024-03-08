@@ -131,7 +131,7 @@ const TrainingQuiz = ({ trainigId, setDiableQuizes, showResult, setShowResult, r
         }
 
         setShowResult(true);
-        //refetch();
+        refetchTrainings()
       },
       onError: (err: any) => {
         toast.error(err?.response?.data?.title);

@@ -1,4 +1,4 @@
-import { DeleteSponsorPayload, Sponsor, SponsorQuery } from "@/model/sponsor";
+import { DeleteSponsorPayload, Sponsor } from "@/model/sponsor";
 import { request } from "./axios-config";
 
 

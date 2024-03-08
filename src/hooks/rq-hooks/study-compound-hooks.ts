@@ -2,25 +2,25 @@
 import { getStudyCompounds, getStudyCompoundById, 
   addStudyCompound, editStudyCompound, deleteStudyCompound 
 } from "@/service/study-compound-service";
-import { UseQueryOptions, useMutation, useQuery } from "react-query";
-
-
-
+import { useMutation, useQuery } from "react-query";
 
 export const useGetStudyCompounds = (queryData: any) => useQuery({
   queryFn: getStudyCompounds,
   queryKey: ['study', queryData],
+  retry: false
 })
+
 export const useGetStudyCompoundById = (id: any) => useQuery({
   queryFn: getStudyCompoundById,
   queryKey: ['studyCompound', { StudyCompoundId: id }],
-  enabled: !!id
+  enabled: !!id,
+  cacheTime: 0,
+  retry: false
 })
 
 export const useAddStudyCompound = () => useMutation({
   mutationFn: addStudyCompound,
 })
-
 
 export const useEditStudyCompound = () => useMutation({
   mutationFn: editStudyCompound,

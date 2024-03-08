@@ -1,6 +1,6 @@
 import { API_ROUTE_CONSTANT } from "@/constants/api-route";
 import { request } from "./axios-config";
-import { AddUpdateStudyPayload, GetIndicationListParams, StudyDeletePayload } from "@/model/study";
+// import { AddUpdateStudyPayload, GetIndicationListParams, StudyDeletePayload } from "@/model/study";
 import { SubjectFieldValidationPayloadType } from "@/model/subject";
 
 interface NewSubjectPayload {

@@ -1,7 +1,6 @@
 
 import { request } from "./axios-config";
 
-
 export const getRequestTypeDropdown = () => {
   //const [key, params ] = queryKey as any;
   return request({url: 'ChangeRequest/request-type-dropdown', method: 'GET'});
@@ -16,26 +15,30 @@ export const getChangeRequestReprint = ({queryKey}: any) => {
   const [key, params ] = queryKey as any;
   return request({url: 'ChangeRequest/reprint', method: 'GET', params});
 }
+
 export const getSubjectDetails = ({queryKey}: any) => {
   const [key, params ] = queryKey as any;
   return request({url: 'ChangeRequest/subject-details', method: 'GET', params});
 }
+
 export const getChangeRequestDashboard = ({queryKey}: any) => {
   const [key, params ] = queryKey as any;
   return request({url: 'ChangeRequest/dashboard', method: 'GET', params});
 }
 
-
 export const getChangeRequestDashboardDropdows = () => {
   return request({url: 'ChangeRequest/dashboard-dropdowns', method: 'GET'});
 }
+
 export const getChangeRequestReprintDropdowns = () => {
   return request({url: 'ChangeRequest/reprint-dropdowns', method: 'GET'});
 }
+
 export const getChangeRequestAudit = ({queryKey}: any) => {
   const [key, params ] = queryKey as any;
   return request({url: 'ChangeRequest/audit', method: 'GET', params});
 }
+
 export const getChangeRequestAuditDetail = ({queryKey}: any) => {
   const [key, params ] = queryKey as any;
   return request({url: 'ChangeRequest/audit-detail', method: 'GET', params});
