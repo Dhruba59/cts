@@ -1,6 +1,9 @@
 
 import { ColumnDef } from "@tanstack/react-table";
 import { Query } from "./query";
+import { SelectOptionType } from "./drop-down-list";
+import { BasicTabSearchBarContentsProps } from "./common";
+import { UseFormReturn } from "react-hook-form";
 
 export interface Indication {
     indicationId?: number;
@@ -43,4 +46,12 @@ export const Indication_coluns: ColumnDef<IndicationQuery>[] = [
   export interface getIndicationListProps {
     searchField: string;
     searchValue: string;
+  }
+
+  export interface IndicationTabSearchBarContentProps extends BasicTabSearchBarContentsProps{
+    codeTypeOptions: SelectOptionType[];
+  }
+  
+  export interface SearchFormProps extends BasicTabSearchBarContentsProps{
+    codeTypeDropDown: any;
   }
