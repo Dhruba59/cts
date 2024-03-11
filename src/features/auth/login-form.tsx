@@ -40,7 +40,6 @@ const LoginForm = () => {
 
   const onSubmit = async (e: any) => {
     e.preventDefault();
-    localStorage.removeItem('removeSession')
     const payload = {
       username: e.target[0].value,
       password: e.target[1].value,
