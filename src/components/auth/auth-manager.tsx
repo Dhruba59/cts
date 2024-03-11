@@ -23,10 +23,6 @@ const AuthManager = ({ children }: any) => {
         //   return;
         // }
 
-        // if removeSession is true, remove session from next-auth
-        if(localStorage.getItem('removeSession')) {
-          signOut()
-        }
         if (status === 'authenticated') {
           if(!getAccessToken())
             localStorage.setItem(STORAGE_KEY.AUTH_TOKEN, JSON.stringify(data?.user?.token));
