@@ -38,13 +38,12 @@ const menuItems = [
 ];
 
 const Header = () => {
-  const [isPopupOpen, setIsPopupOpen] = useState<boolean>(false);
+  const [ isPopupOpen, setIsPopupOpen ] = useState<boolean>(false);
   const { isSidebarOpen, setIsSidebarOpen } = useSidebarContext();
-  // const [isDark, setIsDark] = useState<boolean>(localStorage.getItem(STORAGE_CONSTANT.THEME) === THEME_COLOR_ENUM.DARK);
-  const { theme, setTheme } = useThemeContext();
+  const [ userRole, setUserRole ] = useState<string>('');
+  const { theme } = useThemeContext();
   const isDark = theme === THEME_COLOR_ENUM.DARK;
-  const userRole = getUserRoleFromValue(localStorage.getItem(STORAGE_KEY.ROLE) ?? '');
-  const {data: session} = useSession();
+  const { data: session } = useSession();
 
   const handleTogglePopup = () => {
     setIsPopupOpen(!isPopupOpen);
@@ -54,24 +53,10 @@ const Header = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
 
-  // const onThemeChange = (value: boolean) => {
-  //   if (theme === THEME_COLOR_ENUM.DARK) {
-  //     setTheme(THEME_COLOR_ENUM.DARK);
-  //   } else {
-  //     setTheme(THEME_COLOR_ENUM.LIGHT);
-  //   }
-  //   if (value === true) {
-  //     document.documentElement.classList.add(THEME_COLOR_ENUM.DARK);
-  //     localStorage.setItem(STORAGE_KEY.THEME, THEME_COLOR_ENUM.DARK);
-  //     // setIsDark(true);
-  //     setTheme(THEME_COLOR_ENUM.DARK);
-  //   } else {
-  //     document.documentElement.classList.remove(THEME_COLOR_ENUM.DARK);
-  //     localStorage.removeItem(STORAGE_KEY.THEME);
-  //     // setIsDark(false);
-  //     setTheme(THEME_COLOR_ENUM.LIGHT);
-  //   }
-  // };
+
+  useEffect(() => {
+    setUserRole(getUserRoleFromValue(localStorage.getItem(STORAGE_KEY.ROLE) ?? ''));
+  }, []);
 
   return (
     <div className="fixed z-50 bg-white dark:bg-[#24303f] w-full px-4 py-2 flex justify-between items-center shadow-md border-b-red-500 border-b-2 h-[64px]">
