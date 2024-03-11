@@ -1,18 +1,14 @@
-import Button from "@/components/ui/button";
 import Checkbox from "@/components/ui/checkbox";
 import Input from "@/components/ui/input";
 import Label from "@/components/ui/label";
 import Select from "@/components/ui/select";
+import { BasicTabSearchBarContentsProps } from "@/model/common";
 import { SelectOptionType } from "@/model/drop-down-list";
-import { TrainingtTabSearchBarContentProps } from "@/model/training-material";
+import { SearchFormProps, TrainingtTabSearchBarContentProps } from "@/model/training-material";
 import { convertTypeToSelectOption } from "@/utils/helpers";
 import { Fragment, useEffect, useState } from "react";
-import { Controller, UseFormReturn } from "react-hook-form";
+import { Controller } from "react-hook-form";
 
-interface SearchFormProps {
-  studyProtocolDropDown: any;
-  form: UseFormReturn;
-}
 export function SearchForm({ studyProtocolDropDown, form }: SearchFormProps) {
   const [studyProtocolOptions, setStudyProtocolOptions] = useState<SelectOptionType[]>([]);
   const { control, register } = form;
@@ -46,10 +42,10 @@ export function SearchForm({ studyProtocolDropDown, form }: SearchFormProps) {
   );
 }
 
-export function AdvanceSearchForm({ form }: any) {
+export function AdvanceSearchForm({ form }: BasicTabSearchBarContentsProps) {
   const { control, register } = form;
   return (
-    <div className="flex gap-8 items-start">
+    <Fragment>
       <div>
         <Input
           label="File Path"
@@ -72,7 +68,7 @@ export function AdvanceSearchForm({ form }: any) {
           )}
         />
       </div>
-    </div>
+    </Fragment>
   );
 };
 

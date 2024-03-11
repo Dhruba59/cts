@@ -51,18 +51,25 @@ const SearchForm = ({ formContent, isAdvancedOpen, onReset }: DesktopSearchFormP
   );
 }
 
-const AdvancedSearchForm = ({ formContent, onReset }: Omit<DesktopSearchFormProps, 'isAdvancedOpen'>) => {
+const AdvancedSearchForm = ({
+  formContent,
+  onReset,
+}: Omit<DesktopSearchFormProps, "isAdvancedOpen">) => {
   return (
-    <div className="p-6">
-      <div>
-        {formContent}
+    <div className="p-6 space-y-4">
+      <div className='flex gap-8 items-start'>{formContent}</div>
+      <div className="flex justify-end gap-4">
+        <Button type="submit" className="px-8">
+          Submit
+        </Button>
+        <Button
+          type="button"
+          className="px-8"
+          variant="outline"
+          onClick={onReset}>
+          Reset
+        </Button>
       </div>
-    <div className="flex justify-end gap-4">
-      <Button type="submit" className="px-8">Submit</Button>
-      <Button type="button" className="px-8" variant="outline" onClick={onReset}>
-        Reset
-      </Button>
     </div>
-</div>
   );
-}
+};
