@@ -1,6 +1,7 @@
 import axios, { AxiosRequestConfig } from "axios";
 import { getAccessToken, getRefreshToken, setTokens } from "@/utils/helpers";
 import { STORAGE_KEY } from "@/constants/storage-constant";
+import { signOut } from "next-auth/react";
 
 const instance = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_BASE_URL,
@@ -35,8 +36,8 @@ instance.interceptors.response.use(
       } catch (refreshError) {
         // remove old token if refresh token failed
         localStorage.removeItem(STORAGE_KEY.AUTH_TOKEN);
-        // set removeSession to true to remove session from next-auth
-        localStorage.setItem("removeSession", JSON.stringify(true));
+        await signOut({ callbackUrl: "/auth/login" });
+
         // reject with failed refresh token error
         return Promise.reject(refreshError);
       }

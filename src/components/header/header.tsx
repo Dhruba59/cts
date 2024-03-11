@@ -20,7 +20,7 @@ const handleLogout = () => {
   // deleteSession();
   // deleteRemember();
   localStorage.removeItem(STORAGE_KEY.AUTH_TOKEN);
-  signOut();
+  signOut({ callbackUrl: "/auth/login" })
 };
 
 const menuItems = [
