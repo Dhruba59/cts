@@ -57,7 +57,7 @@ const AdvancedSearchForm = ({
 }: Omit<DesktopSearchFormProps, "isAdvancedOpen">) => {
   return (
     <div className="p-6 space-y-4">
-      <div className='flex gap-8 items-start'>{formContent}</div>
+      <div className='flex flex-wrap justify-start items-start gap-4'>{formContent}</div>
       <div className="flex justify-end gap-4">
         <Button type="submit" className="px-8">
           Submit
