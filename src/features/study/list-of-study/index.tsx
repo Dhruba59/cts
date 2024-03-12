@@ -8,7 +8,6 @@ import { getStudyList } from '@/service/study-service';
 import { DEFAULT_PAGE_SIZE } from '@/constants/common'
 import { StudyListQueryData } from '@/model/study'
 import { SortingState } from '@tanstack/react-table';
-import { MainContainer } from '@/components/style-container';
 import { initialDefaultQuery } from '@/utils/helpers';
 
 const StudyListFeature = () => {
@@ -56,7 +55,7 @@ const StudyListFeature = () => {
   }, [sorting]);
 
   return (
-    <main>
+    <main className='space-y-2'>
       <ListHeader setQueryData={setQueryData} />
       <ListTable data={studyData?.data?.items} sorting={sorting} setSorting={setSorting} isLoading={isLoading} />
       <Pagination
