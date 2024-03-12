@@ -1,3 +1,5 @@
+import { BasicTabSearchBarContentsProps } from "./common";
+import { SelectOptionType } from "./drop-down-list";
 import { Query } from "./query";
 
 export interface Site {
@@ -38,3 +40,8 @@ export interface SiteListColumnsProps{
 export interface AddSiteProps {
     id?: string
   }
+
+export interface SiteAdvanceSearchProps extends BasicTabSearchBarContentsProps {
+  frequencyDropDownOptions: SelectOptionType[];
+}
+  
