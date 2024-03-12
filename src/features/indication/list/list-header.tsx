@@ -9,13 +9,14 @@ import { convertTypeToSelectOption, initialDefaultQuery } from "@/utils/helpers"
 import { TabSearchBar } from "@/components/others/tab-searchbar";
 import { DesktopSearchBar } from "@/components/others/desktop-searchbar";
 import Breadcrumbs from "@/components/ui/breadcrumbs";
+import { DEFAULT_PAGE_SIZE } from "@/constants/common";
 
 const defaultValues: IndicationQuery = {
-  code: "",
-  indicationName: "",
-  codeType: "",
-  description: "",
-  isRequireDetails: undefined,
+  code: null,
+  indicationName: null,
+  codeType: null,
+  description: null,
+  isRequireDetails: null,
 };
 
 const ListHeader = ({ setQueryData }: any) => {

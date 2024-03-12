@@ -7,12 +7,12 @@ import { UseFormReturn } from "react-hook-form";
 
 export interface Indication {
     indicationId?: number;
-    code?: string;
-    indicationName?: string;
-    codeType?: string;
-    description?: string;
+    code?: string | null;
+    indicationName?: string | null;
+    codeType?: string | null;
+    description?: string | null;
     active?: boolean | null;
-    isRequireDetails?: boolean;
+    isRequireDetails?: boolean | null;
 }
 
 export interface CodeType {

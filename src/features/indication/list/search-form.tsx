@@ -69,7 +69,7 @@ export function AdvanceSearchForm({ form }: BasicTabSearchBarContentsProps) {
             name="isRequireDetails"
             control={control}
             render={({ field: { onChange, onBlur, value } }: any) =>
-              <Checkbox className="" onChange={onChange} />}
+              <Checkbox onChange={onChange} value={value} checked={value} />}
           />
       </div>
     </Fragment>
