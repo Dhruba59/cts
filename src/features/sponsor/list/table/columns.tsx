@@ -1,15 +1,11 @@
-import Check from "@/components/icons/check";
 import Edit from "@/components/icons/edit";
-import View from "@/components/icons/view";
-import { IndeterminateCheckbox } from "@/components/ui/checkbox";
-import { Sponsor, SponsorQuery, SponsorListColumnsProps } from "@/model/sponsor";
+import { Sponsor, SponsorListColumnsProps } from "@/model/sponsor";
 import { ColumnDef } from "@tanstack/react-table";
-import Cross from "@/components/icons/cross";
 import Link from "next/link";
 import { DeleteOutlined } from "@/assets/icons";
 
 
-export const SponsorListColumns = ({ onDelete }: SponsorListColumnsProps): ColumnDef<SponsorQuery>[] => {
+export const SponsorListColumns = ({ onDelete }: SponsorListColumnsProps): ColumnDef<Sponsor>[] => {
 return ([
 
   {
