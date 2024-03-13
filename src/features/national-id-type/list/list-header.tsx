@@ -1,47 +1,31 @@
 "use client";
 import Breadcrumbs from "@/components/ui/breadcrumbs";
-import Toggle from "@/components/ui/toggle";
-
-import { useState } from "react";
-import { SearchForm, AdvanceSearchForm } from "./search-form";
-import { DropDownItem, SelectOptionType } from "@/model/drop-down-list";
-import { Controller, useForm } from "react-hook-form";
+import { SearchForm, AdvanceSearchForm, TabSearchBarContent } from "./search-form";
+import { useForm } from "react-hook-form";
 import { NationalIdTypeQuery } from "@/model/national-id-type";
-import { useGetFrequencyTypes } from "@/hooks/rq-hooks/national-id-type-hooks";
-import { initialDefaultQuery } from "@/utils/helpers";
+import { useGetNidCountryDropdownOptions } from "@/hooks/rq-hooks/national-id-type-hooks";
+import { convertTypeToSelectOption, initialDefaultQuery } from "@/utils/helpers";
+import { DesktopSearchBar } from "@/components/others/desktop-searchbar";
+import { TabSearchBar } from "@/components/others/tab-searchbar";
 
+const defaultValues: NationalIdTypeQuery = {
+  typeName: '',
+  description: '',
+  countryId: 0,
+}
 
 const ListHeader = ({ setQueryData }: any) => {
-  const [isChecked, setIsChecked] = useState(false);
+  const {data: countryDropdown} = useGetNidCountryDropdownOptions();
+  const countryOptions = convertTypeToSelectOption(countryDropdown?.data?.countries);
 
-  const {data: frequencyTypeDropDown} = useGetFrequencyTypes();
-
-  const defaultValues: NationalIdTypeQuery = {
-    nationalTypeId: 0,
-    nationalIdtypeName: '',
-    description: '',
-    frequencyTypeId: 0,
-    active: undefined   
-  }
-  const {
-    register,
-    handleSubmit,
-    control,
-    setValue,
-    formState: { errors },
-    reset,
-  } = useForm<NationalIdTypeQuery>({
-    defaultValues: defaultValues
-  });
+  const form = useForm<NationalIdTypeQuery>({ defaultValues: defaultValues });
+  const { handleSubmit, reset } = form;
 
   const onSubmit = (value: any) => {
-    //console.log(value);
     const params = {
       ...value,
-      codeType: value?.codeType?.value
+      countryId: value?.countryId?.value
     }
-    //delete params.date;
-    //console.log(params);
     setQueryData(params);
   }
 
@@ -53,26 +37,27 @@ const ListHeader = ({ setQueryData }: any) => {
   return (
     <div>
       <Breadcrumbs title="NID Type" subTitle="NID Type List" />
-      <form className="" onSubmit={handleSubmit(onSubmit)}>
-        <div className="md:hidden">
-          <SearchForm  isAdvancedOpen={isChecked} frequencyTypeDropDown={frequencyTypeDropDown?.data} register={register} Controller={Controller} control={control}  reset={onReset}/>
-        </div>
-        <section className="hidden md:block wrapper">
-          <div className="flex flex-row items-center justify-between px-3 py-3">
-            <h4 className="">Search NID Type</h4>
-            <div className="">
-              <SearchForm isAdvancedOpen={isChecked}  frequencyTypeDropDown={frequencyTypeDropDown?.data}  register={register} Controller={Controller} control={control} reset={onReset}/>
-            </div>
-            {/* <Toggle
-              prefixLabel="More: "
-              className="hidden lg:block"
-              isChecked={isChecked}
-              setIsChecked={setIsChecked}
-            /> */}
-          </div>
-          <hr />
-          {isChecked && <AdvanceSearchForm  register={register} Controller={Controller} control={control} reset={onReset}/>}
-        </section>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <TabSearchBar
+          formContent={
+            <TabSearchBarContent
+              form={form}
+              countryOptions={countryOptions}
+            />
+          }
+          onReset={onReset}
+        />
+        <DesktopSearchBar
+          title="Search Sponsor"
+          searchFormContents={
+            <SearchForm
+              form={form}
+              countryOptions={countryOptions}
+            />
+          }
+          advanceSearchFormContents={<AdvanceSearchForm form={form} />}
+          onReset={onReset}
+        />
       </form>
     </div>
   );

@@ -5,15 +5,14 @@ import Input from "@/components/ui/input";
 import Select from "@/components/ui/select";
 import Textarea from "@/components/ui/textarea";
 import {
-  useAddNationalIdType, useEditNationalIdType, useGetFrequencyTypes, useGetNationalIdTypeById
+  useAddNationalIdType, useEditNationalIdType, useGetNidCountryDropdownOptions, useGetNationalIdTypeById
 } from "@/hooks/rq-hooks/national-id-type-hooks";
 import { SelectOptionType } from "@/model/drop-down-list";
-import { AddNationalIdTypeProps, NationalIdTypeQuery } from "@/model/national-id-type";
+import { AddNationalIdTypeProps, NationalIdType, NationalIdTypeQuery } from "@/model/national-id-type";
 import React, { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useRouter } from 'next/navigation';
 import { apiResponseToast } from "@/utils/toast";
-import { RESPONSE_TYPE_ENUM } from "@/model/enum";
 import { convertTypeToSelectOption } from "@/utils/helpers";
 import { toast } from "react-toastify";
 
@@ -36,7 +35,7 @@ const AddNationalIdType = ({ id }: AddNationalIdTypeProps) => {
     setValue,
     formState: { errors },
     reset,
-  } = useForm<NationalIdTypeQuery>({
+  } = useForm<NationalIdType>({
     defaultValues: defaultValues
   });
 
@@ -45,8 +44,8 @@ const AddNationalIdType = ({ id }: AddNationalIdTypeProps) => {
   } = useAddNationalIdType();
   const { mutate: EditNationalIdType, isLoading: isEditNationalIdTypeLoading
   } = useEditNationalIdType();
-  const { data: frequencyTypesDropdown, error, isLoading, refetch
-  } = useGetFrequencyTypes();
+  const { data: countryDropdown, error, isLoading, refetch
+  } = useGetNidCountryDropdownOptions();
   const [frequencyTypes, setFrequencyTypes] = useState<SelectOptionType[]>([]);
 
   const { data: nationalIdTypeData, refetch: refetchNationalIdType
@@ -58,8 +57,6 @@ const AddNationalIdType = ({ id }: AddNationalIdTypeProps) => {
   }
 
   const onSubmit = (payload: any) => {
-
-    //console.log(payload);
 
     payload = {
       ...payload,
@@ -96,8 +93,8 @@ const AddNationalIdType = ({ id }: AddNationalIdTypeProps) => {
   }
 
   useEffect(() => {
-    setFrequencyTypes(convertTypeToSelectOption(frequencyTypesDropdown?.data?.countries));
-  }, [frequencyTypesDropdown, nationalIdTypeData])
+    setFrequencyTypes(convertTypeToSelectOption(countryDropdown?.data?.countries));
+  }, [countryDropdown, nationalIdTypeData])
 
 
   useEffect(() => {

@@ -1,49 +1,26 @@
-import Button from "@/components/ui/button";
-import Checkbox from "@/components/ui/checkbox";
 import Input from "@/components/ui/input";
 import Label from "@/components/ui/label";
 import Select from "@/components/ui/select";
-import Textarea from "@/components/ui/textarea";
-import { DropDownItem, SelectOptionType } from "@/model/drop-down-list";
-import { CodeType } from "@/model/indication";
-import { getFrequencyTypes } from "@/service/national-id-type-service";
-import { convertTypeToSelectOption } from "@/utils/helpers";
-import { useEffect, useState } from "react";
+import { BasicTabSearchBarContentsProps } from "@/model/common";
+import { SelectOptionType } from "@/model/drop-down-list";
+import { IdsTabSearchBarContentProps } from "@/model/national-id-type";
+import { Fragment } from "react";
+import { Controller } from "react-hook-form";
 
-interface SearchFormProps {
-  isAdvancedOpen: boolean;
-  frequencyTypeDropDown: any;
-  register: any;
-  Controller: any;
-  control: any;
-  reset: any;
+interface SearchFormProps extends BasicTabSearchBarContentsProps{
+  countryOptions: SelectOptionType[];
 }
-export function SearchForm({
-  isAdvancedOpen,
-  frequencyTypeDropDown,
-  register,
-  Controller,
-  control,
-  reset
-}: SearchFormProps) {
-
-  const [frequencyTypeOptions, setFrequencyTypeOptions] = useState<SelectOptionType[]>([]);
-
- 
-  useEffect(() => {
-    setFrequencyTypeOptions(convertTypeToSelectOption(frequencyTypeDropDown?.countries));
-
-  }, [frequencyTypeDropDown])
+export function SearchForm({ form, countryOptions }: SearchFormProps) {
+  const { register, control } = form;
 
   return (
-    <div className="flex items-end gap-3 md:gap-6 p-4 md:p-0">
+    <Fragment>
       <div className="grid lg:flex lg:items-center gap-2 flex-1 md:flex-none">
         <Label label="NationalID Type Name: " className="hidden lg:block" />
         <Input
-          name="nationalIdtypeName"
-          placeholder="Enter indication code"
+          placeholder="Enter Type Name"
           className="md:w-48"
-          {...register("nationalIdtypeName")}
+          {...register("typeName")}
         />
       </div>
       <div className="grid lg:flex lg:items-center gap-2 flex-1 md:flex-none">
@@ -51,70 +28,51 @@ export function SearchForm({
         <div className="w-32">
           <Controller
             control={control}
-            name="frequencyTypeId"
-            isClearable
+            name="countryId"
             render={({ field: { onChange, onBlur, value } }: any) =>
-              <Select onChange={onChange} options={frequencyTypeOptions}  value={value}/>}
+              <Select onChange={onChange} options={countryOptions} value={value} isClearable/>}
           />
         </div>
       </div>
-      <div className={`flex gap-3 ${isAdvancedOpen ? 'hidden' : 'block'}`}>
-        <Button type="submit" className="!h-10 mb-[1px]">
-          Search
-        </Button>
-        <Button type="button" variant="outline" onClick={() => reset()}>
-          Reset
-        </Button>
-      </div>
-    </div>
+    </Fragment>
   );
 }
 
-export function AdvanceSearchForm({ register, Controller, control, reset }: any) {
-  const defaultValues = {
+export function AdvanceSearchForm({ form }: BasicTabSearchBarContentsProps) {
+  const { register } = form;
 
-    codeType: { value: "", label: "Select " },
-
-  };
-  
   return (
-    <div className="hidden lg:block p-6 pt-2 space-y-4">
-      <div className="flex flex-row items-center gap-5">
+    <Fragment>
+      <Input
+        label="Description"
+        placeholder="Enter description"
+        {...register("description")}
+      />
+    </Fragment>
+  );
+}
+
+
+export const TabSearchBarContent = ( { form, countryOptions }: IdsTabSearchBarContentProps) => {
+  const { control, register } = form;
+  return (
+    <Fragment>
         <Input
-          name="indicationName"
-          label="Indication name"
-          placeholder="Enter Indication name"
-          className="md:w-72"
-          {...register("indicationName")}
+          placeholder="Enter Type Name"
+          className="md:w-48"
+          {...register("typeName")}
+        />
+        <Controller
+          control={control}
+          name="countryId"
+          render={({ field: { onChange, onBlur, value } }: any) =>
+            <Select onChange={onChange} options={countryOptions} value={value} isClearable/>}
         />
         <Input
-          name="description"
-          label="Description"
           placeholder="Enter description"
-          wrapperClassName="md:w-full"
+          // wrapperClassName="md:w-full"
           {...register("description")}
         />
-      </div>
-
-      <div className="flex flex-grow justify-between">
-        <div className="flex flex-row items-center -mt-6">
-          <Controller
-            name="isRequireDetails"
-            control={control}
-            render={({ field: { onChange, onBlur, value } }: any) =>
-              <Checkbox className="" onChange={onChange} />}
-          />
-          <Label label="Require Details" className="-mt-1" />
-        </div>
-        <div className="flex gap-3">
-          <Button type="submit" className="!h-10 mb-[1px]">
-            Search
-          </Button>
-          <Button type="button" variant="outline" onClick={() => reset()}>
-            Reset
-          </Button>
-        </div>
-      </div>
-    </div>
+    </Fragment>
   );
 }
