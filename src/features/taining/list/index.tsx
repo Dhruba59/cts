@@ -23,6 +23,19 @@ const UserTrainings = () => {
   const searchParams = useSearchParams();
   const studyId = searchParams.get('studyId');
 
+  const setDownloadCertificateTrue = () => {    
+    let tempUserTrainings = [...userTrainings]
+    for (let i = 0; i < tempUserTrainings.length; i++) {
+      if (tempUserTrainings[i].trainingId === trainingId) {
+        // Update the desired properties
+        tempUserTrainings[i].canDownloadCertificate = true;
+        tempUserTrainings[i].trainingAccess = false;
+        break;
+      }
+    }
+    setUserTrainings(tempUserTrainings)
+  }
+
   useEffect(() => {
     setUserTrainings(tainingData?.data);
     setVideoUrl(tainingData?.data[0]?.filePath);
@@ -46,7 +59,7 @@ const UserTrainings = () => {
           <div className="wrapper mt-0 flex w-5/6  justify-center">
             {
               !loadQuiz ? <TrainingVideo videoUrl={videoUrl} />
-                : <TrainingQuiz trainigId={trainingId} setDiableQuizes={setDiableQuizes} showResult={showResult} setShowResult={setShowResult} refetchTrainings={refetchTrainings} />
+                : <TrainingQuiz trainigId={trainingId} setDiableQuizes={setDiableQuizes} showResult={showResult} setShowResult={setShowResult} refetchTrainings={refetchTrainings} setDownloadCertificateTrue={setDownloadCertificateTrue} />
             }
           </div>
         </div>

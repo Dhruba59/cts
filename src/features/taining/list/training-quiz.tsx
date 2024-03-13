@@ -17,7 +17,7 @@ interface Answer {
   givenAnswers?: number[]
 }
 
-const TrainingQuiz = ({ trainigId, setDiableQuizes, showResult, setShowResult, refetchTrainings }: any) => {
+const TrainingQuiz = ({ trainigId, setDiableQuizes, showResult, setShowResult, refetchTrainings, setDownloadCertificateTrue }: any) => {
   const quizQuestions: any = [
     {
       id: 1, question: 'Initials and Date of Birth entered in CTSdatabase are derived from:', answers: [
@@ -64,6 +64,12 @@ const TrainingQuiz = ({ trainigId, setDiableQuizes, showResult, setShowResult, r
   })
 
   const [givenAnswers, setGivenAnswers] = useState<Answer[]>([]);
+  const [canReTake, setCanReTake] = useState(true)
+
+  useEffect(() => {
+    setCanReTake(true);
+  }, [trainigId])
+  
 
   const createObjectList = (size: number): Answer[] =>
     Array.from({ length: size }, (_, index) => ({
@@ -97,6 +103,12 @@ const TrainingQuiz = ({ trainigId, setDiableQuizes, showResult, setShowResult, r
     }
   }
 
+  const reTakeQuiz = () => {
+    // refetchQuestions();
+    setActiveQuestion(0)
+    setShowResult(false);
+  }
+
   const onClickSubmit = () => {
     const newList = givenAnswers.map(item => ({
       questionId: item.questionId,
@@ -116,12 +128,13 @@ const TrainingQuiz = ({ trainigId, setDiableQuizes, showResult, setShowResult, r
         setResult((prev) => {
           return {
             ...prev,
-            score: data.totalMarksObtain,
+            score: data.data,
             details: `${data.message} ${data.details}`
           }
         })
         apiResponseToast(data);
         if (data.message === "3rd Failed Attempt!") {
+          setCanReTake(false)
           setDiableQuizes((prev: any) => {
             return [
               ...prev,
@@ -129,11 +142,21 @@ const TrainingQuiz = ({ trainigId, setDiableQuizes, showResult, setShowResult, r
             ]
           })
         }
-
+        if (data.message === "Success!") {
+          setCanReTake(false)
+          setDiableQuizes((prev: any) => {
+            return [
+              ...prev,
+              trainigId
+            ]
+          })
+          setDownloadCertificateTrue()
+          // refetchTrainings()
+        }
         setShowResult(true);
-        refetchTrainings()
       },
       onError: (err: any) => {
+        setActiveQuestion(0)
         toast.error(err?.response?.data?.title);
         setShowResult(true);
       }
@@ -254,6 +277,16 @@ const TrainingQuiz = ({ trainigId, setDiableQuizes, showResult, setShowResult, r
           <p>
             Details:<span> {result.details}</span>
           </p>
+          {
+            canReTake ? 
+            (
+              <Button variant="secondary" size="small" className="mt-3 outline-primary" onClick={reTakeQuiz}>
+                Re-Take Quiz
+              </Button>
+            )
+            :
+            null
+          }
         </div>
       )}
     </div>
