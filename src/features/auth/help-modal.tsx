@@ -80,7 +80,7 @@ const HelpModal = ({ open, setOpen }: HelpModalProps) => {
             wrapperClassName="[&>*:first-child]:mb-0 [&>*:first-child]:w-20"
             label="Email:"
             required
-            disabled={email === '' ? false : true}
+            disabled={!!email ? true : false}
             {...register("email", {
               required: "Email is required",
               pattern: {
