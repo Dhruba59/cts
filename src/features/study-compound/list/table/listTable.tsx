@@ -10,19 +10,13 @@ import { MODAL_TYPE_ENUM, RESPONSE_TYPE_ENUM } from "@/model/enum";
 import TableTopWithAddButtin from "@/components/table/table-top-with-add-button";
 import { apiResponseToast } from "@/utils/toast";
 import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
 
 export function ListTable({ data, sorting, setSorting, isLoading, refetch }: any) {
-
-  const {
-    handleSubmit,
-    formState: { errors },
-    reset,
-    register
-  } = useForm();
-  
   const [open, setOpen] = useState<boolean>(false);
   const [id, setId] = useState<number>(0);
   const { mutate: deleteStudyCompound, isLoading: isDeleting } = useDeleteStudyCompound();
+  const router = useRouter();
 
   const onDeleteConfirm = () => {
      deleteStudyCompound({id} , {
@@ -35,7 +29,7 @@ export function ListTable({ data, sorting, setSorting, isLoading, refetch }: any
       onError: (error: any) => {
         setId(0);
         setOpen(false);
-        toast.error(error?.response?.data.title);
+        toast.error(error?.response?.data.detail);
         refetch();
       }
     });
@@ -53,6 +47,13 @@ export function ListTable({ data, sorting, setSorting, isLoading, refetch }: any
   }
 
   const columns = useMemo(() => StudyCompoundListColumns({ onDelete }), []);
+  const getRowActions = (item: any) => {
+    return ([
+        { content: "Edit", onClick: () => router.push(`/study-compound/${item?.studyCompoundId}/edit`) },
+        { content: "Delete", onClick: () => onDelete(item?.studyCompoundId)}
+      ]
+    );
+  }
 
   return (
     <div className="sm:wrapper">
@@ -64,9 +65,10 @@ export function ListTable({ data, sorting, setSorting, isLoading, refetch }: any
         <ExpandableTable
           data={data}
           columns={columns}
-          tableTitle=" List of Study Compound"
-          addButtonLink="add"
+          // tableTitle=" List of Study Compound"
+          // addButtonLink="add"
           listTitleKey="studyCompoundName"
+          getRowActions={getRowActions}
         />
       </div>
       <Modal
@@ -74,7 +76,7 @@ export function ListTable({ data, sorting, setSorting, isLoading, refetch }: any
         open={open}
         onClose={() => onDeleteCancel()}
         title="Confirmation!"
-        containerClassName="!w-[624px]"
+        containerClassName="md:!w-[624px]"
         renderFooter={{
           onSave: onDeleteConfirm,
           submitButtonName: "Confirm",
