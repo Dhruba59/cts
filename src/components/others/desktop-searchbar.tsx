@@ -1,4 +1,4 @@
-import { ReactNode, useEffect, useState } from "react";
+import { useState } from "react";
 import Toggle from "../ui/toggle";
 import Button from "../ui/button";
 import { useShouldRenderComponentOnResize } from "@/hooks/resize-hook";
@@ -19,18 +19,29 @@ export const DesktopSearchBar = ( {title, searchFormContents, advanceSearchFormC
           <h4 className="">{title}</h4>
         </div>
         <div className="">
-          <SearchForm formContent={searchFormContents} isAdvancedOpen={isChecked} onReset={onReset}/> 
-        </div>
-        <div className="w-22 ">
-          <Toggle
-            prefixLabel="More: "
-            isChecked={isChecked}
-            setIsChecked={setIsChecked}
+          <SearchForm
+            formContent={searchFormContents}
+            isAdvancedOpen={isChecked}
+            onReset={onReset}
           />
         </div>
+        {advanceSearchFormContents && (
+          <div className="w-22">
+            <Toggle
+              prefixLabel="More: "
+              isChecked={isChecked}
+              setIsChecked={setIsChecked}
+            />
+          </div>
+        )}
       </div>
       <hr />
-      {isChecked && <AdvancedSearchForm formContent={advanceSearchFormContents} onReset={onReset} /> }
+      {advanceSearchFormContents && isChecked && (
+        <AdvancedSearchForm
+          formContent={advanceSearchFormContents}
+          onReset={onReset}
+        />
+      )}
     </section>
   );
 };
