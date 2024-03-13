@@ -70,7 +70,7 @@ const ListHeader = ({ setQueryData }: ListHeaderProps) => {
           onReset={onReset}
         />
         <DesktopSearchBar
-          title="Search Sponsor"
+          title="Search"
           searchFormContents={<SearchForm form={form} />}
           advanceSearchFormContents={<AdvanceSearchForm phaseOptions={phaseOptions} sponsorOptions={sponsorOptions} form={form} />}
           onReset={onReset}

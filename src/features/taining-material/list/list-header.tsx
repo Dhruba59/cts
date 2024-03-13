@@ -58,7 +58,7 @@ const ListHeader = ({ setQueryData }: any) => {
       <form onSubmit={handleSubmit(onSubmit)}>
         <TabSearchBar formContent={tabFormContent} onReset={onReset} />
         <DesktopSearchBar
-          title="Search Training Meterial"
+          title="Search"
           searchFormContents={
             <SearchForm
               studyProtocolDropDown={studyProtocolDropDown?.data}

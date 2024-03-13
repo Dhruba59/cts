@@ -48,7 +48,7 @@ const ListHeader = ({ setQueryData }: any) => {
           onReset={onReset}
         />
         <DesktopSearchBar
-          title="Search Sponsor"
+          title="Search"
           searchFormContents={
             <SearchForm
               form={form}
