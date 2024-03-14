@@ -132,7 +132,7 @@ export function ListTable({ data, sorting, setSorting, refetch, isLoading }: any
     return ([
         { content: "View", onClick: () => onViewDetail(item?.requestId, isPending) },
         { content: 'Accept', onClick: () => onAccept(item?.requestId), disabled: !isSysAdmin || !isPending },
-        { content: 'Reject', onClick: () => onAccept(item?.requestId), disabled: !isSysAdmin || !isPending },
+        { content: 'Reject', onClick: () => onReject(item?.requestId), disabled: !isSysAdmin || !isPending },
       ]
     );
   }
