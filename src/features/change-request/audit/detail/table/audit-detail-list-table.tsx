@@ -24,8 +24,8 @@ export function AuditDetailListTable({ data, sorting, setSorting, refetch, isLoa
         <ExpandableTable
           data={data}
           columns={columns}
-          tableTitle=" List of Indication"
-          listTitleKey="indication_name"
+          tableTitle="List of Audit"
+          listTitleKey="audit_detail_view"
         />
       </div>
 

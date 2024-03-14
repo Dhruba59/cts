@@ -70,6 +70,13 @@ export interface CodeType {
     toDate?: string;
   }
 
+  export interface ChangeRequestAuditFields {
+    requestStatus?: string;
+    sponsorSubjectId?: string;
+    fromDate?: DateRangeType | null;
+    toDate?: DateRangeType | null;
+  }
+
   export interface ChangeRequestAuditModel {
     subjectId?: number,
     requestId?: number;
