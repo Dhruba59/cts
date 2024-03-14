@@ -16,6 +16,7 @@ import { useQuery } from "react-query";
 import { MatchReportQueryParams } from "@/model/subject";
 import { apiResponseToast } from "@/utils/toast";
 import { toast } from "react-toastify";
+import TableTopWithAddButtin from "@/components/table/table-top-with-add-button";
 
 
 export function ListTable({ data, sorting, setSorting, refetch, isLoading }: any) {
@@ -57,9 +58,6 @@ const onHideChangeRequestModal = () => {
   setViewChangeRequestModal(null);
 }
 
-
-// const isLoading = false;
-
 const onCloseModal = () => {
   setIsPrintModalOpen(false);
 };
@@ -98,12 +96,16 @@ const onDelete = (id: number) => {
 }
 
 const columns = useMemo(() => ChangeRequestReprintListColumns({ onOpenChangeRequestModal }), []);
+const getRowActions = (item: any) => {
+  return ([
+      { content: "Edit", onClick: () => onOpenChangeRequestModal(item?.subjectId, item?.nationalTypeId, item?.visitTypeIdForBusinessLogic, item?.preScreen) }
+    ]
+  );
+}
 
 return (
   <div className="sm:wrapper">
-    <h4 className="hidden md:block font-semibold py-4 px-6 text-dark-900 dark:text-white/90 dark:bg-dark-lightBlue">
-      Change Request & Re-Print
-    </h4>
+     <TableTopWithAddButtin headerText="Change Request & Re-Print" addButtonLink=""/>
     <div className="hidden sm:block">
       <SimpleTable data={data} columns={columns} sorting={sorting} setSorting={setSorting} isLoading={isLoading} />
     </div>
@@ -111,8 +113,9 @@ return (
       <ExpandableTable
         data={data}
         columns={columns}
-        tableTitle=" Change Request & Re-Print"
-        listTitleKey="indication_name"
+        // tableTitle=" Change Request & Re-Print"
+        listTitleKey="change_req_reprint"
+        getRowActions={getRowActions}
       />
     </div>
     {viewChangeRequestModal}
@@ -121,7 +124,7 @@ return (
       open={open}
       onClose={() => onDeleteCancel()}
       title="Confirmation!"
-      containerClassName="!w-[624px]"
+      containerClassName="md:!w-[624px]"
       renderFooter={{
         onSave: onDeleteConfirm,
         submitButtonName: "Confirm",
