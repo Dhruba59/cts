@@ -134,24 +134,27 @@ const Training = ({ form, userId, protocols, dndData, setDndData, completedTrain
     //   </li>
     // ));
 
-    if(id) {
-      return prevTrainings?.map((item: any) => (
-        <li className='p-1 w-fit border rounded-md list-none' key={item.trainingId}>
-          {item?.trainingName}
-        </li>
-      ));
-    } else {
+    // if(id) {
+    //   return prevTrainings?.map((item: any) => (
+    //     <li className='p-1 w-fit border rounded-md list-none' key={item.trainingId}>
+    //       {item?.trainingName}
+    //     </li>
+    //   ));
+    // } else {
       return trainings?.data?.trainings.map((item: any) => (
         <li className='p-1 w-fit border rounded-md list-none' key={item.trainingId}>
           {item?.trainingName}
         </li>
       ))
-    }
+    // }
   }
 
   return (
-    <div className='flex flex-col gap-3'>
-      <div className='flex flex-wrap gap-3 border rounded-md mx-4 mb-6 p-4 max-h-[300px] overflow-y-auto'>
+    <div className='flex flex-col gap-2'>
+      <h4 className="hidden md:block font-semibold py-1 px-4">
+        Protocol-wise training
+      </h4>
+      <div className='flex flex-wrap gap-3 border rounded-md mx-4 p-4 max-h-[300px] overflow-y-auto'>
         {
           renderTraining() && renderTraining()?.length > 0 ? renderTraining() : 'No Trainings'
         }
