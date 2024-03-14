@@ -3,6 +3,8 @@ import { ColumnDef } from "@tanstack/react-table";
 import { Query } from "./query";
 import { number } from 'yup';
 import { DateRangeType, DateType } from "react-tailwindcss-datepicker";
+import { SelectOptionType } from "./drop-down-list";
+import { BasicTabSearchBarContentsProps } from "./common";
 
 export interface ChangeRequestReprintModel {
   userName?: string,
@@ -118,8 +120,16 @@ export interface CodeType {
     userTypeId?: number | null;
     protocolNumber?: string;
     requestStatus?: string;
-    fromDate?: string | null;
-    toDate?: string | null;
+    fromDate?: string | null | DateRangeType;
+    toDate?: string | null | DateRangeType;
+  }
+
+  export interface ChangeRequestDashboardFieldValues {
+    userTypeId?: number | null;
+    protocolNumber?: string;
+    requestStatus?: string;
+    fromDate?: DateRangeType;
+    toDate?: DateRangeType;
   }
 
   export interface ChangeRequestDashboardModel{
@@ -184,4 +194,18 @@ export interface CodeType {
   export interface ChangeReqSubjectIdProps {
     subjectId: string;
     nationalIdType: string;
+  }
+
+  export interface ChangeReqDashboardSearchFormProps extends BasicTabSearchBarContentsProps {
+    userTypeOptions: SelectOptionType[];
+    protocolOptions: SelectOptionType[];
+  }
+
+  export interface ChangeReqAdvanceSearchProps extends BasicTabSearchBarContentsProps{
+    requestStatusesOptions: SelectOptionType[];
+  }
+  export interface ChangeReqTabSearchProps extends BasicTabSearchBarContentsProps{
+    userTypeOptions: SelectOptionType[];
+    protocolOptions: SelectOptionType[];
+    requestStatusesOptions: SelectOptionType[];
   }
