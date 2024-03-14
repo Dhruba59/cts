@@ -17,7 +17,6 @@ import { toast } from "react-toastify";
 
 const LastSubjectContactModal = ({ data, studyId, onUpdateSubject, onHideDetail }: any) => {
   const {
-    register,
     handleSubmit,
     control,
     formState: { errors },
@@ -25,10 +24,7 @@ const LastSubjectContactModal = ({ data, studyId, onUpdateSubject, onHideDetail 
     setValue
   } = useForm();
 
-  const [visitType, setVisitType] = useState<SelectOptionType>();
-  let currentDate = new Date().toJSON().slice(0, 10); // "2022-06-17"
   const [visitTypeOptions, setVisitTypeOptions] = useState<SelectOptionType[]>([]);
-  // const [lastSubjectEntryDate, setLastSubjectEntryDate] = useState<string>(currentDate);
   const { data: visitTypes, error, isLoading: visitLoading, refetch } = useGetVisitTypes();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [open, setOpen] = useState<boolean>(true);
@@ -60,7 +56,6 @@ const LastSubjectContactModal = ({ data, studyId, onUpdateSubject, onHideDetail 
   }
 
   const onSubmit = async (values: any) => {
-    //console.log(values);
     const payload = {
       studyId: studyId,
       protocolNumber: data.protocolNumber,
@@ -95,28 +90,28 @@ const LastSubjectContactModal = ({ data, studyId, onUpdateSubject, onHideDetail 
       onClose={() => onHandelReset()}
       isLoading={isUpdatingVisitInfo}
     >
-      <form className="space-y-6 h-80">
-        <div className="flex items-center justify-center gap-2">
-          <Label className="w-40 text-right" label="Protocol No:" />
+      <form className="space-y-3 px-6 py-2 sm:space-y-6 sm:h-80">
+        <div className="w-full mx-auto flex flex-col justify-start items-start sm:flex-row sm:justify-center sm:items-center gap-2">
+          <Label className="w-full sm:w-40 sm:text-right" label="Protocol No:" />
           <Input
+            wrapperClassName="w-full sm:w-[280px]"
             placeholder="Enter protocol no."
-            className="w-[200px] md:w-[280px]"
             value={data.protocolNumber}
             disabled
           />
         </div>
-        <div className="flex items-center justify-center gap-2">
-          <Label className="w-40 text-right" label="Sponsor Subject ID:" />
+        <div className="w-full mx-auto flex flex-col justify-start items-start sm:flex-row sm:justify-center sm:items-center gap-2">
+          <Label className="w-40 sm:text-right" label="Sponsor Subject ID:" />
           <Input
             placeholder="Enter subject id"
-            className="w-[200px] md:w-[280px]"
+            wrapperClassName="w-full sm:w-[280px]"
             value={data.sponsorSubjectID}
             disabled
           />
         </div>
-        <div className="flex items-center justify-center gap-2">
-          <Label className="w-40 text-right" label="Visit Type:" />
-          <div className="flex flex-col gap-2">
+        <div className="w-full mx-auto flex flex-col justify-start items-start sm:flex-row sm:justify-center sm:items-center gap-2">
+          <Label className="w-40 sm:text-right" label="Visit Type:" />
+          <div className="w-full sm:w-[280px] flex flex-col gap-2">
             <Controller
               control={control}
               name='visitType'
@@ -125,7 +120,7 @@ const LastSubjectContactModal = ({ data, studyId, onUpdateSubject, onHideDetail 
               }}
               render={({ field: { onChange, onBlur, value } }: any) => (
                 <Select
-                  wrapperClassName="w-[200px] md:w-[280px]"
+                  // wrapperClassName="w-full sm:w-[280px]"
                   onChange={onChange}
                   options={visitTypeOptions}
                   value={value}
@@ -139,21 +134,19 @@ const LastSubjectContactModal = ({ data, studyId, onUpdateSubject, onHideDetail 
             </div>
           </div>
         </div>
-        <div className="flex items-center justify-center gap-2">
-          <Label className="w-40 text-right" label="Last Subject Entry Date:" />
-          <div className="flex flex-col gap-2">
+        <div className="w-full mx-auto flex flex-col justify-start items-start sm:flex-row sm:justify-center sm:items-center gap-2">
+          <Label className="w-full sm:w-40 sm:text-right" label="Last Subject Entry Date:" />
+          <div className="w-full sm:w-[280px] flex flex-col gap-2">
           <Controller
             control={control}
             name='lastSubjectEntryDate'
-            rules={{
-              // required: "Date is required!",
-            }}
+            rules={{}}
             render={({ field: { onChange, onBlur, value } }: any) => (
               <Datepicker
                 popoverDirection='down'
                 value={value}
                 asSingle
-                containerClassName="w-[200px] md:w-[280px]"
+                // containerClassName="w-full sm:w-[280px]"
                 useRange={false}
                 onChange={onChange}
                 placeholder="Start Date"
@@ -161,18 +154,6 @@ const LastSubjectContactModal = ({ data, studyId, onUpdateSubject, onHideDetail 
               />
             )}
           />
-            {/* <Input
-              {...register('lastSubjectEntryDate', { required: "Last Subject Entry Date is required." })}
-              name="lastSubjectEntryDate"
-              type="text"
-              placeholder="Start Date"
-              className="w-[200px] md:w-[280px]"
-              onChange={(e) => setLastSubjectEntryDate(e.target.value)}
-              onFocus={(e) => (e.target.type = "date")}
-              onBlur={(e) => (e.target.type = "text")}
-              value={lastSubjectEntryDate}
-
-            /> */}
             <div>
               {errors.lastSubjectEntryDate && (
                 <span className="text-red-500 -mt-10">{errors.lastSubjectEntryDate.message as string}</span>
