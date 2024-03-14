@@ -1,16 +1,16 @@
 "use client";
 import Breadcrumbs from "@/components/ui/breadcrumbs";
-import Toggle from "@/components/ui/toggle";
-import { Dispatch, SetStateAction, useState } from "react";
-import { AdvanceSearchForm, SearchForm } from "./search-form";
+import { Dispatch, SetStateAction } from "react";
+import { AdvanceSearchForm, SearchForm, TabSearchContent } from "./search-form";
 import { useForm } from "react-hook-form";
-import { LastReprintSubjectsParams, SearchLastSubjectsParams } from "@/model/subject";
-import { useSession } from "next-auth/react";
+import { LastReprintSubjectsParams } from "@/model/subject";
+import { TabSearchBar } from "@/components/others/tab-searchbar";
+import { DesktopSearchBar } from "@/components/others/desktop-searchbar";
+import { initialDefaultQuery } from "@/utils/helpers";
 
 interface ListHeaderProps {
   setQueryData: Dispatch<SetStateAction<LastReprintSubjectsParams>>;
 }
-
 
 const currentDate = new Date();
 const sixMonthsAgo = new Date(currentDate);
@@ -33,12 +33,11 @@ const initialValue = {
 }
 
 const ListHeader = ({ setQueryData }: ListHeaderProps) => {
-  const [isChecked, setIsChecked] = useState(false);
 
   const form = useForm<any>({
     defaultValues: initialValue
   });
-  const { handleSubmit } = form;
+  const { handleSubmit, reset } = form;
 
   const onSubmit = (values: any) => {
     const params: Omit<LastReprintSubjectsParams, 'PageSize' | 'OrderBy'> = {
@@ -58,30 +57,25 @@ const ListHeader = ({ setQueryData }: ListHeaderProps) => {
     }));
   }
 
-  const onResetSearchFields = () => {
-    setQueryData({});
+  const onReset = () => {
+    reset();
+    setQueryData(initialDefaultQuery);
   }
 
   return (
-    <div className="sm:wrapper">
+    <div>
+      <Breadcrumbs title="Subject Information" subTitle="Reprint Subject" />
       <form onSubmit={handleSubmit(onSubmit)}>
-        <Breadcrumbs title="Study Information" subTitle="Study List" />
-        <div className="flex flex-row items-center justify-between gap-2 px-0 sm:px-6 py-3">
-          <h4 className="hidden lg:block">
-            Search Study
-          </h4>
-          <div className="">
-            <SearchForm isAdvancedOpen={isChecked} form={form} onResetSearchFields={onResetSearchFields}/>
-          </div>
-          <Toggle
-            prefixLabel="More: "
-            className="hidden lg:block"
-            isChecked={isChecked}
-            setIsChecked={setIsChecked}
-          />
-        </div>
-        <hr />
-        {isChecked && <AdvanceSearchForm form={form} onResetSearchFields={onResetSearchFields}/>}
+        <TabSearchBar
+          formContent={<TabSearchContent form={form} />}
+          onReset={onReset}
+        />
+        <DesktopSearchBar
+          title="Search"
+          searchFormContents={<SearchForm form={form} />}
+          advanceSearchFormContents={<AdvanceSearchForm form={form} />}
+          onReset={onReset}
+        />
       </form>
     </div>
   );
