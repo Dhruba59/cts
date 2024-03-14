@@ -20,9 +20,9 @@ const styles = StyleSheet.create({
 
 const CertificatePdf = ({ data }: any) => {
   const attendDate = dayjs(data?.data?.quizAttendDate).format("MMM DD, YYYY");
-
+ 
   return (
-    <Document style={{}}>
+    <Document style={{}} title={` Certificate of Completion for ${data?.data?.trainingName} issued by ${data?.data?.userName}`}>
       <Page size="A4" orientation="landscape" style={styles.page}>
       {/* <View style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between'}}> */}
         <View style={{ width: '70%', marginLeft: 'auto', marginRight: 'auto' }}>

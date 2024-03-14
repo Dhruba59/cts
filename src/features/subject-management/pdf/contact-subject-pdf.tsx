@@ -32,10 +32,10 @@ interface LastContactSubjectsPdfProps {
 }
 
 // Create Document Component
-const LastContactSubjectsPdf = ({ data }: LastContactSubjectsPdfProps) => {
+const LastContactSubjectsPdf = ({ data }: LastContactSubjectsPdfProps) => {  
   const printTime = formateTableDateTime(new Date());
   return (
-    <Document style={{ }}>
+    <Document style={{ }} title={` Last Subject Contact (${data?.sponsorSubjectId})`}>
     <Page size="A4" style={styles.page} >
       {/* address */}
       <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems:'center', marginBottom: '30px'}}>
