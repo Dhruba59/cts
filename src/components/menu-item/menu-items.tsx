@@ -10,8 +10,9 @@ const MenuList: React.FC<MenuListProps> = ({ menus, className }) => {
           key={index}
           icon={menu?.icon}
           content={menu.content}
-          url={menu.url}
-          onClick={menu.onClick}
+          url={menu?.url}
+          onClick={menu?.onClick}
+          disabled={menu?.disabled}
         />
       )) : <div className='w-16'>No Data</div>}
     </div>
