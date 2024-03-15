@@ -95,7 +95,7 @@ const AddSponsor = ({ id }: AddSponsorProps) => {
 
   return (
     <div className="w-full">
-      <Breadcrumbs title="SponsorData" subTitle="Add SponsorData" />
+      <Breadcrumbs title="SponsorData" subTitle={id ? "Update" : "Add" } />
       <section className="wrapper">
         <h4 className="px-6 py-4">
           Sponsor Information

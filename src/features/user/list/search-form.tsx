@@ -30,12 +30,7 @@ export function SearchForm({ form }: BasicTabSearchBarContentsProps) {
         <Input
           className="w-40"
           placeholder="Enter Email"
-          {...register("email", {
-            pattern: {
-              value: /\S+@\S+\.\S+/,
-              message: "Invalid email!"
-            }
-          })}
+          {...register("email")}
         />
       </div>
       <div className="grid lg:flex lg:items-center gap-2 flex-1 md:flex-none">
@@ -176,12 +171,7 @@ export const TabSearchBarContent = ({
     <Fragment>
       <Input
         placeholder="Enter Email"
-        {...register("email", {
-          pattern: {
-            value: /\S+@\S+\.\S+/,
-            message: "Invalid email!",
-          },
-        })}
+        {...register("email")}
       />
       <Input
         wrapperClassName="w-auto md:w-40"

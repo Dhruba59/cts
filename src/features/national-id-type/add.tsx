@@ -108,7 +108,7 @@ const AddNationalIdType = ({ id }: AddNationalIdTypeProps) => {
 
   return (
     <div className="w-full">
-      <Breadcrumbs title="NID Type" subTitle="Add NID Type" />
+      <Breadcrumbs title="NID Type" subTitle={id ? "Update" : "Add" } />
       <section className="wrapper">
         <h4 className="px-6 py-4">
           NID Type Information

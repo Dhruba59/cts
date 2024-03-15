@@ -100,7 +100,7 @@ const AddStudyCompound = ({ id }: AddStudyCompoundProps) => {
 
   return (
     <div className="w-full">
-      <Breadcrumbs title="Study Compound" subTitle="Add Study Compound" />
+      <Breadcrumbs title="Study Compound" subTitle={id ? "Update" : "Add" } />
       <section className="wrapper">
         <h4 className="px-6 py-4">
         Study Compound Information

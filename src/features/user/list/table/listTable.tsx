@@ -76,7 +76,7 @@ export function ListTable({ data, sorting, setSorting, refetch, isLoading }: any
         open={open}
         onClose={() => onDeleteCancel()}
         title="Confirmation!"
-        containerClassName="!w-[624px]"
+        containerClassName="md:!w-[624px]"
         renderFooter={{
           onSave: onDeleteConfirm,
           submitButtonName: "Confirm",
