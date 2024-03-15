@@ -46,8 +46,9 @@ const ExpandableTableCard = ({
         <h6 className="font-medium text-sm">{item[listTitleKey]}</h6>
         {rowActions.length > 0 && (
           <PopUp
+            position="bottom-center"
             content={
-              <MenuItems menus={rowActions} className="text-sm font-semibold" />
+              <MenuItems menus={rowActions} className="text-sm font-semibold"/>
             }>
             <VerticalDots
               className="cursor-pointer"

@@ -35,8 +35,8 @@ const getMenuItems = (isDarkModeOpen: boolean) => {
   return ([
       { icon: '', content: 'Profile' },
       { icon: '', content: 'Change Password', href: 'change-password' },
-      { icon: '', content: 'Log out', onClick: handleLogout },
       { icon: '', content: DarkModeSwitchContent, hidden: !isDarkModeOpen},
+      { icon: '', content: 'Log out', onClick: handleLogout },
     ]
   )
 }
