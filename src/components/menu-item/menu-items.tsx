@@ -13,6 +13,7 @@ const MenuList: React.FC<MenuListProps> = ({ menus, className }) => {
           url={menu?.url}
           onClick={menu?.onClick}
           disabled={menu?.disabled}
+          hidden={menu?.hidden}
         />
       )) : <div className='w-16'>No Data</div>}
     </div>

@@ -8,7 +8,7 @@ const menuStyle = {
   disabled: "opacity-50 !cursor-not-allowed",
 };
 
-const MenuItem: React.FC<MenuItemProps> = ({ icon, content, url, onClick, disabled }) => {
+const MenuItem: React.FC<MenuItemProps> = ({ icon, content, url, onClick, disabled, hidden }) => {
   const router = useRouter();
 
   const handleClick = () => {
@@ -21,6 +21,10 @@ const MenuItem: React.FC<MenuItemProps> = ({ icon, content, url, onClick, disabl
       }
     }
   };
+
+  if(hidden) {
+    return null;
+  }
 
   const menu = (
     <div onClick={handleClick} className={`${menuStyle.base} ${disabled ? menuStyle.disabled : menuStyle.enabled}`}>

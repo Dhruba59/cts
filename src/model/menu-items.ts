@@ -11,6 +11,7 @@ export interface MenuItemProps {
   url?: string;
   onClick?: () => void;
   disabled?: boolean;
+  hidden?: boolean;
 }
 
 export interface MenuItemsContextType {

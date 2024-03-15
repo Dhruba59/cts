@@ -15,6 +15,7 @@ import { STORAGE_KEY } from "@/constants/storage-constant";
 import { useThemeContext } from "@/context/theme-context";
 import { signOut, useSession } from "next-auth/react";
 import { getUserRoleFromValue } from "@/utils/helpers";
+import { useShouldRenderComponentOnResize } from "@/hooks/resize-hook";
 
 const handleLogout = () => {
   // deleteSession();
@@ -30,12 +31,15 @@ const DarkModeSwitchContent = (
   </div>
 )
 
-const menuItems = [
-  { icon: '', content: 'Profile' },
-  { icon: '', content: 'Change Password', href: 'change-password' },
-  { icon: '', content: 'Log out', onClick: handleLogout },
-  { icon: '', content: DarkModeSwitchContent },
-];
+const getMenuItems = (isDarkModeOpen: boolean) => {
+  return ([
+      { icon: '', content: 'Profile' },
+      { icon: '', content: 'Change Password', href: 'change-password' },
+      { icon: '', content: 'Log out', onClick: handleLogout },
+      { icon: '', content: DarkModeSwitchContent, hidden: !isDarkModeOpen},
+    ]
+  )
+}
 
 const Header = () => {
   const [ isPopupOpen, setIsPopupOpen ] = useState<boolean>(false);
@@ -44,6 +48,11 @@ const Header = () => {
   const { theme } = useThemeContext();
   const isDark = theme === THEME_COLOR_ENUM.DARK;
   const { data: session } = useSession();
+
+  const isSmallScreen = useShouldRenderComponentOnResize({
+    minWidth:0,
+    maxWidth: 640
+  });
 
   const handleTogglePopup = () => {
     setIsPopupOpen(!isPopupOpen);
@@ -98,7 +107,7 @@ const Header = () => {
           onClose={() => setIsPopupOpen(false)}
           className="-right-[120px] top-28"
         >
-          <MenuItems menus={menuItems} className="w-[200px] text-sm" />
+          <MenuItems menus={getMenuItems(isSmallScreen)} className="w-[200px] text-sm" />
         </Popup>
       </div>
     </div>
