@@ -192,7 +192,7 @@ const AddUser = ({ id }: AddUserProps) => {
   const form = useForm({
     defaultValues: {
       site: '',
-      suppressMatchType: ''
+      suppressMatchType: 0
     } as any
   });
   const {
