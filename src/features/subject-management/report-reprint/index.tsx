@@ -63,7 +63,7 @@ const ReprintReport = () => {
   }, [sorting])
 
   return (
-    <main>
+    <main className="space-y-2">
       <ListHeader setQueryData={setQueryData} />
       <ListTable data={reports?.data?.items} sorting={sorting} setSorting={setSorting} isLoadingTableData={isLoadingReports}/>
       <Pagination
