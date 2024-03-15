@@ -154,7 +154,7 @@ const Training = ({ form, userId, protocols, dndData, setDndData, completedTrain
       <h4 className="hidden md:block font-semibold py-1 px-4">
         Protocol-wise training
       </h4>
-      <div className='flex flex-wrap gap-3 border rounded-md mx-4 p-4 max-h-[300px] overflow-y-auto'>
+      <div className='flex flex-wrap gap-3 mb-3 border rounded-md mx-4 p-3 max-h-[300px] overflow-y-auto'>
         {
           renderTraining() && renderTraining()?.length > 0 ? renderTraining() : 'No Trainings'
         }

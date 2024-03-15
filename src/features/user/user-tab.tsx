@@ -1,5 +1,5 @@
 "use client";
-import React, { ReactElement, ReactNode, useState } from "react";
+import React, { ReactElement, ReactNode, useEffect, useState } from "react";
 
 interface TabItem {
   content: ReactNode | ReactElement;
@@ -20,6 +20,10 @@ const Tab = ({ tabItems, wrapperClassname, titleClassname }: SelectionTabProps) 
     setCurrentTab(index);
   };
 
+  useEffect(() => {
+    setCurrentTab(0);
+  }, [tabItems])
+  
   return (
     <div className={wrapperClassname}>
       <div className={`border-b-[1px] border-b-gray-200 ${titleClassname}`}>
