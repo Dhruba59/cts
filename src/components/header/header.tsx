@@ -26,10 +26,10 @@ const handleLogout = () => {
 
 const DarkModeSwitchContent = (
   <div className="w-full flex justify-between items-center">
-    <span>Theme</span>
+    <span>Dark mode</span>
     <DarkModeToggleSwitch iconClassName="!h-4" inputClassName="w-[42px] !h-4"/> 
   </div>
-)
+);
 
 const getMenuItems = (isDarkModeOpen: boolean) => {
   return ([
