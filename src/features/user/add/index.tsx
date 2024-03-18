@@ -283,6 +283,7 @@ const AddUser = ({ id }: AddUserProps) => {
         // setAdminDndData();
 
         const adminMatchTypes = searchByIds(dropdowns?.data?.matchTypes, user?.matchTypeIds);
+        setValue('matchTypes', adminMatchTypes);
         const adminNotificationSites = searchByIds(dropdowns?.data?.sites, user?.notificationSiteIds);
 
           storeSetAdminDndData({
