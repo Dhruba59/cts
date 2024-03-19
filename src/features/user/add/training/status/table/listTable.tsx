@@ -136,19 +136,19 @@ export function ListTable({ data, setCompletedTrainings, refetchUser, userId }: 
   return (
     <div className="sm:wrapper">
       <h4 className="hidden md:block font-semibold py-4">
-        Available Assign Traning and Status
+        Available Assigned Traning and Status
       </h4>
-      <div className="hidden sm:block">
+      <div className="">
         <SimpleTable data={data} columns={columns} containerClassName='min-h-[650px]' />
       </div>
-      <div className="block sm:hidden">
+      {/* <div className="block sm:hidden">
         <ExpandableTable
           data={data}
           columns={columns}
           tableTitle="List of Training Status"
           listTitleKey="training_status"
         />
-      </div>
+      </div> */}
       <Modal
           containerClassName="bg-transparent max-h-full !h-full top-0 max-w-full !w-full"
           closeBtnClassName="bg-white rounded-full hover:scale-125 transition-all duration-200 right-8"
