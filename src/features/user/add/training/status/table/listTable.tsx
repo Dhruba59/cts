@@ -136,7 +136,7 @@ export function ListTable({ data, setCompletedTrainings, refetchUser, userId }: 
   return (
     <div className="sm:wrapper">
       <h4 className="hidden md:block font-semibold py-4">
-        Available Traning and Status
+        Available Assign Traning and Status
       </h4>
       <div className="hidden sm:block">
         <SimpleTable data={data} columns={columns} containerClassName='min-h-[650px]' />

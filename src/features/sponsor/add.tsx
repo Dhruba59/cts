@@ -43,7 +43,6 @@ const AddSponsor = ({ id }: AddSponsorProps) => {
 
   const { mutate: AddIndication, isLoading: isAddIndicationLoading } = useAddSponsor();
   const { mutate: EditIndication, isLoading: isEditIndicationLoading } = useEditSponsor();
-  const [codeTypes, setCodeTypes] = useState<SelectOptionType[]>([]);
 
   const { data: sponsorData } = useQuery({
     queryFn: getSponsorById,
@@ -51,7 +50,7 @@ const AddSponsor = ({ id }: AddSponsorProps) => {
     enabled: !!id
   });
 
-  const handleCancel = () => {
+  const handleRedirect = () => {
       reset();
       router.push("/sponsor/list");
   }
@@ -74,6 +73,7 @@ const AddSponsor = ({ id }: AddSponsorProps) => {
           }
           reset(newFieldValues as any);
           apiResponseToast(data);
+          handleRedirect();
         },
         onError: (err: any) => {
           toast.error(err?.response?.data?.title);
@@ -176,7 +176,7 @@ const AddSponsor = ({ id }: AddSponsorProps) => {
           </div>
           <div className="flex justify-center gap-4 mt-8 md:mt-14">
             <Button type="submit" className="px-8">Submit</Button>
-            <Button className="px-8" variant="outline" onClick={handleCancel}>
+            <Button className="px-8" variant="outline" onClick={handleRedirect}>
               Cancel
             </Button>
           </div>

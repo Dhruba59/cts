@@ -152,7 +152,7 @@ const Training = ({ form, userId, protocols, dndData, setDndData, completedTrain
   return (
     <div className='flex flex-col gap-2'>
       <h4 className="hidden md:block font-semibold py-1 px-4">
-        Protocol-wise training
+        Protocol Wise Training
       </h4>
       <div className='flex flex-wrap gap-3 mb-3 border rounded-md mx-4 p-3 max-h-[300px] overflow-y-auto'>
         {

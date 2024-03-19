@@ -36,7 +36,7 @@ const AddStudyCompound = ({ id }: AddStudyCompoundProps) => {
 
 
   const { mutate: AddStudyCompound, isLoading: isAddStudyCompoundLoading } = useAddStudyCompound();
-  const { mutate: EditStudyCompound, isLoading: isEditIndicationLoading } = useEditStudyCompound();
+  const { mutate: EditStudyCompound, isLoading: isEditStudyCompoundLoading } = useEditStudyCompound();
 
   const { data: studyCompoundData } = useGetStudyCompoundById(id);
   // const { data: studyCompoundData } = useQuery({
@@ -45,8 +45,7 @@ const AddStudyCompound = ({ id }: AddStudyCompoundProps) => {
   //   enabled: !!id
   // });
 
-  const handleCancel = () => {
-   
+  const handleRedirect = () => {
       reset();
       router.push("/study-compound/list");
   }
@@ -69,6 +68,7 @@ const AddStudyCompound = ({ id }: AddStudyCompoundProps) => {
           }
           reset(newFieldValues as any);
           apiResponseToast(data);
+          handleRedirect();
         },
         onError: (err: any) => {
           toast.error(err?.response?.data?.title);
@@ -133,8 +133,8 @@ const AddStudyCompound = ({ id }: AddStudyCompoundProps) => {
           </div>
 
           <div className="flex justify-center gap-4 mt-8 md:mt-14">
-            <Button type="submit" className="px-8">Submit</Button>
-            <Button className="px-8" variant="outline" onClick={handleCancel}>
+            <Button type="submit" className="px-8" loading={isAddStudyCompoundLoading || isEditStudyCompoundLoading}>Submit</Button>
+            <Button className="px-8" variant="outline" onClick={handleRedirect}>
               Cancel
             </Button>
           </div>

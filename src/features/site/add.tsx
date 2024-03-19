@@ -66,7 +66,7 @@ const AddSite = ({ id }: AddSiteProps) => {
     name: 'frequencyTypeId'
   });
 
-  const handleCancel = () => {
+  const handleRedirect = () => {
     reset();
     router.push("/site/list");
   }
@@ -100,6 +100,7 @@ const AddSite = ({ id }: AddSiteProps) => {
           }
           reset(newFieldValues as any);
           apiResponseToast(data);
+          handleRedirect();
         },
         onError: (err: any) => {
           toast.error(err?.response?.data?.title);
@@ -322,7 +323,7 @@ const AddSite = ({ id }: AddSiteProps) => {
           </div>
           <div className="flex justify-center gap-4 mt-8 md:mt-14">
             <Button type="submit" className="px-8">Submit</Button>
-            <Button className="px-8" variant="outline" onClick={handleCancel} >
+            <Button className="px-8" variant="outline" onClick={handleRedirect} >
               Cancel
             </Button>
           </div>
