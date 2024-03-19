@@ -52,7 +52,7 @@ const AddNationalIdType = ({ id }: AddNationalIdTypeProps) => {
   const { data: nationalIdTypeData, refetch: refetchNationalIdType
   } = useGetNationalIdTypeById(id)
 
-  const handleCancel = () => {
+  const handleRedirect = () => {
     reset()
     router.push("/national-id-type/list");
   }
@@ -75,6 +75,7 @@ const AddNationalIdType = ({ id }: AddNationalIdTypeProps) => {
           }
           reset(newFieldValues as any);
           apiResponseToast(data);
+          handleRedirect();
         },
         onError: (err: any) => {
           toast.error(err?.response?.data?.title);
@@ -151,7 +152,7 @@ const AddNationalIdType = ({ id }: AddNationalIdTypeProps) => {
 
           <div className="flex justify-center gap-4 mt-8 md:mt-14">
             <Button type="submit" className="px-8">Submit</Button>
-            <Button className="px-8" variant="outline" onClick={handleCancel} >
+            <Button className="px-8" variant="outline" onClick={handleRedirect} >
               Cancel
             </Button>
           </div>
