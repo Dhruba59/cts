@@ -625,7 +625,7 @@ const AddUser = ({ id }: AddUserProps) => {
 
   return (
       <div className="w-full">
-        <Breadcrumbs title="User" subTitle="Add User" />
+        <Breadcrumbs title="User" subTitle={id ? "Update User" : "Add User" } />
         <form onSubmit={handleSubmit(onSubmit)} className="">
           <section className="wrapper">
             <h4 className="px-6 py-4">

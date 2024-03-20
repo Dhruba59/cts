@@ -4,14 +4,14 @@ import SimpleTable from "@/components/table/simpleTable";
 import { useMemo, useState } from "react";
 import { ChangeRequestDashboardListColumns } from "./columns";
 import Modal from "@/components/modal";
-import { useForm } from "react-hook-form";
-import { MODAL_TYPE_ENUM, RESPONSE_TYPE_ENUM } from "@/model/enum";
+import { MODAL_TYPE_ENUM } from "@/model/enum";
 import { useAcceptChangeRequest, useRejectChangeRequest } from "@/hooks/rq-hooks/change-request-hooks";
 import { useSession } from "next-auth/react";
 import { USER_ROLE_ENUM } from "@/model/enum";
 import ChangeRequestDashboardModal from "./detail/change-request-dashboard-modal";
 import { apiResponseToast } from "@/utils/toast";
 import { toast } from "react-toastify";
+import TableTopWithAddButtin from "@/components/table/table-top-with-add-button";
 
 export function ListTable({ data, sorting, setSorting, refetch, isLoading }: any) {
   
@@ -127,12 +127,19 @@ export function ListTable({ data, sorting, setSorting, refetch, isLoading }: any
   }
 
   const columns = useMemo(() => ChangeRequestDashboardListColumns({ onViewDetail, onAccept, onReject, isSysAdmin }), []);
+  const getRowActions = (item: any) => {
+    const isPending = item?.requestStatus === 'Pending';
+    return ([
+        { content: "View", onClick: () => onViewDetail(item?.requestId, isPending) },
+        { content: 'Accept', onClick: () => onAccept(item?.requestId), disabled: !isSysAdmin || !isPending },
+        { content: 'Reject', onClick: () => onReject(item?.requestId), disabled: !isSysAdmin || !isPending },
+      ]
+    );
+  }
 
   return (
     <div className="sm:wrapper">
-      <h4 className="hidden md:block font-semibold py-4 px-6">
-        List of Change Request
-      </h4>
+      <TableTopWithAddButtin headerText=" List of Change Request" addButtonLink=""/>
       <div className="hidden sm:block">
         <SimpleTable data={data} columns={columns} sorting={sorting} setSorting={setSorting} isLoading={isLoading} />
       </div>
@@ -140,8 +147,9 @@ export function ListTable({ data, sorting, setSorting, refetch, isLoading }: any
         <ExpandableTable
           data={data}
           columns={columns}
-          tableTitle=" List of Indication"
+          // tableTitle=" List of Indication"
           listTitleKey="indication_name"
+          getRowActions={getRowActions}
         />
       </div>
       <Modal
@@ -149,7 +157,7 @@ export function ListTable({ data, sorting, setSorting, refetch, isLoading }: any
         open={openReject}
         onClose={() => onCancel()}
         title="Confirmation!"
-        containerClassName="!w-[624px] z-50"
+        containerClassName="md:!w-[624px] z-50"
         renderFooter={{
           onSave: onRejectConfirm,
           submitButtonName: "Confirm",
@@ -166,7 +174,7 @@ export function ListTable({ data, sorting, setSorting, refetch, isLoading }: any
         open={openAccept}
         onClose={() => onCancel()}
         title="Confirmation!"
-        containerClassName="!w-[624px] z-50"
+        containerClassName="md:!w-[624px] z-50"
         renderFooter={{
           onSave: onAcceptConfirm,
           submitButtonName: "Confirm",
@@ -185,7 +193,7 @@ export function ListTable({ data, sorting, setSorting, refetch, isLoading }: any
         maskClosable={false}
         onClose={() => onCancel()}
         title="Changed Request Detail"
-        containerClassName="flex flex-1 flex-col mx-10 z-0 overflow-auto max-w-[700px]"
+        containerClassName="flex flex-1 flex-col mx-10 z-0 overflow-auto max-w-[700px] dark:!bg-dark-darkBlue"
         renderFooter={{
           onSave: () => { onAcceptOnDetailsView(requestId) },
           onReject: () => { onRejectOnDetailsView(requestId) },

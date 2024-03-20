@@ -67,8 +67,9 @@ const SearchSubjectForm = ({ setQueryParams, protocolId, isLoadingSearch }: Sear
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="grid grid-cols-1 sm:grid-cols-2 gap-x-12 gap-y-6">
+      className="grid grid-cols-1 sm:grid-cols-2 gap-x-3 lg:gap-x-6 gap-y-2">
       <Input
+        wrapperClassName="mt-1"
         label="Sponsor Subject ID"
         placeholder="Enter subject ID"
         {...register("sponsorSubjectID")}
@@ -76,124 +77,67 @@ const SearchSubjectForm = ({ setQueryParams, protocolId, isLoadingSearch }: Sear
       />
       <div>
         <Label label="Subject Initials" className="inline-block mb-2" />
-        <div className="grid grid-cols-3 gap-6">
-          <div>
-            <Controller
-              control={control}
-              name="FirstInitial"
-              rules={{
-                pattern: {
-                  value: /^[a-zA-Z]$/,
-                  message: "One alphabetic character allowed",
-                },
-              }}
-              render={({ field: { onChange, onBlur, value } }: any) => (
-                <InputFieldWithRegexValidation
-                  placeholder="F"
-                  maxLength={1}
-                  disabled={!protocolId}
-                  onChange={onChange}
-                  value={value}
-                  regex={/^[a-zA-Z]*$/}
-                />
-              )}
-            />
-            {/* <Input
-              placeholder="F"
-              {...register("FirstInitial", {
-                pattern: {
-                  value: /^[a-zA-Z]$/,
-                  message: "One alphabetic character allowed",
-                },
-              })}
-              maxLength={1}
-              type="text"
-              disabled={!protocolId}
-            /> */}
-            {errors.FirstInitial && (
-              <span className="text-red-500 -mt-10">
-                {errors.FirstInitial.message as string}
-              </span>
+        <div className="grid grid-cols-3 gap-x-2 lg:gap-x-3 gap-y-2">
+          <Controller
+            control={control}
+            name="FirstInitial"
+            rules={{
+              pattern: {
+                value: /^[a-zA-Z]$/,
+                message: "One alphabetic character allowed",
+              },
+            }}
+            render={({ field: { onChange, onBlur, value } }: any) => (
+              <InputFieldWithRegexValidation
+                placeholder="F"
+                maxLength={1}
+                disabled={!protocolId}
+                onChange={onChange}
+                value={value}
+                regex={/^[a-zA-Z]*$/}
+              />
             )}
-          </div>
-          <div>
-            <Controller
-              control={control}
-              name="MiddleInitial"
-              rules={{
-                pattern: {
-                  value: /^[a-zA-Z]$/,
-                  message: "One alphabetic character allowed",
-                },
-              }}
-              render={({ field: { onChange, onBlur, value } }: any) => (
-                <InputFieldWithRegexValidation
-                  placeholder="M"
-                  maxLength={1}
-                  disabled={!protocolId}
-                  onChange={onChange}
-                  value={value}
-                  regex={/^[a-zA-Z]*$/}
-                />
-              )}
-            />
-            {/* <Input
-              placeholder="M"
-              {...register("MiddleInitial", {
-                pattern: {
-                  value: /^[a-zA-Z]$/,
-                  message: "One alphabetic character allowed",
-                },
-              })}
-              maxLength={1}
-              type="text"
-              disabled={!protocolId}
-            /> */}
-            {errors.MiddleInitial && (
-              <span className="text-red-500 -mt-10">
-                {errors.MiddleInitial.message as string}
-              </span>
+          />
+          <Controller
+            control={control}
+            name="MiddleInitial"
+            rules={{
+              pattern: {
+                value: /^[a-zA-Z]$/,
+                message: "One alphabetic character allowed",
+              },
+            }}
+            render={({ field: { onChange, onBlur, value } }: any) => (
+              <InputFieldWithRegexValidation
+                placeholder="M"
+                maxLength={1}
+                disabled={!protocolId}
+                onChange={onChange}
+                value={value}
+                regex={/^[a-zA-Z]*$/}
+              />
             )}
-          </div>
-          <div>
-            <Controller
-              control={control}
-              name="LastInitial"
-              rules={{
-                pattern: {
-                  value: /^[a-zA-Z]$/,
-                  message: "One alphabetic character allowed",
-                },
-              }}
-              render={({ field: { onChange, onBlur, value } }: any) => (
-                <InputFieldWithRegexValidation
-                  placeholder="L"
-                  maxLength={1}
-                  disabled={!protocolId}
-                  onChange={onChange}
-                  value={value}
-                  regex={/^[a-zA-Z]*$/}
-                />
-              )}
-            />
-            {/* <Input
-              placeholder="L"
-              {...register("LastInitial", {
-                pattern: {
-                  value: /^[a-zA-Z]$/,
-                  message: "One alphabetic character allowed",
-                },
-              })}
-              maxLength={1}
-              type="text"
-              disabled={!protocolId}
-            /> */}
-            {errors.LastInitial && (
-              <span className="text-red-500 -mt-10">
-                {errors.LastInitial.message as string}
-              </span>
+          />
+          <Controller
+            control={control}
+            name="LastInitial"
+            rules={{
+              pattern: {
+                value: /^[a-zA-Z]$/,
+                message: "One alphabetic character allowed",
+              },
+            }}
+            render={({ field: { onChange, onBlur, value } }: any) => (
+              <InputFieldWithRegexValidation
+                placeholder="L"
+                maxLength={1}
+                disabled={!protocolId}
+                onChange={onChange}
+                value={value}
+                regex={/^[a-zA-Z]*$/}
+              />
             )}
-          </div>
+          />
         </div>
       </div>
       <Controller

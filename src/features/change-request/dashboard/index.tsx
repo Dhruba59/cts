@@ -1,15 +1,9 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import ListHeader from "./list-header";
 import ListTable from "./table/listTable";
-import { Indication, IndicationQuery } from "@/model/indication";
 import Pagination from "@/components/pagination";
-import { getIndicationCodeTypes, getIndications } from "@/service/indication-service";
 import { SortingState } from "@tanstack/react-table";
-
-import { DropDownItem, SelectOptionType } from "@/model/drop-down-list";
 import { DEFAULT_PAGE_SIZE } from "@/constants/common";
-import { useQuery } from "react-query";
-import { MainContainer } from "@/components/style-container";
 import { useChangeRequestDashboard } from "@/hooks/rq-hooks/change-request-hooks";
 import { ChangeRequestDashboardQuery } from "@/model/change-request";
 import { initialDefaultQuery } from "@/utils/helpers";
@@ -23,9 +17,7 @@ const ChangeRequestDashboardList = () => {
   const { data: _data, error, isLoading, refetch: refetch
   } = useChangeRequestDashboard(queryData);
   
-  useEffect(() => {
-    // console.log(_data);
-  }, [_data])
+
   const setCurrentPageNumber = (page: number) => {
     setQueryData((data) => {
       if (data) {
@@ -61,7 +53,7 @@ const ChangeRequestDashboardList = () => {
   }, [sorting]);
 
   return (
-    <main>
+    <main className="space-y-2">
       <ListHeader setQueryData={setQueryData} />
       <ListTable data={_data?.data?.items} sorting={sorting} setSorting={setSorting} isLoading={isLoading} refetch={refetch}/>
       <Pagination

@@ -61,7 +61,7 @@ const ChangeRequestReprintList = () => {
   }, [sorting]);
 
   return (
-    <main>
+    <main className="space-y-2">
       <ListHeader setQueryData={setQueryData} />
       <ListTable data={_data?.data?.items} sorting={sorting} setSorting={setSorting} isLoading={isLoading} refetch={refetch}/>
       <Pagination

@@ -4,30 +4,22 @@ import SimpleTable from "@/components/table/simpleTable";
 import { useMemo, useState } from "react";
 import { SponsorListColumns } from "./columns";
 import Modal from "@/components/modal";
-import { useForm } from "react-hook-form";
 import { useDeleteSponsor } from "@/hooks/rq-hooks/sponsor-hooks";
 import TableTopWithAddButtin from "@/components/table/table-top-with-add-button";
 import { apiResponseToast } from "@/utils/toast";
-import { RESPONSE_TYPE_ENUM } from "@/model/enum";
 import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
 
-export function ListTable({ data, sorting, setSorting, isLoading, refetch }: any) {
-
-  const {
-    handleSubmit,
-    formState: { errors },
-    reset,
-    register
-  } = useForm();
+export function ListTable({ data, sorting, setSorting, isLoading, refetch }: any) {  
   
   const [open, setOpen] = useState<boolean>(false);
   const [id, setId] = useState<number>(0);
   const { mutate: deleteSponsor } = useDeleteSponsor();
+  const router = useRouter();
 
   const onDeleteConfirm = () => {
      deleteSponsor({id} , {
       onSuccess: (data) => {
-        //console.log(data);
         setId(0);
         setOpen(false);
         apiResponseToast(data?.data);
@@ -36,7 +28,7 @@ export function ListTable({ data, sorting, setSorting, isLoading, refetch }: any
       onError: (error: any) => {
         setId(0);
         setOpen(false);
-        toast.error(error?.response?.data.title);
+        toast.error(error?.response?.data.detail);
         refetch();
       }
     });
@@ -54,6 +46,13 @@ export function ListTable({ data, sorting, setSorting, isLoading, refetch }: any
   }
 
   const columns = useMemo(() => SponsorListColumns({ onDelete }), []);
+  const getRowActions = (item: any) => {
+    return ([
+        { content: "Edit", onClick: () => router.push(`/sponsor/${item?.sponsorId}/edit`) },
+        { content: "Delete", onClick: () => onDelete(item?.sponsorId)}
+      ]
+    );
+  }
 
   return (
     <div className="sm:wrapper">
@@ -65,9 +64,10 @@ export function ListTable({ data, sorting, setSorting, isLoading, refetch }: any
         <ExpandableTable
           data={data}
           columns={columns}
-          tableTitle=" List of Sponsor"
-          addButtonLink="add"
+          // tableTitle=" List of Sponsor"
+          // addButtonLink="add"
           listTitleKey="study_name"
+          getRowActions={getRowActions}
         />
       </div>
       <Modal

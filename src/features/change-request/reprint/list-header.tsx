@@ -1,33 +1,33 @@
 "use client";
 import Breadcrumbs from "@/components/ui/breadcrumbs";
-import Toggle from "@/components/ui/toggle";
-
 import { useState } from "react";
-import { SearchForm, AdvanceSearchForm } from "./search-form";
-import { DropDownItem, SelectOptionType } from "@/model/drop-down-list";
-import { Controller, useForm } from "react-hook-form";
-import { IndicationQuery } from "@/model/indication";
-import { useGetIndicationCodeTypes } from "@/hooks/rq-hooks/indication-hooks";
+import { SearchForm, AdvanceSearchForm, TabSearchForm } from "./search-form";
+import { useForm } from "react-hook-form";
 import { ChangeRequestReprintQuery } from "@/model/change-request";
-import { useChangeRequestDashboard, useChangeRequestDashboardDropdowns, useChangeRequestReprintDropdowns } from "@/hooks/rq-hooks/change-request-hooks";
+import { useChangeRequestReprintDropdowns } from "@/hooks/rq-hooks/change-request-hooks";
 import { useSession } from "next-auth/react";
-import { USER_ROLE_ENUM } from "@/model/enum";
-import { QueriesObserver } from "react-query";
 import { changeRequestReprintDefaultValue } from "../utils";
+import { TabSearchBar } from "@/components/others/tab-searchbar";
+import { DesktopSearchBar } from "@/components/others/desktop-searchbar";
+import { convertTypeToSelectOption, initialDefaultQuery } from "@/utils/helpers";
 
 
 const ListHeader = ({ setQueryData }: any) => {
-  const [isChecked, setIsChecked] = useState(false);
- 
-  const { data: session } = useSession();
-  // @ts-ignore
   const { data: reprintDropdowns } = useChangeRequestReprintDropdowns();
-  //const { data: dropdowns } = useChangeRequestDashboardDropdowns();
-
+  
+  const protocolsOptions = convertTypeToSelectOption(reprintDropdowns?.data?.protocols)
+  const regionOptions = convertTypeToSelectOption(reprintDropdowns?.data?.regionGroups);
+  const siteOptions = convertTypeToSelectOption(reprintDropdowns?.data?.sites);
+  
   const form = useForm<ChangeRequestReprintQuery>({
     defaultValues: changeRequestReprintDefaultValue
   });
-  const { handleSubmit } = form;
+  const { handleSubmit, reset } = form;
+
+  const onReset = () => {
+    reset();
+    setQueryData(initialDefaultQuery);
+  }
 
   const onSubmit = (values: any) => {
     const params = {
@@ -46,40 +46,19 @@ const ListHeader = ({ setQueryData }: any) => {
   }
 
   return (
-    <div className="sm:wrapper">
+    <div>
+      <Breadcrumbs title="Change Request" subTitle="Reprint List" />
       <form onSubmit={handleSubmit(onSubmit)}>
-        <Breadcrumbs title="Study Information" subTitle="Reprint List" />
-        <div className="flex justify-between items-center px-0 sm:px-6 py-3">
-          <h4 className="">Search</h4>
-          <div className="flex items-center">
-            <div className="flex flex-row justify-end items-center gap-2 ">
-              {/* <h4 className=" text-neutral-black">Search for Request & Reprint</h4> */}
-              <div className="">
-                <SearchForm
-                  isAdvancedOpen={isChecked}
-                  form={form}
-                  dropdownsData={reprintDropdowns?.data}
-                  setQueryData={setQueryData}
-                />
-              </div>
-              <Toggle
-                prefixLabel="More: "
-                className="hidden lg:block"
-                isChecked={isChecked}
-                setIsChecked={setIsChecked}
-              />
-            </div>
-          </div>
-        </div>
-
-        <hr className="" />
-        {isChecked && (
-          <AdvanceSearchForm
-            form={form}
-            dropdownsData={reprintDropdowns?.data}
-            setQueryData={setQueryData}
-          />
-        )}
+        <TabSearchBar
+          formContent={<TabSearchForm form={form} protocolOptions={protocolsOptions}regionGroupOptions={regionOptions} siteOptions={siteOptions} />}
+          onReset={onReset}
+        />
+        <DesktopSearchBar
+          title="Search"
+          searchFormContents={<SearchForm form={form} protocolOptions={protocolsOptions} />}
+          advanceSearchFormContents={<AdvanceSearchForm form={form} regionGroupOptions={regionOptions} siteOptions={siteOptions} />}
+          onReset={onReset}
+        />
       </form>
     </div>
   );

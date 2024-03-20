@@ -6,7 +6,7 @@ import Textarea from "@/components/ui/textarea";
 import { useAddSponsor, useEditSponsor } from "@/hooks/rq-hooks/sponsor-hooks";
 import { SelectOptionType } from "@/model/drop-down-list";
 import { RESPONSE_TYPE_ENUM } from "@/model/enum";
-import { AddSponsorProps, SponsorQuery } from "@/model/sponsor";
+import { AddSponsorProps, Sponsor, SponsorQuery } from "@/model/sponsor";
 import { getSponsorById } from "@/service/sponsor-service";
 import { apiResponseToast } from "@/utils/toast";
 import { useRouter } from "next/navigation";
@@ -15,31 +15,27 @@ import { Controller, useForm } from "react-hook-form";
 import { useQuery } from "react-query";
 import { toast } from "react-toastify";
 
-
+const defaultValues = {
+  sponsorId: 0,
+  sponsorName: '',
+  address1: '',
+  address2: '',
+  address3: '',
+  city: '',
+  zip: '',
+  state: '',
+  active: null
+}
 const AddSponsor = ({ id }: AddSponsorProps) => {
   const router = useRouter();
-  const defaultValues = {
-    sponsorId: 0,
-    sponsorName: '',
-    address1: '',
-    address2: '',
-    address3: '',
-    city: '',
-    zip: '',
-    state: '',
-    active: null
-  }
   const {
     register,
     handleSubmit,
-    control,
-    setValue,
     formState: { errors },
     reset,
-  } = useForm<SponsorQuery>({
+  } = useForm<Sponsor>({
     defaultValues: defaultValues
   });
-
 
   const { mutate: AddIndication, isLoading: isAddIndicationLoading } = useAddSponsor();
   const { mutate: EditIndication, isLoading: isEditIndicationLoading } = useEditSponsor();
@@ -56,9 +52,6 @@ const AddSponsor = ({ id }: AddSponsorProps) => {
   }
 
   const onSubmit = (payload: any) => {
-
-    //console.log(payload);
-
     payload = {
       ...payload,
       codeType: payload?.codeType?.value ?? payload?.codeType
@@ -103,7 +96,7 @@ const AddSponsor = ({ id }: AddSponsorProps) => {
 
   return (
     <div className="w-full">
-      <Breadcrumbs title="SponsorData" subTitle="Add SponsorData" />
+      <Breadcrumbs title="SponsorData" subTitle={id ? "Update" : "Add" } />
       <section className="wrapper">
         <h4 className="px-6 py-4">
           Sponsor Information

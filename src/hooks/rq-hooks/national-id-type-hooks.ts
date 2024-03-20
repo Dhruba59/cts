@@ -1,7 +1,7 @@
 
 import {
   getNationalIdTypes, getNationalIdTypeById, addNationalIdType,
-  editNationalIdType, deleteNationalIdType, getFrequencyTypes
+  editNationalIdType, deleteNationalIdType, getNidCountryDropdownOptions
 } from "@/service/national-id-type-service";
 import { useMutation, useQuery } from "react-query";
 
@@ -19,8 +19,8 @@ export const useGetNationalIdTypeById = (id: any) => useQuery({
   retry: false
 })
 
-export const useGetFrequencyTypes = () => useQuery('getFrequencyTypes',{
-  queryFn: getFrequencyTypes,
+export const useGetNidCountryDropdownOptions = () => useQuery('getCountryOptions',{
+  queryFn: getNidCountryDropdownOptions,
   retry: false
 })
 

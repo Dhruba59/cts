@@ -1,15 +1,17 @@
 import { Dispatch, ReactNode, SetStateAction } from "react";
 
 export interface MenuListProps {
-  menus: Array<{ icon: string; text: string; url?: string; onClick?: () => void; }>;
+  menus: Array<MenuItemProps>;
   className?: string;
 }
 
 export interface MenuItemProps {
-  icon: string;
-  text: string;
+  icon?: string;
+  content: string | ReactNode;
   url?: string;
   onClick?: () => void;
+  disabled?: boolean;
+  hidden?: boolean;
 }
 
 export interface MenuItemsContextType {

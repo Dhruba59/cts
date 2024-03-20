@@ -1,19 +1,12 @@
 import Check from "@/components/icons/check";
 import Edit from "@/components/icons/edit";
-import View from "@/components/icons/view";
-import { IndeterminateCheckbox } from "@/components/ui/checkbox";
-import { TrainingMaterial, TrainingMaterialColumnsProps, TrainingMaterialQuery 
-} from "@/model/training-material";
+import { TrainingMaterialQuery } from "@/model/training-material";
 import { ColumnDef } from "@tanstack/react-table";
 import Cross from "@/components/icons/cross";
 import Link from "next/link";
-import { DeleteOutlined } from "@/assets/icons";
 
-
-export const TrainingMaterialListColumns = ({ onDelete }
-  : TrainingMaterialColumnsProps): ColumnDef<TrainingMaterialQuery>[] => {
+export const TrainingMaterialListColumns = (): ColumnDef<TrainingMaterialQuery>[] => {
 return ([
-
   {
     header: "Training Name",
     accessorKey: "trainingName",

@@ -4,19 +4,19 @@ import SimpleTable from "@/components/table/simpleTable";
 import { useMemo, useState } from "react";
 import { NationalIdTypeListColumns } from "./columns";
 import Modal from "@/components/modal";
-import { useForm } from "react-hook-form";
 import { useDeleteNationalIdType } from "@/hooks/rq-hooks/national-id-type-hooks";
-import { MODAL_TYPE_ENUM, RESPONSE_TYPE_ENUM } from "@/model/enum";
+import { MODAL_TYPE_ENUM } from "@/model/enum";
 import TableTopWithAddButtin from "@/components/table/table-top-with-add-button";
 import { apiResponseToast } from "@/utils/toast";
 import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
 
-
-export function ListTable({ data, sorting, setSorting, refetch, isLoading }: any) {
+export function ListTable({ data, sorting, setSorting, refetchNationalIdType, isLoading }: any) {
   
   const [open, setOpen] = useState<boolean>(false);
   const [id, setId] = useState<number>(0);
   const { mutate: deleteNationalIdType } = useDeleteNationalIdType();
+  const router = useRouter();
 
   const onDeleteConfirm = () => {
      deleteNationalIdType({id} , {
@@ -24,13 +24,13 @@ export function ListTable({ data, sorting, setSorting, refetch, isLoading }: any
         setId(0);
         setOpen(false);
         apiResponseToast(data?.data);
-        refetch();
+        refetchNationalIdType();
       },
       onError: (error: any) => {
         setId(0);
         setOpen(false);
         toast.error(error?.response?.data.title);
-        refetch();
+        refetchNationalIdType();
       }
     });
 
@@ -47,6 +47,13 @@ export function ListTable({ data, sorting, setSorting, refetch, isLoading }: any
   }
 
   const columns = useMemo(() => NationalIdTypeListColumns({ onDelete }), []);
+  const getRowActions = (item: any) => {
+    return ([
+        { content: "Edit", onClick: () => router.push(`/national-id-type/${item?.nationalTypeId}/edit`) },
+        { content: "Delete", onClick: () => onDelete(item?.nationalTypeId)}
+      ]
+    );
+  }
 
   return (
     <div className="sm:wrapper">
@@ -58,10 +65,10 @@ export function ListTable({ data, sorting, setSorting, refetch, isLoading }: any
         <ExpandableTable
           data={data}
           columns={columns}
-          tableTitle=" List of NID Type"
-          addButtonLink="add"
+          // tableTitle=" List of NID Type"
+          // addButtonLink="add"
           listTitleKey="nationalIdTypeName"
-          
+          getRowActions={getRowActions}
         />
       </div>
       <Modal
@@ -69,7 +76,7 @@ export function ListTable({ data, sorting, setSorting, refetch, isLoading }: any
         open={open}
         onClose={() => onDeleteCancel()}
         title="Confirmation!"
-        containerClassName="!w-[624px]"
+        containerClassName="md:!w-[624px]"
         renderFooter={{
           onSave: onDeleteConfirm,
           submitButtonName: "Confirm",

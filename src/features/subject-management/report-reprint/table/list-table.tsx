@@ -10,6 +10,7 @@ import ReprintPdf from "@/features/change-request/pdf/reprint-pdf";
 import { getSubjectMatchReport } from "@/service/report-service";
 import { useQuery } from "react-query";
 import { MatchReportQueryParams } from "@/model/subject";
+import TableTopWithAddButtin from "@/components/table/table-top-with-add-button";
 
 
 export interface ListTableProps {
@@ -20,7 +21,6 @@ export interface ListTableProps {
 }
 
 const ListTable = ({ data, sorting, setSorting, isLoadingTableData }: ListTableProps) => {
-  const isLoading = false;
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [lastSubjectQueryParams, setLastSubjectQueryParams] =
   useState<MatchReportQueryParams>();
@@ -41,13 +41,20 @@ const ListTable = ({ data, sorting, setSorting, isLoadingTableData }: ListTableP
   };
 
   const columns = useMemo(() => getColumns({ onPrintClick }), []);
-  // const data = useMemo(() => LIST_DATA, []);
+  const getRowActions = (item: any) => {
+    const subjectInfo = {
+      SubjectId: item?.sid,
+      NationalTypeId: item?.nationalTypeID
+    }
+    return ([
+        { content: "Print", onClick: () => onPrintClick(subjectInfo) },
+      ]
+    );
+  }
 
   return (
     <div className="sm:wrapper">
-      <h4 className="hidden md:block font-semibold py-4 px-6">
-        List of Subjects for Re-Print
-      </h4>
+      <TableTopWithAddButtin headerText="List of Subjects for Re-Print" addButtonLink=""/>
       <div className="hidden sm:block">
         <SimpleTable data={data} columns={columns} sorting={sorting} setSorting={setSorting} isLoading={isLoadingTableData}/>
       </div>
@@ -55,8 +62,9 @@ const ListTable = ({ data, sorting, setSorting, isLoadingTableData }: ListTableP
         <ExpandableTable
           data={data}
           columns={columns}
-          tableTitle=" List of Subjects for Re-Print"
+          // tableTitle=" List of Subjects for Re-Print"
           listTitleKey="sponsor_subject_id"
+          getRowActions={getRowActions}
         />
       </div>
       <Modal

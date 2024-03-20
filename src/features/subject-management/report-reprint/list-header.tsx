@@ -1,11 +1,14 @@
 "use client";
 import Breadcrumbs from "@/components/ui/breadcrumbs";
-import Toggle from "@/components/ui/toggle";
-import { Dispatch, SetStateAction, useState } from "react";
-import { AdvanceSearchForm, SearchForm } from "./search-form";
+import { Dispatch, SetStateAction } from "react";
+import { AdvanceSearchForm, SearchForm, TabSeachForm } from "./search-form";
 import { useForm } from "react-hook-form";
-import { SearchLastSubjectsParams } from "@/model/subject";
 import { ReprintMatchReportsType } from ".";
+import { TabSearchBar } from "@/components/others/tab-searchbar";
+import { DesktopSearchBar } from "@/components/others/desktop-searchbar";
+import { convertTypeToSelectOption, initialDefaultQuery } from "@/utils/helpers";
+import { getAssignedProtocols } from "@/service/subject-service";
+import { useQuery } from "react-query";
 
 interface ListHeaderProps {
   setQueryData: Dispatch<SetStateAction<any | undefined>>;
@@ -25,9 +28,13 @@ const initialValue = {
 }
 
 const ListHeader = ({ setQueryData }: ListHeaderProps) => {
-  const [isChecked, setIsChecked] = useState(false);
   const form = useForm<any>({ defaultValues: initialValue });
-  const { handleSubmit } = form;
+  const { handleSubmit, reset } = form;
+
+  const { data: protocolList } = useQuery({
+    queryFn: getAssignedProtocols,
+  });
+  const protocolOptions = convertTypeToSelectOption(protocolList?.data ?? []);
 
   const onSubmit = (values: any) => {
     const params: ReprintMatchReportsType = {
@@ -40,35 +47,29 @@ const ListHeader = ({ setQueryData }: ListHeaderProps) => {
   }
 
   const onReset = () => {
-    setQueryData({});
+    reset();
+    setQueryData(initialDefaultQuery);
   }
 
   return (
-    <div className="sm:wrapper">
+    <div>
       <Breadcrumbs
         title="Subject Management"
         subTitle="Re-Print Match Reports"
       />
       <form onSubmit={handleSubmit(onSubmit)}>
-        <Breadcrumbs title="Study Information" subTitle="Study List" />
-        <div className="flex flex-row items-center justify-between gap-2 md:px-6 py-3">
-          <h4 className="hidden lg:block">
-            Search Study
-          </h4>
-          <div className="">
-            <SearchForm isAdvancedOpen={isChecked} form={form} onReset={onReset}/>
-          </div>
-          <Toggle
-            prefixLabel="More: "
-            className="hidden lg:block"
-            isChecked={isChecked}
-            setIsChecked={setIsChecked}
-          />
-        </div>
-        <hr className="" />
-        {isChecked && <AdvanceSearchForm form={form} onReset={onReset}/>}
+        <TabSearchBar
+          formContent={<TabSeachForm form={form} protocolOptions={protocolOptions} />}
+          onReset={onReset}
+        />
+        <DesktopSearchBar
+          title="Search Sponsor"
+          searchFormContents={<SearchForm form={form} protocolOptions={protocolOptions}  />}
+          advanceSearchFormContents={<AdvanceSearchForm form={form} />}
+          onReset={onReset}
+        />
       </form>
-    </div>
+    </div>   
   );
 };
 

@@ -137,7 +137,7 @@ const AddSite = ({ id }: AddSiteProps) => {
 
   return (
     <div className="w-full">
-      <Breadcrumbs title="Site" subTitle="Add Site" />
+      <Breadcrumbs title="Site" subTitle={id ? "Update" : "Add" } />
       <section className="wrapper">
         <h4 className="px-6 py-4">
           Site Information

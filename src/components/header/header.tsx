@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -15,6 +15,7 @@ import { STORAGE_KEY } from "@/constants/storage-constant";
 import { useThemeContext } from "@/context/theme-context";
 import { signOut, useSession } from "next-auth/react";
 import { getUserRoleFromValue } from "@/utils/helpers";
+import { useShouldRenderComponentOnResize } from "@/hooks/resize-hook";
 
 const handleLogout = () => {
   // deleteSession();
@@ -24,35 +25,35 @@ const handleLogout = () => {
   signOut({ callbackUrl: `${currentDomain}/auth/login` });
 };
 
-const menuItems = [
-  { icon: '', text: 'Profile' },
-  { icon: '', text: 'Change Password', href: 'change-password' },
-  { icon: '', text: 'Log out', onClick: handleLogout }
-];
+const DarkModeSwitchContent = (
+  <div className="w-full flex justify-between items-center">
+    <span>Dark mode</span>
+    <DarkModeToggleSwitch iconClassName="!h-4" inputClassName="w-[42px] !h-4"/> 
+  </div>
+);
+
+const getMenuItems = (isDarkModeOpen: boolean) => {
+  return ([
+      { icon: '', content: 'Profile' },
+      { icon: '', content: 'Change Password', href: 'change-password' },
+      { icon: '', content: DarkModeSwitchContent, hidden: !isDarkModeOpen},
+      { icon: '', content: 'Log out', onClick: handleLogout },
+    ]
+  )
+}
 
 const Header = () => {
-  const [isPopupOpen, setIsPopupOpen] = useState<boolean>(false);
-  const [userRole, setUserRole] = useState<string>('');
+  const [ isPopupOpen, setIsPopupOpen ] = useState<boolean>(false);
   const { isSidebarOpen, setIsSidebarOpen } = useSidebarContext();
-  // const [isDark, setIsDark] = useState<boolean>(localStorage.getItem(STORAGE_CONSTANT.THEME) === THEME_COLOR_ENUM.DARK);
-  const { theme, setTheme } = useThemeContext();
+  const [ userRole, setUserRole ] = useState<string>('');
+  const { theme } = useThemeContext();
   const isDark = theme === THEME_COLOR_ENUM.DARK;
+  const { data: session } = useSession();
 
-  const {data: session} = useSession();
-  useEffect(() => {
-    if (
-      localStorage.getItem(STORAGE_KEY.THEME) &&
-      localStorage.getItem(STORAGE_KEY.THEME) === THEME_COLOR_ENUM.DARK
-    ) {
-      document.documentElement.classList.add(THEME_COLOR_ENUM.DARK);
-      setTheme(THEME_COLOR_ENUM.DARK);
-    } else {
-      document.documentElement.classList.remove(THEME_COLOR_ENUM.DARK);
-      setTheme(THEME_COLOR_ENUM.LIGHT);
-    }
-    
-    setUserRole(getUserRoleFromValue(localStorage.getItem(STORAGE_KEY.ROLE) ?? ''));
-  }, []);
+  const isSmallScreen = useShouldRenderComponentOnResize({
+    minWidth:0,
+    maxWidth: 640
+  });
 
   const handleTogglePopup = () => {
     setIsPopupOpen(!isPopupOpen);
@@ -62,24 +63,10 @@ const Header = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
 
-  const onThemeChange = (value: boolean) => {
-    if (theme === THEME_COLOR_ENUM.DARK) {
-      setTheme(THEME_COLOR_ENUM.DARK);
-    } else {
-      setTheme(THEME_COLOR_ENUM.LIGHT);
-    }
-    if (value === true) {
-      document.documentElement.classList.add(THEME_COLOR_ENUM.DARK);
-      localStorage.setItem(STORAGE_KEY.THEME, THEME_COLOR_ENUM.DARK);
-      // setIsDark(true);
-      setTheme(THEME_COLOR_ENUM.DARK);
-    } else {
-      document.documentElement.classList.remove(THEME_COLOR_ENUM.DARK);
-      localStorage.removeItem(STORAGE_KEY.THEME);
-      // setIsDark(false);
-      setTheme(THEME_COLOR_ENUM.LIGHT);
-    }
-  };
+
+  useEffect(() => {
+    setUserRole(getUserRoleFromValue(localStorage.getItem(STORAGE_KEY.ROLE) ?? ''));
+  }, []);
 
   return (
     <div className="fixed z-50 bg-white dark:bg-[#24303f] w-full px-4 py-2 flex justify-between items-center shadow-md border-b-red-500 border-b-2 h-[64px]">
@@ -94,7 +81,7 @@ const Header = () => {
         </Link>
       </div>
       <div className="relative flex items-center gap-x-4">
-        <DarkModeToggleSwitch onChange={onThemeChange} checked={isDark} />
+        <DarkModeToggleSwitch containerClassName='hidden sm:block h-8'/>
         <Image
           src={userAvatar}
           alt="user-photo"
@@ -121,7 +108,7 @@ const Header = () => {
           onClose={() => setIsPopupOpen(false)}
           className="-right-[120px] top-28"
         >
-          <MenuItems menus={menuItems} className="w-[200px] text-sm" />
+          <MenuItems menus={getMenuItems(isSmallScreen)} className="w-[200px] text-sm" />
         </Popup>
       </div>
     </div>

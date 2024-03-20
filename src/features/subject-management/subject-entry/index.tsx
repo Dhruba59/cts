@@ -190,8 +190,8 @@ const SubjectEntryEditForm = ({ ids }: SubjectEntryEditForm) => {
         <h4 className="px-6 py-4">{ids ? 'Update Subject' : userRole == USER_ROLE_ENUM.SYSTEM_ADMIN ? 'Subject Entry /  Last Subject Contact' : 'Subject Entry'}</h4>
         <hr />
         <div className="w-full px-6 py-8">
-          <div className="flex gap-x-10 mb-4 justify-between">
-            <div className='flex flex-col md:flex-row md:items-center md:col-span-2 gap-2 w-full'>
+          <div className="grid grid-cols-1 sm:grid-cols-2 sm:mb-2 gap-x-3 lg:gap-x-6 gap-y-2">
+           
               <Select
                 label='Study Type'
                 wrapperClassName="w-full"
@@ -205,8 +205,7 @@ const SubjectEntryEditForm = ({ ids }: SubjectEntryEditForm) => {
                 options={studyTypeOptions}
                 isDisabled={!!ids}
               />
-            </div>
-            <div className='flex flex-col md:flex-row md:items-center md:col-span-2 gap-2 w-full'>
+           
               <Select
                 label='Select a protocol'
                 wrapperClassName="w-full"
@@ -219,7 +218,6 @@ const SubjectEntryEditForm = ({ ids }: SubjectEntryEditForm) => {
                 value={selectedProtocol}
                 options={protocolOptions}
               />
-            </div>
           </div>
           {((userRole == USER_ROLE_ENUM.SITE_USER && selectedProtocol?.value) || ids) &&
             <div>
@@ -233,7 +231,7 @@ const SubjectEntryEditForm = ({ ids }: SubjectEntryEditForm) => {
         </div>
       </div>
       {((userRole == USER_ROLE_ENUM.SYSTEM_ADMIN && selectedProtocol?.value && !ids)) &&
-        <div>
+        <div className="mt-2">
           <ListTable data={subjectList?.data.items} isLoading={isSubjectLoading || isRefetchingSubject} protocolId={selectedProtocol?.value} onUpdateSubject={onUpdateSubject} sorting={sorting} setSorting={setSorting} />
           <Pagination
             currentPage={subjectList?.data?.pageNumber ?? 1}

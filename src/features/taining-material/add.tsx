@@ -130,7 +130,7 @@ const AddTrainingMaterial = ({ id }: AddTrainingMaterialProps) => {
 
   return (
     <div className="w-full">
-      <Breadcrumbs title="Training Material" subTitle="Add Training Material" />
+      <Breadcrumbs title="Training Material" subTitle={id ? "Update" : "Add"} />
       <section className="wrapper">
         <h4 className="px-6 py-4">
           Training Material Information

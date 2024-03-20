@@ -42,13 +42,6 @@ const SubjectReprint = () => {
     }));
   }, [sorting]);
 
-  // useEffect(() => {
-  //   setQueryData((data) => ({
-  //     ...data as any,
-  //     OrderBy: 'DateEntered ASC'
-  //   }));
-  // }, []);
-
   useEffect(() => {
     setQueryData((data) => ({
       ...data as any,
@@ -57,7 +50,7 @@ const SubjectReprint = () => {
   }, [pageSize]);
 
   return (
-    <main>
+    <main className="space-y-2">
       <ListHeader setQueryData={setQueryData} />
       <ListTable data={subjectList?.data?.items ?? []} sorting={sorting} setSorting={setSorting} isLoadingTableData={isLoadingSubjectList}/>
       <Pagination

@@ -1,7 +1,9 @@
 import { SortingState } from "@tanstack/react-table";
-import { DropDownItem } from "./drop-down-list";
+import { DropDownItem, SelectOptionType } from "./drop-down-list";
 import { Query } from "./query";
 import { Dispatch, SetStateAction } from "react";
+import { BasicTabSearchBarContentsProps } from "./common";
+import { DateRangeType } from "react-tailwindcss-datepicker";
 
 export interface Study {
   studyId: number;
@@ -97,6 +99,10 @@ export interface CriticalDndDataType {
   items: Array<CriticalDndItem>;
 }
 
+export interface StudyListFormValues extends Omit<StudyListQueryData, 'StudyStartDate' | 'StudyEndDate'> {
+  date?: DateRangeType;
+}
+
 export interface StudyListQueryData extends Query {
   ProtocolNumber?: string;
   StudyName?: string;
@@ -142,4 +148,9 @@ export interface ListTableProps {
   data: any;
   sorting: SortingState;
   setSorting: Dispatch<SetStateAction<SortingState>>;
+}
+
+export interface StudyAdvancedSearchFormProps extends BasicTabSearchBarContentsProps {
+  sponsorOptions: SelectOptionType[];
+  phaseOptions: SelectOptionType[];
 }

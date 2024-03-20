@@ -5,15 +5,17 @@ import { MenuListProps } from '@/model/menu-items';
 const MenuList: React.FC<MenuListProps> = ({ menus, className }) => {
   return (
     <div className={className}>
-      {menus?.map((menu, index) => (
+      {menus.length > 0 ? menus?.map((menu, index) => (
         <MenuItem
           key={index}
-          icon={menu.icon}
-          text={menu.text}
-          url={menu.url}
-          onClick={menu.onClick}
+          icon={menu?.icon}
+          content={menu.content}
+          url={menu?.url}
+          onClick={menu?.onClick}
+          disabled={menu?.disabled}
+          hidden={menu?.hidden}
         />
-      ))}
+      )) : <div className='w-16'>No Data</div>}
     </div>
   );
 };

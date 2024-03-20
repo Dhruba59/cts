@@ -1,6 +1,5 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { getListColumn } from "./columns";
-import Pagination from "@/components/pagination";
 import ExpandableTable from "@/components/table/expandableTable";
 import SimpleTable from "@/components/table/simpleTable";
 import { LastSubjectPdfData, LastSubjectPrintQueryParams } from "@/model/subject";
@@ -11,6 +10,7 @@ import { PDFViewer } from "@react-pdf/renderer";
 import Spinner from "@/components/ui/spinner";
 import Modal from "@/components/modal";
 import LastSubjectContactModal from "./last-subject-contact-modal";
+import TableTopWithAddButtin from "@/components/table/table-top-with-add-button";
 
 const ListTable = ({ data, isLoading, protocolId, sorting, setSorting, onUpdateSubject }: any) => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -42,8 +42,6 @@ const ListTable = ({ data, isLoading, protocolId, sorting, setSorting, onUpdateS
     setLastSubjectQueryParams(subjectInfo);
   }
 
-  const [currentPage, setCurrentPage] = useState(1);
-
   useEffect(() => {
     setPdfData({
       sponsorSubjectId: lastSubjectData?.data.sponsorSubjectId,
@@ -59,7 +57,6 @@ const ListTable = ({ data, isLoading, protocolId, sorting, setSorting, onUpdateS
 
   const [viewDetailModal, setViewDetailModal] = useState<React.ReactNode>(null);
   const onViewDetail = (data: any | undefined, studyId: number | undefined) => {
-    //console.log('onViewDetail',data);
     setViewDetailModal(
       <LastSubjectContactModal data={data} studyId={studyId} onUpdateSubject={updateSubjectAndPdfModal} onHideDetail={onHideDetail} />
     );
@@ -70,12 +67,16 @@ const ListTable = ({ data, isLoading, protocolId, sorting, setSorting, onUpdateS
   }
 
   const columns = getListColumn({ studyId: protocolId, onViewDetail });
+  const getRowActions = (item: any) => {
+    return ([
+        { content: "Edit", onClick: () => onViewDetail(item, protocolId)}
+      ]
+    );
+  }
 
   return (
     <div className="sm:wrapper">
-      <h4 className="hidden md:block font-semibold py-4 px-6">
-        List of Last Subjects
-      </h4>
+      <TableTopWithAddButtin headerText="List of Last Subjects" addButtonLink=""/>
       <div className="hidden sm:block">
         <SimpleTable data={data} columns={columns} isLoading={isLoading} sorting={sorting} setSorting={setSorting} />
       </div>
@@ -83,8 +84,9 @@ const ListTable = ({ data, isLoading, protocolId, sorting, setSorting, onUpdateS
         <ExpandableTable
           data={data}
           columns={columns}
-          tableTitle=" List of Last Subjects"
-          listTitleKey="user_name"
+          // tableTitle=" List of Last Subjects"
+          listTitleKey="last_sub_contact"
+          getRowActions={getRowActions}
         />
       </div>
       {viewDetailModal}

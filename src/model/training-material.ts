@@ -1,5 +1,8 @@
 import { Query } from "./query";
 import AddTrainingMeterialPage from '../app/(main)/training-material/add/page';
+import { SelectOptionType } from "./drop-down-list";
+import { BasicTabSearchBarContentsProps } from "./common";
+import { UseFormReturn } from "react-hook-form";
 
 export interface TrainingMaterial {
   studyId?: string | null;
@@ -31,4 +34,15 @@ export interface DeleteTrainingMaterialPayload {
 export interface AddTrainingMaterialProps {
   id?: string
 }
+
+export interface TrainingtTabSearchBarContentProps extends BasicTabSearchBarContentsProps {
+  studyProtocolOptions: SelectOptionType[];
+}
+
+export interface SearchFormProps {
+  studyProtocolDropDown: any;
+  form: UseFormReturn;
+}
+
+
 

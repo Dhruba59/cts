@@ -1,58 +1,81 @@
 "use client";
-import Breadcrumbs from "@/components/ui/breadcrumbs";
-import Toggle from "@/components/ui/toggle";
 
 import { useState } from "react";
-import { SearchForm, AdvanceSearchForm } from "./search-form";
-import { DropDownItem, SelectOptionType } from "@/model/drop-down-list";
-import { Controller, useForm } from "react-hook-form";
+import { SearchForm, AdvanceSearchForm, TabSearchBarContent } from "./search-form";
+import { useForm } from "react-hook-form";
 import { IndicationQuery } from "@/model/indication";
 import { useGetIndicationCodeTypes } from "@/hooks/rq-hooks/indication-hooks";
-import { initialDefaultQuery } from "@/utils/helpers";
+import { convertTypeToSelectOption, initialDefaultQuery } from "@/utils/helpers";
+import { TabSearchBar } from "@/components/others/tab-searchbar";
+import { DesktopSearchBar } from "@/components/others/desktop-searchbar";
+import Breadcrumbs from "@/components/ui/breadcrumbs";
+import { DEFAULT_PAGE_SIZE } from "@/constants/common";
 
+const defaultValues: IndicationQuery = {
+  code: null,
+  indicationName: null,
+  codeType: null,
+  description: null,
+  isRequireDetails: null,
+};
 
 const ListHeader = ({ setQueryData }: any) => {
-  const [isChecked, setIsChecked] = useState(false);
 
-  const {data: codeTypeDropDown} = useGetIndicationCodeTypes();
+  const { data: codeTypeDropDown } = useGetIndicationCodeTypes();
 
-  const defaultValues: IndicationQuery = {
-    code: '',
-    indicationName: '',
-    codeType: '',
-    description: '',
-    isRequireDetails: undefined   
-  }
-  const {
-    register,
-    handleSubmit,
-    control,
-    setValue,
-    formState: { errors },
-    reset,
-  } = useForm<IndicationQuery>({
-    defaultValues: defaultValues
+  const form = useForm<IndicationQuery>({
+    defaultValues: defaultValues,
   });
 
+  const { handleSubmit, reset } = form;
+
   const onSubmit = (value: any) => {
-    //console.log(value);
     const params = {
       ...value,
-      codeType: value?.codeType?.value
-    }
+      codeType: value?.codeType?.value,
+    };
     //delete params.date;
-    //console.log(params);
     setQueryData(params);
-  }
+  };
 
   const onReset = () => {
     reset();
     setQueryData(initialDefaultQuery);
-  }
+  };
+
+  const tabFormContent = (
+    <TabSearchBarContent
+      codeTypeOptions={convertTypeToSelectOption(
+        codeTypeDropDown?.data?.codeTypes
+      )}
+      form={form}
+    />
+  );
 
   return (
     <div>
       <Breadcrumbs title="Indication" subTitle="Indication List" />
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <TabSearchBar formContent={tabFormContent} onReset={onReset} />
+        <DesktopSearchBar
+          title="Search"
+          searchFormContents={
+            <SearchForm codeTypeDropDown={codeTypeDropDown?.data} form={form} />
+          }
+          advanceSearchFormContents={<AdvanceSearchForm form={form} />}
+          onReset={onReset}
+        />
+      </form>
+    </div>
+  );
+};
+
+export default ListHeader;
+
+
+
+
+    {/* <Breadcrumbs title="Indication" subTitle="Indication List" />
       <form className="" onSubmit={handleSubmit(onSubmit)}>
         <div className="md:hidden">
           <SearchForm  isAdvancedOpen={isChecked} codeTypeDropDown={codeTypeDropDown?.data} register={register} Controller={Controller} control={control}  reset={onReset}/>
@@ -73,9 +96,4 @@ const ListHeader = ({ setQueryData }: any) => {
           <hr />
           {isChecked && <AdvanceSearchForm  register={register} Controller={Controller} control={control} reset={onReset}/>}
         </section>
-      </form>
-    </div>
-  );
-};
-
-export default ListHeader;
+      </form> */}

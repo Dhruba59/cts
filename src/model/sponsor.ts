@@ -1,18 +1,19 @@
+import { UseFormReturn } from "react-hook-form";
 import { Query } from "./query";
 
 export interface Sponsor {
-    sponsorId?: number;
-    sponsorName?: string;
-    address1?: string;
-    address2?: string;
-    address3?: string;
-    city?: string;
-    zip?: string;
-    state?: string;
+    sponsorId?: number | null;
+    sponsorName?: string | null;
+    address1?: string | null;
+    address2?: string | null;
+    address3?: string | null;
+    city?: string | null;
+    zip?: string | null;
+    state?: string | null;
     active?: boolean | null;
 }
 
-export interface SponsorQuery extends Sponsor, Query {
+export interface SponsorQuery extends Omit<Sponsor, 'sponsorId' | 'address3' >, Query {
 
 }
 
@@ -30,11 +31,7 @@ export interface DeleteSponsorPayload {
 }
 
 export interface SearchFormProps {
-    isAdvancedOpen: boolean;
-    register: any;
-    Controller: any;
-    control: any;
-    reset: any;
+    form: UseFormReturn;
   }
 
 
