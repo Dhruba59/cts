@@ -39,6 +39,7 @@ interface SearchProps {
     subjectNumber: string;
     initials: string;
     dob: string;
+    dobHeader: string;
     gender: string;
   }
 }
@@ -65,9 +66,9 @@ const ReprintPdf = ({ data }: ReprintPdfProps) => {
         <View style={{  height: "3px", backgroundColor: '#5581c9', width: '100%' }}></View>
         <SearchInfo data={data?.searchInfo} />
         <View style={{ display: 'flex', flexDirection: 'column', gap: '25px', width: '100%'}}>
-          <ReportTable title='Virtually Certain Matches' primaryColor="red" data={data?.certainMatches}/>
-          <ReportTable title='Possible  Matches' primaryColor="blue" data={data?.possibleMatches}/>
-          <ReportTable title='Probable  Matches' primaryColor="blue" data={data?.probableMatches}/>
+          <ReportTable title='Virtually Certain Matches' primaryColor="red" data={data?.certainMatches} dobHeader={data?.dobHeader}/>
+          <ReportTable title='Possible  Matches' primaryColor="blue" data={data?.possibleMatches} dobHeader={data?.dobHeader}/>
+          <ReportTable title='Probable  Matches' primaryColor="blue" data={data?.probableMatches} dobHeader={data?.dobHeader}/>
         </View>
         <StatusDisclaimer data={data}/>
         <Comment comment={data?.comments} />
@@ -120,7 +121,7 @@ const SearchInfo = ({ data }: SearchProps) => {
       </View>
       <View style={{ display: 'flex', flexDirection: 'row', columnGap: '15px', justifyContent: 'center' }}>
         <Text style={{ fontSize: '10px', color: '#404040' }}>Initials: <Text style={{ fontSize: '10px', color: 'black' }}>{data?.initials}</Text></Text>
-        <Text style={{ fontSize: '10px', color: '#404040' }}>DOB: <Text style={{ fontSize: '10px', color: 'black' }}>{data?.dob}</Text></Text>
+        <Text style={{ fontSize: '10px', color: '#404040' }}>{data?.dobHeader}: <Text style={{ fontSize: '10px', color: 'black' }}>{data?.dob}</Text></Text>
         <Text style={{ fontSize: '10px', color: '#404040' }}>Sex: <Text style={{ fontSize: '10px', color: 'black' }}>{data?.gender}</Text></Text>
       </View>
     </View>
@@ -161,7 +162,7 @@ const Footer = ({ printTime } : FooterProps) => (
 )
 
 
-const ReportTable = ({ title, data, primaryColor}: any) => {
+const ReportTable = ({ title, data, primaryColor, dobHeader}: any) => {
   
   if(!data || data?.length < 1) {
     return <></>;
@@ -220,7 +221,7 @@ const ReportTable = ({ title, data, primaryColor}: any) => {
             <Text style={{ fontSize: "9px", margin: "auto" }}>Initials</Text>
           </View>
           <View style={{ width: "70px" }}>
-            <Text style={{ fontSize: "9px", margin: "auto" }}>DOB</Text>
+            <Text style={{ fontSize: "9px", margin: "auto" }}>{dobHeader}</Text>
           </View>
           <View style={{ width: "40px" }}>
             <Text style={{ fontSize: "9px", margin: "auto" }}>ID Match</Text>
@@ -236,7 +237,7 @@ const ReportTable = ({ title, data, primaryColor}: any) => {
           </View>
         </View>
         {/* table body */}
-        <View>
+        <View >
           {data?.map((item: any, index: number) => (
             <View
               style={{
