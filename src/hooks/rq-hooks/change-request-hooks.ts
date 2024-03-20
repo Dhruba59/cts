@@ -1,5 +1,5 @@
 import { SubjectDetailsParams } from "@/model/change-request";
-import { addChangeRequest, acceptChangeRequest, rejectChangeRequest, viewChangeRequestDetail, getChangeRequestAudit, getChangeRequestAuditDetail, getChangeRequestBySubject, getChangeRequestDashboard, getChangeRequestReprint, getDashboardDropdown, getRequestTypeDropdown, getSubjectDetails, saveChangeRequest, changeOperation, getChangeRequestVisitTypes, getChangeRequestDashboardDropdows, getChangeRequestReprintDropdowns } from "@/service/change-request-service";
+import { addChangeRequest, acceptChangeRequest, rejectChangeRequest, viewChangeRequestDetail, getChangeRequestAudit, getChangeRequestAuditDetail, getChangeRequestBySubject, getChangeRequestDashboard, getChangeRequestReprint, getDashboardDropdown, getRequestTypeDropdown, getSubjectDetails, saveChangeRequest, changeOperation, getChangeRequestVisitTypes, getChangeRequestDashboardDropdows, getChangeRequestReprintDropdowns, reprintMatchReportRequest } from "@/service/change-request-service";
 import { useMutation, useQuery } from "react-query";
 
 
@@ -97,4 +97,8 @@ export const useAcceptChangeRequest = () => useMutation({
 
 export const useRejectChangeRequest = () => useMutation({
   mutationFn: rejectChangeRequest
+})
+
+export const useReprintMatchReportRequest = () => useMutation({
+  mutationFn: reprintMatchReportRequest
 })

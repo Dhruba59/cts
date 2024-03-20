@@ -90,3 +90,7 @@ export const viewChangeRequestDetail = ({queryKey}: any) => {
   const [key, params ] = queryKey as any;
   return request({url: 'ChangeRequest/view-detail', method: 'GET', params});
 }
+
+export const reprintMatchReportRequest = (data: any) => {
+  return request({url: 'ChangeRequest/request-match-reprint', method: 'POST', data});
+}
