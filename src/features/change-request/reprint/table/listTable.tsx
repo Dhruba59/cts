@@ -38,23 +38,6 @@ export function ListTable({ data, sorting, setSorting, refetch, isLoading }: any
   const [subjectMatchReportQueryParams, setSubjectMatchReportQueryParams] =
   useState<MatchReportQueryParams>();
 
-  // const { data: subjectMatchReport, isLoading: isLoadingSubjectMatchReport } =
-  //   useQuery({
-  //     queryFn: getSubjectMatchReport,
-  //     queryKey: ["reportReprintSubjects", subjectMatchReportQueryParams],
-  //     enabled: !!subjectMatchReportQueryParams,
-  //   });
-
-  // const { data: subjectMatchReport, isLoading: isLoadingSubjectMatchReport } =
-  //   useQuery({
-  //     queryFn: reprintMatchReportRequest,
-  //     queryKey: ["reprintMatchReportRequest", subjectMatchReportQueryParams],
-  //     enabled: !!subjectMatchReportQueryParams,
-  //   });
-
-  
-
-
   /* <ChangeRequestModal id={row.original.subjectId + '_' + row.original.nationalTypeId} visitTypeId={row.original.visitTypeIdForBusinessLogic} isPreScreen={row.original.preScreen} onPrintClick={onPrintClick}/> */
 const onOpenChangeRequestModal = (subjectId: number | undefined, nationalTypeId: number | undefined, visitTypeId: number | undefined, isPreScreen: boolean | undefined)=> {
   const subjectInfo: MatchReportQueryParams = {

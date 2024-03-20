@@ -7,7 +7,8 @@ import { PDFViewer } from "@react-pdf/renderer";
 import Spinner from "@/components/ui/spinner";
 import Modal from "@/components/modal";
 import ReprintPdf from "@/features/change-request/pdf/reprint-pdf";
-import { getSubjectMatchReport } from "@/service/report-service";
+//import { getSubjectMatchReport } from "@/service/report-service";
+import { useReprintMatchReportRequest } from "@/hooks/rq-hooks/change-request-hooks";
 import { useQuery } from "react-query";
 import { MatchReportQueryParams } from "@/model/subject";
 import TableTopWithAddButtin from "@/components/table/table-top-with-add-button";
@@ -24,17 +25,29 @@ const ListTable = ({ data, sorting, setSorting, isLoadingTableData }: ListTableP
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [lastSubjectQueryParams, setLastSubjectQueryParams] =
   useState<MatchReportQueryParams>();
-  const { data: subjectMatchReport, isLoading: isLoadingSubjectMatchReport } =
-    useQuery({
-      queryFn: getSubjectMatchReport,
-      queryKey: ["reportReprintSubjects", lastSubjectQueryParams],
-      enabled: !!lastSubjectQueryParams,
-    });
+  // const { data: subjectMatchReport, isLoading: isLoadingSubjectMatchReport } =
+  //   useQuery({
+  //     queryFn: getSubjectMatchReport,
+  //     queryKey: ["reportReprintSubjects", lastSubjectQueryParams],
+  //     enabled: !!lastSubjectQueryParams,
+  //   });
+  
+  const { mutate: matchReportRequest, isLoading: isLoadingPrintData } = useReprintMatchReportRequest();
+  const [printData, setPrintData] = useState();
+  // const onPrintClick = (subjectInfo: MatchReportQueryParams) => {
+  //   setLastSubjectQueryParams(subjectInfo);
+  //   setIsModalOpen(true);
+  // };
 
-    const onPrintClick = (subjectInfo: MatchReportQueryParams) => {
-      setLastSubjectQueryParams(subjectInfo);
-      setIsModalOpen(true);
-    };
+  const onPrintClick = (subjectInfo: MatchReportQueryParams) => {
+    setLastSubjectQueryParams(subjectInfo);
+    matchReportRequest(subjectInfo, {
+      onSuccess: (data) => {
+        setPrintData(data.data);
+      }
+    })
+    setIsModalOpen(true);
+  };
 
   const onCloseModal = () => {
     setIsModalOpen(false);
@@ -74,14 +87,14 @@ const ListTable = ({ data, sorting, setSorting, isLoadingTableData }: ListTableP
         setOpen={setIsModalOpen}
         onClose={() => onCloseModal}>
         <div className="h-full w-full mt-6">
-          {isLoadingSubjectMatchReport ? (
+          {isLoadingPrintData ? (
             <div className="h-[85vh] flex items-center justify-center">
               <Spinner size="large" />{" "}
             </div>
           ) : (
             <PDFViewer className="w-full h-[85vh]">
               <ReprintPdf
-                data={subjectMatchReport?.data}
+                data={printData}
               />
             </PDFViewer>
           )}
