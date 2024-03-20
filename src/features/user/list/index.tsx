@@ -54,7 +54,7 @@ const UserList = () => {
   }, [sorting]);
 
   return (
-    <main>
+    <main className="space-y-2">
       <ListHeader setQueryData={setQueryData} />
       <ListTable data={usersData?.data?.items} sorting={sorting} setSorting={setSorting} isLoading={isLoading} refetch={refetch}/>
       <Pagination

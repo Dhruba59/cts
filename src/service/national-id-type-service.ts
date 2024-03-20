@@ -7,7 +7,7 @@ export const getNationalIdTypeById = ({queryKey}: any) => {
   return request({url: 'NationalIdType/GetById', method: 'GET', params});
 }
 
-export const getFrequencyTypes = () => {
+export const getNidCountryDropdownOptions = () => {
   return request({url: 'NationalIdType/country-dropdown', method: 'GET'});
 }
 

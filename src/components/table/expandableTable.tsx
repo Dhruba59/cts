@@ -1,6 +1,8 @@
 import { useRouter } from "next/navigation";
 import Button from "../ui/button";
 import ExpandableTableCard from "./expandableTableCard";
+import { MenuItemProps } from "@/model/menu-items";
+import Spinner from "../ui/spinner";
 
 interface Props extends React.ComponentPropsWithoutRef<"div"> {
   tableTitle?: string;
@@ -8,6 +10,8 @@ interface Props extends React.ComponentPropsWithoutRef<"div"> {
   listTitleKey: string; // will be used to get the title element of list
   columns: any;
   data: any;
+  getRowActions?: (item: any) => MenuItemProps[],
+  isLoading?: boolean;
 }
 
 const ExpandableTable = ({
@@ -16,9 +20,19 @@ const ExpandableTable = ({
   tableTitle,
   addButtonLink,
   listTitleKey,
+  getRowActions,
+  isLoading,
   ...props
 }: Props) => {
   const router = useRouter();
+
+  if (isLoading) {
+    return (
+      <div className="w-full h-full p-10 flex justify-center items-center">
+        <Spinner size="large" />
+      </div>)
+  }
+
   return (
     <div className="" {...props}>
       {tableTitle && (
@@ -50,6 +64,7 @@ const ExpandableTable = ({
           item={item}
           columns={columns}
           listTitleKey={listTitleKey}
+          getRowActions={getRowActions}
         />
       ))}
     </div>

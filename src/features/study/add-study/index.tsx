@@ -18,6 +18,7 @@ import { useRouter } from 'next/navigation';
 import { apiResponseToast } from "@/utils/toast";
 import { RESPONSE_TYPE_ENUM } from "@/model/enum";
 import { toast } from "react-toastify";
+import Breadcrumbs from "@/components/ui/breadcrumbs";
 interface AddStudyProps {
   id?: string;
 }
@@ -218,6 +219,7 @@ const AddStudy = ({ id }: AddStudyProps) => {
   return (
     <>
       <form className="mb-20 w-full" onSubmit={handleSubmit(onSubmit)}>
+        <Breadcrumbs title="Study Information" subTitle={id ? "Update" : "Add"} />
         <BasicInformation dropdownList={dropdownList?.data} register={register} setValue={setValue} errors={errors} Controller={Controller} control={control} isPreScreen={isPreScreen} setIsPreScreen={setIsPreScreen} />
         <AssignSite assignedData={assignedData} setAssignedData={setAssignedData} />
         <CriticalSetup errors={errors} criticalSetupData={criticalDndData} setCriticalSetupData={setCriticalDndData} Controller={Controller} control={control} register={register}/>

@@ -1,10 +1,10 @@
-import Button from "@/components/ui/button";
 import Input from "@/components/ui/input";
 import Label from "@/components/ui/label";
 import Select from "@/components/ui/select";
+import { BasicTabSearchBarContentsProps } from "@/model/common";
 import { SelectOptionType } from "@/model/drop-down-list";
 import { IndicationQuery } from "@/model/indication";
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, Fragment, SetStateAction } from "react";
 import { Controller, UseFormReturn } from "react-hook-form";
 
 interface SearchFormProps {
@@ -13,206 +13,262 @@ interface SearchFormProps {
   setQueryData: Dispatch<SetStateAction<IndicationQuery>>;
 }
 
-interface AdvanceSearchFormProps {
-  form: UseFormReturn;
+interface AdvanceSearchFormProps extends BasicTabSearchBarContentsProps{
   userTypeOptions: SelectOptionType[];
   sponsorOptions: SelectOptionType[];
   siteOptions: SelectOptionType[];
   suprressMatchTypeOptions: SelectOptionType[];
-  setQueryData: Dispatch<SetStateAction<IndicationQuery>>;
 }
 
-export function SearchForm({
-  isAdvancedOpen,
-  form,
-  setQueryData
-}: SearchFormProps) {
-  const { register, control, reset } = form;
-
-  const onReset = () => {
-    reset();
-    setQueryData({});
-  };
+export function SearchForm({ form }: BasicTabSearchBarContentsProps) {
+  const { register } = form;
 
   return (
-    <div className="flex items-end gap-3 md:gap-6 p-4 md:p-0">
+    <Fragment>
       <div className="grid lg:flex lg:items-center gap-2 flex-1 md:flex-none">
         <Label label="Email: " className="hidden lg:block" />
         <Input
+          className="w-40"
           placeholder="Enter Email"
-          {...register("email", {
-            pattern: {
-              value: /\S+@\S+\.\S+/,
-              message: "Invalid email!"
-            }
-          })}
+          {...register("email")}
         />
       </div>
       <div className="grid lg:flex lg:items-center gap-2 flex-1 md:flex-none">
         <Label label="System Login: " className="hidden lg:block" />
-        <div className="w-32">
+        <div className="w-40">
           <Input
             placeholder="Enter system login"
-            {...register("systemLogin", {
-              // required: "System login is required!"
-            })}
+            {...register("systemLogin", {})}
           />
         </div>
       </div>
-      <div className={`flex gap-3 ${isAdvancedOpen ? 'hidden' : 'block'}`}>
-        <Button type="submit" className="!h-10 mb-[1px]">
-          Search
-        </Button>
-        <Button type="button" variant="outline" onClick={() => onReset()}>
-          Reset
-        </Button>
-      </div>
-    </div>
+    </Fragment>
   );
 }
 
-export function AdvanceSearchForm({ form, userTypeOptions, sponsorOptions, siteOptions, suprressMatchTypeOptions, setQueryData }: AdvanceSearchFormProps) {
-  const { register, control, reset } = form;
-  
-  const onReset = () => {
-    reset();
-    setQueryData({});
-  };
+export function AdvanceSearchForm({
+  form,
+  userTypeOptions,
+  sponsorOptions,
+  siteOptions,
+  suprressMatchTypeOptions,
+}: AdvanceSearchFormProps) {
+  const { register, control } = form;
 
   return (
-    <div className="hidden lg:block px-6 py-4 space-y-4">
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 lg:gap-6">
-        <div>
-          <Input
-            label="First Name"
-            placeholder="Enter First name"
-            {...register("firstName")}
+    <Fragment>
+      <Input
+        label="First Name"
+        className="w-auto md:w-40"
+        placeholder="Enter First name"
+        {...register("firstName")}
+      />
+      <Input
+        label="Middle Name"
+        className="w-auto md:w-40"
+        placeholder="Enter Middle Name"
+        {...register("middleName")}
+      />
+      <Input
+        label="Last Name"
+        className="w-auto md:w-40"
+        placeholder="Enter last name"
+        {...register("lastName")}
+      />
+      <Input
+        label="Title"
+        className="w-auto md:w-40"
+        placeholder="Enter Title"
+        {...register("title")}
+      />
+      <Controller
+        control={control}
+        name="userType"
+        rules={{}}
+        render={({ field: { onChange, onBlur, value } }: any) => (
+          <Select
+            className="w-auto md:w-40"
+            onChange={onChange}
+            label="User type"
+            options={userTypeOptions}
+            value={value}
           />
-        </div>
-        <div>
-          <Input
-            label="Middle Name"
-            placeholder="Middle Name"
-            {...register("middleName")}
+        )}
+      />
+      <Controller
+        control={control}
+        name="sponsor"
+        rules={{}}
+        render={({ field: { onChange, onBlur, value } }: any) => (
+          <Select
+            className="w-auto md:w-40"
+            onChange={onChange}
+            label="Sponsor"
+            options={sponsorOptions}
+            value={value}
           />
-        </div>
-        <div>
-          <Input
-            label="Last Name"
-            placeholder="Enter last name"
-            {...register("lastName")}
+        )}
+      />
+      <Input
+        label="City"
+        className="w-auto md:w-40"
+        placeholder="Enter City"
+        {...register("city")}
+      />
+      <Input
+        label="State"
+        className="w-auto md:w-40"
+        placeholder="Enter State"
+        {...register("state")}
+      />
+      <Input
+        label="Zip Code"
+        className="w-auto md:w-40"
+        placeholder="Enter zip code"
+        {...register("zip")}
+      />
+      <Controller
+        control={control}
+        name="SuppressMatchType"
+        rules={{}}
+        render={({ field: { onChange, onBlur, value } }: any) => (
+          <Select
+            className="w-auto md:w-40"
+            onChange={onChange}
+            label="Suppress Match Type"
+            options={suprressMatchTypeOptions}
+            value={value}
           />
-        </div>
-        <div>
-          <Input
-            label="Title"
-            placeholder="Enter Title"
-            {...register("title")}
+        )}
+      />
+      <Controller
+        control={control}
+        name="Site"
+        rules={{}}
+        render={({ field: { onChange, onBlur, value } }: any) => (
+          <Select
+            onChange={onChange}
+            className="w-auto md:w-40"
+            label="Site"
+            options={siteOptions}
+            value={value}
           />
-        </div>
-        <div>
-          <Controller
-            control={control}
-            name='userType'
-            rules={{
-              // required: 'User type is required!',
-            }}
-            render={({ field: { onChange, onBlur, value } }: any) => (
-              <Select
-                onChange={onChange}
-                label="User type"
-                options={userTypeOptions}
-                value={value} />
-            )}
-          />
-        </div>
-        <div>
-          <Controller
-            control={control}
-            name='sponsor'
-            rules={{
-              // required: 'Sponsor is required!',
-            }}
-            render={({ field: { onChange, onBlur, value } }: any) => (
-              <Select
-                onChange={onChange}
-                label="Sponsor"
-                options={sponsorOptions}
-                value={value} />
-            )}
-          />
-        </div>
-        <div>
-          <Input
-            label="City"
-            placeholder="Enter City"
-            {...register("city")}
-          />
-        </div>
-        <div>
-          <Input
-            label="State"
-            placeholder="Enter State"
-            {...register("state")}
-          />
-        </div>
-        <div>
-          <Input
-            label="Zip Code"
-            placeholder="Enter zip code"
-            {...register("zip")}
-          />
-        </div>
-        <div>
-        <Controller
-            control={control}
-            name='SuppressMatchType'
-            rules={{
-              // required: 'SuppressMatchType is required!',
-            }}
-            render={({ field: { onChange, onBlur, value } }: any) => (
-              <Select
-                onChange={onChange}
-                label="Suppress Match Type"
-                options={suprressMatchTypeOptions}
-                value={value} />
-            )}
-          />
-        </div>
-        <div>
-        <Controller
-            control={control}
-            name='Site'
-            rules={{
-              // required: 'Site is required!',
-            }}
-            render={({ field: { onChange, onBlur, value } }: any) => (
-              <Select
-                onChange={onChange}
-                label="Site"
-                options={siteOptions}
-                value={value} />
-            )}
-          />
-        </div>
-        
-        {/* <div className="flex flex-col items-start justify-between py-1 pb-4">
-              <Label label="Is User Active" />
-              <Controller
-                name="isUserActive"
-                control={control}
-                render={({ field: { onChange, onBlur, value } }: any) =>
-                  <Checkbox className="" onChange={onChange} value={value} checked={value} />}
-              />
-            </div> */}
-
-      </div>
-      <div className="flex items-center justify-end gap-4 mt-8 md:mt-14">
-        <Button className="" type="submit">Search</Button>
-        <Button className="px-8" type="button" variant="outline" onClick={() => onReset()}>
-          reset
-        </Button>
-      </div>
-    </div>
+        )}
+      />
+    </Fragment>
   );
 }
+
+export const TabSearchBarContent = ({
+  form,
+  userTypeOptions,
+  sponsorOptions,
+  siteOptions,
+  suprressMatchTypeOptions,
+}: AdvanceSearchFormProps) => {
+  const { control, register } = form;
+  return (
+    <Fragment>
+      <Input
+        placeholder="Enter Email"
+        {...register("email")}
+      />
+      <Input
+        wrapperClassName="w-auto md:w-40"
+        placeholder="Enter system login"
+        {...register("systemLogin", {})}
+      />
+      <Input
+        wrapperClassName="w-auto md:w-40"
+        placeholder="Enter First name"
+        {...register("firstName")}
+      />
+      <Input
+        wrapperClassName="w-auto md:w-40"
+        placeholder="Enter Middle Name"
+        {...register("middleName")}
+      />
+      <Input
+        wrapperClassName="w-auto md:w-40"
+        placeholder="Enter last name"
+        {...register("lastName")}
+      />
+      <Input
+        wrapperClassName="w-auto md:w-40"
+        placeholder="Enter Title"
+        {...register("title")}
+      />
+      <Controller
+        control={control}
+        name="userType"
+        rules={{}}
+        render={({ field: { onChange, onBlur, value } }: any) => (
+          <Select
+            className="w-auto md:w-40"
+            onChange={onChange}
+            placeholder="Enter User type"
+            options={userTypeOptions}
+            value={value}
+          />
+        )}
+      />
+      <Controller
+        control={control}
+        name="sponsor"
+        rules={{}}
+        render={({ field: { onChange, onBlur, value } }: any) => (
+          <Select
+            className="w-auto md:w-40"
+            onChange={onChange}
+            placeholder="Enter Sponsor"
+            options={sponsorOptions}
+            value={value}
+          />
+        )}
+      />
+      <Input
+        wrapperClassName="w-auto md:w-40"
+        placeholder="Enter City"
+        {...register("city")}
+      />
+      <Input
+        wrapperClassName="w-auto md:w-40"
+        placeholder="Enter State"
+        {...register("state")}
+      />
+      <Input
+        wrapperClassName="w-auto md:w-40"
+        placeholder="Enter zip code"
+        {...register("zip")}
+      />
+      <Controller
+        control={control}
+        name="SuppressMatchType"
+        rules={{}}
+        render={({ field: { onChange, onBlur, value } }: any) => (
+          <Select
+            className="w-auto md:w-40"
+            onChange={onChange}
+            placeholder="Enter Suppress Match Type"
+            options={suprressMatchTypeOptions}
+            value={value}
+          />
+        )}
+      />
+      <Controller
+        control={control}
+        name="Site"
+        rules={{}}
+        render={({ field: { onChange, onBlur, value } }: any) => (
+          <Select
+            onChange={onChange}
+            className="w-auto md:w-40"
+            placeholder="Select Site"
+            options={siteOptions}
+            value={value}
+          />
+        )}
+      />
+    </Fragment>
+  );
+};

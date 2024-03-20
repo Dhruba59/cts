@@ -11,6 +11,7 @@ import { useGetLastSubjectReport } from "@/hooks/rq-hooks/subject-hooks";
 import { getLastSubjectReport } from "@/service/subject-service";
 import { useQuery } from "react-query";
 import Spinner from "@/components/ui/spinner";
+import TableTopWithAddButtin from "@/components/table/table-top-with-add-button";
 
 export interface ListTableProps {
   data: any;
@@ -46,7 +47,17 @@ const ListTable = ({
   const onCloseModal = () => {
     setIsModalOpen(false);
   };
-  const columns = useMemo(() => getColumns({ onPrintClick }), []);
+  const columns = useMemo(() => getColumns({ onPrintClick }), []); 
+  const getRowActions = (item: any) => {
+    const subjectInfo: LastSubjectPrintQueryParams = {
+      NationalTypeId: item?.nationalTypeId,
+      SponsorSubjectId: item?.sponsorSubjectId,
+      StudyId: item?.studyId,
+      SubjectId: item?.subjectId,
+      UserName: item?.userName,
+    };
+    return [{ content: "Print", onClick: () => onPrintClick(subjectInfo) }];
+  };
 
   useEffect(() => {
     setPdfData({
@@ -63,9 +74,7 @@ const ListTable = ({
 
   return (
     <div className="sm:wrapper">
-      <h4 className="hidden md:block font-semibold py-4 px-6">
-        List of Last Contact Subjects
-      </h4>
+      <TableTopWithAddButtin headerText="List of Last Contact Subjects" addButtonLink=""/>
       <div className="hidden sm:block">
         <SimpleTable
           data={data}
@@ -79,8 +88,10 @@ const ListTable = ({
         <ExpandableTable
           data={data}
           columns={columns}
-          tableTitle=" List of Last Contact Subjects"
-          listTitleKey="sponsor_subject_id"
+          // tableTitle=" List of Last Contact Subjects"
+          listTitleKey="reprint_subject_id"
+          isLoading={isLoadingTableData}
+          getRowActions={getRowActions}
         />
       </div>
       <Modal

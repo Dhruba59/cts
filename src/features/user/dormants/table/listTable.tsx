@@ -1,31 +1,26 @@
 "use client";
 import ExpandableTable from "@/components/table/expandableTable";
 import SimpleTable from "@/components/table/simpleTable";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { DormantUserListColumns } from "./columns";
 import Modal from "@/components/modal";
-import { useForm } from "react-hook-form";
-import { MODAL_TYPE_ENUM, RESPONSE_TYPE_ENUM } from "@/model/enum";
-import { useDeleteDormantUsers, useDeleteUser } from "@/hooks/rq-hooks/user-hooks";
+import { MODAL_TYPE_ENUM } from "@/model/enum";
+import { useDeleteDormantUsers } from "@/hooks/rq-hooks/user-hooks";
 import { useTableRowsSelection } from "@/hooks/table-rows-selection-hooks";
 import { UserQuery } from "@/model/user";
 import { apiResponseToast } from "@/utils/toast";
 import { toast } from "react-toastify";
+import TableTopWithAddButtin from "@/components/table/table-top-with-add-button";
+import { useRouter } from "next/navigation";
 
 
 export function ListTable({ data, pageSize, totalPages, sorting, setSorting, refetch, isLoading }: any) {
-
-  const {
-    handleSubmit,
-    formState: { errors },
-    reset,
-    register
-  } = useForm();
 
   const [open, setOpen] = useState<boolean>(false);
   const [id, setId] = useState<number>(0);
   const [dormantUsers, setDormantUsers] = useState<number[]>([]);
   const { mutate: deleteDormantUsers } = useDeleteDormantUsers();
+  const router = useRouter();
 
   const onDeleteConfirm = () => {
     deleteDormantUsers({ dormantUsers }, {
@@ -62,15 +57,16 @@ export function ListTable({ data, pageSize, totalPages, sorting, setSorting, ref
     onDelete, pageSize, onRowSelectionChange, onAllRowsSelectionChange
   }), []);
 
-  useEffect(() => {
-    // console.log(selectedRows);
-  }, [selectedRows])
+  const getRowActions = (item: any) => {
+    return ([
+        { content: "Edit", onClick: () => router.push(`/user/${item?.userId}/edit`) },
+      ]
+    );
+  }
 
   return (
     <div className="sm:wrapper">
-      <h4 className="hidden md:block font-semibold py-4 px-6">
-        List of Dormant User
-      </h4>
+      <TableTopWithAddButtin headerText="List of Dormant User"addButtonLink=""/>
       <div className="hidden sm:block">
         <SimpleTable data={data} columns={columns} totalPages={totalPages} sorting={sorting} setSorting={setSorting} isLoading={isLoading}/>
       </div>
@@ -78,8 +74,9 @@ export function ListTable({ data, pageSize, totalPages, sorting, setSorting, ref
         <ExpandableTable
           data={data}
           columns={columns}
-          tableTitle=" List of Dormant User"
+          // tableTitle=" List of Dormant User"
           listTitleKey="User_name"
+          getRowActions={getRowActions}
         />
       </div>
       <Modal

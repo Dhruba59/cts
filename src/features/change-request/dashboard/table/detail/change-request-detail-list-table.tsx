@@ -13,12 +13,12 @@ export function ChangeRequestDetailListTable({ data, sorting, setSorting, refetc
       <div className="hidden sm:block">
         <SimpleTable data={data} columns={columns} sorting={sorting} setSorting={setSorting} isLoading={isLoading}/>
       </div>
-      <div className="block sm:hidden">
+      <div className="block  sm:hidden">
         <ExpandableTable
           data={data}
           columns={columns}
-          tableTitle=" List of Indication"
-          listTitleKey="indication_name"
+          // tableTitle=" List of Indication"
+          listTitleKey="change_req_detail"
         />
       </div>
 

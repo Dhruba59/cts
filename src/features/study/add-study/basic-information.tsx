@@ -56,7 +56,6 @@ const BasicInformation = ({ dropdownList, register, setValue, errors, control, i
 
   return (
     <section>
-      <Breadcrumbs title="Study Information" subTitle="Add Study" />
       <div className="wrapper">
         <h4 className=" px-6 py-4">Study Information</h4>
         <hr />

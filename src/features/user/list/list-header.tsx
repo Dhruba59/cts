@@ -1,19 +1,17 @@
 "use client";
 import Breadcrumbs from "@/components/ui/breadcrumbs";
-import Toggle from "@/components/ui/toggle";
 
 import { useEffect, useState } from "react";
-import { SearchForm, AdvanceSearchForm } from "./search-form";
-import { DropDownItem, SelectOptionType } from "@/model/drop-down-list";
-import { Controller, useForm } from "react-hook-form";
-import { IndicationQuery } from "@/model/indication";
-import { useGetIndicationCodeTypes } from "@/hooks/rq-hooks/indication-hooks";
+import { SearchForm, AdvanceSearchForm, TabSearchBarContent } from "./search-form";
+import { SelectOptionType } from "@/model/drop-down-list";
+import { useForm } from "react-hook-form";
 import { useGetUserDropdowns } from "@/hooks/rq-hooks/user-hooks";
-import { convertTypeToSelectOption } from "@/utils/helpers";
+import { convertTypeToSelectOption, initialDefaultQuery } from "@/utils/helpers";
+import { DesktopSearchBar } from "@/components/others/desktop-searchbar";
+import { TabSearchBar } from "@/components/others/tab-searchbar";
 
 
 const ListHeader = ({ setQueryData }: any) => {
-  const [isChecked, setIsChecked] = useState(false);
   const [userTypeOptions, setUserTypeOptions] = useState<SelectOptionType[]>([]);
   const [sponsorOptions, setSponsorOptions] = useState<SelectOptionType[]>([]);
   const [suppressMatchTypeOptions, setSuppressMatchTypeOptions] = useState<SelectOptionType[]>([]);
@@ -21,10 +19,9 @@ const ListHeader = ({ setQueryData }: any) => {
   const { data: dropdowns, isLoading: isDropdownDataLoading } = useGetUserDropdowns();
   
   const form = useForm<any>({});
-  const { handleSubmit } = form;
+  const { handleSubmit, reset } = form;
 
   const onSubmit = (value: any) => {
-    //console.log(value);
     const params = {
       ...value,
       codeType: value?.codeType?.value,
@@ -33,9 +30,12 @@ const ListHeader = ({ setQueryData }: any) => {
       SuppressMatchType: value?.SuppressMatchType?.value,
       Site: value?.Site?.value
     }
-    //delete params.date;
-    //console.log(params);
     setQueryData(params);
+  }
+
+  const onReset = () => {
+    reset();
+    setQueryData(initialDefaultQuery);
   }
 
   useEffect(() => {
@@ -48,61 +48,36 @@ const ListHeader = ({ setQueryData }: any) => {
   }, [dropdowns])
 
   return (
-    <div className="wrapper">
+    <div>
       <Breadcrumbs title="Users" subTitle="Users List" />
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="flex flex-row items-center justify-between gap-2 md:px-6 py-3">
-          <h4 className="hidden lg:block">
-            Search Users
-          </h4>
-          <div className="">
-          <SearchForm isAdvancedOpen={isChecked} form={form} setQueryData={setQueryData} />
-          </div>
-          <Toggle
-            prefixLabel="More: "
-            className="hidden lg:block"
-            isChecked={isChecked}
-            setIsChecked={setIsChecked}
-          />
-        </div>
-        <hr className="" />
-        {isChecked && <AdvanceSearchForm 
-              form={form} 
-              setQueryData={setQueryData}
-              userTypeOptions={userTypeOptions} 
-              sponsorOptions={sponsorOptions} 
-              suprressMatchTypeOptions={suppressMatchTypeOptions} 
+        <TabSearchBar
+          formContent={
+            <TabSearchBarContent
+              form={form}
+              userTypeOptions={userTypeOptions}
+              sponsorOptions={sponsorOptions}
+              suprressMatchTypeOptions={suppressMatchTypeOptions}
               siteOptions={sitesOptions}
-            />}
-      </form>
-      {/* <form className="" onSubmit={handleSubmit(onSubmit)}>
-        <div className="md:hidden">
-          <SearchForm isAdvancedOpen={isChecked} form={form}/>
-        </div>
-        <section className="hidden md:block wrapper">
-          <div className="flex flex-row items-center justify-between px-3 py-3">
-            <h4 className=" text-neutral-black">Search Users</h4>
-            <div className="">
-              <SearchForm isAdvancedOpen={isChecked} form={form}/>
-            </div>
-            <Toggle
-              prefixLabel="More: "
-              className="hidden lg:block"
-              isChecked={isChecked}
-              setIsChecked={setIsChecked}
             />
-          </div>
-          <hr />
-          {isChecked && 
-            <AdvanceSearchForm 
-              form={form} 
-              userTypeOptions={userTypeOptions} 
-              sponsorOptions={sponsorOptions} 
-              suprressMatchTypeOptions={suppressMatchTypeOptions} 
+          }
+          onReset={onReset}
+        />
+        <DesktopSearchBar
+          title="Search User"
+          searchFormContents={<SearchForm form={form} />}
+          advanceSearchFormContents={
+            <AdvanceSearchForm
+              form={form}
+              userTypeOptions={userTypeOptions}
+              sponsorOptions={sponsorOptions}
+              suprressMatchTypeOptions={suppressMatchTypeOptions}
               siteOptions={sitesOptions}
-            />}
-        </section>
-      </form> */}
+            />
+          }
+          onReset={onReset}
+        />
+      </form>
     </div>
   );
 };

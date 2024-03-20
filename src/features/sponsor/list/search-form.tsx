@@ -1,32 +1,19 @@
-import Button from "@/components/ui/button";
-import Checkbox from "@/components/ui/checkbox";
+
 import Input from "@/components/ui/input";
 import Label from "@/components/ui/label";
-import Select from "@/components/ui/select";
 import Textarea from "@/components/ui/textarea";
-import { DropDownItem, SelectOptionType } from "@/model/drop-down-list";
-import { CodeType } from "@/model/indication";
-import { SearchFormProps } from "@/model/sponsor";
-import { getIndicationCodeTypes } from "@/service/indication-service";
-import { convertTypeToSelectOption } from "@/utils/helpers";
-import { useEffect, useState } from "react";
+import { BasicTabSearchBarContentsProps } from "@/model/common";
+import { Fragment } from "react";
 
 
-export function SearchForm({
-  isAdvancedOpen,
-  register,
-  Controller,
-  control,
-  reset
-}: SearchFormProps) {
-
+export function SearchForm({ form }: BasicTabSearchBarContentsProps) {
+  const { register } = form;
 
   return (
-    <div className="flex items-end gap-3 md:gap-6 p-4 md:p-0">
+    <Fragment>
       <div className="grid lg:flex lg:items-center gap-2 flex-1 md:flex-none">
         <Label label="Sponsor Name: " className="hidden lg:block" />
         <Input
-          name="sponsorName"
           placeholder="Enter sponsor name"
           className="md:w-48"
           {...register("sponsorName")}
@@ -35,65 +22,89 @@ export function SearchForm({
       <div className="grid lg:flex lg:items-center gap-2 flex-1 md:flex-none">
         <Label label="Zip: " className="hidden lg:block" />
         <Input
-          name="zip"
           placeholder="Enter zip code"
           className="md:w-48"
           {...register("zip")}
         />
       </div>
-      <div className={`flex gap-3 ${isAdvancedOpen ? 'hidden' : 'block'}`}>
-        <Button type="submit" className="!h-10 mb-[1px]">
-          Search
-        </Button>
-        <Button type="button" variant="outline" onClick={() => reset()}>
-          Reset
-        </Button>
-      </div>
-    </div>
+    </Fragment>
   );
 }
 
-export function AdvanceSearchForm({ register, Controller, control, reset }: any) {
+export function AdvanceSearchForm({ form }: BasicTabSearchBarContentsProps) {
+  const { register } = form;
 
   return (
-    <div className="hidden lg:block p-6 pt-2 space-y-4">
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
-        <div>
+    <Fragment>
+      <div>
         <Input
-          name="city"
           label="City"
           placeholder="Enter city"
           className=""
           {...register("city")}
         />
-        </div>
-        <div>
+      </div>
+      <div>
         <Input
-          name="state"
           label="State"
           placeholder="Enter state"
           wrapperClassName=""
           {...register("state")}
         />
-        </div>
-        <div>
-           <Textarea label="Address One" placeholder="Enter address one"  {...register("address1",{
-              })} />
-        </div>
-        <div>
-           <Textarea label="Address Two" placeholder="Enter address two"  {...register("address2",{
-              })} />
-        </div>
       </div>
+      <div>
+        <Textarea
+          className="min-h-10"
+          label="Address One"
+          placeholder="Enter address one"
+          {...register("address1", {})}
+        />
+      </div>
+      <div>
+        <Textarea
+          className="min-h-10"
+          label="Address Two"
+          placeholder="Enter address two"
+          {...register("address2", {})}
+        />
+      </div>
+    </Fragment>
+  );
+}
 
-      <div className="flex items-center justify-end gap-4 mt-8 md:mt-14">
+export const TabSearchBarContent = ({ form }: BasicTabSearchBarContentsProps) => {
+  const { register } = form;
+
+  return (
+    <Fragment>
+      <Input
+        placeholder="Enter sponsor name"
+        className="md:w-48"
+        {...register("sponsorName")}
+      />
+      <Input
+        placeholder="Enter zip code"
+        className="md:w-48"
+        {...register("zip")}
+      />
+      <Input placeholder="Enter city" className="" {...register("city")} />
+      <Input
+        placeholder="Enter state"
+        wrapperClassName=""
+        {...register("state")}
+      />
+      <Textarea className="min-h-10" placeholder="Enter address one" {...register("address1")} />
+      <Textarea className="min-h-10" placeholder="Enter address two" {...register("address2")} />
+    </Fragment>
+  );
+}
+
+
+      {/* <div className="flex items-center justify-end gap-4 mt-8 md:mt-14">
           <Button type="submit" className="px-8">
             Search
           </Button>
           <Button type="button" className="px-8" variant="outline" onClick={() => reset()}>
             Reset
           </Button>
-      </div>
-    </div>
-  );
-}
+      </div> */}

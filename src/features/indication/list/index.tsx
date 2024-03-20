@@ -50,7 +50,7 @@ const IndicationList = () => {
   }, [sorting])
 
   return (
-    <main>
+    <main className="space-y-2">
       <ListHeader setQueryData={setQueryData} />
       <ListTable data={studyData?.data?.items} sorting={sorting} setSorting={setSorting} isLoading={isLoading} />
       <Pagination

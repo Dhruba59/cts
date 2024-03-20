@@ -1,37 +1,32 @@
 "use client";
 import Breadcrumbs from "@/components/ui/breadcrumbs";
-import Toggle from "@/components/ui/toggle";
-
-import { useEffect, useState } from "react";
-import { SearchForm, AdvanceSearchForm } from "./search-form";
-import { Controller, useForm } from "react-hook-form";
-import { ChangeRequestDashboardQuery } from "@/model/change-request";
+import { SearchForm, AdvanceSearchForm, TabSearchBarContent } from "./search-form";
+import { useForm } from "react-hook-form";
+import { ChangeRequestDashboardFieldValues } from "@/model/change-request";
 import { useDashboardDropdown } from "@/hooks/rq-hooks/change-request-hooks";
+import { TabSearchBar } from "@/components/others/tab-searchbar";
+import { DesktopSearchBar } from "@/components/others/desktop-searchbar";
+import { convertTypeToSelectOption, initialDefaultQuery } from "@/utils/helpers";
 
+const defaultValues: ChangeRequestDashboardFieldValues = {
+  userTypeId: null,
+  protocolNumber: "",
+  requestStatus: "",
+  fromDate: { startDate: null, endDate: null },
+  toDate: { startDate: null, endDate: null },
+};
 
 const ListHeader = ({ setQueryData }: any) => {
-  const [isChecked, setIsChecked] = useState(false);
 
   const {data: _dropDown} = useDashboardDropdown();
+  const protocolOptions = convertTypeToSelectOption(_dropDown?.data?.protocols);
+  const requestStatusOptions = convertTypeToSelectOption(_dropDown?.data?.requestStatuses);
+  const userTypeOptions = convertTypeToSelectOption(_dropDown?.data?.userTypes);
 
-  const defaultValues: ChangeRequestDashboardQuery = {
-    userTypeId: null,
-    protocolNumber: '',
-    requestStatus: '',
-    fromDate: null,
-    toDate: null   
-  }
-
-  const {
-    register,
-    handleSubmit,
-    control,
-    setValue,
-    formState: { errors },
-    reset,
-  } = useForm<ChangeRequestDashboardQuery>({
+  const form = useForm<ChangeRequestDashboardFieldValues>({
     defaultValues: defaultValues
   });
+  const { handleSubmit, reset } = form;
 
   const onSubmit = (value: any) => {
     const params = {
@@ -44,34 +39,48 @@ const ListHeader = ({ setQueryData }: any) => {
     setQueryData(params);
   }
 
-  useEffect(() => {
-    //console.log({"_dropDown" : _dropDown});
-  }, [_dropDown])
+  const tabContent = (
+    <TabSearchBarContent
+      form={form}
+      protocolOptions={protocolOptions}
+      requestStatusesOptions={requestStatusOptions}
+      userTypeOptions={userTypeOptions}
+    />
+  );
+
+  const onReset = () => {
+    reset();
+    setQueryData(initialDefaultQuery);
+  }
 
   return (
     <div>
-      <Breadcrumbs title="Change Request Dashboard" subTitle="Change Request Dashboard List" />
-      <form className="" onSubmit={handleSubmit(onSubmit)}>
-        <div className="wrapper py-2 md:hidden">
-          <SearchForm  isAdvancedOpen={isChecked} dropDown={_dropDown?.data} register={register} Controller={Controller} control={control}  reset={reset} setQueryData={setQueryData}/>
-        </div>
-        <section className="hidden md:block wrapper">
-          <div className="flex flex-row items-center justify-between px-3 py-3">
-            <h4 className="">Search Change Request</h4>
-            <div className="">
-              <SearchForm isAdvancedOpen={isChecked}  dropDown={_dropDown?.data}  register={register} Controller={Controller} control={control} reset={reset} setQueryData={setQueryData}/>
-            </div>
-            <Toggle
-              prefixLabel="More: "
-              className="hidden lg:block"
-              isChecked={isChecked}
-              setIsChecked={setIsChecked}
-            />
-          </div>
-          <hr />
-          {isChecked && <AdvanceSearchForm  dropDown={_dropDown?.data} register={register} Controller={Controller} control={control} reset={reset} setQueryData={setQueryData}/>}
-        </section>
-      </form>
+      <div>
+        <Breadcrumbs
+          title="Change Request Dashboard"
+          subTitle="Change Request Dashboard List"
+        />
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <TabSearchBar formContent={tabContent} onReset={onReset} />
+          <DesktopSearchBar
+            title="Search"
+            searchFormContents={
+              <SearchForm
+                form={form}
+                protocolOptions={protocolOptions}
+                userTypeOptions={userTypeOptions}
+              />
+            }
+            advanceSearchFormContents={
+              <AdvanceSearchForm
+                form={form}
+                requestStatusesOptions={requestStatusOptions}
+              />
+            }
+            onReset={onReset}
+          />
+        </form>
+      </div>
     </div>
   );
 };

@@ -1,32 +1,50 @@
 "use client";
 import Breadcrumbs from "@/components/ui/breadcrumbs";
-import Toggle from "@/components/ui/toggle";
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { AdvanceSearchForm, SearchForm } from "./search-form";
-import { StudyListQueryData } from "@/model/study";
-import { Controller, useForm } from "react-hook-form";
+import { Dispatch, SetStateAction } from "react";
+import { AdvanceSearchForm, SearchForm, TabSearchBarContent } from "./search-form";
+import { StudyListFormValues, StudyListQueryData } from "@/model/study";
+import { useForm } from "react-hook-form";
 import { useGetStudyDropdownsList } from "@/hooks/rq-hooks/study-hooks";
-import { initialDefaultQuery } from "@/utils/helpers";
+import { convertTypeToSelectOption, initialDefaultQuery } from "@/utils/helpers";
+import { TabSearchBar } from "@/components/others/tab-searchbar";
+import { DesktopSearchBar } from "@/components/others/desktop-searchbar";
+import { DEFAULT_PAGE_SIZE } from "@/constants/common";
 
 interface ListHeaderProps {
   setQueryData: Dispatch<SetStateAction<StudyListQueryData>>;
 }
 
+const intialStudySearchValues = {
+  date: {
+    startDate: null,
+    endDate: null
+  },
+  ProtocolNumber: undefined,
+  StudyName: undefined,
+  StudyStartDate: undefined,
+  StudyEndDate: undefined,
+  MaxSubjects: undefined,
+  SponsorId: undefined,
+  Phase: undefined,
+  PreScreen: undefined,
+  Active: undefined,
+  SubjectIdentryFormat: undefined,
+  Sr: undefined,
+  pageSize: DEFAULT_PAGE_SIZE,
+  pageNumber: 1
+}
+
 const ListHeader = ({ setQueryData }: ListHeaderProps) => {
-  const [isChecked, setIsChecked] = useState(false);
 
   const { data: StudydropdownList, error, isLoading, refetch } = useGetStudyDropdownsList();
-  const {
-    register,
-    handleSubmit,
-    control,
-    setValue,
-    formState: { errors },
-    reset,
-  } = useForm<StudyListQueryData>();
+  const form = useForm<StudyListFormValues>({
+    defaultValues: intialStudySearchValues
+  });
+  const { handleSubmit, reset } = form;
+  const phaseOptions = convertTypeToSelectOption(StudydropdownList?.data?.phases);
+  const sponsorOptions = convertTypeToSelectOption(StudydropdownList?.data?.sponsors);
 
   const onSubmit = (value: any) => {
-
     const params = {
       ...value,
       StudyStartDate: value?.date?.startDate,
@@ -44,25 +62,19 @@ const ListHeader = ({ setQueryData }: ListHeaderProps) => {
   }
 
   return (
-    <div className="sm:wrapper">
+    <div>
+      <Breadcrumbs title="Study Information" subTitle="Study List" />
       <form onSubmit={handleSubmit(onSubmit)}>
-        <Breadcrumbs title="Study Information" subTitle="Study List" />
-        <div className="flex flex-row items-center justify-between gap-2 md:px-6 py-3">
-          <h4 className="hidden lg:block">
-            Search Study
-          </h4>
-          <div className="">
-            <SearchForm isAdvancedOpen={isChecked} register={register} reset={onReset} Controller={Controller} control={control} />
-          </div>
-          <Toggle
-            prefixLabel="More: "
-            className="hidden lg:block"
-            isChecked={isChecked}
-            setIsChecked={setIsChecked}
-          />
-        </div>
-        <hr className="" />
-        {isChecked && <AdvanceSearchForm dropDownList={StudydropdownList?.data} register={register} reset={onReset} Controller={Controller} control={control} />}
+        <TabSearchBar
+          formContent={<TabSearchBarContent phaseOptions={phaseOptions} sponsorOptions={sponsorOptions} form={form} />}
+          onReset={onReset}
+        />
+        <DesktopSearchBar
+          title="Search"
+          searchFormContents={<SearchForm form={form} />}
+          advanceSearchFormContents={<AdvanceSearchForm phaseOptions={phaseOptions} sponsorOptions={sponsorOptions} form={form} />}
+          onReset={onReset}
+        />
       </form>
     </div>
   );

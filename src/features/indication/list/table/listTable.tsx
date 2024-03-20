@@ -4,24 +4,13 @@ import SimpleTable from "@/components/table/simpleTable";
 import { useMemo, useState } from "react";
 import { IndicationListColumns } from "./columns";
 import Modal from "@/components/modal";
-import { useForm } from "react-hook-form";
 import { useDeleteIndication } from "@/hooks/rq-hooks/indication-hooks";
-import { MODAL_TYPE_ENUM, RESPONSE_TYPE_ENUM } from "@/model/enum";
-import { useRouter } from "next/navigation";
+import { MODAL_TYPE_ENUM } from "@/model/enum";
 import TableTopWithAddButtin from "@/components/table/table-top-with-add-button";
 import { apiResponseToast } from "@/utils/toast";
 import { toast } from "react-toastify";
 
-
 export function ListTable({ data, sorting, setSorting, refetch, isLoading }: any) {
-  const router = useRouter();
-  const {
-    handleSubmit,
-    formState: { errors },
-    reset,
-    register
-  } = useForm();
-
   const [open, setOpen] = useState<boolean>(false);
   const [id, setId] = useState<number>(0);
   const { mutate: deleteIndication } = useDeleteIndication();
@@ -66,8 +55,8 @@ export function ListTable({ data, sorting, setSorting, refetch, isLoading }: any
         <ExpandableTable
           data={data}
           columns={columns}
-          tableTitle=" List of Indication"
-          addButtonLink="add"
+          // tableTitle=" List of Indication"
+          // addButtonLink="add"
           listTitleKey="indication_name"
         />
       </div>

@@ -443,7 +443,7 @@ const AddSubjectForm = ({ dropdowns, protocolId, subjectIdFormat, restSubjectIdF
   return (
     <>
       <form
-        className="grid grid-cols-1 sm:grid-cols-2 gap-x-12 gap-y-6"
+        className="grid grid-cols-1 sm:grid-cols-2 gap-x-3 lg:gap-x-6 gap-y-6"
         onSubmit={handleSubmit(onSubmit)}>
         <div>
           <Input
@@ -464,7 +464,7 @@ const AddSubjectForm = ({ dropdowns, protocolId, subjectIdFormat, restSubjectIdF
         </div>
         <div>
           <Label label="Subject Initials" className="inline-block mb-2" />
-          <div className="grid grid-cols-3 gap-6">
+          <div className="grid grid-cols-3 gap-2 lg:gap-4">
             <div>
               <Controller
                 control={control}
@@ -487,19 +487,6 @@ const AddSubjectForm = ({ dropdowns, protocolId, subjectIdFormat, restSubjectIdF
                   />
                 )}
               />
-              {/* <Input
-                placeholder="F"
-                {...register("firstNameInitials", {
-                  required: "required",
-                  pattern: {
-                    value: /^[a-zA-Z]$/,
-                    message: "Only one alphabetic character allowed",
-                  },
-                })}
-                maxLength={1}
-                type="text"
-                disabled={!protocolId && !ids}
-              /> */}
               {errors.firstNameInitials && (
                 <span className="text-red-500 -mt-10">
                   {errors.firstNameInitials.message as string}
@@ -528,19 +515,6 @@ const AddSubjectForm = ({ dropdowns, protocolId, subjectIdFormat, restSubjectIdF
                   />
                 )}
               />
-              {/* <Input
-                placeholder="M"
-                {...register("middleNameInitials", {
-                  required: "Put '-' if you have no middle name",
-                  pattern: {
-                    value: /^[a-zA-Z-]$/,
-                    message: "Only one character allowed",
-                  },
-                })}
-                maxLength={1}
-                type="text"
-                disabled={!protocolId && !ids}
-              /> */}
               {errors.middleNameInitials && (
                 <span className="text-red-500 -mt-10">
                   {errors.middleNameInitials.message as string}
@@ -569,19 +543,6 @@ const AddSubjectForm = ({ dropdowns, protocolId, subjectIdFormat, restSubjectIdF
                   />
                 )}
               />
-              {/* <Input
-                placeholder="L"
-                {...register("lastNameInitials", {
-                  required: "required",
-                  pattern: {
-                    value: /^[a-zA-Z]$/,
-                    message: "Only one alphabetic character allowed",
-                  },
-                })}
-                maxLength={1}
-                type="text"
-                disabled={!protocolId && !ids}
-              /> */}
               {errors.lastNameInitials && (
                 <span className="text-red-500 -mt-10">
                   {errors.lastNameInitials.message as string}
@@ -641,7 +602,7 @@ const AddSubjectForm = ({ dropdowns, protocolId, subjectIdFormat, restSubjectIdF
         )}
 
         <div className="w-full">
-          <div className="flex gap-x-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-2 sm:gap-x-3 lg:gap-x-4">
             <div className="w-full">
               <Label
                 label="Last 4 SSN/National ID"
@@ -666,26 +627,9 @@ const AddSubjectForm = ({ dropdowns, protocolId, subjectIdFormat, restSubjectIdF
                     disabled={!protocolId && !ids}
                     value={value}
                     onChange={onChange}
-                    // key={formState.isSubmitSuccessful	 ? "submitted" : "notsubmitted"}
                   />
                 )}
               />
-              {/* <InputFieldWithRegexValidation
-                {...register("partialID", {
-                  required: "Id required",
-                  pattern: {
-                    // value: /^\d{4}$/,
-                    value: /^(x{4}|\d{4})$/i,
-                    message: "Last four digits",
-                  },
-                })}
-                onBlur={onBlurIdField}
-                maxLength={4}
-                supportedCharacters={/^(x{0,4}|X{0,4}|\d{0,4})$/i}
-                disabled={!protocolId && !ids}
-                value={nationalID}
-                // key={formState.isSubmitSuccessful	 ? "submitted" : "notsubmitted"}
-              /> */}
               {errors.partialID && (
                 <span className="text-red-500 -mt-10">
                   {errors.partialID.message as string}
@@ -724,7 +668,7 @@ const AddSubjectForm = ({ dropdowns, protocolId, subjectIdFormat, restSubjectIdF
           </div>
         </div>
 
-        <div className="grid grid-cols-2 gap-6">
+        <div className="grid grid-cols-2 gap-2 sm:gap-3 lg:gap-4">
           <div>
             <Controller
               control={control}
@@ -734,7 +678,6 @@ const AddSubjectForm = ({ dropdowns, protocolId, subjectIdFormat, restSubjectIdF
               }}
               render={({ field: { onChange, onBlur, value } }: any) => (
                 <Select
-                  // wrapperClassName="grow"
                   label="Sex"
                   placeholder="Gender"
                   onChange={onChange}
@@ -759,7 +702,7 @@ const AddSubjectForm = ({ dropdowns, protocolId, subjectIdFormat, restSubjectIdF
           />
         </div>
         <div>
-          <div className="grid grid-cols-2 gap-x-6">
+          <div className="grid grid-cols-2 gap-x-2 sm:gap-x-3 lg:gap-x-4">
             <div>
               <Label label="Height" className="inline-block mb-2" />
               <Input
@@ -805,7 +748,7 @@ const AddSubjectForm = ({ dropdowns, protocolId, subjectIdFormat, restSubjectIdF
           </div>
         </div>
 
-        <div className="grid grid-cols-2 gap-x-6">
+        <div className="grid grid-cols-2 gap-x-2 sm:gap-x-3 lg:gap-x-4">
           <div>
             <Label label="Weight" className="inline-block mb-2" />
             <Input
@@ -827,18 +770,11 @@ const AddSubjectForm = ({ dropdowns, protocolId, subjectIdFormat, restSubjectIdF
             <Controller
               control={control}
               name="weightUnit"
-              rules={
-                {
-                  // required: 'Weight Unit is required!',
-                }
-              }
               render={({ field: { onChange, onBlur, value } }: any) => (
                 <Select
-                  // wrapperClassName="grow"
                   onChange={onChange}
                   options={weightUnitOptions}
                   value={value}
-                  // isDisabled={!protocolId}
                   isDisabled={true}
                 />
               )}
@@ -909,7 +845,6 @@ const AddSubjectForm = ({ dropdowns, protocolId, subjectIdFormat, restSubjectIdF
               }}
               render={({ field: { onChange, onBlur, value } }: any) => (
                 <Select
-                  // wrapperClassName="grow"
                   onChange={onChange}
                   options={visitTypeOptions}
                   value={value}
@@ -939,7 +874,6 @@ const AddSubjectForm = ({ dropdowns, protocolId, subjectIdFormat, restSubjectIdF
                   asSingle
                   useRange={false}
                   onChange={onChange}
-                  // placeholder=""
                   label="Last Subject Entry Date"
                 />
               )}
@@ -975,9 +909,6 @@ const AddSubjectForm = ({ dropdowns, protocolId, subjectIdFormat, restSubjectIdF
             disabled={isSubjectAddLoading || isLoadingChangeRequest || isValidatingFields}>
             Submit
           </Button>
-          {/* <Button className="px-8" variant="secondary" onClick={handleReset}>
-            Reset
-          </Button> */}
           <Button className="px-8" variant="outline" onClick={handleCancel}>
             Cancel
           </Button>

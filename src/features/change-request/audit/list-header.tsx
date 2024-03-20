@@ -3,36 +3,43 @@ import Breadcrumbs from "@/components/ui/breadcrumbs";
 import Toggle from "@/components/ui/toggle";
 
 import { useEffect, useState } from "react";
-import { SearchForm, AdvanceSearchForm } from "./search-form";
+import { SearchForm, AdvanceSearchForm, TabSearchBarContent } from "./search-form";
 import { DropDownItem, SelectOptionType } from "@/model/drop-down-list";
 import { Controller, useForm } from "react-hook-form";
-import { ChangeRequestAuditQuery } from "@/model/change-request";
+import { ChangeRequestAuditFields, ChangeRequestAuditQuery } from "@/model/change-request";
 import { useGetIndicationCodeTypes } from "@/hooks/rq-hooks/indication-hooks";
 import { useRequestTypeDropdown } from "@/hooks/rq-hooks/change-request-hooks";
-import { convertTypeToSelectOption } from "@/utils/helpers";
+import { convertTypeToSelectOption, initialDefaultQuery } from "@/utils/helpers";
+import { TabSearchBar } from "@/components/others/tab-searchbar";
+import { DesktopSearchBar } from "@/components/others/desktop-searchbar";
 
+
+const defaultValues: ChangeRequestAuditFields = {
+  requestStatus: '',
+  sponsorSubjectId: '',
+  fromDate: {
+    startDate: null,
+    endDate: null
+  },
+  toDate: {
+    startDate: null,
+    endDate: null
+  },
+}
 
 const ListHeader = ({ setQueryData }: any) => {
-  const [isChecked, setIsChecked] = useState(false);
-  const [requestTypeOptions, setRequestTypeOptions] = useState<SelectOptionType[]>([]);
   const {data: requestTypeDropDown} = useRequestTypeDropdown();
+  const requestTypeOptions = convertTypeToSelectOption(requestTypeDropDown?.data ?? []);
 
-  const defaultValues: ChangeRequestAuditQuery = {
-    requestStatus: '',
-    sponsorSubjectId: '',
-    fromDate: '',
-    toDate: ''
-  }
-  const {
-    register,
-    handleSubmit,
-    control,
-    setValue,
-    formState: { errors },
-    reset,
-  } = useForm<ChangeRequestAuditQuery>({
+  const form = useForm<ChangeRequestAuditFields>({
     defaultValues: defaultValues
   });
+  const { handleSubmit, reset } = form;
+
+  const onReset = () => {
+    reset();
+    setQueryData(initialDefaultQuery);
+  }
 
   const onSubmit = (value: any) => {
     const params = {
@@ -43,36 +50,21 @@ const ListHeader = ({ setQueryData }: any) => {
     }
     setQueryData(params);
   }
-
-    //console.log(codeTypeDropDown);
-    useEffect(() => {
-      setRequestTypeOptions(convertTypeToSelectOption(requestTypeDropDown?.data ?? []));
-  
-    }, [requestTypeDropDown])
     
   return (
     <div>
       <Breadcrumbs title="Change Request Audit" subTitle="Change Request Audit List" />
-      <form className="" onSubmit={handleSubmit(onSubmit)}>
-        <div className="md:hidden">
-          <SearchForm isAdvancedOpen={isChecked} requestTypeDropDown={requestTypeOptions} register={register} Controller={Controller} control={control}  reset={reset} setQueryData={setQueryData}/>
-        </div>
-        <section className="hidden md:block wrapper">
-          <div className="flex flex-row items-center justify-between px-2 py-3">
-            <h4 className="">Search Request Audit</h4>
-            <div className="">
-              <SearchForm isAdvancedOpen={isChecked}  requestTypeDropDown={requestTypeOptions}  register={register} Controller={Controller} control={control} reset={reset} setQueryData={setQueryData}/>
-            </div>
-            <Toggle
-              prefixLabel="More: "
-              className="hidden lg:block"
-              isChecked={isChecked}
-              setIsChecked={setIsChecked}
-            />
-          </div>
-          <hr />
-          {isChecked && <AdvanceSearchForm  register={register} Controller={Controller} control={control} reset={reset} setQueryData={setQueryData}/>}
-        </section>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <TabSearchBar
+          formContent={<TabSearchBarContent form={form} requestTypeOptions={requestTypeOptions}/>}
+          onReset={onReset}
+        />
+        <DesktopSearchBar
+          title="Search"
+          searchFormContents={<SearchForm form={form} requestTypeOptions={requestTypeOptions}/>}
+          advanceSearchFormContents={<AdvanceSearchForm form={form} />}
+          onReset={onReset}
+        />
       </form>
     </div>
   );

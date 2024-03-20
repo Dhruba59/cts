@@ -113,11 +113,11 @@ const ChangePasswordForm = () => {
     <div className="w-full">
     <Breadcrumbs title="Change Password" subTitle="Change Password" />
     <section className="wrapper">
-      <h4 className="px-6 py-4">
+      <h4 className="px-4 sm:px-6 py-4">
         Change/Reset Password
       </h4>
       <hr />
-      <div className="w-[450px] p-10">
+      <div className="md:max-w-[450px] p-6 sm:p-10">
         <Alert variant='warning' className="mb-6 p-2">
           Password length must be at least 8 characters, and must include at least one upper case letter, one lower case letter, and one numeric digit.
         </Alert>
@@ -172,7 +172,7 @@ const ChangePasswordForm = () => {
               <span className="text-red-500">{errors.retype_password.message as string}</span>
             )}
           </div>
-          <Button className="!mt-10 w-fit" loading={isLoading} disabled={isLoading} type="submit">Save Changes</Button>
+          <Button className="m-auto md:m-0 !mt-10 w-fit" loading={isLoading} disabled={isLoading} type="submit">Save Changes</Button>
         </form>
       </div>
       </section>

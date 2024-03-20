@@ -10,19 +10,13 @@ import { MODAL_TYPE_ENUM, RESPONSE_TYPE_ENUM } from "@/model/enum";
 import TableTopWithAddButtin from "@/components/table/table-top-with-add-button";
 import { apiResponseToast } from "@/utils/toast";
 import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
 
 export function ListTable({ data, sorting, setSorting, isLoading, refetch }: any) {
-
-  const {
-    handleSubmit,
-    formState: { errors },
-    reset,
-    register
-  } = useForm();
-  
   const [open, setOpen] = useState<boolean>(false);
   const [id, setId] = useState<number>(0);
   const { mutate: deleteIndication } = useDeleteSite();
+  const router = useRouter();
 
   const onDeleteConfirm = () => {
      deleteIndication({id} , {
@@ -35,11 +29,10 @@ export function ListTable({ data, sorting, setSorting, isLoading, refetch }: any
       onError: (error: any) => {
         setId(0);
         setOpen(false);
-        toast.error(error?.response?.data?.title);
+        toast.error(error?.response?.data?.detail);
         refetch();
       }
     });
-
   }
 
   const onDeleteCancel = () => {
@@ -53,6 +46,13 @@ export function ListTable({ data, sorting, setSorting, isLoading, refetch }: any
   }
 
   const columns = useMemo(() => SiteListColumns({ onDelete }), []);
+  const getRowActions = (item: any) => {
+    return ([
+        { content: "Edit", onClick: () => router.push(`/site/${item?.siteId}/edit`) },
+        { content: "Delete", onClick: () => onDelete(item?.siteId)}
+      ]
+    );
+  }
 
   return (
     <div className="sm:wrapper">
@@ -64,9 +64,10 @@ export function ListTable({ data, sorting, setSorting, isLoading, refetch }: any
         <ExpandableTable
           data={data}
           columns={columns}
-          tableTitle=" List of Site"
-          addButtonLink="add"
+          // tableTitle=" List of Site"
+          // addButtonLink="add"
           listTitleKey="siteName"
+          getRowActions={getRowActions}
         />
       </div>
       <Modal

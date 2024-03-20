@@ -57,7 +57,7 @@ const ChangeRequestModal = ({ id, visitTypeId, isPreScreen, onPrintClick, onHide
       return;
     }
     if (selectedOperation == SEND_REQ_OPERATION_TYPE_ENUM.EDIT_SUBJECT) {
-      router.push(`/study-subject-edit/${id}`);
+      router.push(`/subject-management/study-subject-edit/${id}`);
     }
     else if (selectedOperation == SEND_REQ_OPERATION_TYPE_ENUM.PRINT_SUBJECT) {
       onPrintClick();

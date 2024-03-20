@@ -57,7 +57,7 @@ const SponsorList = () => {
   }, [sorting]);
 
   return (
-    <main>
+    <main className="space-y-2">
       <ListHeader setQueryData={setQueryData} />
       <ListTable data={sponsorData?.data?.items} sorting={sorting} setSorting={setSorting} isLoading={isLoading} refetch={refetch}/>
       <Pagination

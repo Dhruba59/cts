@@ -53,15 +53,12 @@ const AddIndication = ({ id }: AddIndicationProps) => {
 
   //console.log(`ID: ${id}`);
 
-  const handleCancel = () => {
+  const handleRedirect = () => {
     reset();
     router.push("/indication/list");
   }
 
   const onSubmit = (payload: any) => {
-
-    //console.log(payload);
-
     payload = {
       ...payload,
       codeType: payload?.codeType?.value ?? payload?.codeType
@@ -76,6 +73,7 @@ const AddIndication = ({ id }: AddIndicationProps) => {
           }
           reset(newFieldValues as any);
           apiResponseToast(data);
+          handleRedirect();
         },
         onError: (err: any) => {
           toast.error(err?.response?.data?.title);
@@ -112,7 +110,7 @@ const AddIndication = ({ id }: AddIndicationProps) => {
 
   return (
     <div className="w-full">
-      <Breadcrumbs title="Indication" subTitle="Add Indication" />
+      <Breadcrumbs title="Indication" subTitle={id ? "Update" : "Add" } />
       <section className="wrapper">
         <h4 className="px-6 py-4">
           Indication Information
@@ -173,7 +171,7 @@ const AddIndication = ({ id }: AddIndicationProps) => {
 
           <div className="flex justify-center gap-4 mt-8 md:mt-14">
             <Button type="submit" className="px-8">Submit</Button>
-            <Button className="px-8" variant="outline" onClick={handleCancel} >
+            <Button className="px-8" variant="outline" onClick={handleRedirect} >
               Cancel
             </Button>
           </div>

@@ -15,6 +15,7 @@ const config: Config = {
         primary: {
           DEFAULT: "#EC1C24",
           light: "#FFE5E6",
+          border: "#e2e8f0"
         },
         secondary: {
           DEFAULT: "#1890FF",
@@ -29,6 +30,7 @@ const config: Config = {
           black: "#262626",
           gray: "#5C5E64",
         },
+        
         dark: {
           DEFAULT: "#212731",
           900: "#1A1919",
