@@ -5,18 +5,18 @@ import { useMemo, useState } from "react";
 import Modal from "@/components/modal";
 import { useForm } from "react-hook-form";
 import { useDeleteIndication } from "@/hooks/rq-hooks/indication-hooks";
+import { useReprintMatchReportRequest } from "@/hooks/rq-hooks/change-request-hooks";
 import { MODAL_TYPE_ENUM, RESPONSE_TYPE_ENUM } from "@/model/enum";
 import { ChangeRequestReprintListColumns } from "./columns";
 import Spinner from "@/components/ui/spinner";
 import { PDFViewer } from "@react-pdf/renderer";
 import ChangeRequestModal from "./change-request-modal";
 import ReprintPdf from "../../pdf/reprint-pdf";
-import { getSubjectMatchReport } from "@/service/report-service";
+//import { getSubjectMatchReport } from "@/service/report-service";
 import { useQuery } from "react-query";
 import { MatchReportQueryParams } from "@/model/subject";
 import { apiResponseToast } from "@/utils/toast";
 import { toast } from "react-toastify";
-
 
 export function ListTable({ data, sorting, setSorting, refetch, isLoading }: any) {
 
@@ -29,18 +29,30 @@ export function ListTable({ data, sorting, setSorting, refetch, isLoading }: any
 
   const [open, setOpen] = useState<boolean>(false);
   const [id, setId] = useState<number>(0);
+  const [printData, setPrintData] = useState();
   const [isPrintModalOpen, setIsPrintModalOpen] = useState<boolean>(false);
   const { mutate: deleteIndication } = useDeleteIndication();
+  const { mutate: matchReportRequest, isLoading: isLoadingPrintData } = useReprintMatchReportRequest();
   const [viewChangeRequestModal, setViewChangeRequestModal] = useState<React.ReactNode>(null); 
   const [subjectMatchReportQueryParams, setSubjectMatchReportQueryParams] =
   useState<MatchReportQueryParams>();
 
-  const { data: subjectMatchReport, isLoading: isLoadingSubjectMatchReport } =
-    useQuery({
-      queryFn: getSubjectMatchReport,
-      queryKey: ["reportReprintSubjects", subjectMatchReportQueryParams],
-      enabled: !!subjectMatchReportQueryParams,
-    });
+  // const { data: subjectMatchReport, isLoading: isLoadingSubjectMatchReport } =
+  //   useQuery({
+  //     queryFn: getSubjectMatchReport,
+  //     queryKey: ["reportReprintSubjects", subjectMatchReportQueryParams],
+  //     enabled: !!subjectMatchReportQueryParams,
+  //   });
+
+  // const { data: subjectMatchReport, isLoading: isLoadingSubjectMatchReport } =
+  //   useQuery({
+  //     queryFn: reprintMatchReportRequest,
+  //     queryKey: ["reprintMatchReportRequest", subjectMatchReportQueryParams],
+  //     enabled: !!subjectMatchReportQueryParams,
+  //   });
+
+  
+
 
   /* <ChangeRequestModal id={row.original.subjectId + '_' + row.original.nationalTypeId} visitTypeId={row.original.visitTypeIdForBusinessLogic} isPreScreen={row.original.preScreen} onPrintClick={onPrintClick}/> */
 const onOpenChangeRequestModal = (subjectId: number | undefined, nationalTypeId: number | undefined, visitTypeId: number | undefined, isPreScreen: boolean | undefined)=> {
@@ -66,6 +78,11 @@ const onCloseModal = () => {
 
 const onPrintClick = (subjectInfo: MatchReportQueryParams) => {
   setSubjectMatchReportQueryParams(subjectInfo);
+  matchReportRequest(subjectInfo, {
+    onSuccess: (data) => {
+      setPrintData(data.data);
+    }
+  })
   setIsPrintModalOpen(true);
 };
 
@@ -84,7 +101,6 @@ const onDeleteConfirm = () => {
       refetch();
     }
   });
-
 }
 
 const onDeleteCancel = () => {
@@ -139,14 +155,14 @@ return (
       setOpen={setIsPrintModalOpen}
       onClose={() => onCloseModal}>
       <div className="h-full w-full mt-6">
-        {isLoadingSubjectMatchReport ? (
+        {isLoadingPrintData ? (
           <div className="h-[85vh] flex items-center justify-center">
             <Spinner size="large" />{" "}
           </div>
         ) : (
           <PDFViewer className="w-full h-[85vh]">
             <ReprintPdf
-              data={subjectMatchReport?.data}
+              data={printData}
             />
           </PDFViewer>
         )}
