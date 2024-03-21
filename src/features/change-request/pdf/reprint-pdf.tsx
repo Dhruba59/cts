@@ -1,30 +1,16 @@
 import React from 'react';
-import { Page, Text, View, Image, Document, StyleSheet, Svg } from '@react-pdf/renderer';
-import { BookIcon } from '@/assets/icons';
-// import Image from 'next/image';
-// import logo from "@/assets/image/cts-logo.png";
-import logo from '@/assets/image/cts-logo.png';
-import Spinner from '@/components/ui/spinner';
+import { Page, Text, View, Image, Document, StyleSheet } from '@react-pdf/renderer';
 import { CTS_LOGO_BASE64, matchIcon, noMatchIcon } from '@/assets/image/base64-image';
-import Check from '@/components/icons/check';
-import { Cross } from 'recharts';
-import dayjs from 'dayjs';
 import { formateTableDateTime } from '@/utils/helpers';
-// import logo from '../../assets/image/cts-logo.png'
 
-const Br = () => "\n";
 // Create styles
 const styles = StyleSheet.create({
   page: {
-    // display: 'flex',
-    // flexDirection: 'column',
-    // backgroundColor: '#E4E4E4',
     padding: '10px'
   },
   section: {
     margin: 10,
     padding: 10,
-    // flexGrow: 1
   },
 
 });
@@ -151,8 +137,8 @@ const Header = ({ data }: HeaderProps) => {
 }
 
 const Footer = ({ printTime } : FooterProps) => (
-  <View style={{ marginTop: 'auto', marginBottom: '20px' }}>
-    <Text style={{fontSize: '8px'}}>Disclaimer: These are statistical estimates only. It is possible that a subject may be a database match and yet not have participated in the studies described above. 
+  <View style={{ marginTop: 'auto', paddingTop:'8px', marginBottom: '10px'}} fixed>
+    <Text style={{fontSize: '8px', marginBottom: '4px'}}>Disclaimer: These are statistical estimates only. It is possible that a subject may be a database match and yet not have participated in the studies described above. 
       All dates and times are in GMT
     </Text>
     <Text style={{ fontSize: '8px', marginLeft: 'auto' }}>
@@ -169,7 +155,7 @@ const ReportTable = ({ title, data, primaryColor, dobHeader}: any) => {
   }
 
   return (
-    <View wrap={false}>
+    <View>
       <Text
         style={{
           fontSize: "10px",
@@ -243,6 +229,7 @@ const ReportTable = ({ title, data, primaryColor, dobHeader}: any) => {
               style={{
                 display: "flex",
                 flexDirection: "row",
+                alignItems: 'center',
                 fontSize: "8px",
                 borderLeft: "1px",
                 borderRight: "1px",
@@ -264,6 +251,7 @@ const ReportTable = ({ title, data, primaryColor, dobHeader}: any) => {
               <Text
                 style={{
                   width: "40px",
+                  height: "100%",
                   padding: "2px",
                   borderLeft: "1px",
                   borderColor: primaryColor === "red" ? "red" : "#5581c9",
@@ -278,6 +266,7 @@ const ReportTable = ({ title, data, primaryColor, dobHeader}: any) => {
               <Text
                 style={{
                   width: "40px",
+                  height: "100%",
                   padding: "2px",
                   borderRight: "1px",
                   borderColor: primaryColor === "red" ? "red" : "#5581c9",
@@ -296,7 +285,6 @@ const ReportTable = ({ title, data, primaryColor, dobHeader}: any) => {
                     src={noMatchIcon}
                   />
                 )}
-                {/* <Image style={{ width: '8px' , height: '8px'}}  src={item?.idMatch ? matchIcon : noMatchIcon} /> */}
               </Text>
               <Text
                 style={{ width: "110px", padding: "2px", textAlign: "left" }}>
