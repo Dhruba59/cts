@@ -1,10 +1,16 @@
 const withPWA = require("next-pwa");
 
-//    default-src 'none';
-// NextJS requires 'unsafe-eval' in dev (faster source maps)
+const production = process.env.NODE_ENV === "production";
+
+/*
+  default-src 'none';
+  connect-src 'self' https://app-cts-dev-api.azurewebsites.net/api;
+  NextJS requires 'unsafe-eval' in dev (faster source maps)
+*/
 const cspHeader = `
-    script-src 'self' 'unsafe-eval' 'unsafe-inline';
-    style-src 'self' 'unsafe-inline';
+    frame-src 'self' blob:;
+    script-src 'self' ${production ? "" : "'unsafe-eval' 'unsafe-inline'"};
+    style-src 'self' ${production ? "" : "'unsafe-inline'"};
     img-src 'self' blob: data:;
     font-src 'self';
     object-src 'none';
@@ -81,9 +87,6 @@ const nextConfig = {
 module.exports = nextConfig;
 
 //module.exports = withPWA(nextConfig);
-
-
-
 
 // const withPWA = require('next-pwa');
 
