@@ -8,10 +8,13 @@ const ApiHost = process.env.API_HOST;
   NextJS requires 'unsafe-eval' in dev (faster source maps)
 */
 const cspHeader = `
+    default-src 'self';
     connect-src 'self' ${ApiHost} data:;
     frame-src 'self' blob:;
-    script-src 'self' ${production ? "" : "'unsafe-eval' 'unsafe-inline'"};
-    style-src 'self' ${production ? "" : "'unsafe-inline'"};
+    script-src 'self' 'unsafe-inline' 'wasm-unsafe-eval' ${
+      production ? "" : "'unsafe-eval'"
+    };
+    style-src 'self' 'unsafe-inline';
     img-src 'self' blob: data:;
     font-src 'self';
     object-src 'none';
