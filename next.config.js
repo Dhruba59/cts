@@ -1,13 +1,14 @@
 const withPWA = require("next-pwa");
 
 const production = process.env.NODE_ENV === "production";
+const ApiHost = process.env.API_HOST;
 
 /*
-  default-src 'none';
-  connect-src 'self' https://app-cts-dev-api.azurewebsites.net/api;
+  default-src 'none'; // none is default
   NextJS requires 'unsafe-eval' in dev (faster source maps)
 */
 const cspHeader = `
+    connect-src 'self' ${ApiHost} data:;
     frame-src 'self' blob:;
     script-src 'self' ${production ? "" : "'unsafe-eval' 'unsafe-inline'"};
     style-src 'self' ${production ? "" : "'unsafe-inline'"};
