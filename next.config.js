@@ -9,7 +9,7 @@ const ApiHost = process.env.API_HOST;
 */
 const cspHeader = `
     default-src 'self';
-    connect-src 'self' ${ApiHost} data:;
+    connect-src 'self' ${ApiHost} https://dc.services.visualstudio.com/v2/track data:;
     frame-src 'self' blob:;
     script-src 'self' 'unsafe-inline' 'wasm-unsafe-eval' ${
       production ? "" : "'unsafe-eval'"
