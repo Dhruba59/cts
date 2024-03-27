@@ -1,15 +1,19 @@
 const withPWA = require("next-pwa");
 
 const production = process.env.NODE_ENV === "production";
-const ApiHost = process.env.API_HOST;
+const apiHost = process.env.API_HOST;
+const mediaBlob = process.env.MEDIA_BLOB_BASE_PATH;
 
 /*
   default-src 'none'; // none is default
   NextJS requires 'unsafe-eval' in dev (faster source maps)
+   https://ctsdevmedia.blob.core.windows.net
 */
+
 const cspHeader = `
     default-src 'self';
-    connect-src 'self' ${ApiHost} https://dc.services.visualstudio.com/v2/track data:;
+    connect-src 'self' ${apiHost} https://dc.services.visualstudio.com/v2/track data:;
+    media-src 'self' ${mediaBlob};
     frame-src 'self' blob:;
     script-src 'self' 'unsafe-inline' 'wasm-unsafe-eval' ${
       production ? "" : "'unsafe-eval'"

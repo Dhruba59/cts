@@ -46,8 +46,9 @@ instance.interceptors.response.use(
         ] = `Bearer ${refreshedSession.data.accessToken}`;
         return instance(originalRequest);
       } catch (refreshError) {
+        console.log(refreshError);
         // remove old token if refresh token failed
-        localStorage.removeItem(STORAGE_KEY.AUTH_TOKEN);
+        //localStorage.removeItem(STORAGE_KEY.AUTH_TOKEN);
         await signOut({ callbackUrl: "/auth/login" });
 
         // reject with failed refresh token error
