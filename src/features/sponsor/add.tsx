@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import Breadcrumbs from "@/components/ui/breadcrumbs";
 import Button from "@/components/ui/button";
 import Input from "@/components/ui/input";
@@ -17,45 +17,47 @@ import { toast } from "react-toastify";
 
 const defaultValues = {
   sponsorId: 0,
-  sponsorName: '',
-  address1: '',
-  address2: '',
-  address3: '',
-  city: '',
-  zip: '',
-  state: '',
+  sponsorName: "",
+  address1: "",
+  address2: "",
+  address3: "",
+  city: "",
+  zip: "",
+  state: "",
   active: null
-}
+};
 const AddSponsor = ({ id }: AddSponsorProps) => {
   const router = useRouter();
   const {
     register,
     handleSubmit,
     formState: { errors },
-    reset,
+    reset
   } = useForm<Sponsor>({
     defaultValues: defaultValues
   });
 
-  const { mutate: AddIndication, isLoading: isAddIndicationLoading } = useAddSponsor();
-  const { mutate: EditIndication, isLoading: isEditIndicationLoading } = useEditSponsor();
+  const { mutate: AddIndication, isLoading: isAddIndicationLoading } =
+    useAddSponsor();
+  const { mutate: EditIndication, isLoading: isEditIndicationLoading } =
+    useEditSponsor();
 
   const { data: sponsorData } = useQuery({
     queryFn: getSponsorById,
-    queryKey: ['sponsor', { sponsorId: id }],
+    queryKey: ["sponsor", { sponsorId: id }],
     enabled: !!id
   });
 
   const handleRedirect = () => {
-      reset();
-      router.push("/sponsor/list");
-  }
+    reset();
+    router.push("/sponsor/list");
+  };
 
   const onSubmit = (payload: any) => {
     payload = {
       ...payload,
       codeType: payload?.codeType?.value ?? payload?.codeType
-    }
+    };
 
     if (id) {
       payload = { ...payload };
@@ -63,7 +65,7 @@ const AddSponsor = ({ id }: AddSponsorProps) => {
         onSuccess: ({ data }: any) => {
           const newFieldValues = {
             ...payload
-          }
+          };
           reset(newFieldValues as any);
           apiResponseToast(data);
           handleRedirect();
@@ -81,10 +83,9 @@ const AddSponsor = ({ id }: AddSponsorProps) => {
         onError: (err: any) => {
           toast.error(err?.response?.data?.title);
         }
-      })
-    };
-
-  }
+      });
+    }
+  };
 
   useEffect(() => {
     if (sponsorData) {
@@ -96,11 +97,9 @@ const AddSponsor = ({ id }: AddSponsorProps) => {
 
   return (
     <div className="w-full">
-      <Breadcrumbs title="SponsorData" subTitle={id ? "Update" : "Add" } />
+      <Breadcrumbs title="SponsorData" subTitle={id ? "Update" : "Add"} />
       <section className="wrapper">
-        <h4 className="px-6 py-4">
-          Sponsor Information
-        </h4>
+        <h4 className="px-6 py-4">Sponsor Information</h4>
         <hr />
         <form onSubmit={handleSubmit(onSubmit)} className="px-6 py-8 space-y-6">
           <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 lg:gap-6">
@@ -113,7 +112,9 @@ const AddSponsor = ({ id }: AddSponsorProps) => {
                 })}
               />
               {errors.sponsorName && (
-                <span className="text-red-500 -mt-10">{errors.sponsorName.message as string}</span>
+                <span className="text-red-500 -mt-10">
+                  {errors.sponsorName.message as string}
+                </span>
               )}
             </div>
             <div>
@@ -125,7 +126,9 @@ const AddSponsor = ({ id }: AddSponsorProps) => {
                 })}
               />
               {errors.city && (
-                <span className="text-red-500 -mt-10">{errors.city.message as string}</span>
+                <span className="text-red-500 -mt-10">
+                  {errors.city.message as string}
+                </span>
               )}
             </div>
             <div>
@@ -133,11 +136,17 @@ const AddSponsor = ({ id }: AddSponsorProps) => {
                 label="State"
                 placeholder="Enter state"
                 {...register("state", {
-                  required: "State is required!"
+                  required: "State is required!",
+                  maxLength: 2
                 })}
               />
               {errors.state && (
-                <span className="text-red-500 -mt-10">{errors.state.message as string}</span>
+                <span className="text-red-500 -mt-10">
+                  {errors.state.message as string}
+                  {errors.state && errors.state.type === "maxLength" && (
+                    <span>Max length is two</span>
+                  )}
+                </span>
               )}
             </div>
             <div>
@@ -149,26 +158,44 @@ const AddSponsor = ({ id }: AddSponsorProps) => {
                 })}
               />
               {errors.zip && (
-                <span className="text-red-500 -mt-10">{errors.zip.message as string}</span>
+                <span className="text-red-500 -mt-10">
+                  {errors.zip.message as string}
+                </span>
               )}
             </div>
             <div>
-              <Textarea label="Address One" placeholder="Enter address one"  {...register("address1",{
-                required: "Address one is required!"
-              })} />
+              <Textarea
+                label="Address One"
+                placeholder="Enter address one"
+                {...register("address1", {
+                  required: "Address one is required!"
+                })}
+              />
               {errors.address1 && (
-                <span className="text-red-500 -mt-10">{errors.address1.message as string}</span>
+                <span className="text-red-500 -mt-10">
+                  {errors.address1.message as string}
+                </span>
               )}
             </div>
             <div>
-              <Textarea label="Address Two" placeholder="Enter address two"  {...register("address2")} />
+              <Textarea
+                label="Address Two"
+                placeholder="Enter address two"
+                {...register("address2")}
+              />
             </div>
             <div>
-              <Textarea label="Address Three" placeholder="Enter address three"  {...register("address3")} />
+              <Textarea
+                label="Address Three"
+                placeholder="Enter address three"
+                {...register("address3")}
+              />
             </div>
           </div>
           <div className="flex justify-center gap-4 mt-8 md:mt-14">
-            <Button type="submit" className="px-8">Submit</Button>
+            <Button type="submit" className="px-8">
+              Submit
+            </Button>
             <Button className="px-8" variant="outline" onClick={handleRedirect}>
               Cancel
             </Button>
