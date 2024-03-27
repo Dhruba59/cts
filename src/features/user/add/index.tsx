@@ -416,7 +416,31 @@ const AddUser = ({ id }: AddUserProps) => {
 
   useEffect(() => {
     if (dropdowns && userData) {
+      //adding intial value for tab change
+      storeSetAdminDndData({
+        matchTypes: filterDndData([
+          {
+            title: "Match Type",
+            items: dropdowns?.data?.matchTypes
+          },
+          {
+            title: "selected",
+            items: []
+          }
+        ]),
+        sites: filterDndData([
+          {
+            title: "Site",
+            items: dropdowns?.data?.sites
+          },
+          {
+            title: "selected",
+            items: []
+          }
+        ])
+      });
       updateFieldsWithUserData(userData?.data);
+      console.log('updating')
     }
   }, [userData, dropdowns]);
 
