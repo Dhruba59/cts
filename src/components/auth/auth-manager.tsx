@@ -1,10 +1,7 @@
 'use client';
-import { STORAGE_KEY } from "@/constants/storage-constant";
-import { getAccessToken } from "@/utils/helpers";
-import { signOut, useSession } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import { usePathname, useRouter } from 'next/navigation';
 import { useEffect } from "react";
-// import { jwtDecode } from "jwt-decode";
 
 const AuthManager = ({ children }: any) => {
   const router = useRouter();
@@ -24,8 +21,8 @@ const AuthManager = ({ children }: any) => {
         // }
 
         if (status === 'authenticated') {
-          if(!getAccessToken())
-            localStorage.setItem(STORAGE_KEY.AUTH_TOKEN, JSON.stringify(data?.user?.token));
+          // if(!getAccessToken())
+          //   localStorage.setItem(STORAGE_KEY.AUTH_TOKEN, JSON.stringify(data?.user?.token));
           if (data?.user?.needToChangePassword) {
             router.push('/change-password');
           } else if (pathname.includes('auth')) {

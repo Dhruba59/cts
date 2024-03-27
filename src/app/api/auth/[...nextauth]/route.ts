@@ -24,10 +24,6 @@ export const authOptions: NextAuthOptions = {
       return token;
     },
     async session({ session, token }: any) {
-      if(token?.user?.token?.accessToken && token?.user?.token?.refreshToken) {
-        delete token?.user?.token?.accessToken;
-        delete token?.user?.token?.refreshToken;
-      }
       return token as any;
     }
   },
