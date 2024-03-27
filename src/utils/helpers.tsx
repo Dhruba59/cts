@@ -100,18 +100,18 @@ export function getCookie(key: string) {
 //   return '';
 // }
 
-export const setTokens = (tokenDetails: any) => {  
-  let token: any = localStorage.getItem(STORAGE_KEY.AUTH_TOKEN);
-  if(token) token = JSON.parse(token ?? '');
-  if(token) {
-    token.accessToken = tokenDetails.accessToken
-    token.issuedAt = tokenDetails.issuedAt
-    token.expiresAt = tokenDetails.expiresAt
-    token.refreshToken = tokenDetails.refreshToken
-    localStorage.removeItem(STORAGE_KEY.AUTH_TOKEN);
-    localStorage.setItem(STORAGE_KEY.AUTH_TOKEN, JSON.stringify(token));
-  }
-}
+// export const setTokens = (tokenDetails: any) => {  
+//   let token: any = localStorage.getItem(STORAGE_KEY.AUTH_TOKEN);
+//   if(token) token = JSON.parse(token ?? '');
+//   if(token) {
+//     token.accessToken = tokenDetails.accessToken
+//     token.issuedAt = tokenDetails.issuedAt
+//     token.expiresAt = tokenDetails.expiresAt
+//     token.refreshToken = tokenDetails.refreshToken
+//     localStorage.removeItem(STORAGE_KEY.AUTH_TOKEN);
+//     localStorage.setItem(STORAGE_KEY.AUTH_TOKEN, JSON.stringify(token));
+//   }
+// }
 
 export function calculateDaysBetweenDates(startDate: string | Date, endDate: string | Date) {
   const startDateTime = new Date(startDate).getTime();

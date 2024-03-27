@@ -1,7 +1,6 @@
 import axios, { AxiosRequestConfig } from "axios";
-import { setTokens } from "@/utils/helpers";
 import { STORAGE_KEY } from "@/constants/storage-constant";
-import { getSession, signOut } from "next-auth/react";
+import { getSession, signOut, useSession } from "next-auth/react";
 
 const instance = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_BASE_URL,
@@ -26,14 +25,21 @@ instance.interceptors.response.use(
       originalRequest._retry = true;
       try {
         // Call your API to refresh the token
-        const session = await getSession();
+        const { data: session, update } = useSession();
         //@ts-ignore
         const refreshToken = session?.user?.token?.refreshToken;
         const refreshedSession = await instance.post("/auth/refresh", {
           refreshToken: refreshToken,
         });
         // Update Next-Auth session and request header
-        setTokens(refreshedSession.data);
+        update({
+          ...session,
+          user: {
+            ...session?.user,
+            token: refreshedSession?.data
+          }
+        })
+        // setTokens(refreshedSession.data);
         // replace header token with new token
         originalRequest.headers[
           "Authorization"
