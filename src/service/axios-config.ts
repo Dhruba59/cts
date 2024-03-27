@@ -1,6 +1,7 @@
 import axios, { AxiosRequestConfig } from "axios";
+import { getAccessToken, getRefreshToken, setTokens } from "@/utils/helpers";
 import { STORAGE_KEY } from "@/constants/storage-constant";
-import { getSession, signOut, useSession } from "next-auth/react";
+import { signOut } from "next-auth/react";
 
 const instance = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_BASE_URL,
@@ -8,11 +9,8 @@ const instance = axios.create({
 });
 
 instance.interceptors.request.use(async (request) => {
-  const session = await getSession();
-  //@ts-ignore
-  const accessToken = session?.user?.token?.accessToken;
   if (typeof window !== "undefined") {
-    request.headers["Authorization"] = `Bearer ${accessToken}`;
+    request.headers["Authorization"] = `Bearer ${getAccessToken()}`;
   }
   return request;
 });
@@ -25,30 +23,19 @@ instance.interceptors.response.use(
       originalRequest._retry = true;
       try {
         // Call your API to refresh the token
-        const { data: session, update } = useSession();
-        //@ts-ignore
-        const refreshToken = session?.user?.token?.refreshToken;
         const refreshedSession = await instance.post("/auth/refresh", {
-          refreshToken: refreshToken,
+          refreshToken: getRefreshToken(),
         });
         // Update Next-Auth session and request header
-        update({
-          ...session,
-          user: {
-            ...session?.user,
-            token: refreshedSession?.data
-          }
-        })
-        // setTokens(refreshedSession.data);
+        setTokens(refreshedSession.data);
         // replace header token with new token
         originalRequest.headers[
           "Authorization"
         ] = `Bearer ${refreshedSession.data.accessToken}`;
         return instance(originalRequest);
       } catch (refreshError) {
-        console.log(refreshError);
         // remove old token if refresh token failed
-        //localStorage.removeItem(STORAGE_KEY.AUTH_TOKEN);
+        localStorage.removeItem(STORAGE_KEY.AUTH_TOKEN);
         await signOut({ callbackUrl: "/auth/login" });
 
         // reject with failed refresh token error
