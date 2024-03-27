@@ -9,3 +9,7 @@ export interface LoginPayload {
   password: string;
   role: number
 }
+
+export interface RefreshTokenPayload {
+  refreshToken: string;
+}
