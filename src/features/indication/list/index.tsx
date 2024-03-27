@@ -9,11 +9,11 @@ import { useGetIndications } from "@/hooks/rq-hooks/indication-hooks";
 import { initialDefaultQuery } from "@/utils/helpers";
 
 const IndicationList = () => {
-  
   const [pageSize, setPageSize] = useState<number>(DEFAULT_PAGE_SIZE);
-  const [queryData, setQueryData] = useState<IndicationQuery>(initialDefaultQuery);
+  const [queryData, setQueryData] =
+    useState<IndicationQuery>(initialDefaultQuery);
   const [sorting, setSorting] = useState<SortingState>([]);
-  const { data: studyData, isLoading } = useGetIndications(queryData);
+  const { data: studyData, isLoading, refetch } = useGetIndications(queryData);
 
   const setCurrentPageNumber = (page: number) => {
     setQueryData((data) => {
@@ -21,7 +21,7 @@ const IndicationList = () => {
         return {
           ...data,
           PageNumber: page
-        }
+        };
       } else {
         return { PageNumber: page };
       }
@@ -29,30 +29,38 @@ const IndicationList = () => {
   };
 
   useEffect(() => {
-      setQueryData((data) => {
-        if (data) {
-          return {
-            ...data,
-            pageSize: pageSize
-          }
-        } else {
-          return { pageSize: pageSize };
+    setQueryData((data) => {
+      if (data) {
+        return {
+          ...data,
+          pageSize: pageSize
         };
-      });
+      } else {
+        return { pageSize: pageSize };
+      }
+    });
   }, [pageSize]);
 
   useEffect(() => {
-    const orderby: any = sorting.map((s) => `${s.id} ${s.desc ? 'desc' : 'asc'}`).join(',');
+    const orderby: any = sorting
+      .map((s) => `${s.id} ${s.desc ? "desc" : "asc"}`)
+      .join(",");
     setQueryData((data) => ({
       ...data,
-      orderBy: typeof orderby != 'undefined' && orderby ? orderby : null
+      orderBy: typeof orderby != "undefined" && orderby ? orderby : null
     }));
-  }, [sorting])
+  }, [sorting]);
 
   return (
     <main className="space-y-2">
       <ListHeader setQueryData={setQueryData} />
-      <ListTable data={studyData?.data?.items} sorting={sorting} setSorting={setSorting} isLoading={isLoading} />
+      <ListTable
+        data={studyData?.data?.items}
+        sorting={sorting}
+        setSorting={setSorting}
+        isLoading={isLoading}
+        refetch={refetch}
+      />
       <Pagination
         currentPage={studyData?.data?.pageNumber}
         setCurrentPage={setCurrentPageNumber}
