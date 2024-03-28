@@ -3,7 +3,7 @@ const withPWA = require("next-pwa");
 const production = process.env.NODE_ENV === "production";
 const apiHost = process.env.API_HOST;
 const mediaBlob = process.env.MEDIA_BLOB_BASE_PATH;
-
+const defaultSource = process.env.NEXTAUTH_URL;
 /*
   default-src 'none'; // none is default
   NextJS requires 'unsafe-eval' in dev (faster source maps)
@@ -11,7 +11,7 @@ const mediaBlob = process.env.MEDIA_BLOB_BASE_PATH;
 */
 
 const cspHeader = `
-    default-src 'self';
+    default-src 'self' ${defaultSource};
     connect-src 'self' ${apiHost} https://dc.services.visualstudio.com/v2/track data:;
     media-src 'self' ${mediaBlob};
     frame-src 'self' blob:;
