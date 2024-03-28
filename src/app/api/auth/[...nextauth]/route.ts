@@ -8,19 +8,19 @@ async function refreshAccessToken(token: any) {
   try {
     const response = await refreshToken({
       refreshToken: token.refreshToken
-    })
+    });
 
-    return {
-      ...token,
+    token.user.token = {
+      ...token.user.token,
       accessToken: response?.data?.token?.accessToken,
       accessTokenExpires: Date.now() + response?.data?.token?.accessTokenExpiresInSeconds * 1000,
       refreshToken: response?.data?.token?.refreshToken ?? token.refreshToken, // Fall back to old refresh token
     }
+    return token;
+
   } catch (error) {
     console.log(error)
     await signOut({ callbackUrl: "/auth/login" });
-
-
   }
 }
 
@@ -35,11 +35,17 @@ export const authOptions: NextAuthOptions = {
       if (account?.provider === "credentials") return true;
       return false;
     },
-    async jwt({ token, user, trigger, session }) {
+    async jwt({ token, user, account, trigger, session }) {
+      // Initial sign in
+      if (account && user) {
+        token.user = user;
+        //@ts-ignore
+        token.user.token.accessTokenExpires = Date.now() + user.token.accessTokenExpiresInSeconds * 1000;
+      }
 
-      // if (trigger === 'update') {
-      //   token.user = {...session.user};     
-      // }
+      if (trigger === 'update') {
+        token.user = {...session.user};     
+      }
       // user && (token.user = user);
 
       console.log('user', user);
@@ -47,17 +53,12 @@ export const authOptions: NextAuthOptions = {
       console.log('token', token);
       console.log('----------------------------');
       console.log('session', session);
-      // //@ts-ignore
-      // if(Date.now() >= Date.now() + response?.data?.token?.accessTokenExpiresInSeconds * 1000) {
-      //   return ({
-      //     user: {
-      //       //@ts-ignore
-      //       token: refreshAccessToken(token?.user?.token)
-      //     }
-      //   });
-      // }
-
-      return token;
+      //@ts-ignore
+      if (Date.now() <  token.user.token.accessTokenExpires) {
+        return token
+      }
+      //@ts-ignore
+      return refreshAccessToken(token.user.token)
     },
     async session({ session, token }: any) {
       return token as any;
