@@ -1,27 +1,48 @@
 import { login, refreshToken } from '@/service/auth-service';
+import axios from 'axios';
 import type { NextAuthOptions } from 'next-auth';
 import NextAuth from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import { signOut } from 'next-auth/react';
 
 async function refreshAccessToken(token: any) {
-  try {
-    const response = await refreshToken({
-      refreshToken: token.refreshToken
+    console.log('refreshing token', token);
+    const instance = axios.create({
+      baseURL: process.env.NEXT_PUBLIC_API_BASE_URL,
+      headers: { 
+        Apikey: process.env.NEXT_PUBLIC_API_KEY,
+        Authorization: `Bearer ${token.user.token.accessToken}`
+      },
     });
 
-    token.user.token = {
-      ...token.user.token,
-      accessToken: response?.data?.token?.accessToken,
-      accessTokenExpires: Date.now() + response?.data?.token?.accessTokenExpiresInSeconds * 1000,
-      refreshToken: response?.data?.token?.refreshToken ?? token.refreshToken, // Fall back to old refresh token
+    try {
+      const response = await instance.post('Auth/refresh', { refreshToken: token.user.token.refreshToken});
+      console.log('post response', response);
+      token.user.token = {
+        ...response?.data,
+        accessTokenExpires: Date.now() + response?.data?.accessTokenExpiresInSeconds * 1000,
+      }
+      console.log('new token', token);
+      return token;
+    } catch (error: any) {
+      console.log(error);
+      signOut({ callbackUrl: "/auth/login" });
     }
-    return token;
 
-  } catch (error) {
-    console.log(error)
-    await signOut({ callbackUrl: "/auth/login" });
-  }
+    // instance.post('Auth/refresh', { refreshToken: token.user.token.refreshToken}).then((response: any) => {
+    //   console.log('post response', response);
+    //   token.user.token = {
+    //     ...token.user.token,
+    //     accessToken: response?.data?.accessToken,
+    //     accessTokenExpires: Date.now() + response?.data?.accessTokenExpiresInSeconds * 1000,
+    //     refreshToken: response?.data?.refreshToken ?? token.refreshToken, // Fall back to old refresh token
+    //   }
+    //   console.log('new token', token);
+    //   return token;
+    // }).catch((error: any) => {
+    //   console.log(error);
+    //   signOut({ callbackUrl: "/auth/login" });
+    // });
 }
 
 export const authOptions: NextAuthOptions = {
@@ -35,9 +56,9 @@ export const authOptions: NextAuthOptions = {
       if (account?.provider === "credentials") return true;
       return false;
     },
-    async jwt({ token, user, account, trigger, session }) {
+    async jwt({ token, user, account, trigger, session }: any) {
       // Initial sign in
-      if (account && user) {
+      if (user) {
         token.user = user;
         //@ts-ignore
         token.user.token.accessTokenExpires = Date.now() + user.token.accessTokenExpiresInSeconds * 1000;
@@ -53,12 +74,15 @@ export const authOptions: NextAuthOptions = {
       console.log('token', token);
       console.log('----------------------------');
       console.log('session', session);
+
       //@ts-ignore
       if (Date.now() <  token.user.token.accessTokenExpires) {
         return token
       }
       //@ts-ignore
-      return refreshAccessToken(token.user.token)
+      const newToken =  await refreshAccessToken(token);
+      console.log('newToken in jwt', newToken)
+      return newToken;
     },
     async session({ session, token }: any) {
       return token as any;
