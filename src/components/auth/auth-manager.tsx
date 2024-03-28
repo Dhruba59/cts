@@ -10,7 +10,7 @@ const AuthManager = ({ children }: any) => {
   const router = useRouter();
   const pathname = usePathname();
   const { data, status }: any = useSession();
-
+  console.log('from authmanager', status, data);
   useEffect(() => {
     const checkToken = () => {
       if (data) {
