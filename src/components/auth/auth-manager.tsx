@@ -1,5 +1,6 @@
 'use client';
-import { useSession } from "next-auth/react";
+import { ERROR } from "@/constants/common";
+import { signOut, useSession } from "next-auth/react";
 import { usePathname, useRouter } from 'next/navigation';
 import { useEffect } from "react";
 
@@ -7,7 +8,7 @@ const AuthManager = ({ children }: any) => {
   const router = useRouter();
   const pathname = usePathname();
   const { data, status }: any = useSession();
-  console.log('from authmanager', status, data);
+
   useEffect(() => {
     const checkToken = () => {
       if (data) {
@@ -19,6 +20,10 @@ const AuthManager = ({ children }: any) => {
         //   router.push('/auth/login');
         //   return;
         // }
+
+        if (data?.error === ERROR.REFRESH_ACCESS_TOKEN) {
+          signOut({ callbackUrl: '/auth/login'});
+        }
 
         if (status === 'authenticated') {
           // if(!getAccessToken())
