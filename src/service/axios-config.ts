@@ -1,7 +1,7 @@
 import axios, { AxiosRequestConfig } from "axios";
-import { getAccessToken, getRefreshToken, setTokens } from "@/utils/helpers";
+import { setTokens } from "@/utils/helpers";
 import { STORAGE_KEY } from "@/constants/storage-constant";
-import { signOut } from "next-auth/react";
+import { getSession, signOut } from "next-auth/react";
 
 const instance = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_BASE_URL,
@@ -9,8 +9,11 @@ const instance = axios.create({
 });
 
 instance.interceptors.request.use(async (request) => {
+  const session = await getSession();
+  //@ts-ignore
+  const accessToken = session?.user?.token?.accessToken;
   if (typeof window !== "undefined") {
-    request.headers["Authorization"] = `Bearer ${getAccessToken()}`;
+    request.headers["Authorization"] = `Bearer ${accessToken}`;
   }
   return request;
 });

@@ -100,22 +100,22 @@ export function getCookie(key: string) {
   return "";
 }
 
-export const getAccessToken = () => {
-  let token = localStorage.getItem(STORAGE_KEY.AUTH_TOKEN);
-  if (token) token = JSON.parse(token ?? "");
-  if (token) {
-    return token[STORAGE_KEY.ACCESS_TOKEN as any];
-  }
-  return "";
-};
-export const getRefreshToken = () => {
-  let token = localStorage.getItem(STORAGE_KEY.AUTH_TOKEN);
-  if (token) token = JSON.parse(token ?? "");
-  if (token) {
-    return token[STORAGE_KEY.REFRESH_TOKEN as any];
-  }
-  return "";
-};
+// export const getAccessToken = () => {
+//   let token = localStorage.getItem(STORAGE_KEY.AUTH_TOKEN);
+//   if (token) token = JSON.parse(token ?? "");
+//   if (token) {
+//     return token[STORAGE_KEY.ACCESS_TOKEN as any];
+//   }
+//   return "";
+// };
+// export const getRefreshToken = () => {
+//   let token = localStorage.getItem(STORAGE_KEY.AUTH_TOKEN);
+//   if (token) token = JSON.parse(token ?? "");
+//   if (token) {
+//     return token[STORAGE_KEY.REFRESH_TOKEN as any];
+//   }
+//   return "";
+// };
 
 export const setTokens = (tokenDetails: any) => {
   let token: any = localStorage.getItem(STORAGE_KEY.AUTH_TOKEN);
