@@ -7,3 +7,7 @@ export const USER_ROLE_VALUE = {
 }
 
 export const DEFAULT_PAGE_SIZE = 10;
+
+export const ERROR = {
+  REFRESH_ACCESS_TOKEN: "RefreshAccessTokenError"
+}
