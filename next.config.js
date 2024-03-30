@@ -61,6 +61,7 @@ const securityHeaders = [
 ];
 const nextConfig = {
   output: "standalone",
+  // distDir: "dist",
   async headers() {
     return [
       {
