@@ -58,10 +58,10 @@ const SubjectEntryEditForm = ({ ids }: SubjectEntryEditForm) => {
     enabled: userRole == USER_ROLE_ENUM.SYSTEM_ADMIN && !!selectedProtocol
   });
 
-  const { data: protocolList } = useQuery({
+  const { data: protocolList, isLoading: isLoadingProtocolList } = useQuery({
     queryFn: getProtocolsByStudyId,
     queryKey: ['protocolList', { StudyType: selectedStudy?.value, UserId: userId }],
-    enabled: !!selectedStudy
+    enabled: !!selectedStudy,
   });
 
   const { data: dropdowns } = useQuery('subjectDropdowns', {
@@ -144,7 +144,7 @@ const SubjectEntryEditForm = ({ ids }: SubjectEntryEditForm) => {
       if(protocol?.trainingIncomplete && userRole != USER_ROLE_ENUM.SYSTEM_ADMIN) {
         toast.warn('Training Incomplete for the protocol!');
         setTimeout(() => {
-          router.push(`training?studyId=${protocol.studyId}`);
+          router.push(`/training?studyId=${protocol.studyId}`);
         }, 3000);
       };
 
@@ -215,6 +215,7 @@ const SubjectEntryEditForm = ({ ids }: SubjectEntryEditForm) => {
                     setQueryParams({ StudyId: option.value });
                   }
                 }}
+                isLoading={isLoadingProtocolList}
                 value={selectedProtocol}
                 options={protocolOptions}
               />
