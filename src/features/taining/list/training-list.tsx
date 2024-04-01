@@ -1,15 +1,6 @@
 "use client";
-import Breadcrumbs from "@/components/ui/breadcrumbs";
-import Toggle from "@/components/ui/toggle";
 
 import { useEffect, useState } from "react";
-import { DropDownItem, SelectOptionType } from "@/model/drop-down-list";
-import { Controller, useForm } from "react-hook-form";
-import { IndicationQuery } from "@/model/indication";
-import { useGetStudyProtocols } from "@/hooks/rq-hooks/training-material-hooks";
-import { TrainingMaterialQuery } from "@/model/training-material";
-import { json } from "stream/consumers";
-import { DownloadCertificateIcon, QuizIcon } from "@/assets/icons";
 import Modal from "@/components/modal";
 import Spinner from "@/components/ui/spinner";
 import { PDFViewer } from "@react-pdf/renderer";

@@ -1,4 +1,4 @@
-import { CTS_LOGO_BASE64 } from "@/assets/image/base64-image";
+import { CTS_LOGO_BASE64 } from '../../../../public/base64-image';
 import { Document, Image, Page, StyleSheet, Text, View } from "@react-pdf/renderer";
 import dayjs from "dayjs";
 

@@ -1,15 +1,17 @@
 import LoginForm from "@/features/auth/login-form";
 import Image from "next/image";
-import heroImage from '@/assets/image/heroImage.png';
+// import heroImage from '@/assets/image/heroImage.png';
 
 const LoginPage = () => {
   return (
     <main  className='h-fill flex pt-6 md:pt-0 overflow-hidden'>
       <div className="hidden md:block md:w-2/5">
         <Image
-          src={heroImage}
+          src='/heroImage.png'
           alt="heroImage"
           layout="cover"
+          width={100}
+          height={100}
           className="w-full h-full object-cover" /* Use h-full to make it full height */
           priority
         />

@@ -3,8 +3,8 @@ import { Fragment, useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
-import logo from "@/assets/image/cts-logo.png";
-import userAvatar from "@/assets/image/dummy-avatar.png";
+// import logo from "@/assets/image/cts-logo.png";
+// import userAvatar from "@/assets/image/dummy-avatar.png";
 import { DownArrowIcon, SidebarToggleIcon } from "@/assets/icons";
 import { useSidebarContext } from "@/context/sidebar-context";
 import Popup from "../pop-up";
@@ -77,13 +77,13 @@ const Header = () => {
       />
       <div className="flex items-center">
         <Link href="/">
-          <Image src={logo} alt="logo" height={40} />
+          <Image src='/cts-logo.png' alt="logo" width={106} height={40} />
         </Link>
       </div>
       <div className="relative flex items-center gap-x-4">
         <DarkModeToggleSwitch containerClassName='hidden sm:block h-8'/>
         <Image
-          src={userAvatar}
+          src='/dummy-avatar.png'
           alt="user-photo"
           className="rounded-full"
           height={40}
