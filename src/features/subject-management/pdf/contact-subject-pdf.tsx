@@ -55,50 +55,50 @@ const LastContactSubjectsPdf = ({ data }: LastContactSubjectsPdfProps) => {
         <Text style={{ margin: '10px 0px 10px 0px ', borderBottom: '1px', width: '110px', fontSize: '12px'  }}>Search Parameters</Text>
         <View style={{ flexWrap: 'wrap', flexDirection: 'row', justifyContent: 'space-between', gap: '4px', width: '100%', fontSize: '10px' }}>
           <View style={{ display: 'flex', flexDirection: 'row', width: '49%'}}>
-            <View style={{ border: '1px', padding: '4px 0px 4px 4px', width: '45%', borderBottomLeftRadius: '4px', borderTopLeftRadius: '4px', fontWeight: 'bold', backgroundColor: '#DEDEDE'}}>
+            <View style={{ border: '1px', flex: 1, padding: '4px 0px 4px 4px', borderBottomLeftRadius: '4px', borderTopLeftRadius: '4px', fontWeight: 'bold', backgroundColor: '#DEDEDE'}}>
               <Text>Sponsor Subject Id</Text>
             </View>
-            <View style={{ border: '1px', padding: '4px 0px 4px 4px', borderBottomRightRadius: '4px', borderTopRightRadius: '4px', fontWeight: 'medium', flexGrow: 1, overflow: 'hidden'}}>
+            <View style={{ width: '100%', flex: 1, border: '1px', borderLeft: '0px',  padding: '4px 0px 4px 4px', borderBottomRightRadius: '4px', borderTopRightRadius: '4px', fontWeight: 'medium' }}>
               <Text>{data?.sponsorSubjectId}</Text>
             </View>
           </View>
           <View style={{ display: 'flex', flexDirection: 'row', width: '49%'}}>
-            <View style={{ border: '1px', padding: '4px 0px 4px 4px', width: '45%', borderBottomLeftRadius: '4px', borderTopLeftRadius: '4px', fontWeight: 'bold', backgroundColor: '#DEDEDE'}}>
+            <View style={{ flex: 1, border: '1px', padding: '4px 0px 4px 4px', borderBottomLeftRadius: '4px', borderTopLeftRadius: '4px', fontWeight: 'bold', backgroundColor: '#DEDEDE'}}>
               <Text>Site Code</Text>
             </View>
-            <View style={{ border: '1px', padding: '4px 0px 4px 4px', borderBottomRightRadius: '4px', borderTopRightRadius: '4px', fontWeight: 'medium', flexGrow: 1,}}>
+            <View style={{ width: '100%', flex: 1, border: '1px', borderLeft: '0px',  padding: '4px 0px 4px 4px', borderBottomRightRadius: '4px', borderTopRightRadius: '4px', fontWeight: 'medium' }}>
               <Text>{data?.siteCode}</Text>
             </View>
           </View>
           <View style={{ display: 'flex', flexDirection: 'row', width: '49%'}}>
-            <View style={{ border: '1px', padding: '4px 0px 4px 4px', width: '45%', borderBottomLeftRadius: '4px', borderTopLeftRadius: '4px', fontWeight: 'bold', backgroundColor: '#DEDEDE'}}>
+            <View style={{ flex: 1, border: '1px', padding: '4px 0px 4px 4px', borderBottomLeftRadius: '4px', borderTopLeftRadius: '4px', fontWeight: 'bold', backgroundColor: '#DEDEDE' }}>
               <Text>Report Run Time (GMT)</Text>
             </View>
-            <View style={{ border: '1px', padding: '4px 0px 4px 4px', borderBottomRightRadius: '4px', borderTopRightRadius: '4px', fontWeight: 'medium', flexGrow: 1,}}>
+            <View style={{ width: '100%', flex: 1, border: '1px', borderLeft: '0px',  padding: '4px 0px 4px 4px', borderBottomRightRadius: '4px', borderTopRightRadius: '4px', fontWeight: 'medium' }}>
               <Text>{formateTableDateTime(data?.reportRunTime)}</Text>
             </View>
           </View>
           <View style={{ display: 'flex', flexDirection: 'row', width: '49%'}}>
-            <View style={{ border: '1px', padding: '4px 0px 4px 4px', width: '45%', borderBottomLeftRadius: '4px', borderTopLeftRadius: '4px', fontWeight: 'bold', backgroundColor: '#DEDEDE'}}>
+            <View style={{ flex: 1, border: '1px', padding: '4px 0px 4px 4px', borderBottomLeftRadius: '4px', borderTopLeftRadius: '4px', fontWeight: 'bold', backgroundColor: '#DEDEDE' }}>
               <Text>Protocol</Text>
             </View>
-            <View style={{ border: '1px', padding: '4px 0px 4px 4px', borderBottomRightRadius: '4px', borderTopRightRadius: '4px', fontWeight: 'medium', flexGrow: 1,}}>
+            <View style={{ width: '100%', flex: 1, border: '1px', borderLeft: '0px',  padding: '4px 0px 4px 4px', borderBottomRightRadius: '4px', borderTopRightRadius: '4px', fontWeight: 'medium' }}>
               <Text>{data?.protocol}</Text>
             </View>
           </View>
           <View style={{ display: 'flex', flexDirection: 'row', width: '49%'}}>
-            <View style={{ border: '1px', padding: '4px 0px 4px 4px', width: '45%', borderBottomLeftRadius: '4px', borderTopLeftRadius: '4px', fontWeight: 'bold', backgroundColor: '#DEDEDE'}}>
+            <View style={{ flex: 1, border: '1px', padding: '4px 0px 4px 4px', borderBottomLeftRadius: '4px', borderTopLeftRadius: '4px', fontWeight: 'bold', backgroundColor: '#DEDEDE' }}>
               <Text>Date of Birth</Text>
             </View>
-            <View style={{ border: '1px', padding: '4px 0px 4px 4px', borderBottomRightRadius: '4px', borderTopRightRadius: '4px', fontWeight: 'medium', flexGrow: 1,}}>
+            <View style={{ width: '100%', flex: 1, border: '1px', borderLeft: '0px',  padding: '4px 0px 4px 4px', borderBottomRightRadius: '4px', borderTopRightRadius: '4px', fontWeight: 'medium' }}>
               <Text>{formateTableDate(data?.dob)}</Text>
             </View>
           </View>
           <View style={{ display: 'flex', flexDirection: 'row', width: '49%'}}>
-            <View style={{ border: '1px', padding: '4px 0px 4px 4px', width: '45%', borderBottomLeftRadius: '4px', borderTopLeftRadius: '4px', fontWeight: 'bold', backgroundColor: '#DEDEDE'}}>
+            <View style={{ flex: 1, border: '1px', padding: '4px 0px 4px 4px', borderBottomLeftRadius: '4px', borderTopLeftRadius: '4px', fontWeight: 'bold', backgroundColor: '#DEDEDE'}}>
               <Text>Initials</Text>
             </View>
-            <View style={{ border: '1px', padding: '4px 0px 4px 4px', borderBottomRightRadius: '4px', borderTopRightRadius: '4px', fontWeight: 'medium', flexGrow: 1,}}>
+            <View style={{ width: '100%', flex: 1, border: '1px', borderLeft: '0px', padding: '4px 0px 4px 4px', borderBottomRightRadius: '4px', borderTopRightRadius: '4px', fontWeight: 'medium' }}>
               <Text>{data?.intitials}</Text>
             </View>
           </View>
@@ -108,18 +108,18 @@ const LastContactSubjectsPdf = ({ data }: LastContactSubjectsPdfProps) => {
         <Text style={{ margin: '10px 0px 10px 0px ', borderBottom: '1px', width: '180px', fontSize: '12px' }}>Last Subject Contact Information</Text>
         <View style={{ display: 'flex', flexDirection: 'column', gap: '4px' , justifyContent:'center', fontSize: '10px' }}>
           <View style={{ display: 'flex', flexDirection: 'row' }}>
-            <View style={{ border: '1px', borderBottomLeftRadius: '4px', borderTopLeftRadius: '4px', padding: '4px', fontWeight: 'bold', width: '45%', backgroundColor: '#DEDEDE'}}>
+            <View style={{ flex: 1, border: '1px', borderBottomLeftRadius: '4px', borderTopLeftRadius: '4px', padding: '4px', fontWeight: 'bold', backgroundColor: '#DEDEDE'}}>
               <Text>Last Subject Contact Date</Text>
             </View>
-            <View style={{ border: '1px', borderBottomRightRadius: '4px', borderTopRightRadius: '4px', padding: '4px', fontWeight: 'extralight', flexGrow: 1, fontSize: '10px'}}>
+            <View style={{ width: '100%', flex: 1, border: '1px', borderLeft: '0px', borderBottomRightRadius: '4px', borderTopRightRadius: '4px', padding: '4px', fontWeight: 'extralight', fontSize: '10px'}}>
               <Text>{formateTableDate(data?.lastSubjectContactDate)}</Text>
             </View>
           </View>
           <View style={{ display: 'flex', flexDirection: 'row' }}>
-            <View style={{ border: '1px', borderBottomLeftRadius: '4px', borderTopLeftRadius: '4px', padding: '4px', fontWeight: 'bold', width: '45%', backgroundColor: '#DEDEDE'}}>
+            <View style={{ flex: 1, border: '1px', borderBottomLeftRadius: '4px', borderTopLeftRadius: '4px', padding: '4px', fontWeight: 'bold', backgroundColor: '#DEDEDE'}}>
               <Text>Last Subject Contact Type</Text>
             </View>
-            <View style={{ border: '1px', borderBottomRightRadius: '4px', borderTopRightRadius: '4px', padding: '4px', fontWeight: 'medium', flexGrow: 1}}>
+            <View style={{ width: '100%', flex: 1, border: '1px', borderLeft: '0px', borderBottomRightRadius: '4px', borderTopRightRadius: '4px', padding: '4px', fontWeight: 'medium' }}>
               <Text>{data?.lastSubjectContactType}</Text>
             </View>
           </View>
