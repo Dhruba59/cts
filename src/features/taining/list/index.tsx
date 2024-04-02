@@ -13,7 +13,7 @@ const UserTrainings = () => {
   const [trainingId, setTrainingId] = useState<number>();
   const [selected, setSelected] = useState<number | null>();
   const [userTrainings, setUserTrainings] = useState<any>([]);
-  const [videoUrl, setVideoUrl] = useState<string>('http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4');
+  const [videoUrl, setVideoUrl] = useState<string>('');
   const [loadQuiz, setLoadQuiz] = useState<boolean>(false);
   const [diableQuizes, setDiableQuizes] = useState([]);
   const [showResult, setShowResult] = useState(false)

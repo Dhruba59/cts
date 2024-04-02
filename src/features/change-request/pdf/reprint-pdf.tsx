@@ -1,6 +1,6 @@
 import React from 'react';
 import { Page, Text, View, Image, Document, StyleSheet } from '@react-pdf/renderer';
-import { CTS_LOGO_BASE64, matchIcon, noMatchIcon } from '@/assets/image/base64-image';
+import { CTS_LOGO_BASE64, matchIcon, noMatchIcon } from '../../../../public/base64-image';
 import { formateTableDateTime } from '@/utils/helpers';
 
 // Create styles
