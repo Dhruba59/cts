@@ -4,10 +4,10 @@ import Image from "next/image";
 
 const LoginPage = () => {
   return (
-    <main  className='h-fill flex pt-6 md:pt-0 overflow-hidden'>
+    <main className="h-fill flex pt-6 md:pt-0 overflow-hidden">
       <div className="hidden md:block md:w-2/5">
         <Image
-          src='/heroImage.png'
+          src="/heroImage.png"
           alt="heroImage"
           layout="cover"
           width={100}

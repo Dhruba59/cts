@@ -28,30 +28,29 @@ const handleLogout = () => {
 const DarkModeSwitchContent = (
   <div className="w-full flex justify-between items-center">
     <span>Dark mode</span>
-    <DarkModeToggleSwitch iconClassName="!h-4" inputClassName="w-[42px] !h-4"/> 
+    <DarkModeToggleSwitch iconClassName="!h-4" inputClassName="w-[42px] !h-4" />
   </div>
 );
 
 const getMenuItems = (isDarkModeOpen: boolean) => {
-  return ([
-      { icon: '', content: 'Profile' },
-      { icon: '', content: 'Change Password', href: 'change-password' },
-      { icon: '', content: DarkModeSwitchContent, hidden: !isDarkModeOpen},
-      { icon: '', content: 'Log out', onClick: handleLogout },
-    ]
-  )
-}
+  return [
+    { icon: "", content: "Profile" },
+    { icon: "", content: "Change Password", href: "change-password" },
+    { icon: "", content: DarkModeSwitchContent, hidden: !isDarkModeOpen },
+    { icon: "", content: "Log out", onClick: handleLogout }
+  ];
+};
 
 const Header = () => {
-  const [ isPopupOpen, setIsPopupOpen ] = useState<boolean>(false);
+  const [isPopupOpen, setIsPopupOpen] = useState<boolean>(false);
   const { isSidebarOpen, setIsSidebarOpen } = useSidebarContext();
-  const [ userRole, setUserRole ] = useState<string>('');
+  const [userRole, setUserRole] = useState<string>("");
   const { theme } = useThemeContext();
   const isDark = theme === THEME_COLOR_ENUM.DARK;
   const { data: session } = useSession();
 
   const isSmallScreen = useShouldRenderComponentOnResize({
-    minWidth:0,
+    minWidth: 0,
     maxWidth: 640
   });
 
@@ -63,9 +62,10 @@ const Header = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
 
-
   useEffect(() => {
-    setUserRole(getUserRoleFromValue(localStorage.getItem(STORAGE_KEY.ROLE) ?? ''));
+    setUserRole(
+      getUserRoleFromValue(localStorage.getItem(STORAGE_KEY.ROLE) ?? "")
+    );
   }, []);
 
   return (
@@ -77,13 +77,19 @@ const Header = () => {
       />
       <div className="flex items-center">
         <Link href="/">
-          <Image src='/cts-logo.png' alt="logo" width={106} height={40} />
+          <Image
+            src="/cts-logo.png"
+            alt="logo"
+            width={106}
+            height={40}
+            unoptimized
+          />
         </Link>
       </div>
       <div className="relative flex items-center gap-x-4">
-        <DarkModeToggleSwitch containerClassName='hidden sm:block h-8'/>
+        <DarkModeToggleSwitch containerClassName="hidden sm:block h-8" />
         <Image
-          src='/dummy-avatar.png'
+          src="/dummy-avatar.png"
           alt="user-photo"
           className="rounded-full"
           height={40}
@@ -91,9 +97,9 @@ const Header = () => {
         />
         <span>
           {/* @ts-ignore */}
-          <h5 className="text-sm dark:text-white">{session?.user?.lastName}</h5>       
+          <h5 className="text-sm dark:text-white">{session?.user?.lastName}</h5>
           <p className="text-xs font-normal text-gray-500 dark:text-gray-200">
-           {userRole}
+            {userRole}
           </p>
         </span>
         <DownArrowIcon
@@ -108,7 +114,10 @@ const Header = () => {
           onClose={() => setIsPopupOpen(false)}
           className="-right-[120px] top-28"
         >
-          <MenuItems menus={getMenuItems(isSmallScreen)} className="w-[200px] text-sm" />
+          <MenuItems
+            menus={getMenuItems(isSmallScreen)}
+            className="w-[200px] text-sm"
+          />
         </Popup>
       </div>
     </div>
