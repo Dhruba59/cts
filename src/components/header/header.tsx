@@ -3,8 +3,6 @@ import { Fragment, useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
-// import logo from "@/assets/image/cts-logo.png";
-// import userAvatar from "@/assets/image/dummy-avatar.png";
 import { DownArrowIcon, SidebarToggleIcon } from "@/assets/icons";
 import { useSidebarContext } from "@/context/sidebar-context";
 import Popup from "../pop-up";
@@ -18,8 +16,6 @@ import { getUserRoleFromValue } from "@/utils/helpers";
 import { useShouldRenderComponentOnResize } from "@/hooks/resize-hook";
 
 const handleLogout = () => {
-  // deleteSession();
-  // deleteRemember();
   localStorage.removeItem(STORAGE_KEY.AUTH_TOKEN);
   const currentDomain = window.location.origin;
   signOut({ callbackUrl: `${currentDomain}/auth/login` });
@@ -78,10 +74,11 @@ const Header = () => {
       <div className="flex items-center">
         <Link href="/">
           <Image
-            src="/cts-logo.png"
+            src="/cts-logo-106x56.png"
             alt="logo"
             width={106}
-            height={40}
+            height={56}
+            quality={100}
             priority
           />
         </Link>

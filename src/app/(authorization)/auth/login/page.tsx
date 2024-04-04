@@ -7,11 +7,12 @@ const LoginPage = () => {
     <main className="h-fill flex pt-6 md:pt-0 overflow-hidden">
       <div className="hidden md:block md:w-2/5">
         <Image
-          src="/heroImage.png"
-          alt="heroImage"
+          src="/hero-image-1416x1856.png"
+          alt="hero-image"
           layout="cover"
-          width={100}
-          height={100}
+          width={1416}
+          height={1856}
+          quality={100}
           className="w-full h-full object-cover" /* Use h-full to make it full height */
           priority
         />
