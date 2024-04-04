@@ -19,7 +19,7 @@ const cspHeader = `
       production ? "" : "'unsafe-eval'"
     };
     style-src 'self' 'unsafe-inline';
-    img-src 'self' blob: data:;
+    img-src 'self' ${defaultSource} blob: data:;
     font-src 'self';
     object-src 'none';
     base-uri 'self';

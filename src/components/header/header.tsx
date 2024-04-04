@@ -82,7 +82,7 @@ const Header = () => {
             alt="logo"
             width={106}
             height={40}
-            unoptimized
+            priority
           />
         </Link>
       </div>
@@ -94,6 +94,7 @@ const Header = () => {
           className="rounded-full"
           height={40}
           width={40}
+          priority
         />
         <span>
           {/* @ts-ignore */}
