@@ -32,7 +32,6 @@ const AddNationalIdType = ({ id }: AddNationalIdTypeProps) => {
     register,
     handleSubmit,
     control,
-    setValue,
     formState: { errors },
     reset,
   } = useForm<NationalIdType>({
@@ -148,7 +147,7 @@ const AddNationalIdType = ({ id }: AddNationalIdTypeProps) => {
           <Textarea label="Description" placeholder="Enter description here"  {...register("description")} />
 
           <div className="flex justify-center gap-4 mt-8 md:mt-14">
-            <Button type="submit" className="px-8">Submit</Button>
+            <Button type="submit" className="px-8" loading={isAddNationalIdTypeLoading || isEditNationalIdTypeLoading}>Submit</Button>
             <Button className="px-8" variant="outline" onClick={handleRedirect} >
               Cancel
             </Button>

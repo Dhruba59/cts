@@ -64,8 +64,6 @@ export function ListTable({ data, sorting, setSorting, isLoading, refetch }: any
         <ExpandableTable
           data={data}
           columns={columns}
-          // tableTitle=" List of Site"
-          // addButtonLink="add"
           listTitleKey="siteName"
           getRowActions={getRowActions}
         />
@@ -82,7 +80,7 @@ export function ListTable({ data, sorting, setSorting, isLoading, refetch }: any
           cancelButtonName: "Cancel"
         }}
       >
-        <div className="text-base px-6 py-2">
+        <div className="text-base px-2 py-2">
           <p>Do you want to delete?</p>
         </div>
       </Modal>

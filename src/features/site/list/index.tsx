@@ -1,15 +1,11 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import ListHeader from "./list-header";
 import ListTable from "./table/listTable";
-import { Site, SiteQuery } from "@/model/site";
+import { SiteQuery } from "@/model/site";
 import Pagination from "@/components/pagination";
-import { getFrequencyTypes, getSites } from "@/service/site-service";
 import { SortingState } from "@tanstack/react-table";
 
-import { DropDownItem, SelectOptionType } from "@/model/drop-down-list";
 import { DEFAULT_PAGE_SIZE } from "@/constants/common";
-import { useQuery } from "react-query";
-import { MainContainer } from "@/components/style-container";
 import { useGetSites } from "@/hooks/rq-hooks/site-hooks";
 import { initialDefaultQuery } from "@/utils/helpers";
 
@@ -49,7 +45,6 @@ const SiteList = () => {
 
   useEffect(() => {
     const orderby: any = sorting.map((s) => `${s.id} ${s.desc ? 'desc' : 'asc'}`).join(',');
-    //console.log(orderby)
 
     setQueryData((data) => ({
       ...data,

@@ -31,7 +31,7 @@ const AddSite = ({ id }: AddSiteProps) => {
     siteZip: '',
     siteCode: '',
     sponsorId: 0,
-    frequencyTypeId: 0,
+    frequencyTypeId:'',
     regionGroup: '',
     primaryContactPhone: '',
     primaryContactName: '',
@@ -90,9 +90,7 @@ const AddSite = ({ id }: AddSiteProps) => {
       frequencyTypeId: payload?.frequencyTypeId?.value ?? payload?.frequencyTypeId
     }
 
-
     if (id) {
-      payload = { ...payload };
       EditSite(payload, {
         onSuccess: ({ data }: any) => {
           const newFieldValues = {
@@ -103,7 +101,7 @@ const AddSite = ({ id }: AddSiteProps) => {
           handleRedirect();
         },
         onError: (err: any) => {
-          toast.error(err?.response?.data?.title);
+          toast.error(err?.response?.data?.detail);
         }
       });
     } else {
@@ -114,7 +112,7 @@ const AddSite = ({ id }: AddSiteProps) => {
           refetch();
         },
         onError: (err: any) => {
-          toast.error(err?.response?.data?.title);
+          toast.error(err?.response?.data?.detail);
         }
       })
     };
@@ -243,9 +241,7 @@ const AddSite = ({ id }: AddSiteProps) => {
               <Input
                 label="Address two"
                 placeholder="Enter address two code"
-                {...register("address2", {
-                  required: "Address two is required!"
-                })}
+                {...register("address2")}
               />
               {errors.address2 && (
                 <span className="text-red-500 -mt-10">{errors.address2.message as string}</span>
@@ -255,9 +251,7 @@ const AddSite = ({ id }: AddSiteProps) => {
               <Input
                 label="Primary Contact Phone"
                 placeholder="Enter primary contact phone"
-                {...register("primaryContactPhone", {
-                  required: "Primary contact phone is required!"
-                })}
+                {...register("primaryContactPhone")}
               />
               {errors.primaryContactPhone && (
                 <span className="text-red-500 -mt-10">{errors.primaryContactPhone.message as string}</span>
@@ -267,9 +261,7 @@ const AddSite = ({ id }: AddSiteProps) => {
               <Input
                 label="Primary Contact Name"
                 placeholder="Enter primary contact name"
-                {...register("primaryContactName", {
-                  required: "Primary contact name is required!"
-                })}
+                {...register("primaryContactName")}
               />
               {errors.primaryContactName && (
                 <span className="text-red-500 -mt-10">{errors.primaryContactName.message as string}</span>
@@ -279,9 +271,7 @@ const AddSite = ({ id }: AddSiteProps) => {
               <Input
                 label="Primary Contact Email"
                 placeholder="Enter primary contact email"
-                {...register("primaryContactEmail", {
-                  required: "Primary contact email is required!"
-                })}
+                {...register("primaryContactEmail")}
               />
               {errors.primaryContactEmail && (
                 <span className="text-red-500 -mt-10">{errors.primaryContactEmail.message as string}</span>
@@ -291,9 +281,7 @@ const AddSite = ({ id }: AddSiteProps) => {
               <Input
                 label="Location ID"
                 placeholder="Enter LocationID"
-                {...register("locationId", {
-                  required: "LocationID is required!"
-                })}
+                {...register("locationId")}
               />
               {errors.locationId && (
                 <span className="text-red-500 -mt-10">{errors.locationId.message as string}</span>
@@ -303,9 +291,7 @@ const AddSite = ({ id }: AddSiteProps) => {
               <Input
                 label="PI Name"
                 placeholder="Enter PI name"
-                {...register("piname", {
-                  required: "PI name is required!"
-                })}
+                {...register("piname")}
               />
               {errors.piname && (
                 <span className="text-red-500 -mt-10">{errors.piname.message as string}</span>
@@ -322,7 +308,7 @@ const AddSite = ({ id }: AddSiteProps) => {
             </div>
           </div>
           <div className="flex justify-center gap-4 mt-8 md:mt-14">
-            <Button type="submit" className="px-8">Submit</Button>
+            <Button type="submit" className="px-8" loading={isAddSiteLoading || isEditSiteLoading}>Submit</Button>
             <Button className="px-8" variant="outline" onClick={handleRedirect} >
               Cancel
             </Button>

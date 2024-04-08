@@ -1,13 +1,9 @@
-version: '3.8'
+version: '3.9'
 
 services:
-  app:
-    build:
-      context: .
-      dockerfile: Dockerfile
+  nextapp:
     container_name: app.ctsdatabase
+    image: app.ctsdatabase
+    build: .
     ports:
-      - '3000:3000'
-    volumes:
-      - .:/app
-      - /app/node_modules
+      - "3000:3000"

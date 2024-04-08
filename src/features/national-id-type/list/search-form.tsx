@@ -19,13 +19,13 @@ export function SearchForm({ form, countryOptions }: SearchFormProps) {
         <Label label="NationalID Type Name: " className="hidden lg:block" />
         <Input
           placeholder="Enter Type Name"
-          className="md:w-48"
+          className="md:w-40"
           {...register("typeName")}
         />
       </div>
       <div className="grid lg:flex lg:items-center gap-2 flex-1 md:flex-none">
         <Label label="Country: " className="hidden lg:block" />
-        <div className="w-32">
+        <div className="w-40">
           <Controller
             control={control}
             name="countryId"

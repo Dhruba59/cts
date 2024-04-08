@@ -10,13 +10,11 @@ import { useAddStudyMutation, useGetStudyDropdownsList, useUpdateStudyMutation }
 import { DropDownItem } from "@/model/drop-down-list";
 import { AddUpdateStudyPayload, CriticalDndDataType, CriticalDndItem } from "@/model/study";
 import { getUpdatedCriticalDndData, getUpdatedDndData, initialAssignedData, initialCriticalDndData, initialFormValues } from "@/utils/study";
-import { MainContainer } from "@/components/style-container";
 import { useQuery } from "react-query";
 import { getStudiyById } from "@/service/study-service";
 import { calculateDaysBetweenDates } from "@/utils/helpers";
 import { useRouter } from 'next/navigation';
 import { apiResponseToast } from "@/utils/toast";
-import { RESPONSE_TYPE_ENUM } from "@/model/enum";
 import { toast } from "react-toastify";
 import Breadcrumbs from "@/components/ui/breadcrumbs";
 interface AddStudyProps {
@@ -45,6 +43,7 @@ const AddStudy = ({ id }: AddStudyProps) => {
     setValue,
     formState: { errors },
     reset,
+    setError,
     clearErrors,
   } = useForm({
     defaultValues: initialFormValues
@@ -220,7 +219,7 @@ const AddStudy = ({ id }: AddStudyProps) => {
     <>
       <form className="mb-20 w-full" onSubmit={handleSubmit(onSubmit)}>
         <Breadcrumbs title="Study Information" subTitle={id ? "Update" : "Add"} />
-        <BasicInformation dropdownList={dropdownList?.data} register={register} setValue={setValue} errors={errors} Controller={Controller} control={control} isPreScreen={isPreScreen} setIsPreScreen={setIsPreScreen} />
+        <BasicInformation dropdownList={dropdownList?.data} register={register} setError={setError} setValue={setValue} errors={errors} control={control} isPreScreen={isPreScreen} setIsPreScreen={setIsPreScreen} />
         <AssignSite assignedData={assignedData} setAssignedData={setAssignedData} />
         <CriticalSetup errors={errors} criticalSetupData={criticalDndData} setCriticalSetupData={setCriticalDndData} Controller={Controller} control={control} register={register}/>
         <div className="flex items-center justify-center gap-4 mt-16">
