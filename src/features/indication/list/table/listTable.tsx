@@ -13,7 +13,7 @@ import { toast } from "react-toastify";
 export function ListTable({ data, sorting, setSorting, refetch, isLoading }: any) {
   const [open, setOpen] = useState<boolean>(false);
   const [id, setId] = useState<number>(0);
-  const { mutate: deleteIndication } = useDeleteIndication();
+  const { mutate: deleteIndication, isLoading: isDeletingIndication } = useDeleteIndication();
 
   const onDeleteConfirm = () => {
     deleteIndication({ id }, {
@@ -66,13 +66,14 @@ export function ListTable({ data, sorting, setSorting, refetch, isLoading }: any
         onClose={() => onDeleteCancel()}
         title="Confirmation!"
         containerClassName="!w-[624px]"
+        isLoading={isDeletingIndication}
         renderFooter={{
           onSave: onDeleteConfirm,
           submitButtonName: "Confirm",
           cancelButtonName: "Cancel"
         }}
       >
-        <div className="text-base px-6 py-2">
+        <div className="text-base px-2 py-2">
           <p>Do you want to delete?</p>
         </div>
       </Modal>

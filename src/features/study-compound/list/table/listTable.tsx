@@ -5,8 +5,7 @@ import { useMemo, useState } from "react";
 import { StudyCompoundListColumns } from "./columns";
 import { useDeleteStudyCompound } from "@/hooks/rq-hooks/study-compound-hooks";
 import Modal from "@/components/modal";
-import { useForm } from "react-hook-form";
-import { MODAL_TYPE_ENUM, RESPONSE_TYPE_ENUM } from "@/model/enum";
+import { MODAL_TYPE_ENUM } from "@/model/enum";
 import TableTopWithAddButtin from "@/components/table/table-top-with-add-button";
 import { apiResponseToast } from "@/utils/toast";
 import { toast } from "react-toastify";
@@ -65,8 +64,6 @@ export function ListTable({ data, sorting, setSorting, isLoading, refetch }: any
         <ExpandableTable
           data={data}
           columns={columns}
-          // tableTitle=" List of Study Compound"
-          // addButtonLink="add"
           listTitleKey="studyCompoundName"
           getRowActions={getRowActions}
         />
@@ -84,7 +81,7 @@ export function ListTable({ data, sorting, setSorting, isLoading, refetch }: any
         }}
         isLoading={isDeleting}
       >
-        <div className="text-base px-6 py-2">
+        <div className="text-base px-2 py-2">
           <p>Do you want to delete?</p>
         </div>
       </Modal>

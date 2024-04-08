@@ -170,7 +170,7 @@ const AddIndication = ({ id }: AddIndicationProps) => {
           </div>
 
           <div className="flex justify-center gap-4 mt-8 md:mt-14">
-            <Button type="submit" className="px-8">Submit</Button>
+            <Button type="submit" className="px-8" loading={isAddIndicationLoading || isEditIndicationLoading}>Submit</Button>
             <Button className="px-8" variant="outline" onClick={handleRedirect} >
               Cancel
             </Button>

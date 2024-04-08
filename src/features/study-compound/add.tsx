@@ -27,7 +27,6 @@ const AddStudyCompound = ({ id }: AddStudyCompoundProps) => {
     register,
     handleSubmit,
     control,
-    setValue,
     formState: { errors },
     reset,
   } = useForm<StudyCompoundQuery>({

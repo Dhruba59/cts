@@ -37,7 +37,7 @@ const AdvanceSearchForm = ({ phaseOptions, sponsorOptions, form }: StudyAdvanced
         control={control}
         name='SponsorId'
         render={({ field: { onChange, onBlur, value } }: any) => (
-          <Select onChange={onChange} label="Sponsor Name" placeholder="Select Sponsor" options={sponsorOptions} value={value} />
+          <Select onChange={onChange} label="Sponsor Name" placeholder="Select Sponsor" className="w-auto md:w-40" options={sponsorOptions} value={value} />
         )}
       />
 
@@ -45,16 +45,18 @@ const AdvanceSearchForm = ({ phaseOptions, sponsorOptions, form }: StudyAdvanced
         control={control}
         name='Phase'
         render={({ field: { onChange, onBlur, value } }: any) => (
-          <Select onChange={onChange} label="Phase Name" placeholder="Pre screen phase" options={phaseOptions} value={value} />
+          <Select onChange={onChange} label="Phase Name" placeholder="Select phase" className="w-auto md:w-40" options={phaseOptions} value={value} />
         )}
       />
-      <Input label="Max Subject" type="number" placeholder="Max Subject" {...register('MaxSubjects')} />
-      <Input label="Subject ID Entry Format" placeholder="Subject ID Entry Format" {...register('SubjectIdentryFormat')} />
+      <Input label="Max Subject" type="number" className="w-auto md:w-40" placeholder="Max Subject" {...register('MaxSubjects')} />
+      <Input label="Subject ID Entry Format" className="w-auto md:w-40" placeholder="Subject ID Entry Format" {...register('SubjectIdentryFormat')} />
       <Controller
         control={control}
         name='date'
         render={({ field: { onChange, onBlur, value } }: any) => (
           <Datepicker
+          inputClassName='w-auto md:w-40'
+            containerClassName="w-auto md:w-40"
             popoverDirection='down'
             value={value}
             onChange={onChange}
@@ -63,41 +65,41 @@ const AdvanceSearchForm = ({ phaseOptions, sponsorOptions, form }: StudyAdvanced
           />
         )}
       />
-      <div className="flex justify-between items-center mt-auto mb-auto">
-        <div className="flex gap-8 items-center justify-start ">
-          <div className="flex flex-col justify-start gap-2 items-start md:items-center h-full">
-            <Label label='Pre Screen' />
-            <Controller
+      {/* <div className="flex justify-between items-center mt-auto mb-auto">
+        <div className="flex gap-8 items-center justify-start "> */}
+          <div className="flex gap-2 justify-start w-auto md:w-40 mt-10 ml-1">
+          <Controller
               name="PreScreen"
-              control={control}
-              render={({ field: { onChange, onBlur, value } }: any) => (
-                <Checkbox className="" onChange={onChange} checked={value} />
-              )}
-            />
-          </div>
-          <div className="flex flex-col gap-2 justify-start items-start md:items-center h-full">
-            <Label label='Sr.com Only' />
-            <Controller
-              name="Sr"
-              control={control}
-              render={({ field: { onChange, onBlur, value } }: any) => (
-                <Checkbox className="" onChange={onChange} checked={value} />
-              )}
-            />
-          </div>
-          <div className="flex flex-col gap-2 justify-start items-start md:items-center w-fit h-full">
-            <Label label="Active" />
-            <Controller
-              name="Active"
               control={control}
               render={({ field: { onChange, onBlur, value } }: any) => (
                 <Checkbox onChange={onChange} checked={value} />
               )}
             />
+            <Label label='Pre Screen' />
+          </div>
+          <div className="flex gap-2 justify-start w-auto md:w-40 mt-10 ml-1">
+          <Controller
+              name="Sr"
+              control={control}
+              render={({ field: { onChange, onBlur, value } }: any) => (
+                <Checkbox onChange={onChange} checked={value} />
+              )}
+            />
+            <Label label='Sr.com Only' />
+          </div>
+          <div className="flex gap-2 justify-start w-auto md:w-40 mt-10 ml-1">
+          <Controller
+              name="Active"
+              control={control}
+              render={({ field: { onChange, onBlur, value } }: any) => (
+                <Checkbox className=" bg-red-400" onChange={onChange} checked={value} />
+              )}
+            />
+            <Label label="Active" />
           </div>
 
-        </div>
-      </div>
+        {/* </div>
+      </div> */}
     </Fragment>
   );
 };
@@ -122,7 +124,7 @@ export const TabSearchBarContent = ( { form, phaseOptions, sponsorOptions }: Stu
         control={control}
         name='Phase'
         render={({ field: { onChange, onBlur, value } }: any) => (
-          <Select onChange={onChange} placeholder="Pre screen phase" options={phaseOptions} value={value} />
+          <Select onChange={onChange} placeholder="Select Phase" options={phaseOptions} value={value} />
         )}
       />
       <Input placeholder="Max subject" type="number" {...register('MaxSubjects')} />

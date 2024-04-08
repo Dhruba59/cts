@@ -1,7 +1,5 @@
 "use client";
-import Breadcrumbs from "@/components/ui/breadcrumbs";
 import Checkbox from "@/components/ui/checkbox";
-import Datepicker2 from "@/components/ui/datepicker";
 import Datepicker from "@/components/ui/datepicker";
 import Input from "@/components/ui/input";
 import Label from "@/components/ui/label";
@@ -9,6 +7,7 @@ import Select from "@/components/ui/select";
 import { DropDownItem, SelectOptionType } from "@/model/drop-down-list";
 import { calculateDaysBetweenDates } from "@/utils/helpers";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { Controller } from "react-hook-form";
 import { DateValueType } from "react-tailwindcss-datepicker";
 
 type DropdownList = {
@@ -18,7 +17,7 @@ type DropdownList = {
 interface BasicInformationFormProps {
   register: any;
   errors: any;
-  Controller: any;
+  setError: any;
   control: any;
   dropdownList: DropdownList;
   setValue: any;
@@ -26,7 +25,7 @@ interface BasicInformationFormProps {
   setIsPreScreen: Dispatch<SetStateAction<boolean>>;
 }
 
-const BasicInformation = ({ dropdownList, register, setValue, errors, control, isPreScreen, setIsPreScreen, Controller }: BasicInformationFormProps) => {
+const BasicInformation = ({ dropdownList, register, setValue, errors, control, setError, isPreScreen, setIsPreScreen }: BasicInformationFormProps) => {
   const [commentOptions, setCommentOptions] = useState<SelectOptionType[]>([]);
   const [phaseOptions, setPhaseOptions] = useState<SelectOptionType[]>([]);
   const [sponsorOptions, setSponsorOptions] = useState<SelectOptionType[]>([]);
@@ -59,7 +58,7 @@ const BasicInformation = ({ dropdownList, register, setValue, errors, control, i
       <div className="wrapper">
         <h4 className=" px-6 py-4">Study Information</h4>
         <hr />
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-16 gap-y-8 p-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-16 gap-y-4 p-8">
           <div>
             <Input
               label="Study Name"
@@ -109,6 +108,13 @@ const BasicInformation = ({ dropdownList, register, setValue, errors, control, i
               name='date'
               rules={{
                 required: "Date is required!",
+                validate: (val: any) => {
+                  if (!val.startDate || !val.endDate) {
+                    setError("date", { type: 'custom', message: "Date is required!" });
+                    return "Date is required!";
+                  }
+                  return true;
+                }
               }}
               render={({ field: { onChange, onBlur, value } }: any) => (
                 <Datepicker

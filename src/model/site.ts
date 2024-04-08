@@ -14,7 +14,7 @@ export interface Site {
     siteCode?: string;
     sponsorId?: number;
     active?: boolean;
-    frequencyTypeId?: number;
+    frequencyTypeId?: number | string;
     regionGroup?: string;
     primaryContactPhone?: string;
     primaryContactName?: string;

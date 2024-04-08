@@ -37,9 +37,9 @@ const AddSponsor = ({ id }: AddSponsorProps) => {
     defaultValues: defaultValues
   });
 
-  const { mutate: AddIndication, isLoading: isAddIndicationLoading } =
+  const { mutate: addSponsor, isLoading: isAddSponsorLoading } =
     useAddSponsor();
-  const { mutate: EditIndication, isLoading: isEditIndicationLoading } =
+  const { mutate: editSponsor, isLoading: isEditSponsorLoading } =
     useEditSponsor();
 
   const { data: sponsorData } = useQuery({
@@ -54,19 +54,9 @@ const AddSponsor = ({ id }: AddSponsorProps) => {
   };
 
   const onSubmit = (payload: any) => {
-    payload = {
-      ...payload,
-      codeType: payload?.codeType?.value ?? payload?.codeType
-    };
-
     if (id) {
-      payload = { ...payload };
-      EditIndication(payload, {
+      editSponsor(payload, {
         onSuccess: ({ data }: any) => {
-          const newFieldValues = {
-            ...payload
-          };
-          reset(newFieldValues as any);
           apiResponseToast(data);
           handleRedirect();
         },
@@ -75,13 +65,13 @@ const AddSponsor = ({ id }: AddSponsorProps) => {
         }
       });
     } else {
-      AddIndication(payload, {
+      addSponsor(payload, {
         onSuccess: ({ data }: any) => {
           reset();
           apiResponseToast(data);
         },
         onError: (err: any) => {
-          toast.error(err?.response?.data?.title);
+          toast.error(err?.response?.data?.detail);
         }
       });
     }
@@ -193,7 +183,7 @@ const AddSponsor = ({ id }: AddSponsorProps) => {
             </div>
           </div>
           <div className="flex justify-center gap-4 mt-8 md:mt-14">
-            <Button type="submit" className="px-8">
+            <Button type="submit" className="px-8" loading={isAddSponsorLoading || isEditSponsorLoading} >
               Submit
             </Button>
             <Button className="px-8" variant="outline" onClick={handleRedirect}>

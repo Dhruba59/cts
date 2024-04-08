@@ -9,12 +9,14 @@ import TableTopWithAddButtin from "@/components/table/table-top-with-add-button"
 import { apiResponseToast } from "@/utils/toast";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
+import { WarningIcon } from "@/assets/icons";
+import { MODAL_TYPE_ENUM } from "@/model/enum";
 
 export function ListTable({ data, sorting, setSorting, isLoading, refetch }: any) {  
   
   const [open, setOpen] = useState<boolean>(false);
   const [id, setId] = useState<number>(0);
-  const { mutate: deleteSponsor } = useDeleteSponsor();
+  const { mutate: deleteSponsor, isLoading: isDeletingSponsor } = useDeleteSponsor();
   const router = useRouter();
 
   const onDeleteConfirm = () => {
@@ -72,8 +74,10 @@ export function ListTable({ data, sorting, setSorting, isLoading, refetch }: any
       </div>
       <Modal
         open={open}
+        type={MODAL_TYPE_ENUM.WARNING}
         onClose={() => onDeleteCancel()}
         title="Confirmation!"
+        isLoading={isDeletingSponsor}
         containerClassName="!w-[624px]"
         renderFooter={{
           onSave: onDeleteConfirm,
@@ -81,7 +85,7 @@ export function ListTable({ data, sorting, setSorting, isLoading, refetch }: any
           cancelButtonName: "Cancel"
         }}
       >
-        <div className="text-base px-6 py-2">
+        <div className="text-base px-2 py-2">
           <p>Do you want to delete?</p>
         </div>
       </Modal>
