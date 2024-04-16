@@ -88,6 +88,7 @@ export function AdvanceSearchForm({
               placeholder="Select Date"
               useRange={false}
               asSingle
+              maxDate={new Date()}
             />
           )}
         />
@@ -174,6 +175,7 @@ export const TabSearchBarContent = ({
             placeholder="Select From Date"
             useRange={false}
             asSingle
+            maxDate={new Date()}
           />
         )}
       />
