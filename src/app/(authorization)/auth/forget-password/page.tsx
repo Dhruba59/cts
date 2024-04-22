@@ -7,7 +7,7 @@ const ForgotPasswordPage = () => {
     <main className="flex h-fill pt-6 md:pt-0">
       <div className="hidden md:block md:w-2/5">
         <Image
-          src='/heroImage.png'
+          src="/hero-image-1416x1856.png"
           alt="heroImage"
           width="0"
           height="0"
