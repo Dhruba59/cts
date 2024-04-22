@@ -487,6 +487,12 @@ const AddUser = ({ id }: AddUserProps) => {
 
   const onSubmit = (values: any) => {
     let payload = constructPayload(values, selectedUserType, !!id);
+    if(!payload.siteId && selectedUserType == USER_TYPE_ENUM.SITE_USER) {
+      setError('site', {
+        message: 'Site is required!'
+      });
+      return;
+    }
     if (id) {
       if (selectedUserType == USER_TYPE_ENUM.SITE_USER) {
         payload.completedTrainingStatus = completedTrainings?.map(
@@ -726,7 +732,8 @@ const AddUser = ({ id }: AddUserProps) => {
   const handleSystemLoginName = (e: any) => {
     if (id) return;
     const firstName = getValues("firstName");
-    const lastName = getValues("lastName");
+    let lastName = getValues("lastName");
+    lastName = lastName.split(" ").join('');
     if (firstName && lastName && firstName !== "" && lastName !== "") {
       setValue("systemLogin", firstName[0] + lastName);
     }
@@ -994,7 +1001,7 @@ const AddUser = ({ id }: AddUserProps) => {
                 {...register("state", {
                   required: "State is required!",
                   maxLength: 2
-                })}
+              })}
               />
               {errors.state && (
                 <span className="text-red-500 -mt-10">

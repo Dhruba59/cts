@@ -100,8 +100,8 @@ const SiteUserSettings = ({ form, sites, suppressMatchTypes, setSiteUserSiteId, 
               value={value} />
           )}
         />
-        {errors.siteName && (
-          <span className="text-red-500 -mt-10">{errors.siteName.message as string}</span>
+        {errors.site && (
+          <span className="text-red-500 -mt-10">{errors.site.message as string}</span>
         )}
       </div>
 

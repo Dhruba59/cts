@@ -3,6 +3,7 @@ import Checkbox from "@/components/ui/checkbox";
 import Input from "@/components/ui/input";
 import Label from "@/components/ui/label";
 import Select from "@/components/ui/select";
+import Textarea from "@/components/ui/textarea";
 import { BasicTabSearchBarContentsProps } from "@/model/common";
 import { SelectOptionType } from "@/model/drop-down-list";
 import { IndicationTabSearchBarContentProps, SearchFormProps } from "@/model/indication";
@@ -57,13 +58,13 @@ export function AdvanceSearchForm({ form }: BasicTabSearchBarContentsProps) {
         className="md:w-48 lg:w-72"
         {...register("indicationName")}
       />
-      <Input
+      <Textarea
         label="Description"
         placeholder="Enter description"
-        wrapperClassName="w-full xl:max-w-[500px]"
+        className="md:w-48 lg:w-72 !min-h-[20px] h-10"
         {...register("description")}
       />
-      <div className="flex flex-col justify-start md:gap-6 items-start md:items-center w-64 h-full">
+      <div className="flex flex-col justify-start md:gap-6 items-start md:items-start w-64 h-full">
         <Label label="Require Details"/>
           <Controller
             name="isRequireDetails"
@@ -99,8 +100,9 @@ export const TabSearchBarContent = ( { form, codeTypeOptions }: IndicationTabSea
         placeholder="Enter Indication name"
         {...register("indicationName")}
       />
-      <Input
+      <Textarea
         placeholder="Enter description"
+        className="!min-h-[20px] h-10"
         {...register("description")}
       />
       <div className="flex gap-3 ml-3">
