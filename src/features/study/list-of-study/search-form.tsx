@@ -60,7 +60,7 @@ const AdvanceSearchForm = ({ phaseOptions, sponsorOptions, form }: StudyAdvanced
             popoverDirection='down'
             value={value}
             onChange={onChange}
-            placeholder="Start date  ⇀  End date"
+            placeholder="Start ⇀ End"
             label="Date"
           />
         )}
