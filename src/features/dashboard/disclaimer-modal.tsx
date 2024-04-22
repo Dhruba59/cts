@@ -26,7 +26,7 @@ const DisclaimerModal = ({ firstName, lastName, onAccept, onReject }: any) => {
         onReject();
       }}
       title="Disclaimer!"
-      containerClassName="!w-[624px] overflow-auto"
+      containerClassName="md:!w-[624px] overflow-auto"
       renderFooter={{
         submitButtonName: "Accept",
         cancelButtonName: "Decline",
@@ -34,8 +34,8 @@ const DisclaimerModal = ({ firstName, lastName, onAccept, onReject }: any) => {
         onReject: () => { setOpen(false); onReject(); },
       }}
     >
-      <div className="flex flex-col">
-        <h4 className="text-center underline underline-offset-4 -mt-4 mb-4">CTSdatabase User Agreement</h4>
+      <div className="flex flex-col mx-2 md:mx-auto">
+        <p className="text-center underline underline-offset-4 mb-4 text-lg font-semibold">CTSdatabase User Agreement</p>
         <p>I, <span className="text-sky-600">{firstName} {lastName}</span>, agree to explain to subjects the purpose of the subject registry
           and to have all subjects sign the current IRB-approved Subject Database Authorization prior to
           entering any subject data onto <a target="_blank" rel="noopener noreferrer" href="https://ctsdatabase.com" className="text-sky-600">www.ctsdatabase.com</a>. Only those partial identifiers which have been
