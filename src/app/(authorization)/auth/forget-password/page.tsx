@@ -8,15 +8,16 @@ const ForgotPasswordPage = () => {
       <div className="hidden md:block md:w-2/5">
         <Image
           src="/hero-image-1416x1856.png"
-          alt="heroImage"
-          width="0"
-          height="0"
-          sizes="100vw"
-          className="w-full h-fill object-cover"
+          alt="hero-image"
+          layout="cover"
+          width={1416}
+          height={1856}
+          quality={100}
+          className="w-full h-full object-cover" /* Use h-full to make it full height */
           priority
         />
       </div>
-      <div className="w-full h-fill bg-white flex items-center justify-center">
+      <div className="w-full md:w-3/5 pt-0 px-8 bg-white dark:bg-dark-darkBlue flex items-center justify-center">
         <ForgotPasswordForm />
       </div>
     </main>
