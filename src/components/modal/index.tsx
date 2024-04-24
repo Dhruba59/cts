@@ -135,7 +135,7 @@ const Modal = ({
           {!isCancelButtonOnly && (
             <div className="flex flex-row gap-2">
               <Button
-                className=""
+                className="bg-blue-500"
                 type="submit"
                 size="small"
                 onClick={handleModalSave}
