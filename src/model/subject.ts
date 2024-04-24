@@ -94,7 +94,7 @@ export interface Protocol {
     ToDate?: string;
   }
 
-  export interface SubjectEntryEditForm {
+  export interface SubjectEntryEditFormProps {
     ids?: ChangeReqSubjectIdProps;
   }
 

@@ -9,7 +9,7 @@ import { SelectOptionType } from "@/model/drop-down-list";
 import { QueryClient, useQuery } from "react-query";
 import { getProtocolsByStudyId, getStudyType, getSubjectDropdowns, searchLastSubjects } from "@/service/subject-service";
 import { convertTypeToSelectOption } from "@/utils/helpers";
-import { Protocol, SearchLastSubjectsParams, SubjectEntryEditForm } from "@/model/subject";
+import { Protocol, SearchLastSubjectsParams, SubjectEntryEditFormProps } from "@/model/subject";
 import { useSession } from "next-auth/react";
 import { USER_ROLE_ENUM } from "@/model/enum";
 import AddSubjectForm from "./subject-tab/add-subject-form";
@@ -29,7 +29,7 @@ export const getSiteStudyIdByStudyId = (data: any, studyId: number | string) => 
   return data?.find((item: any) => item?.studyId == studyId)?.siteStudyId ?? '';
 }
 
-const SubjectEntryEditForm = ({ ids }: SubjectEntryEditForm) => {
+const SubjectEntryEditForm = ({ ids }: SubjectEntryEditFormProps) => {
   const [studyTypeOptions, setStudyTypeOptions] = useState<SelectOptionType[]>([]);
   const [protocolOptions, setProtocolOptions] = useState<SelectOptionType[]>([]);
   const [selectedProtocol, setSelectedProtocol] = useState<SelectOptionType>();
