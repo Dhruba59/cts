@@ -1,5 +1,6 @@
 "use client";
 import { ERROR } from "@/constants/common";
+import { USER_ROLE_ENUM } from "@/model/enum";
 import { signOut, useSession } from "next-auth/react";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect } from "react";
@@ -9,6 +10,8 @@ const AuthManager = ({ children }: any) => {
   const router = useRouter();
   const pathname = usePathname();
   const { data, status }: any = useSession();
+  // @ts-ignore
+  const isAdmin = data?.user?.currentRole?.roleId == USER_ROLE_ENUM.SYSTEM_ADMIN;
 
   useEffect(() => {
     const checkToken = () => {
@@ -31,7 +34,12 @@ const AuthManager = ({ children }: any) => {
           if (data?.user?.needToChangePassword) {
             router.push("/change-password");
           } else if (pathname.includes("auth")) {
-            router.push("/dashboard");
+            // router.push("/dashboard");
+            if(isAdmin) {
+              router.push("/change-request/dashboard");
+            } else {
+              router.push("/subject-management/enter-study-subject");
+            }
           }
         }
       } else if (status === "unauthenticated" && !pathname.includes("auth")) {
