@@ -49,7 +49,7 @@ const LoginForm = () => {
     signIn("credentials", { ...payload, callbackUrl: '/dashboard', redirect: false })
       .then((res: any) => {
         if (res.ok) {
-          router.push("/dashboard");
+          // router.push("/subject-management/enter-study-subject");
           setRemember(payload.username, payload.password, payload.role);
           localStorage.setItem(STORAGE_KEY.ROLE, payload.role.toString());
           toast.success("Successfully logged in!", { position: "top-center" });
