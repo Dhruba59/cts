@@ -1,9 +1,11 @@
 import ReactDatepicker, { DatepickerType } from "react-tailwindcss-datepicker";
 import { cn } from "@/libs/utils";
 import Label from "./label";
+import { ReactNode } from "react";
 
 interface Props extends DatepickerType {
   label?: string;
+  customLevel?: ReactNode;
 }
 
 const Datepicker = ({
@@ -12,11 +14,13 @@ const Datepicker = ({
   containerClassName,
   inputClassName,
   label,
+  customLevel,
   ...props
 }: Props) => {
   return (
     <div>
       {label && <Label label={label} className="inline-block mb-2" />}
+      {customLevel}
       <ReactDatepicker
         {...props}
         displayFormat={displayFormat}

@@ -666,8 +666,13 @@ const AddSubjectForm = ({
                   onChange={(date) => {
                     onChange(date?.startDate ? date : null);
                   }}
-                  placeholder="Date of birth"
-                  label="Date of Birth"
+                  placeholder="DD-MMM-YYYY"
+                  customLevel={
+                    <span className="flex items-center gap-1">
+                      <span> Date of Birth</span>
+                      <span className="text-[13px] italic text-red-600">{`(Format: DD-MMM-YYYY)`}</span>
+                    </span>
+                  }
                   disabled={!protocolId && !ids}
                 />
               )}
