@@ -662,6 +662,7 @@ const AddSubjectForm = ({
                   popoverDirection="down"
                   value={value}
                   asSingle
+                  readOnly
                   useRange={false}
                   onChange={(date) => {
                     onChange(date?.startDate ? date : null);
