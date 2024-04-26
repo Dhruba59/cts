@@ -44,10 +44,10 @@ import { getSubjectMatchReport } from "@/service/report-service";
 import { PDFViewer } from "@react-pdf/renderer";
 import Spinner from "@/components/ui/spinner";
 import { apiResponseToast } from "@/utils/toast";
-import { RESPONSE_TYPE_ENUM } from "@/model/enum";
 import { toast } from "react-toastify";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
+import CustomDatepicker from "@/components/ui/custom-datepicker";
 
 enum NATIONAL_ID_TYPE {
   PASSPORT = "2",
@@ -74,14 +74,12 @@ interface AddSubjectFormProps {
 }
 
 const getSiteStudyIdByStudyId = (data: any, studyId: number | string) => {
-  //console.log('study', data, studyId);
   return data?.find((item: any) => item?.studyId == studyId)?.siteStudyId ?? "";
 };
 
 const addOffsetToDate = (date: string | Date) => {
   dayjs.extend(utc);
   return dayjs(date).utc(true).format("YYYY-MM-DD");
-  // return newDate.setMinutes(newDate.getMinutes() - newDate.getTimezoneOffset());
 };
 
 const AddSubjectForm = ({
@@ -157,6 +155,7 @@ const AddSubjectForm = ({
     setValue,
     setError,
     clearErrors,
+    watch,
     formState,
     formState: { errors },
     reset,
@@ -264,7 +263,7 @@ const AddSubjectForm = ({
         apiResponseToast(data.data);
         reset();
         reset({
-          dateOfBirth: { startDate: null, endDate: null },
+          dateOfBirth: undefined,
           heightUnit: heightUnitOptions?.[0].value ?? "",
           weightUnit: weightUnitOptions?.[0].value ?? "",
         });
@@ -321,7 +320,6 @@ const AddSubjectForm = ({
     delete values.zip;
     let payload = {
       ...values,
-      dateOfBirth: new Date(values.dateOfBirth.startDate),
       idType: values?.idType?.value ?? values.idType,
       visitTypeId: values?.visitTypeId?.value ?? values?.visitTypeId,
       gender: values?.gender?.value ?? values?.gender,
@@ -342,7 +340,7 @@ const AddSubjectForm = ({
     }
 
     if (dropdowns.partialDateAllowed) {
-      payload.dateOfBirth = `${values?.dateOfBirth}-01-01T00:00:00.000Z`;
+      payload.dateOfBirth = `01-Jan-${values?.dateOfBirth}`;
     }
 
     const validationPayload: SubjectFieldValidationPayloadType = {
@@ -387,22 +385,22 @@ const AddSubjectForm = ({
     });
   };
 
-  const handleReset = () => {
-    if (ids) {
-      updateFieldsWithSubjectData();
-      return;
-    }
-    const zip = getValues("zip");
-    reset();
-    reset({
-      dateOfBirth: { startDate: null, endDate: null },
-      zip: zip,
-      weightUnit: weightUnitOptions?.[0].value,
-      heightUnit: heightUnitOptions?.[0].value,
-    });
-    setValue("zip", zip);
-    setValue("weightUnit", weightUnitOptions?.[0].value);
-  };
+  // const handleReset = () => {
+  //   if (ids) {
+  //     updateFieldsWithSubjectData();
+  //     return;
+  //   }
+  //   const zip = getValues("zip");
+  //   reset();
+  //   reset({
+  //     dateOfBirth: undefined,
+  //     zip: zip,
+  //     weightUnit: weightUnitOptions?.[0].value,
+  //     heightUnit: heightUnitOptions?.[0].value,
+  //   });
+  //   setValue("zip", zip);
+  //   setValue("weightUnit", weightUnitOptions?.[0].value);
+  // };
 
   const handleWeightUnit = (option: any) => {
     if (option.label.includes("cm")) {
@@ -486,7 +484,6 @@ const AddSubjectForm = ({
         },
         requestNote: "",
       };
-      // setValue('partialID', subjectDetail.nationalIdLastFourDigit);
       setUserId?.(subjectDetail.userId);
       reset(values);
       setSelectedProtocol({
@@ -521,9 +518,9 @@ const AddSubjectForm = ({
             span={
               subjectIdFormat &&
               subjectIdFormat !== "" && (
-                <span className="text-[13px] italic text-red-600">
+                <span className="text-[12px] italic text-red-600">
                   (<span>Format: </span>
-                  <span className="text-[11px]">{subjectIdFormat}</span>)
+                  <span className="text-[10px]">{subjectIdFormat}</span>)
                 </span>
               )
             }
@@ -654,27 +651,18 @@ const AddSubjectForm = ({
               control={control}
               name="dateOfBirth"
               rules={{
-                required: "Date is required!",
+                required: "DOB is required!",
               }}
               render={({ field: { onChange, onBlur, value } }: any) => (
-                <Datepicker
-                  startFrom={new Date()}
-                  popoverDirection="down"
-                  value={value}
-                  asSingle
-                  readOnly
-                  useRange={false}
-                  onChange={(date) => {
-                    onChange(date?.startDate ? date : null);
-                  }}
-                  placeholder="DD-MMM-YYYY"
+                <CustomDatepicker
+                  wrapperClassName="mt-[5px] space-y-[7px]"
+                  onChange={onChange}
                   customLevel={
                     <span className="flex items-center gap-1">
-                      <span> Date of Birth</span>
-                      <span className="text-[13px] italic text-red-600">{`(Format: DD-MMM-YYYY)`}</span>
+                      <span className="text-sm">DOB</span>
+                      <span className="text-[11px] italic text-red-600">{`(Format: DD-MMM-YYYY)`}</span>
                     </span>
                   }
-                  disabled={!protocolId && !ids}
                 />
               )}
             />
