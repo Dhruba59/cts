@@ -16,7 +16,7 @@ const Select = <
 >(
   props: SelectProps<Option, IsMulti, Group>
 ) => {
-  const { label, placeholder, wrapperClassName, options = [], value, ...restProps } = props;
+  const { label, placeholder, wrapperClassName, className, options = [], value, ...restProps } = props;
   const [selected, setSelected] = useState<SelectOptionType[]>([]);
   const memoizedOptions = useMemo(() => options, [options]);
 
@@ -44,7 +44,7 @@ const Select = <
       {label && <Label label={label} className="inline-block mb-2" />}
       <div className="focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-secondary focus-visible:ring-offset-1">
         <ReactSelect
-          className="text-white"
+          className={`text-white ${className}`}
           styles={getReactSelectCustomStyles(isDarkMode)}
           id="long-value-select"
           instanceId="long-value-select"
