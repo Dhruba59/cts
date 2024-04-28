@@ -15,9 +15,14 @@ import { signOut, useSession } from "next-auth/react";
 import { getUserRoleFromValue } from "@/utils/helpers";
 import { useShouldRenderComponentOnResize } from "@/hooks/resize-hook";
 
+import { deleteCookie } from "cookies-next";
+
 const handleLogout = () => {
   localStorage.removeItem(STORAGE_KEY.AUTH_TOKEN);
   const currentDomain = window.location.origin;
+  // delete cookies
+  deleteCookie("accessToken");
+  deleteCookie("refreshToken");
   signOut({ callbackUrl: `${currentDomain}/auth/login` });
 };
 
