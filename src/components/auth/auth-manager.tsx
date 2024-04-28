@@ -11,10 +11,12 @@ const AuthManager = ({ children }: any) => {
   const pathname = usePathname();
   const { data, status }: any = useSession();
   // @ts-ignore
-  const isAdmin = data?.user?.currentRole?.roleId == USER_ROLE_ENUM.SYSTEM_ADMIN;
+  const isAdmin =
+    data?.user?.currentRole?.roleId == USER_ROLE_ENUM.SYSTEM_ADMIN;
 
   useEffect(() => {
     const checkToken = () => {
+      console.log(data);
       if (data) {
         // old method to check token
         // const decodedToken = jwtDecode(data?.user?.token?.accessToken);
@@ -35,7 +37,7 @@ const AuthManager = ({ children }: any) => {
             router.push("/change-password");
           } else if (pathname.includes("auth")) {
             // router.push("/dashboard");
-            if(isAdmin) {
+            if (isAdmin) {
               router.push("/change-request/dashboard");
             } else {
               router.push("/subject-management/enter-study-subject");

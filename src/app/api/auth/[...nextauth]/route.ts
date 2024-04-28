@@ -46,6 +46,14 @@ async function refreshAccessToken(token: any) {
         error: ERROR.REFRESH_ACCESS_TOKEN,
       };
     }
+
+    cookies().set('accessToken', response.data.accessToken, { secure: true });
+    cookies().set('refreshToken', response.data.refreshToken, { secure: true });
+    
+    // remove token from cookies
+    delete response.data.accessToken;
+    delete response.data.refreshToken;
+
     token.user.token = {
       ...response?.data,
       accessTokenExpires:
