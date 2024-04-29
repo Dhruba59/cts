@@ -73,11 +73,31 @@ interface AddSubjectFormProps {
   protocolList: any;
 }
 
+const monthOptions: SelectOptionType[] = [
+  { label: "Jan", value: "Jan" },
+  { label: "Feb", value: "Feb" },
+  { label: "Mar", value: "Mar" },
+  { label: "Apr", value: "Apr" },
+  { label: "May", value: "May" },
+  { label: "Jun", value: "Jun" },
+  { label: "Jul", value: "Jul" },
+  { label: "Aug", value: "Aug" },
+  { label: "Sep", value: "Sep" },
+  { label: "Aug", value: "Aug" },
+  { label: "Nov", value: "Nov" },
+  { label: "Dec", value: "Dec" },
+];
+
+const getMonthFromDate = (date: string | undefined) => {
+  const monthNo = dayjs(date).month();
+  return monthOptions[monthNo].value;
+} 
+
 const getSiteStudyIdByStudyId = (data: any, studyId: number | string) => {
   return data?.find((item: any) => item?.studyId == studyId)?.siteStudyId ?? "";
 };
 
-const addOffsetToDate = (date: string | Date) => {
+const addOffsetToDate = (date: string | Date): string => {
   dayjs.extend(utc);
   return dayjs(date).utc(true).format("YYYY-MM-DD");
 };
@@ -320,6 +340,7 @@ const AddSubjectForm = ({
     delete values.zip;
     let payload = {
       ...values,
+      dateOfBirth: dropdowns.partialDateAllowed ? `01-Jan-${values?.dobYear}` : `${values?.dobDay}-${values?.dobMonth?.value ?? values?.dobMonth }-${values?.dobYear}`,
       idType: values?.idType?.value ?? values.idType,
       visitTypeId: values?.visitTypeId?.value ?? values?.visitTypeId,
       gender: values?.gender?.value ?? values?.gender,
@@ -329,6 +350,11 @@ const AddSubjectForm = ({
       siteStudyId:
         getSiteStudyIdByStudyId(protocolList, protocolId ?? "") ?? "",
     };
+
+    delete payload.dobDay;
+    delete payload.dobMonth;
+    delete payload.dobYear;
+
     if (ids) {
       (payload.userId = userId), (payload.subjectId = ids.subjectId);
       payload.lastSubjectEntryDate = new Date(
@@ -339,14 +365,18 @@ const AddSubjectForm = ({
       payload.indicationDetail = values.indicationDetails;
     }
 
-    if (dropdowns.partialDateAllowed) {
-      payload.dateOfBirth = `01-Jan-${values?.dateOfBirth}`;
-    }
+    // let dateOfBirth = '';
+    // if (dropdowns.partialDateAllowed) {
+    //   payload.dateOfBirth = `01-Jan-${values?.dateOfBirth}`;
+    //   dateOfBirth = `01-Jan-${values?.dateOfBirth}`;
+    // } else {
+    //   dateOfBirth = `${values?.dobDay}-${values?.dobMonth?.value}-${values?.dobYear}`
+    // }
 
     const validationPayload: SubjectFieldValidationPayloadType = {
       sponsorSubjectId: payload?.sponsorSubjectID,
       subjectId: ids?.subjectId ?? null,
-      studyId: payload.studyId,
+      studyId: payload?.studyId,
       dob: payload?.dateOfBirth,
       height: payload?.height,
       weight: payload?.weight,
@@ -458,12 +488,12 @@ const AddSubjectForm = ({
         firstNameInitials: subjectDetail.firstInitial,
         middleNameInitials: subjectDetail.middleInitial,
         lastNameInitials: subjectDetail.lastInitial,
-        dateOfBirth: dropdowns.partialDateAllowed
-          ? new Date(subjectDetail?.dateOfBirth).getFullYear()
-          : {
-              startDate: addOffsetToDate(subjectDetail.dateOfBirth),
-              endDate: addOffsetToDate(subjectDetail.dateOfBirth),
-            },
+        // dateOfBirth: dropdowns.partialDateAllowed
+        //   ? new Date(subjectDetail?.dateOfBirth).getFullYear()
+        //   :  addOffsetToDate(subjectDetail.dateOfBirth),
+        dobDay: dayjs(subjectDetail.dateOfBirth)?.date()?.toString(),
+        dobMonth: getMonthFromDate(subjectDetail?.dateOfBirth),
+        dobYear: dropdowns.partialDateAllowed ? new Date(subjectDetail?.dateOfBirth).getFullYear() : dayjs(subjectDetail.dateOfBirth)?.year()?.toString(),
         partialID: subjectDetail.nationalIdLastFourDigit,
         idType: subjectDetail.idType,
         gender: subjectDetail.gender,
@@ -490,7 +520,6 @@ const AddSubjectForm = ({
         value: subjectDetail.studyId,
         label: subjectDetail.protocolNumber,
       });
-
       setStudyId(subjectDetail.studyId);
     }
   };
@@ -632,22 +661,81 @@ const AddSubjectForm = ({
             <Input
               label="Date Of Birth (Year Only)"
               placeholder="Date Of Birth"
-              {...register("dateOfBirth", {
+              {...register("dobYear", {
                 required: "Year of Birth required",
                 validate: (value) =>
                   /^[0-9]{4}$/.test(value) || "Please enter a 4-digit year",
               })}
               type="number"
             />
-            {errors.dateOfBirth && (
+            {errors.dobYear && (
               <span className="text-red-500 -mt-10">
-                {errors.dateOfBirth.message as string}
+                {errors.dobYear.message as string}
               </span>
             )}
           </div>
         ) : (
-          <div className="col-span-1">
-            <Controller
+          <div className="col-span-2 sm:col-span-1">
+            <div className="mt-[5px] space-y-[7px]">
+              <span className="flex items-center gap-1">
+                <span className="text-sm">DOB</span>
+                {/* <span className="text-[11px] italic text-red-600">{`(Format: DD-MMM-YYYY)`}</span> */}
+              </span>
+              <div className="grid grid-cols-7 gap-1 w-full">
+                <div className="col-span-2 ">
+                  <Input
+                    {...register("dobDay", { required: "Enter day" })}
+                    className=""
+                    placeholder="DD"
+                    type="number"
+                    onInput={(e: any) => {
+                      const value = parseInt(e.target.value);
+                      if (isNaN(value) || value < 0 || value > 31) {
+                        e.target.value = "";
+                      }
+                    }}
+                  />
+                </div>
+                <div className="col-span-3">
+                  <Controller
+                    control={control}
+                    name="dobMonth"
+                    rules={{
+                      required: "Month is required",
+                    }}
+                    render={({ field: { onChange, onBlur, value } }: any) => (
+                      <Select
+                        placeholder="MMM"
+                        className="col-span-3"
+                        value={value}
+                        options={monthOptions}
+                        onChange={onChange}
+                      />
+                    )}
+                  />
+                </div>
+                <div className="col-span-2">
+                  <Input
+                    {...register("dobYear", { required: "Enter day" })}
+                    className="col-span-2"
+                    placeholder="YYYY"
+                    type="number"
+                    min={1800}
+                    onInput={(e: any) => {
+                      const value: string = e.target.value;
+                      if (value.length > 4) {
+                        e.target.value = "";
+                      }
+                    }}
+                  />
+                </div>
+              </div>
+
+              {(errors?.dobDay || errors?.dobMonth || errors?.dobYear) && (
+                <span className="text-red-500 -mt-10">DOB required!</span>
+              )}
+            </div>
+            {/* <Controller
               control={control}
               name="dateOfBirth"
               rules={{
@@ -655,6 +743,7 @@ const AddSubjectForm = ({
               }}
               render={({ field: { onChange, onBlur, value } }: any) => (
                 <CustomDatepicker
+                  value={dobValue}
                   wrapperClassName="mt-[5px] space-y-[7px]"
                   onChange={onChange}
                   customLevel={
@@ -670,7 +759,7 @@ const AddSubjectForm = ({
               <span className="text-red-500 -mt-10">
                 {errors.dateOfBirth.message as string}
               </span>
-            )}
+            )} */}
           </div>
         )}
 
