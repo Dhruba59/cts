@@ -538,10 +538,10 @@ const AddSubjectForm = ({
   return (
     <>
       <form
-        className="grid grid-cols-2 sm:grid-cols-4 gap-x-3 lg:gap-x-6 gap-y-6 mt-3"
+        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-3 lg:gap-x-6 gap-y-6 mt-3"
         onSubmit={handleSubmit(onSubmit)}
       >
-        <div className="col-span-2 sm:col-span-1">
+        <div className="col-span-1">
           <Input
             label={`Sponsor Subject ID `}
             span={
@@ -553,7 +553,7 @@ const AddSubjectForm = ({
                 </span>
               )
             }
-            placeholder={subjectIdFormat}
+            placeholder={subjectIdFormat === '' ? 'Sponsor ID' : subjectIdFormat}
             {...register("sponsorSubjectID", {
               required: "Sponsor id required.",
             })}
@@ -566,7 +566,7 @@ const AddSubjectForm = ({
             </span>
           )}
         </div>
-        <div className="col-span-2 sm:col-span-1">
+        <div className="col-span-1">
           <Label label="Subject Initials" className="inline-block mb-2" />
           <div className="grid grid-cols-3 gap-2 2xl:gap-4">
             <div>
@@ -675,13 +675,13 @@ const AddSubjectForm = ({
             )}
           </div>
         ) : (
-          <div className="col-span-2 sm:col-span-1">
+          <div className="col-span-1">
             <div className="mt-[5px] space-y-[7px]">
               <span className="flex items-center gap-1">
                 <span className="text-sm">DOB</span>
                 {/* <span className="text-[11px] italic text-red-600">{`(Format: DD-MMM-YYYY)`}</span> */}
               </span>
-              <div className="grid grid-cols-7 gap-1 w-full">
+              <div className="grid grid-cols-7 gap-2 w-full">
                 <div className="col-span-2 ">
                   <Input
                     {...register("dobDay", { required: "Enter day" })}
@@ -789,7 +789,7 @@ const AddSubjectForm = ({
         </div>
 
         <div className="w-full col-span-1">
-          <Label label="Last 4 SSN/NID" className="inline-block mb-2" />
+          <Label label="Last 4 SSN/National ID" className="inline-block mb-2" />
           <Controller
             control={control}
             name="partialID"
@@ -803,6 +803,7 @@ const AddSubjectForm = ({
             }}
             render={({ field: { onChange, onBlur, value } }: any) => (
               <InputFieldWithRegexValidation
+                placeholder="Last 4 SSN/National ID"
                 onBlur={onBlurIdField}
                 maxLength={4}
                 regex={/^(x{0,4}|X{0,4}|\d{0,4})$/i}
@@ -848,83 +849,86 @@ const AddSubjectForm = ({
           )}
         </div>
 
-        <div className="col-span-1">
-          <Label label="Height" className="inline-block mb-2" />
-          <Input
-            type="number"
-            step="0.01"
-            placeholder="Enter Height"
-            {...register("height", { required: "Height is required." })}
-            disabled={!protocolId && !ids}
-          />
-          {errors.height && (
-            <span className="text-red-500 -mt-10">
-              {errors.height.message as string}
-            </span>
-          )}
-        </div>
-        <div className="col-span-1">
-          <Label label="Height Unit" className="inline-block mb-2" />
-          <Controller
-            control={control}
-            name="heightUnit"
-            rules={{
-              required: "Height Unit is required!",
-            }}
-            render={({ field: { onChange, onBlur, value } }: any) => (
-              <Select
-                onChange={(option) => {
-                  onChange(option);
-                  handleWeightUnit(option);
-                }}
-                options={heightUnitOptions}
-                value={value}
-                isDisabled={!protocolId && !ids}
-              />
+        <div className="col-span-1 w-full flex gap-2">
+          <div className="w-full">
+            <Label label="Height" className="inline-block mb-2" />
+            <Input
+              type="number"
+              step="0.01"
+              placeholder="Enter Height"
+              {...register("height", { required: "Height is required." })}
+              disabled={!protocolId && !ids}
+            />
+            {errors.height && (
+              <span className="text-red-500 -mt-10">
+                {errors.height.message as string}
+              </span>
             )}
-          />
-          {errors.heightUnit && (
-            <span className="text-red-500 -mt-10">
-              {errors.heightUnit.message as string}
-            </span>
-          )}
+          </div>
+          <div className="w-full min-w-[80px]">
+            <Label label="Unit" className="inline-block mb-2" />
+            <Controller
+              control={control}
+              name="heightUnit"
+              rules={{
+                required: "Height Unit is required!",
+              }}
+              render={({ field: { onChange, onBlur, value } }: any) => (
+                <Select
+                  onChange={(option) => {
+                    onChange(option);
+                    handleWeightUnit(option);
+                  }}
+                  options={heightUnitOptions}
+                  value={value}
+                  isDisabled={!protocolId && !ids}
+                />
+              )}
+            />
+            {errors.heightUnit && (
+              <span className="text-red-500 -mt-10">
+                {errors.heightUnit.message as string}
+              </span>
+            )}
+          </div>
         </div>
 
-        <div className="col-span-1">
-          <Label label="Weight" className="inline-block mb-2" />
-          <Input
-            type="number"
-            step="0.01"
-            placeholder="Enter weight"
-            {...register("weight", { required: "Weight is required." })}
-            disabled={!protocolId && !ids}
-          />
-          {errors.weight && (
-            <span className="text-red-500 -mt-10">
-              {errors.weight.message as string}
-            </span>
-          )}
-        </div>
-
-        <div className="col-span-1">
-          <Label label="Weight Unit" className="inline-block mb-2" />
-          <Controller
-            control={control}
-            name="weightUnit"
-            render={({ field: { onChange, onBlur, value } }: any) => (
-              <Select
-                onChange={onChange}
-                options={weightUnitOptions}
-                value={value}
-                isDisabled={true}
-              />
+        <div className="col-span-1 w-full flex gap-2">
+          <div className="w-full">
+            <Label label="Weight" className="inline-block mb-2" />
+            <Input
+              type="number"
+              step="0.01"
+              placeholder="Enter weight"
+              {...register("weight", { required: "Weight is required." })}
+              disabled={!protocolId && !ids}
+            />
+            {errors.weight && (
+              <span className="text-red-500 -mt-10">
+                {errors.weight.message as string}
+              </span>
             )}
-          />
-          {errors.weightUnit && (
-            <span className="text-red-500 -mt-10">
-              {errors.weightUnit.message as string}
-            </span>
-          )}
+          </div>
+          <div className="w-full min-w-[80px]">
+            <Label label="Unit" className="inline-block mb-2" />
+            <Controller
+              control={control}
+              name="weightUnit"
+              render={({ field: { onChange, onBlur, value } }: any) => (
+                <Select
+                  onChange={onChange}
+                  options={weightUnitOptions}
+                  value={value}
+                  isDisabled={true}
+                />
+              )}
+            />
+            {errors.weightUnit && (
+              <span className="text-red-500 -mt-10">
+                {errors.weightUnit.message as string}
+              </span>
+            )}
+          </div>
         </div>
 
         {ids && (
@@ -1008,7 +1012,7 @@ const AddSubjectForm = ({
         )}
 
         {isDetailsRequired && (
-          <div className="col-span-2">
+          <div className="col-span-1 sm:col-span-2">
             <Label label="Details" className="inline-block mb-2" />
             <Textarea
               className="min-h-10 h-10"
@@ -1027,7 +1031,7 @@ const AddSubjectForm = ({
         )}
 
         {ids && (
-          <div className="col-span-2">
+          <div className="col-span-1 sm:col-span-2">
             <Label label="Request Notes" className="inline-block mb-2" />
             <Textarea
               className="min-h-10 h-10"
