@@ -74,9 +74,9 @@ const SubjectEntrySelectionTab = ({ currentTab, setCurrentTab, isPreScreen, subj
             )}
           </div>
           <div className="my-6">
-            {currentTab === "add" ? <AddSubjectForm dropdowns={dropdowns} protocolId={protocolId} subjectIdFormat={subjectEntryFormat} setSelectedProtocol={setSelectedProtocol} protocolList={protocolList} ids={ids} setStudyType={setStudyType} userId={userId} setUserId={setUserId}/>
+            {/* {currentTab === "add" ? <AddSubjectForm setIsReportModalOpen={} dropdowns={dropdowns} protocolId={protocolId} subjectIdFormat={subjectEntryFormat} setSelectedProtocol={setSelectedProtocol} protocolList={protocolList} ids={ids} setStudyType={setStudyType} userId={userId} setUserId={setUserId}/>
               : <SearchSubjectForm setQueryParams={setQueryParams} protocolId={protocolId} isLoadingSearch={isLoadingSearch}/>
-            }
+            } */}
           </div>
         {/* </> */}
       {/* } */}

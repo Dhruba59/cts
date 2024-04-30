@@ -34,7 +34,6 @@ import Alert from "@/components/ui/alert";
 import Modal from "@/components/modal";
 import { useRouter } from "next/navigation";
 import InputFieldWithRegexValidation from "@/components/ui/inputfield-with-regex";
-import ReprintPdf from "@/features/change-request/pdf/reprint-pdf";
 import {
   MatchReportQueryParams,
   SubjectFieldValidationPayloadType,
@@ -71,6 +70,9 @@ interface AddSubjectFormProps {
   userId?: number | null;
   setUserId?: Dispatch<SetStateAction<number | null>>;
   protocolList: any;
+  resetFields: () => void;
+  setMatchReportQueryParams: Dispatch<SetStateAction<MatchReportQueryParams | undefined>>;
+  setIsReportModalOpen: Dispatch<SetStateAction<boolean>>;
 }
 
 const monthOptions: SelectOptionType[] = [
@@ -113,6 +115,9 @@ const AddSubjectForm = ({
   setStudyType,
   userId,
   setUserId,
+  resetFields,
+  setIsReportModalOpen,
+  setMatchReportQueryParams
 }: AddSubjectFormProps) => {
   const [heightUnitOptions, setHeightUnitOptions] =
     useState<SelectOptionType[]>();
@@ -128,9 +133,6 @@ const AddSubjectForm = ({
   const [visitTypeOptions, setVisitTypeOptions] =
     useState<SelectOptionType[]>();
   const [nationalID, setNationalId] = useState<string>("");
-  const [isReportModalOpen, setIsReportModalOpen] = useState<boolean>(false);
-  const [matchReportQueryParams, setMatchReportQueryParams] =
-    useState<MatchReportQueryParams>();
 
   const [ageBmiWarningData, setAgeBmiWarningData] =
     useState<AgeBmiWarningDataType>({
@@ -152,12 +154,7 @@ const AddSubjectForm = ({
   const { mutate: validateFields, isLoading: isValidatingFields } =
     useValidateAgeBmi();
 
-  const { data: subjectMatchReport, isLoading: isLoadingSubjectMatchReport } =
-    useQuery({
-      queryFn: getSubjectMatchReport,
-      queryKey: ["reportReprintSubjects", matchReportQueryParams],
-      enabled: !!matchReportQueryParams,
-    });
+  
 
   const { data: subjectData, isLoading: isLoadingSubjectData } =
     useGetChangeReqSubjectDetails({
@@ -186,11 +183,6 @@ const AddSubjectForm = ({
   const openMatchReportModal = (subjectInfo: MatchReportQueryParams) => {
     setMatchReportQueryParams(subjectInfo);
     setIsReportModalOpen(true);
-    console.log("report", subjectInfo, matchReportQueryParams);
-  };
-
-  const closeMatchReportModal = () => {
-    setIsReportModalOpen(false);
   };
 
   const onBlurIdField = (e: any) => {
@@ -291,6 +283,7 @@ const AddSubjectForm = ({
           SubjectId: data?.data?.data?.subjectId,
           NationalTypeId: payload?.idType,
         });
+        resetFields();
       },
       onError: (error: any) => {
         toast.error(error.response.data.details);
@@ -1091,25 +1084,7 @@ const AddSubjectForm = ({
       >
         {idWarningMessage}
       </Modal>
-      <Modal
-        containerClassName="bg-transparent max-h-full !h-full top-0 max-w-full !w-full"
-        closeBtnClassName="bg-white rounded-full hover:scale-125 transition-all duration-200 right-8"
-        open={isReportModalOpen}
-        setOpen={setIsReportModalOpen}
-        onClose={() => closeMatchReportModal}
-      >
-        <div className="h-full w-full mt-6">
-          {isLoadingSubjectMatchReport ? (
-            <div className="h-[85vh] flex items-center justify-center">
-              <Spinner size="large" />{" "}
-            </div>
-          ) : (
-            <PDFViewer className="w-full h-[85vh]">
-              <ReprintPdf data={subjectMatchReport?.data} />
-            </PDFViewer>
-          )}
-        </div>
-      </Modal>
+      
       <Modal
         // triggerProp={<Edit />}
         open={ageBmiWarningData.isModalOpen}
