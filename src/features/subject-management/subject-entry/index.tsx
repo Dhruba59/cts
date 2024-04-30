@@ -9,7 +9,7 @@ import { SelectOptionType } from "@/model/drop-down-list";
 import { QueryClient, useQuery } from "react-query";
 import { getProtocolsByStudyId, getStudyType, getSubjectDropdowns, searchLastSubjects } from "@/service/subject-service";
 import { convertTypeToSelectOption } from "@/utils/helpers";
-import { Protocol, SearchLastSubjectsParams, SubjectEntryEditFormProps } from "@/model/subject";
+import { MatchReportQueryParams, Protocol, SearchLastSubjectsParams, SubjectEntryEditFormProps } from "@/model/subject";
 import { useSession } from "next-auth/react";
 import { USER_ROLE_ENUM } from "@/model/enum";
 import AddSubjectForm from "./subject-tab/add-subject-form";
@@ -20,6 +20,11 @@ import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 // import useProtocolListStore from "@/store";
 import { SortingState } from "@tanstack/react-table";
+import { getSubjectMatchReport } from "@/service/report-service";
+import Modal from "@/components/modal";
+import Spinner from "@/components/ui/spinner";
+import { PDFViewer } from "@react-pdf/renderer";
+import ReprintPdf from "@/features/change-request/pdf/reprint-pdf";
 
 const getProtocolsDropdown = (data: Protocol[]) => {
   return data?.map((protocol) => ({ value: protocol.studyId.toString(), label: protocol.protocolNumber }))
@@ -32,7 +37,7 @@ export const getSiteStudyIdByStudyId = (data: any, studyId: number | string) => 
 const SubjectEntryEditForm = ({ ids }: SubjectEntryEditFormProps) => {
   const [studyTypeOptions, setStudyTypeOptions] = useState<SelectOptionType[]>([]);
   const [protocolOptions, setProtocolOptions] = useState<SelectOptionType[]>([]);
-  const [selectedProtocol, setSelectedProtocol] = useState<SelectOptionType>();
+  const [selectedProtocol, setSelectedProtocol] = useState<SelectOptionType | undefined>();
   const [selectedStudy, setSelectedStudy] = useState<SelectOptionType>();
   const [userId, setUserId] = useState<number | null>(null);
   const [pageSize, setPageSize] = useState<number>(DEFAULT_PAGE_SIZE);
@@ -41,6 +46,9 @@ const SubjectEntryEditForm = ({ ids }: SubjectEntryEditFormProps) => {
   const [isPreScreen, setIsPreScreen] = useState<boolean>(false);
   const [subjectEntryFormat, setSubjectEntryFormat] = useState<string>('');
   const [sorting, setSorting] = useState<SortingState>([]);
+  const [isReportModalOpen, setIsReportModalOpen] = useState<boolean>(false);
+  const [matchReportQueryParams, setMatchReportQueryParams] =
+    useState<MatchReportQueryParams>();
 
   const { data: session } = useSession();
   const router = useRouter();
@@ -51,6 +59,13 @@ const SubjectEntryEditForm = ({ ids }: SubjectEntryEditFormProps) => {
   const { data: studyTypeData } = useQuery('studyType', {
     queryFn: getStudyType,
   });
+
+  const { data: subjectMatchReport, isLoading: isLoadingSubjectMatchReport } =
+    useQuery({
+      queryFn: getSubjectMatchReport,
+      queryKey: ["reportReprintSubjects", matchReportQueryParams],
+      enabled: !!matchReportQueryParams,
+    });
 
   const { data: subjectList, isLoading: isSubjectLoading, isRefetching: isRefetchingSubject, refetch } = useQuery({
     queryFn: searchLastSubjects,
@@ -88,6 +103,15 @@ const SubjectEntryEditForm = ({ ids }: SubjectEntryEditFormProps) => {
         return { PageNumber: page };
       }
     });
+  };
+
+  const resetFields = () => {
+    setSelectedStudy(studyTypeOptions[0] ?? '');
+    setSelectedProtocol(undefined);
+  }
+
+  const closeMatchReportModal = () => {
+    setIsReportModalOpen(false);
   };
 
   useEffect(() => {
@@ -222,13 +246,13 @@ const SubjectEntryEditForm = ({ ids }: SubjectEntryEditFormProps) => {
           </div>
           {((userRole == USER_ROLE_ENUM.SITE_USER && selectedProtocol?.value) || ids) &&
             <div>
-              <AddSubjectForm dropdowns={dropdowns?.data || []} protocolId={selectedProtocol?.value} subjectIdFormat={subjectEntryFormat} restSubjectIdFormat={restSubjectIdFormat} setSelectedProtocol={setSelectedProtocol} ids={ids} setStudyType={setSelectedStudy} protocolList={protocolList?.data.protocols} userId={userId} setUserId={setUserId}/>
+              <AddSubjectForm dropdowns={dropdowns?.data || []} resetFields={resetFields}  setIsReportModalOpen={setIsReportModalOpen} setMatchReportQueryParams={setMatchReportQueryParams} protocolId={selectedProtocol?.value} subjectIdFormat={subjectEntryFormat} restSubjectIdFormat={restSubjectIdFormat} setSelectedProtocol={setSelectedProtocol} ids={ids} setStudyType={setSelectedStudy} protocolList={protocolList?.data.protocols} userId={userId} setUserId={setUserId}/>
             </div>}
           {((userRole == USER_ROLE_ENUM.SYSTEM_ADMIN && selectedProtocol?.value && !ids)) &&
             <div>
               <SearchSubjectForm setQueryParams={setQueryParams} protocolId={selectedProtocol?.value} isLoadingSearch={isSubjectLoading}/>
             </div>}
-          {userRole !== USER_ROLE_ENUM.SITE_USER && userRole !== USER_ROLE_ENUM.SYSTEM_ADMIN && !ids && selectedProtocol?.value && <SubjectEntrySelectionTab currentTab={currentTab} setCurrentTab={setCurrentTab} ids={ids} isPreScreen={isPreScreen} subjectEntryFormat={subjectEntryFormat} protocolList={protocolList?.data.protocols} protocolId={selectedProtocol?.value} setSelectedProtocol={setSelectedProtocol} setQueryParams={setQueryParams} dropdowns={dropdowns?.data || []} setStudyType={setSelectedStudy} userId={userId} setUserId={setUserId} isLoadingSearch={isSubjectLoading}/>}
+          {/* {userRole !== USER_ROLE_ENUM.SITE_USER && userRole !== USER_ROLE_ENUM.SYSTEM_ADMIN && !ids && selectedProtocol?.value && <SubjectEntrySelectionTab currentTab={currentTab} setCurrentTab={setCurrentTab} ids={ids} isPreScreen={isPreScreen} subjectEntryFormat={subjectEntryFormat} protocolList={protocolList?.data.protocols} protocolId={selectedProtocol?.value} setSelectedProtocol={setSelectedProtocol} setQueryParams={setQueryParams} dropdowns={dropdowns?.data || []} setStudyType={setSelectedStudy} userId={userId} setUserId={setUserId} isLoadingSearch={isSubjectLoading}/>} */}
         </div>
       </div>
       {((userRole == USER_ROLE_ENUM.SYSTEM_ADMIN && selectedProtocol?.value && !ids)) &&
@@ -243,6 +267,25 @@ const SubjectEntryEditForm = ({ ids }: SubjectEntryEditFormProps) => {
             setPageSize={setPageSize}
           />
         </div>}
+        <Modal
+        containerClassName="bg-transparent max-h-full !h-full top-0 max-w-full !w-full"
+        closeBtnClassName="bg-white rounded-full hover:scale-125 transition-all duration-200 right-8"
+        open={isReportModalOpen}
+        setOpen={setIsReportModalOpen}
+        onClose={() => closeMatchReportModal}
+      >
+        <div className="h-full w-full mt-6">
+          {isLoadingSubjectMatchReport ? (
+            <div className="h-[85vh] flex items-center justify-center">
+              <Spinner size="large" />{" "}
+            </div>
+          ) : (
+            <PDFViewer className="w-full h-[85vh]">
+              <ReprintPdf data={subjectMatchReport?.data} />
+            </PDFViewer>
+          )}
+        </div>
+      </Modal>
       {/* {
         currentTab === "last" && (
           <ListTable data={subjectList?.data} isLoading={isSubjectLoading} protocolId={selectedProtocol?.value} />
