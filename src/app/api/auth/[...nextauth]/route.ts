@@ -11,35 +11,42 @@ export async function getAccessToken(credentials:any){
   const res = await login(credentials);
 
   // add token to cookies
-  cookies().set('accessToken', res.data.token.accessToken, { secure: true });
-  cookies().set('refreshToken', res.data.token.refreshToken, { secure: true });
+  //cookies().set('accessToken', res.data.token.accessToken, { secure: true });
+  //cookies().set('refreshToken', res.data.token.refreshToken, { secure: true });
   
   // remove token from cookies
-  delete res.data.token.accessToken;
-  delete res.data.token.refreshToken;
+  //delete res.data.token.accessToken;
+  //delete res.data.token.refreshToken;
 
   //console.log(res)
   return res;
 }
 async function refreshAccessToken(token: any) {
-  const cookieStore = cookies()
-  const accessToken = cookieStore.get('accessToken')  
+  //const cookieStore = cookies()
+  //const accessToken = cookieStore.get('accessToken')?.value;  
+  const accessToken = token.user.token.accessToken
+  //console.log(accessToken?.value);
+
   const instance = axios.create({
     baseURL: process.env.NEXT_PUBLIC_API_BASE_URL,
     headers: {
       Apikey: process.env.NEXT_PUBLIC_API_KEY,
-      //Authorization: `Bearer ${token.user.token.accessToken}`,
-      Authorization: `Bearer ${accessToken}`,
+      Authorization: `Bearer ${accessToken}`
     },
   });
 
   try {
     
-    const refreshToken = cookieStore.get('refreshToken')  
+    //const refreshToken = cookieStore.get('refreshToken')?.value;   
+    const refreshToken = token.user.token.refreshToken;
+    //console.log(refreshToken);
+
     const response = await instance.post("Auth/refresh", {
-      //refreshToken: token.user.token.refreshToken,
       refreshToken: refreshToken
     });
+
+    //console.log(response.status);
+
     if (response.status != 200) {
       return {
         ...token,
@@ -47,12 +54,13 @@ async function refreshAccessToken(token: any) {
       };
     }
 
-    cookies().set('accessToken', response.data.accessToken, { secure: true });
-    cookies().set('refreshToken', response.data.refreshToken, { secure: true });
+    // add token into cookies
+    //cookies().set('accessToken', response.data.accessToken, { secure: true });
+    //cookies().set('refreshToken', response.data.refreshToken, { secure: true });
     
     // remove token from cookies
-    delete response.data.accessToken;
-    delete response.data.refreshToken;
+    //delete response.data.accessToken;
+    //delete response.data.refreshToken;
 
     token.user.token = {
       ...response?.data,

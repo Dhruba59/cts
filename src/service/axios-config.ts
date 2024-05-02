@@ -10,10 +10,15 @@ const instance = axios.create({
 });
 
 instance.interceptors.request.use(async (request) => {
-  //const session = await getSession();
-  const accessToken = getCookie("accessToken");
+
+  //const accessToken = getCookie("accessToken");
+  //console.log(accessToken);
+  
+  const session = await getSession();
   //@ts-ignore
-  //const accessToken = session?.user?.token?.accessToken;
+  const accessToken = session?.user?.token?.accessToken;
+  //console.log(accessToken);
+
   if (typeof window !== "undefined") {
     request.headers["Authorization"] = `Bearer ${accessToken}`;
   }

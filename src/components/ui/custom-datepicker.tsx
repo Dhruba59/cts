@@ -18,13 +18,13 @@ const monthOptions: SelectOptionType[] = [
   { label: "Sep", value: "Sep" },
   { label: "Aug", value: "Aug" },
   { label: "Nov", value: "Nov" },
-  { label: "Dec", value: "Dec" },
+  { label: "Dec", value: "Dec" }
 ];
 
 const getMonthFromDate = (date: string | undefined) => {
   const monthNo = dayjs(date).month();
   return monthOptions[monthNo];
-} 
+};
 
 interface CustomDatePickerValueType {
   day: string;
@@ -45,12 +45,18 @@ const CustomDatepicker = ({
   label,
   onChange,
   customLevel,
-  wrapperClassName,
+  wrapperClassName
 }: CustomDatePickerProps) => {
-  console.log(value);
-  const [day, setDay] = useState<string | undefined>(value && dayjs(value)?.day()?.toString());
-  const [year, setYear] = useState<string | undefined>(value && dayjs(value)?.year()?.toString());
-  const [month, setMonth] = useState<SelectOptionType | undefined>(value ? getMonthFromDate(value) : undefined);
+  //console.log(value);
+  const [day, setDay] = useState<string | undefined>(
+    value && dayjs(value)?.day()?.toString()
+  );
+  const [year, setYear] = useState<string | undefined>(
+    value && dayjs(value)?.year()?.toString()
+  );
+  const [month, setMonth] = useState<SelectOptionType | undefined>(
+    value ? getMonthFromDate(value) : undefined
+  );
 
   const handleSelect = (option: SingleValue<SelectOptionType>) => {
     setMonth(option ?? undefined);
@@ -64,12 +70,12 @@ const CustomDatepicker = ({
   }, [value]);
 
   const handleOnChange = () => {
-      if (!day || !month?.value || !year) {
-        return;
-      } else {
-        onChange(`${day}-${month?.value}-${year}`);
-      }
+    if (!day || !month?.value || !year) {
+      return;
+    } else {
+      onChange(`${day}-${month?.value}-${year}`);
     }
+  };
 
   const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
     const inputName = e.target.name;
@@ -95,8 +101,8 @@ const CustomDatepicker = ({
   //     onChange(`${day}-${month?.value}-${year}`);
   //   }
   // }, [month, day, year]);
-// @ts-ignore
-  console.log('update value date', dayjs(value), dayjs(value).year());
+  // @ts-ignore
+  //console.log('update value date', dayjs(value), dayjs(value).year());
 
   return (
     <div className={wrapperClassName}>

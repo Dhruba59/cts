@@ -21,8 +21,8 @@ const handleLogout = () => {
   localStorage.removeItem(STORAGE_KEY.AUTH_TOKEN);
   const currentDomain = window.location.origin;
   // delete cookies
-  deleteCookie("accessToken");
-  deleteCookie("refreshToken");
+  //deleteCookie("accessToken");
+  //deleteCookie("refreshToken");
   signOut({ callbackUrl: `${currentDomain}/auth/login` });
 };
 

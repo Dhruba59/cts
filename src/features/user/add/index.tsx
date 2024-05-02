@@ -440,7 +440,7 @@ const AddUser = ({ id }: AddUserProps) => {
         ])
       });
       updateFieldsWithUserData(userData?.data);
-      console.log('updating')
+      //console.log('updating')
     }
   }, [userData, dropdowns]);
 

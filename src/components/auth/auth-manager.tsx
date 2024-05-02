@@ -16,7 +16,7 @@ const AuthManager = ({ children }: any) => {
 
   useEffect(() => {
     const checkToken = () => {
-      console.log(data);
+      //console.log(data);
       if (data) {
         // old method to check token
         // const decodedToken = jwtDecode(data?.user?.token?.accessToken);
