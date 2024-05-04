@@ -14,15 +14,10 @@ import { useThemeContext } from "@/context/theme-context";
 import { signOut, useSession } from "next-auth/react";
 import { getUserRoleFromValue } from "@/utils/helpers";
 import { useShouldRenderComponentOnResize } from "@/hooks/resize-hook";
-
-import { deleteCookie } from "cookies-next";
-
+import { getRoleFromCookies } from "@/utils/session";
 const handleLogout = () => {
   localStorage.removeItem(STORAGE_KEY.AUTH_TOKEN);
   const currentDomain = window.location.origin;
-  // delete cookies
-  //deleteCookie("accessToken");
-  //deleteCookie("refreshToken");
   signOut({ callbackUrl: `${currentDomain}/auth/login` });
 };
 
@@ -64,9 +59,7 @@ const Header = () => {
   };
 
   useEffect(() => {
-    setUserRole(
-      getUserRoleFromValue(localStorage.getItem(STORAGE_KEY.ROLE) ?? "")
-    );
+    setUserRole(getUserRoleFromValue(getRoleFromCookies() ?? ""));
   }, []);
 
   return (

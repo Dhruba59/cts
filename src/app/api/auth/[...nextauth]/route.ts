@@ -5,7 +5,7 @@ import axios from 'axios';
 import type { NextAuthOptions } from 'next-auth';
 import NextAuth from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
-import { cookies } from 'next/headers'
+//import { cookies } from 'next/headers'
 
 export async function getAccessToken(credentials:any){
   const res = await login(credentials);
