@@ -14,7 +14,7 @@ export const setRemember = (username: string, password:string, role: USER_ROLE_E
     setCookie(STORAGE_KEY.REMEMBER_ME, cipherText,{secure: true});
 }
 export const getRememberData = () => {
-  // const cookieData = cookies().get(STORAGE_KEY.REMEMBER_ME);
+
   const cookieData = getCookie(STORAGE_KEY.REMEMBER_ME);
   const isCookie = hasCookie(STORAGE_KEY.REMEMBER_ME);
 
@@ -24,12 +24,9 @@ export const getRememberData = () => {
     const plainText = bytes.toString(CryptoJS.enc.Utf8);
     return  JSON.parse(plainText);
   }
-  // if(localStorage.getItem(STORAGE_KEY.REMEMBER_ME) && localStorage.getItem(STORAGE_KEY.REMEMBER_ME) !== null) {
-  //   return JSON.parse(localStorage.getItem(STORAGE_KEY.REMEMBER_ME) as string);
-  // }
+
 }
 export const deleteRemember= () => {
-  //localStorage.removeItem(STORAGE_KEY.REMEMBER_ME);
   deleteCookie(STORAGE_KEY.REMEMBER_ME);
 }
 

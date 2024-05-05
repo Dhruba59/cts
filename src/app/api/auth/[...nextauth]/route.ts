@@ -1,66 +1,39 @@
 import { ERROR } from '@/constants/common';
 import { login } from '@/service/auth-service';
-
 import axios from 'axios';
 import type { NextAuthOptions } from 'next-auth';
 import NextAuth from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
-//import { cookies } from 'next/headers'
+
 
 export async function getAccessToken(credentials:any){
   const res = await login(credentials);
-
-  // add token to cookies
-  //cookies().set('accessToken', res.data.token.accessToken, { secure: true });
-  //cookies().set('refreshToken', res.data.token.refreshToken, { secure: true });
-  
-  // remove token from cookies
-  //delete res.data.token.accessToken;
-  //delete res.data.token.refreshToken;
-
-  //console.log(res)
   return res;
 }
 async function refreshAccessToken(token: any) {
-  //const cookieStore = cookies()
-  //const accessToken = cookieStore.get('accessToken')?.value;  
   const accessToken = token.user.token.accessToken
-  //console.log(accessToken?.value);
 
   const instance = axios.create({
-    baseURL: process.env.NEXT_PUBLIC_API_BASE_URL,
+    baseURL: process.env.API_BASE_URL,
     headers: {
-      Apikey: process.env.NEXT_PUBLIC_API_KEY,
+      Apikey: process.env.API_KEY,
       Authorization: `Bearer ${accessToken}`
     },
   });
 
   try {
     
-    //const refreshToken = cookieStore.get('refreshToken')?.value;   
     const refreshToken = token.user.token.refreshToken;
-    //console.log(refreshToken);
-
     const response = await instance.post("Auth/refresh", {
       refreshToken: refreshToken
     });
-
-    //console.log(response.status);
-
+    //const response = await refreshToken(_refreshToken);
     if (response.status != 200) {
       return {
         ...token,
         error: ERROR.REFRESH_ACCESS_TOKEN,
       };
     }
-
-    // add token into cookies
-    //cookies().set('accessToken', response.data.accessToken, { secure: true });
-    //cookies().set('refreshToken', response.data.refreshToken, { secure: true });
-    
-    // remove token from cookies
-    //delete response.data.accessToken;
-    //delete response.data.refreshToken;
 
     token.user.token = {
       ...response?.data,
