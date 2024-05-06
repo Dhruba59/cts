@@ -27,13 +27,25 @@ const LoginForm = () => {
   const [isHelpModalOpen, setIsHelpModalOpen] = useState<boolean>(false);
 
   useEffect(() => {
-    const rememberData = getRememberData();
-    if (rememberData) {
-      const isRememberMe = rememberData ?? false;
-      setIsRemember(isRememberMe);
-      rememberData?.role && setRole(rememberData?.role);
-      setRememberMeData(rememberData);
-    }
+    const getSetData = async () => {
+      try {
+        const rememberData = await getRememberData();
+        if (rememberData) {
+          const isRememberMe = rememberData ?? false;
+          // @ts-ignore
+          setIsRemember(isRememberMe);
+          // @ts-ignore
+          rememberData?.role && setRole(rememberData?.role);
+          // @ts-ignore
+          setRememberMeData(rememberData);
+          //console.log(rememberData)
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    getSetData();
   }, []);
 
   const router = useRouter();
@@ -83,7 +95,7 @@ const LoginForm = () => {
           name="user-type"
           label="User Type:"
           labelClassName="my-auto"
-          selectedValue={rememberMeData?.role.toString()}
+          selectedValue={rememberMeData?.role?.toString()}
           rootClassName="flex justify-between items-center"
           className="flex gap-5"
           onChange={onRoleChange}

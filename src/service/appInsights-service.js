@@ -1,3 +1,5 @@
+'use server'
+
 import { ApplicationInsights } from "@microsoft/applicationinsights-web";
 import {
   ReactPlugin,
@@ -7,7 +9,7 @@ import {
 const reactPlugin = new ReactPlugin();
 const ai = new ApplicationInsights({
   config: {
-    instrumentationKey: process.env.NEXT_PUBLIC_APPINSIGHTS_KEY,
+    instrumentationKey: process.env.APPINSIGHTS_KEY,
     extensions: [reactPlugin]
   }
 });

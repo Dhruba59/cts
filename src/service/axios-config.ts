@@ -1,22 +1,16 @@
 import axios, { AxiosRequestConfig } from "axios";
 import { getSession } from "next-auth/react";
+import { getApiKey, getApiBaseUrl } from "@/utils/server-functions";
 
 
-const instance = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_BASE_URL,
-  headers: { Apikey: process.env.NEXT_PUBLIC_API_KEY },
-});
-
+const instance = axios.create();
 instance.interceptors.request.use(async (request) => {
-
-  //const accessToken = getCookie("accessToken");
-  //console.log(accessToken);
-  
   const session = await getSession();
+  const apiKey = await getApiKey();
+  request.baseURL = await getApiBaseUrl();
+  request.headers['Apikey'] = apiKey ? apiKey : '';
   //@ts-ignore
   const accessToken = session?.user?.token?.accessToken;
-  //console.log(accessToken);
-
   if (typeof window !== "undefined") {
     request.headers["Authorization"] = `Bearer ${accessToken}`;
   }

@@ -59,7 +59,19 @@ const Header = () => {
   };
 
   useEffect(() => {
-    setUserRole(getUserRoleFromValue(getRoleFromCookies() ?? ""));
+    const getSetRole = async () => {
+      try {
+        const role = await getRoleFromCookies();
+        if (role) {
+          setUserRole(getUserRoleFromValue(role ?? ""));
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    getSetRole();
+    
   }, []);
 
   return (
