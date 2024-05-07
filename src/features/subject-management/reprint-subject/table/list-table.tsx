@@ -1,3 +1,4 @@
+"use client";
 import SimpleTable from "@/components/table/simpleTable";
 import { Dispatch, SetStateAction, useEffect, useMemo, useState } from "react";
 import { LIST_COLUMN, getColumns } from "./columns";
