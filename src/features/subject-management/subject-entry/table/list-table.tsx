@@ -1,3 +1,4 @@
+"use client";
 import { useEffect, useState } from "react";
 import { getListColumn } from "./columns";
 import ExpandableTable from "@/components/table/expandableTable";

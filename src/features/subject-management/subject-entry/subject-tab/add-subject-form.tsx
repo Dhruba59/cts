@@ -40,7 +40,6 @@ import {
 } from "@/model/subject";
 import { useQuery } from "react-query";
 import { getSubjectMatchReport } from "@/service/report-service";
-import { PDFViewer } from "@react-pdf/renderer";
 import Spinner from "@/components/ui/spinner";
 import { apiResponseToast } from "@/utils/toast";
 import { toast } from "react-toastify";
