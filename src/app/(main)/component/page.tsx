@@ -23,34 +23,34 @@ export default function Dashboard() {
   const data = useMemo(() => USERS, []);
 
 
-  const {connection} = useHubContext();
+  //const {connection} = useHubContext();
 
   useEffect(() => {
 
-    connection.on("UserConnected", (connectionId) => {
+    //connection.on("UserConnected", (connectionId) => {
       // TODO: add this conectionId for further uses
-      console.log(connectionId);
-    });
+      //console.log(connectionId);
+    //});
 
-    connection.on("UserDisconnected", (connectionId) => {
-      // TODO: remove this connectionId from list
-      console.log(connectionId);
-    });
+    // connection.on("UserDisconnected", (connectionId) => {
+    //   // TODO: remove this connectionId from list
+    //   console.log(connectionId);
+    // });
 
-    connection.on("OnlineUsersCount", (message) => {
-      setTotalUser(message);
-      console.log(`Total User connected: ${message}`);
-    });
+    // connection.on("OnlineUsersCount", (message) => {
+    //   setTotalUser(message);
+    //   console.log(`Total User connected: ${message}`);
+    // });
 
     //setConnection(connection);
   }, []);
 
   const sendMessage = async () => {
     //if (connection) await connection.send("GetOnlineUsersCount");
-    if (connection)
-      await connection.invoke("GetOnlineUsersCount").catch((error) => {
-        return console.error(error.toString());
-      });
+    // if (connection)
+    //   await connection.invoke("GetOnlineUsersCount").catch((error) => {
+    //     return console.error(error.toString());
+    //   });
   };
 
   return (

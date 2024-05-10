@@ -2,12 +2,9 @@
 import Button from "@/components/ui/button";
 import Input from "@/components/ui/input";
 import { RadioButton, RadioGroup } from "@/components/ui/radio";
-
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import Checkbox, { CheckboxGroup } from "@/components/ui/checkbox";
 import Toggle from "@/components/ui/toggle";
-import { USER_COLUMN, USERS } from "@/components/table/mockData";
-import SimpleTable from "@/components/table/simpleTable";
 import Textarea from "@/components/ui/textarea";
 import Select from "@/components/ui/select";
 
@@ -19,8 +16,7 @@ export default function Home() {
     { value: "orchestra", label: "Orchestra" }
   ];
 
-  const columns = useMemo(() => USER_COLUMN, []);
-  const data = useMemo(() => USERS, []);
+
 
   return (
     <main className="p-16">
@@ -64,7 +60,6 @@ const Radio = () => {
   const [selectedValue, setSelectedValue] = useState("Banana");
 
   function handleFruitSelection(event: React.ChangeEvent<HTMLInputElement>) {
-    //console.log(event.target.value);
     setSelectedValue(event.target.value);
   }
 

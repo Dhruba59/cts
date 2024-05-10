@@ -21,21 +21,19 @@ export const metadata: Metadata = {
   title: "CTSdatabase",
   description: "Clinical Trial Database",
   manifest: "/manifest.json"
-}
+};
 
 export const viewport: Viewport = {
   themeColor: "#FFFFFF"
-}
+};
 
 export default async function RootLayout({
   children
-}: {
+}: Readonly<{
   children: React.ReactNode;
-}) {
+}>) {
   const session = await getServerSession(authOptions);
 
-  const apiKey = `${process.env.API_KEY}`;
-  const hubUrl = `${process.env.HUB_URL}`;
 
   return (
     <html lang="en">
@@ -45,9 +43,9 @@ export default async function RootLayout({
             <AuthManager>
               <ThemeContextProvider>
                 <MenuItemsContextProvider>
-                  <HubConnectionProvider apiKey={apiKey} hubUrl={hubUrl}>
-                    {children}
-                  </HubConnectionProvider>
+                  {/* <HubConnectionProvider apiKey={apiKey} hubUrl={hubUrl}> */}
+                  {children}
+                  {/* </HubConnectionProvider> */}
                   <ToastContainer />
                 </MenuItemsContextProvider>
               </ThemeContextProvider>

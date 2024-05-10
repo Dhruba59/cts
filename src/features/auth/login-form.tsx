@@ -31,7 +31,7 @@ const LoginForm = () => {
       try {
         const rememberData = await getRememberData();
         if (rememberData) {
-          const isRememberMe = rememberData ?? false;
+          const isRememberMe = rememberData ? true : false;
           // @ts-ignore
           setIsRemember(isRememberMe);
           // @ts-ignore
@@ -48,7 +48,7 @@ const LoginForm = () => {
     getSetData();
   }, []);
 
-  const router = useRouter();
+
   const onRoleChange = (event: any) => {
     setRole(event.target.value);
   };
@@ -67,6 +67,7 @@ const LoginForm = () => {
       redirect: false
     }).then((res: any) => {
       if (res.ok) {
+        //console.log({isRemember: isRemember})
         if (isRemember) {
           setRemember(payload.username, payload.password, payload.role);
         } else {

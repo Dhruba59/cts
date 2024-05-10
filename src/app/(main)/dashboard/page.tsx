@@ -171,15 +171,10 @@ export default function Dashboard() {
 
   const {data: session, update} = useSession();
 
-  const options = [
-    { value: "blues", label: "Blues" },
-    { value: "rock", label: "Rock" },
-    { value: "jazz", label: "Jazz" },
-    { value: "orchestra", label: "Orchestra" }
-  ];
+
 
   const [openDisclaimerModal, setOpenDisclaimerModal] = useState<React.ReactNode>(null);
-  const [id, setId] = useState<number>(0);
+  //const [id, setId] = useState<number>(0);
 
   const onAccept = () => {
     setOpenDisclaimerModal(null);
