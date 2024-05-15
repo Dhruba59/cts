@@ -12,7 +12,7 @@ import { RadioButton, RadioGroup } from "@/components/ui/radio";
 import HelpModal from "@/features/auth/help-modal";
 import {
   getRememberData,
-  setRemember,
+  addRememberData,
   setRoleIntoCookies,
   deleteRemember
 } from "@/utils/session";
@@ -27,11 +27,12 @@ const LoginForm = () => {
   const [isHelpModalOpen, setIsHelpModalOpen] = useState<boolean>(false);
   const router = useRouter();
   const pathname = usePathname();
-  
+
   useEffect(() => {
     const getSetData = async () => {
       try {
         const rememberData = await getRememberData();
+        //console.log(rememberData)
         if (rememberData) {
           const isRememberMe = rememberData ? true : false;
           // @ts-ignore
@@ -69,10 +70,12 @@ const LoginForm = () => {
       redirect: false
     }).then((res: any) => {
       if (res.ok) {
-        console.log( payload.role)
+        //console.log(payload.role)
         if (isRemember) {
-          setRemember(payload.username, payload.password, payload.role);
+          //console.log({ "isRemember": isRemember })
+          addRememberData(payload.username, payload.password, payload.role);
         } else {
+          //console.log('delete remember')
           deleteRemember();
         }
         setRoleIntoCookies(payload.role.toString());
@@ -81,11 +84,11 @@ const LoginForm = () => {
         toast.error(res.error, { position: "top-center" });
       }
       setIsLoading(false);
-      if(payload.role == 4){
+      if (payload.role == 4) {
         router.push("/change-request/dashboard");
-      }else{
+      } else {
         router.push("/subject-management/enter-study-subject");
-      }     
+      }
     });
   };
 

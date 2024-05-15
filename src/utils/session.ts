@@ -4,7 +4,7 @@ import { getCookie, hasCookie, setCookie, deleteCookie } from "cookies-next";
 import * as CryptoJS from "crypto-js";
 import { getApiKey } from "./server-functions";
 
-export const setRemember = async (
+export const addRememberData = async (
   username: string,
   password: string,
   role: USER_ROLE_ENUM
@@ -15,6 +15,7 @@ export const setRemember = async (
     role
   };
 
+  //console.log(data);
   const apiKey = await getApiKey();
   // @ts-ignore
   const cipherText = CryptoJS.AES.encrypt(
@@ -22,6 +23,7 @@ export const setRemember = async (
     // @ts-ignore
     apiKey
   );
+  //setCookie('test', 'test', { secure: true });
   setCookie(STORAGE_KEY.REMEMBER_ME, cipherText, { secure: true });
 };
 export const getRememberData = async () => {
@@ -37,6 +39,7 @@ export const getRememberData = async () => {
       apiKey
     );
     const plainText = bytes.toString(CryptoJS.enc.Utf8);
+    //console.log(plainText)
     return JSON.parse(plainText);
   }
 };

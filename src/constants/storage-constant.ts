@@ -3,6 +3,6 @@ export const STORAGE_KEY = {
   ACCESS_TOKEN: 'accessToken',
   REFRESH_TOKEN: 'refreshToken',
   AUTH_TOKEN: 'authToken',
-  REMEMBER_ME: 'next-auth.session-re',
+  REMEMBER_ME: 'next-auth.session-rem',
   ROLE: 'next-auth.session-ro'
 }
