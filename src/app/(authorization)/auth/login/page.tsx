@@ -9,7 +9,6 @@ const LoginPage = () => {
         <Image
           src="/hero-image-1416x1856.png"
           alt="hero-image"
-          layout="cover"
           width={1416}
           height={1856}
           quality={100}
