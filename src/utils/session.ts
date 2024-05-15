@@ -9,21 +9,19 @@ export const addRememberData = async (
   password: string,
   role: USER_ROLE_ENUM
 ) => {
+
+  //setCookie(STORAGE_KEY.REMEMBER_ME, 'test', { secure: true });
+  const apiKey = await getApiKey();
   const data = {
     username,
     password,
     role
   };
 
-  //console.log(data);
-  const apiKey = await getApiKey();
+
   // @ts-ignore
-  const cipherText = CryptoJS.AES.encrypt(
-    JSON.stringify(data),
-    // @ts-ignore
-    apiKey
-  );
-  //setCookie('test', 'test', { secure: true });
+  const cipherText = CryptoJS.AES.encrypt(JSON.stringify(data), apiKey);
+  //console.log(cipherText);
   setCookie(STORAGE_KEY.REMEMBER_ME, cipherText, { secure: true });
 };
 export const getRememberData = async () => {
@@ -50,11 +48,7 @@ export const deleteRemember = () => {
 export const setRoleIntoCookies = async (roleName: string) => {
   const apiKey = await getApiKey();
   // @ts-ignore
-  const cipherText = CryptoJS.AES.encrypt(
-    roleName,
-    // @ts-ignore
-    apiKey
-  );
+  const cipherText = CryptoJS.AES.encrypt(roleName, apiKey);
   setCookie(STORAGE_KEY.ROLE, cipherText, { secure: true });
 };
 
