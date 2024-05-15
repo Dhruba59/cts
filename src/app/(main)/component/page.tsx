@@ -8,7 +8,7 @@ import CardDataStats from "@/components/CardDataStats";
 import { useEffect, useMemo, useState } from "react";
 import { USERS, USER_COLUMN } from "@/components/table/mockData";
 import Select from "@/components/ui/select";
-import {useHubContext } from "@/context/hub-connection-context";
+import { useHubContext } from "@/context/hub-connection-context";
 
 export default function Dashboard() {
   const options = [
@@ -28,8 +28,8 @@ export default function Dashboard() {
   useEffect(() => {
 
     //connection.on("UserConnected", (connectionId) => {
-      // TODO: add this conectionId for further uses
-      //console.log(connectionId);
+    // TODO: add this conectionId for further uses
+    //console.log(connectionId);
     //});
 
     // connection.on("UserDisconnected", (connectionId) => {
@@ -102,7 +102,7 @@ export default function Dashboard() {
       <div className="grid grid-cols-3 items-end gap-4 my-5">
         <Input placeholder="abc@gamil.com" label="Email" />
         <Input placeholder="18" label="Age" type="number" />
-        <Select options={options} />
+        <Select id="1" options={options} />
       </div>
       <Textarea />
       <Checkbox id="terms">Accept terms and condition</Checkbox>

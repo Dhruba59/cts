@@ -47,6 +47,7 @@ const Pagination = ({
           <RightArrowIcon />
         </PageLink>
         <select
+          id="pagination"
           className="border-solid border border-gray-300 rounded dark:text-white/80 dark:bg-dark-lightBlue"
           value={pageSize}
           onChange={(e) => {

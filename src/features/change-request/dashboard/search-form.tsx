@@ -24,6 +24,7 @@ export function SearchForm({ form, userTypeOptions, protocolOptions }: ChangeReq
             name="userTypeId"
             render={({ field: { onChange, onBlur, value } }: any) => (
               <Select
+                id="userType"
                 className="w-40"
                 onChange={onChange}
                 label=""
@@ -41,6 +42,7 @@ export function SearchForm({ form, userTypeOptions, protocolOptions }: ChangeReq
           name="protocolNumber"
           render={({ field: { onChange, onBlur, value } }: any) => (
             <Select
+              id="protocolNumber"
               className="w-40"
               onChange={onChange}
               label=""
@@ -63,50 +65,50 @@ export function AdvanceSearchForm({
 
   return (
     <Fragment>
-        <Controller
-          control={control}
-          name="requestStatus"
-          render={({ field: { onChange, onBlur, value } }: any) => (
-            <Select
-              className="w-40"
-              onChange={onChange}
-              label="Request Status"
-              options={requestStatusesOptions}
-              value={value}
-            />
-          )}
-        />
-        <Controller
-          control={control}
-          name="fromDate"
-          render={({ field: { onChange, onBlur, value } }: any) => (
-            <Datepicker
-              containerClassName="w-40"
-              label="From Date"
-              value={value}
-              onChange={onChange}
-              placeholder="Select Date"
-              useRange={false}
-              asSingle
-              maxDate={new Date()}
-            />
-          )}
-        />
-        <Controller
-          control={control}
-          name="toDate"
-          render={({ field: { onChange, onBlur, value } }: any) => (
-            <Datepicker
-              containerClassName="w-40"
-              label="To Date"
-              value={value}
-              onChange={onChange}
-              placeholder="Select Date"
-              useRange={false}
-              asSingle
-            />
-          )}
-        />
+      <Controller
+        control={control}
+        name="requestStatus"
+        render={({ field: { onChange, onBlur, value } }: any) => (
+          <Select
+            className="w-40"
+            onChange={onChange}
+            label="Request Status"
+            options={requestStatusesOptions}
+            value={value}
+          />
+        )}
+      />
+      <Controller
+        control={control}
+        name="fromDate"
+        render={({ field: { onChange, onBlur, value } }: any) => (
+          <Datepicker
+            containerClassName="w-40"
+            label="From Date"
+            value={value}
+            onChange={onChange}
+            placeholder="Select Date"
+            useRange={false}
+            asSingle
+            maxDate={new Date()}
+          />
+        )}
+      />
+      <Controller
+        control={control}
+        name="toDate"
+        render={({ field: { onChange, onBlur, value } }: any) => (
+          <Datepicker
+            containerClassName="w-40"
+            label="To Date"
+            value={value}
+            onChange={onChange}
+            placeholder="Select Date"
+            useRange={false}
+            asSingle
+          />
+        )}
+      />
     </Fragment>
   );
 }

@@ -40,7 +40,7 @@ export default function Home() {
       <div className="grid grid-cols-3 items-end gap-4 my-5">
         <Input placeholder="abc@gamil.com" label="Email" />
         <Input placeholder="18" label="Age" type="number" />
-        <Select options={options} />
+        <Select id="1" options={options} />
       </div>
       <Textarea />
 
@@ -49,7 +49,7 @@ export default function Home() {
       <br />
       <Checkbox id="terms">Accept terms and condition</Checkbox>
       <CheckboxGroup options={options} className="flex gap-3 my-4" />
-      <Toggle onChange={() => {}} />
+      <Toggle onChange={() => { }} />
       {/* <SimpleTable columns={columns} data={data} /> */}
     </main>
   );
