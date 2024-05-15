@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
 import { toast } from "react-toastify";
 
@@ -25,7 +25,9 @@ const LoginForm = () => {
   const [isRemember, setIsRemember] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isHelpModalOpen, setIsHelpModalOpen] = useState<boolean>(false);
-
+  const router = useRouter();
+  const pathname = usePathname();
+  
   useEffect(() => {
     const getSetData = async () => {
       try {
@@ -67,7 +69,7 @@ const LoginForm = () => {
       redirect: false
     }).then((res: any) => {
       if (res.ok) {
-        //console.log({isRemember: isRemember})
+        console.log( payload.role)
         if (isRemember) {
           setRemember(payload.username, payload.password, payload.role);
         } else {
@@ -79,6 +81,11 @@ const LoginForm = () => {
         toast.error(res.error, { position: "top-center" });
       }
       setIsLoading(false);
+      if(payload.role == 4){
+        router.push("/change-request/dashboard");
+      }else{
+        router.push("/subject-management/enter-study-subject");
+      }     
     });
   };
 

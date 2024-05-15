@@ -40,7 +40,7 @@ export default async function RootLayout({
       <body className="bg-[#F3F2F1] dark:bg-dark-darkBlue">
         <ReactQueryClientProvider>
           <AuthSessionProvider session={session}>
-            <AuthManager>
+            {/* <AuthManager> */}
               <ThemeContextProvider>
                 <MenuItemsContextProvider>
                   {/* <HubConnectionProvider apiKey={apiKey} hubUrl={hubUrl}> */}
@@ -49,7 +49,7 @@ export default async function RootLayout({
                   <ToastContainer />
                 </MenuItemsContextProvider>
               </ThemeContextProvider>
-            </AuthManager>
+            {/* </AuthManager> */}
           </AuthSessionProvider>
         </ReactQueryClientProvider>
       </body>

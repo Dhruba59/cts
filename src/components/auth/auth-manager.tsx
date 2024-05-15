@@ -18,14 +18,6 @@ const AuthManager = ({ children }: any) => {
     const checkToken = () => {
       //console.log(data);
       if (data) {
-        // old method to check token
-        // const decodedToken = jwtDecode(data?.user?.token?.accessToken);
-        // const isValidAccessToken = decodedToken?.exp ? Date.now() < decodedToken.exp * 1000 : false;
-        // if (!isValidAccessToken) {
-        //   router.push('/auth/login');
-        //   return;
-        // }
-
         if (data?.error === ERROR.REFRESH_ACCESS_TOKEN) {
           signOut({ callbackUrl: "/auth/login" });
         }

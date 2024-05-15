@@ -1,60 +1,74 @@
 "use client";
 
-
 import CardDataStats from "@/components/CardDataStats";
 import { useEffect, useMemo, useState } from "react";
 import { USERS, USER_COLUMN } from "@/components/table/mockData";
-import React, { PureComponent } from 'react';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, BarChart, Bar, Rectangle, AreaChart, Area, PieChart, Pie, Cell } from 'recharts';
+import React, { PureComponent } from "react";
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  ResponsiveContainer,
+  BarChart,
+  Bar,
+  Rectangle,
+  AreaChart,
+  Area,
+  PieChart,
+  Pie,
+  Cell
+} from "recharts";
 import DisclaimerModal from "@/features/dashboard/disclaimer-modal";
 import { signOut, useSession } from "next-auth/react";
 import { USER_ROLE_ENUM } from "@/model/enum";
 
-
-
 const bar_chart_data = [
   {
-    name: 'Page A',
+    name: "Page A",
     uv: 4000,
     pv: 2400,
-    amt: 2400,
+    amt: 2400
   },
   {
-    name: 'Page B',
+    name: "Page B",
     uv: 3000,
     pv: 1398,
-    amt: 2210,
+    amt: 2210
   },
   {
-    name: 'Page C',
+    name: "Page C",
     uv: 2000,
     pv: 9800,
-    amt: 2290,
+    amt: 2290
   },
   {
-    name: 'Page D',
+    name: "Page D",
     uv: 2780,
     pv: 3908,
-    amt: 2000,
+    amt: 2000
   },
   {
-    name: 'Page E',
+    name: "Page E",
     uv: 1890,
     pv: 4800,
-    amt: 2181,
+    amt: 2181
   },
   {
-    name: 'Page F',
+    name: "Page F",
     uv: 2390,
     pv: 3800,
-    amt: 2500,
+    amt: 2500
   },
   {
-    name: 'Page G',
+    name: "Page G",
     uv: 3490,
     pv: 4300,
-    amt: 2100,
-  },
+    amt: 2100
+  }
 ];
 const line_chart_data = [
   {
@@ -103,77 +117,89 @@ const line_chart_data = [
 
 const area_chart_data = [
   {
-    name: 'Page A',
+    name: "Page A",
     uv: 4000,
     pv: 2400,
-    amt: 2400,
+    amt: 2400
   },
   {
-    name: 'Page B',
+    name: "Page B",
     uv: 3000,
     pv: 1398,
-    amt: 2210,
+    amt: 2210
   },
   {
-    name: 'Page C',
+    name: "Page C",
     uv: 2000,
     pv: 9800,
-    amt: 2290,
+    amt: 2290
   },
   {
-    name: 'Page D',
+    name: "Page D",
     uv: 2780,
     pv: 3908,
-    amt: 2000,
+    amt: 2000
   },
   {
-    name: 'Page E',
+    name: "Page E",
     uv: 1890,
     pv: 4800,
-    amt: 2181,
+    amt: 2181
   },
   {
-    name: 'Page F',
+    name: "Page F",
     uv: 2390,
     pv: 3800,
-    amt: 2500,
+    amt: 2500
   },
   {
-    name: 'Page G',
+    name: "Page G",
     uv: 3490,
     pv: 4300,
-    amt: 2100,
-  },
+    amt: 2100
+  }
 ];
 
 const pi_chart_data = [
-  { name: 'Group A', value: 400 },
-  { name: 'Group B', value: 300 },
-  { name: 'Group C', value: 300 },
-  { name: 'Group D', value: 200 },
+  { name: "Group A", value: 400 },
+  { name: "Group B", value: 300 },
+  { name: "Group C", value: 300 },
+  { name: "Group D", value: 200 }
 ];
 
-const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
+const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
 
 const RADIAN = Math.PI / 180;
-const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent, index }: any) => {
+const renderCustomizedLabel = ({
+  cx,
+  cy,
+  midAngle,
+  innerRadius,
+  outerRadius,
+  percent,
+  index
+}: any) => {
   const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
   const x = cx + radius * Math.cos(-midAngle * RADIAN);
   const y = cy + radius * Math.sin(-midAngle * RADIAN);
 
   return (
-    <text x={x} y={y} fill="white" textAnchor={x > cx ? 'start' : 'end'} dominantBaseline="central">
+    <text
+      x={x}
+      y={y}
+      fill="white"
+      textAnchor={x > cx ? "start" : "end"}
+      dominantBaseline="central"
+    >
       {`${(percent * 100).toFixed(0)}%`}
     </text>
   );
 };
 export default function Dashboard() {
+  const { data: session, update } = useSession();
 
-  const {data: session, update} = useSession();
-
-
-
-  const [openDisclaimerModal, setOpenDisclaimerModal] = useState<React.ReactNode>(null);
+  const [openDisclaimerModal, setOpenDisclaimerModal] =
+    useState<React.ReactNode>(null);
   //const [id, setId] = useState<number>(0);
 
   const onAccept = () => {
@@ -184,27 +210,31 @@ export default function Dashboard() {
         ...session?.user,
         eulaAccepted: true
       }
-    })
-  }
+    });
+  };
 
   const onReject = () => {
     signOut();
-    setOpenDisclaimerModal(null);   
-  }
+    setOpenDisclaimerModal(null);
+  };
 
   const [totalUser, setTotalUser] = useState<number>(0);
   const columns = useMemo(() => USER_COLUMN, []);
   const data = useMemo(() => USERS, []);
 
-
   //const { connection } = useHubContext();
   useEffect(() => {
-    //@ts-ignore
-    if(session && !session?.user?.eulaAccepted && session?.user.currentRole.roleId != USER_ROLE_ENUM.SYSTEM_ADMIN){
-      setOpenDisclaimerModal(
-        //@ts-ignore
-        <DisclaimerModal firstName={session?.user?.firstName} lastName={session?.user?.lastName} onAccept={onAccept} onReject={onReject}/>
-      );
+    if (
+      session &&
+      //@ts-ignore
+      !session?.user?.eulaAccepted &&
+      //@ts-ignore
+      session?.user.currentRole.roleId != USER_ROLE_ENUM.SYSTEM_ADMIN
+    ) {
+      // setOpenDisclaimerModal(
+      //   //@ts-ignore
+      //   <DisclaimerModal firstName={session?.user?.firstName} lastName={session?.user?.lastName} onAccept={onAccept} onReject={onReject}/>
+      // );
     }
 
     // connection.on("UserConnected", (connectionId) => {
@@ -262,7 +292,6 @@ export default function Dashboard() {
         ></CardDataStats>
       </div>
       <div className="ml-4  mr-3 grid grid-cols-1 md:grid-cols-2  gap-4">
-
         <div className="wrapper mb-0 mx-1 p-2 flex items-center justify-center border border-red-100">
           <BarChart
             width={480}
@@ -272,7 +301,7 @@ export default function Dashboard() {
               top: 5,
               right: 30,
               left: 20,
-              bottom: 5,
+              bottom: 5
             }}
           >
             <CartesianGrid strokeDasharray="3 3" />
@@ -280,8 +309,16 @@ export default function Dashboard() {
             <YAxis />
             <Tooltip />
             <Legend />
-            <Bar dataKey="pv" fill="#8884d8" activeBar={<Rectangle fill="pink" stroke="blue" />} />
-            <Bar dataKey="uv" fill="#82ca9d" activeBar={<Rectangle fill="gold" stroke="purple" />} />
+            <Bar
+              dataKey="pv"
+              fill="#8884d8"
+              activeBar={<Rectangle fill="pink" stroke="blue" />}
+            />
+            <Bar
+              dataKey="uv"
+              fill="#82ca9d"
+              activeBar={<Rectangle fill="gold" stroke="purple" />}
+            />
           </BarChart>
         </div>
 
@@ -294,16 +331,34 @@ export default function Dashboard() {
               top: 10,
               right: 30,
               left: 0,
-              bottom: 0,
+              bottom: 0
             }}
           >
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis dataKey="name" />
             <YAxis />
             <Tooltip />
-            <Area type="monotone" dataKey="uv" stackId="1" stroke="#8884d8" fill="#8884d8" />
-            <Area type="monotone" dataKey="pv" stackId="1" stroke="#82ca9d" fill="#82ca9d" />
-            <Area type="monotone" dataKey="amt" stackId="1" stroke="#ffc658" fill="#ffc658" />
+            <Area
+              type="monotone"
+              dataKey="uv"
+              stackId="1"
+              stroke="#8884d8"
+              fill="#8884d8"
+            />
+            <Area
+              type="monotone"
+              dataKey="pv"
+              stackId="1"
+              stroke="#82ca9d"
+              fill="#82ca9d"
+            />
+            <Area
+              type="monotone"
+              dataKey="amt"
+              stackId="1"
+              stroke="#ffc658"
+              fill="#ffc658"
+            />
           </AreaChart>
         </div>
 
@@ -334,7 +389,6 @@ export default function Dashboard() {
           </LineChart>
         </div>
 
-
         <div className="wrapper mb-0 mx-1 p-2 flex items-center justify-center border border-red-100">
           <PieChart width={400} height={240}>
             <Pie
@@ -348,14 +402,14 @@ export default function Dashboard() {
               dataKey="value"
             >
               {data.map((entry, index) => (
-                <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                <Cell
+                  key={`cell-${index}`}
+                  fill={COLORS[index % COLORS.length]}
+                />
               ))}
             </Pie>
           </PieChart>
         </div>
-
-
-
       </div>
       {openDisclaimerModal}
     </main>
